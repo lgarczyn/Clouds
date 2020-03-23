@@ -7,16 +7,17 @@ using UnityEngine.Rendering;
 public class AltitudeMap : MonoBehaviour {
 
     public AltitudeMapSettings altitudeSettings;
-    public int resolution = 1024;
+    [HideInInspector]
     public RenderTexture altitudeMap;
+    [HideInInspector]
     public float altitudeOffset;
+    [HideInInspector]
     public float altitudeMultiplier;
 
     public bool viewerEnabled;
     [HideInInspector]
     public bool showSettingsEditor = true;
-    bool shouldUpdateMap = true;
-    //public int[] minMaxTest;
+
     double Remap (double v, double minOld, double maxOld, double minNew, double maxNew) {
         return minNew + (v - minOld) * (maxNew - minNew) / (maxOld - minOld);
     }
@@ -53,11 +54,12 @@ public class AltitudeMap : MonoBehaviour {
     }
 
     public void UpdateMap () {
+        if (altitudeMap != null && altitudeSettings.isDirty == false)
+            return;
 
-        //if (altitudeSettings)
+        altitudeSettings.isDirty = false;
 
-        shouldUpdateMap = false;
-        ValidateParamaters();
+        int resolution = altitudeSettings.resolution;
 
         CreateTexture1D (ref altitudeMap, resolution, "altitudeMap");
         Texture2D temp = new Texture2D(resolution, 1);
@@ -112,14 +114,5 @@ public class AltitudeMap : MonoBehaviour {
         }
         texture.wrapMode = TextureWrapMode.Mirror;
         texture.filterMode = FilterMode.Bilinear;
-    }
-
-    void OnValidate() {
-        shouldUpdateMap = true;
-        ValidateParamaters();
-    }
-
-    void ValidateParamaters () {
-        resolution = Mathf.Max(resolution, 1);
     }
 }

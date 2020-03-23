@@ -32,4 +32,13 @@ public class AltitudeMapSettings : ScriptableObject {
     [Range(0, 10)]
     public int iterativePowerCount = 3;
 
+    [Range(16, 1024)]
+    public int resolution = 512;
+
+    public bool isDirty = true;
+
+    void OnValidate()
+    {
+        isDirty = true;
+    }
 }
