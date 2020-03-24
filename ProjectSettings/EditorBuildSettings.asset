@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Scenes/Flight Demo.unity
+    path: Assets/_Scenes/Flight Demo - New Height.unity
     guid: 20dddf1c73edf8b43a45ac49c16cb892
   m_configObjects: {}
