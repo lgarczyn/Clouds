@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class AltitudeMapSettings : ScriptableObject {
+public class AltitudeMapSettings : ScriptableObject, ISerializationCallbackReceiver {
 
     [Range(0.5f,1.5f)]
     public float highestLayerAltitude = 0.9f;
@@ -41,4 +41,9 @@ public class AltitudeMapSettings : ScriptableObject {
     {
         isDirty = true;
     }
+    public void OnAfterDeserialize()
+    {
+        isDirty = true;
+    }
+    public void OnBeforeSerialize() {}
 }

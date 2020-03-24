@@ -18,6 +18,11 @@ public class AltitudeMap : MonoBehaviour {
     [HideInInspector]
     public bool showSettingsEditor = true;
 
+    [ExecuteInEditMode]
+    private void OnEnable() {
+        UpdateMap();
+    }
+
     double Remap (double v, double minOld, double maxOld, double minNew, double maxNew) {
         return minNew + (v - minOld) * (maxNew - minNew) / (maxOld - minOld);
     }

@@ -10,10 +10,11 @@ public class CloudMaster : MonoBehaviour {
     public Transform container;
     public Vector3 cloudTestParams;
 
-    [Header ("March settings" + headerDecoration)]
+    [Header (headerDecoration + "March settings" + headerDecoration)]
+    public float stepSizeRender = 8;
     public int numStepsLight = 8;
     public float rayOffsetStrength;
-    public Texture2D blueNoise;
+    public Texture2D heightGradientTex;
 
     [Header (headerDecoration + "Base Shape" + headerDecoration)]
     public float cloudScale = 1;
@@ -28,7 +29,6 @@ public class CloudMaster : MonoBehaviour {
     public float detailNoiseWeight = .1f;
     public Vector3 detailNoiseWeights;
     public Vector3 detailOffset;
-    
 
     [Header (headerDecoration + "Lighting" + headerDecoration)]
     public float lightAbsorptionThroughCloud = 1;
@@ -57,11 +57,26 @@ public class CloudMaster : MonoBehaviour {
     [HideInInspector]
     public Material material;
 
+    // The texture generators for the shader
+    // TODO: standardize noise generators
+    // TODO: allow multiple coexisting generators ?
+    // TODO: force the generators on the same object using [Require] ?
+    private WeatherMap weatherMapGen;
+    private AltitudeMap altitudeMapGen;
+    private NoiseGenerator noiseGen;
+
+    void UpdateMaps()
+    {
+        weatherMapGen = FindObjectOfType<WeatherMap> ();
+        altitudeMapGen = FindObjectOfType<AltitudeMap> ();
+        noiseGen = FindObjectOfType<NoiseGenerator> ();
+        weatherMapGen.UpdateMap ();
+        altitudeMapGen.UpdateMap ();
+    }
+
     void Awake () {
-        var weatherMapGen = FindObjectOfType<WeatherMap> ();
-        if (Application.isPlaying) {
-            weatherMapGen.UpdateMap ();
-        }
+        if (Application.isPlaying)
+            UpdateMaps();
     }
 
     [ImageEffectOpaque]
@@ -72,6 +87,7 @@ public class CloudMaster : MonoBehaviour {
             material = new Material (shader);
         }
         numStepsLight = Mathf.Max (1, numStepsLight);
+        stepSizeRender = Mathf.Max(5, stepSizeRender);
 
         // Noise
         var noise = FindObjectOfType<NoiseGenerator> ();
@@ -79,14 +95,14 @@ public class CloudMaster : MonoBehaviour {
 
         material.SetTexture ("NoiseTex", noise.shapeTexture);
         material.SetTexture ("DetailNoiseTex", noise.detailTexture);
-        material.SetTexture ("BlueNoise", blueNoise);
+        material.SetTexture ("HeightGradientTex", heightGradientTex);
 
-        // Weathermap
-        var weatherMapGen = FindObjectOfType<WeatherMap> ();
-        if (!Application.isPlaying) {
-            weatherMapGen.UpdateMap ();
-        }
+        // WeatherMap and AltitudeMap
+        UpdateMaps();
         material.SetTexture ("WeatherMap", weatherMapGen.weatherMap);
+        material.SetTexture ("AltitudeMap", altitudeMapGen.altitudeMap);
+        material.SetFloat("altitudeOffset", altitudeMapGen.altitudeOffset);
+        material.SetFloat("altitudeMultiplier", altitudeMapGen.altitudeMultiplier);
 
         Vector3 size = container.localScale;
         int width = Mathf.CeilToInt (size.x);
@@ -114,6 +130,7 @@ public class CloudMaster : MonoBehaviour {
         material.SetVector ("boundsMax", container.position + container.localScale / 2);
 
         material.SetInt ("numStepsLight", numStepsLight);
+        material.SetFloat("stepSizeRender", stepSizeRender);
 
         material.SetVector ("mapSize", new Vector4 (width, height, depth, 0));
 
@@ -127,7 +144,7 @@ public class CloudMaster : MonoBehaviour {
         material.SetColor ("colA", colA);
         material.SetColor ("colB", colB);
 
-        // Bit does the following:
+        // Blit does the following:
         // - sets _MainTex property on material to the source texture
         // - sets the render target to the destination texture
         // - draws a full-screen quad
@@ -137,15 +154,16 @@ public class CloudMaster : MonoBehaviour {
 
     void SetDebugParams () {
 
-        var noise = FindObjectOfType<NoiseGenerator> ();
-        var weatherMapGen = FindObjectOfType<WeatherMap> ();
-
         int debugModeIndex = 0;
+        var noise = this.noiseGen;
         if (noise.viewerEnabled) {
             debugModeIndex = (noise.activeTextureType == NoiseGenerator.CloudNoiseType.Shape) ? 1 : 2;
         }
         if (weatherMapGen.viewerEnabled) {
             debugModeIndex = 3;
+        }
+        if (altitudeMapGen.viewerEnabled) {
+            debugModeIndex = 4;
         }
 
         material.SetInt ("debugViewMode", debugModeIndex);

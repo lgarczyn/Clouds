@@ -1,14 +1,12 @@
 
-Shader "Hidden/Clouds"
+Shader "Hidden/CloudsSky"
 {
-    
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
     }
     SubShader
     {
-        
         // No culling or depth
         Cull Off ZWrite Off ZTest Always
 
@@ -33,7 +31,7 @@ Shader "Hidden/Clouds"
                 float2 uv : TEXCOORD0;
                 float3 viewVector : TEXCOORD1;
             };
-            
+
             v2f vert (appdata v) {
                 v2f output;
                 output.pos = UnityObjectToClipPos(v.vertex);
@@ -50,7 +48,7 @@ Shader "Hidden/Clouds"
             Texture3D<float4> DetailNoiseTex;
             Texture2D<float4> WeatherMap;
             Texture2D<float4> BlueNoise;
-            
+
             SamplerState samplerNoiseTex;
             SamplerState samplerDetailNoiseTex;
             SamplerState samplerWeatherMap;
@@ -73,6 +71,7 @@ Shader "Hidden/Clouds"
 
             // March settings
             int numStepsLight;
+            float stepSizeRender;
             float rayOffsetStrength;
 
             float3 boundsMin;
@@ -102,7 +101,7 @@ Shader "Hidden/Clouds"
             float4 debugChannelWeight;
             float debugTileAmount;
             float viewerSize;
-            
+
             float remap(float v, float minOld, float maxOld, float minNew, float maxNew) {
                 return minNew + (v-minOld) * (maxNew - minNew) / (maxOld-minOld);
             }
@@ -124,7 +123,7 @@ Shader "Hidden/Clouds"
                 float3 t1 = (boundsMax - rayOrigin) * invRaydir;
                 float3 tmin = min(t0, t1);
                 float3 tmax = max(t0, t1);
-                
+
                 float dstA = max(max(tmin.x, tmin.y), tmin.z);
                 float dstB = min(tmax.x, min(tmax.y, tmax.z));
 
@@ -180,7 +179,7 @@ Shader "Hidden/Clouds"
                 float dstFromEdgeX = min(containerEdgeFadeDst, min(rayPos.x - boundsMin.x, boundsMax.x - rayPos.x));
                 float dstFromEdgeZ = min(containerEdgeFadeDst, min(rayPos.z - boundsMin.z, boundsMax.z - rayPos.z));
                 float edgeWeight = min(dstFromEdgeZ,dstFromEdgeX)/containerEdgeFadeDst;
-                
+
                 // Calculate height gradient from weather map
                 float2 weatherUV = (size.xz * .5 + (rayPos.xz-boundsCentre.xz)) / max(size.x,size.z);
                 float weatherMap = WeatherMap.SampleLevel(samplerWeatherMap, weatherUV, mipLevel).x;
@@ -208,29 +207,28 @@ Shader "Hidden/Clouds"
                     float oneMinusShape = 1 - shapeFBM;
                     float detailErodeWeight = oneMinusShape * oneMinusShape * oneMinusShape;
                     float cloudDensity = baseShapeDensity - (1-detailFBM) * detailErodeWeight * detailNoiseWeight;
-    
+
                     return cloudDensity * densityMultiplier * 0.1;
                 }
                 return 0;
             }
 
             // Calculate proportion of light that reaches the given point from the lightsource
-            float lightmarch(float3 p) {
+            float lightmarch(float3 position) {
                 float3 dirToLight = _WorldSpaceLightPos0.xyz;
-                float dstInsideBox = rayBoxDst(boundsMin, boundsMax, p, 1/dirToLight).y;
-                
-                float transmittance = 1;
+                float dstInsideBox = rayBoxDst(boundsMin, boundsMax, position, 1/dirToLight).y;
+
                 float stepSize = dstInsideBox/numStepsLight;
-                p += dirToLight * stepSize * .5;
+                position += dirToLight * stepSize * .5;
                 float totalDensity = 0;
 
                 for (int step = 0; step < numStepsLight; step ++) {
-                    float density = sampleDensity(p);
+                    float density = sampleDensity(position);
                     totalDensity += max(0, density * stepSize);
-                    p += dirToLight * stepSize;
+                    position += dirToLight * stepSize;
                 }
 
-                transmittance = beer(totalDensity*lightAbsorptionTowardSun);
+                float transmittance = beer(totalDensity*lightAbsorptionTowardSun);
 
                 float clampedTransmittance = darknessThreshold + transmittance * (1-darknessThreshold);
                 return clampedTransmittance;
@@ -265,7 +263,6 @@ Shader "Hidden/Clouds"
                 }
             }
 
-          
             float4 frag (v2f i) : SV_Target
             {
                 #if DEBUG_MODE == 1
@@ -281,12 +278,12 @@ Shader "Hidden/Clouds"
                     }
                 }
                 #endif
-                
+
                 // Create ray
                 float3 rayPos = _WorldSpaceCameraPos;
                 float viewLength = length(i.viewVector);
                 float3 rayDir = i.viewVector / viewLength;
-                
+
                 // Depth and cloud container intersection info:
                 float nonlin_depth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, i.uv);
                 float depth = LinearEyeDepth(nonlin_depth) * viewLength;
@@ -300,40 +297,39 @@ Shader "Hidden/Clouds"
                 // random starting offset (makes low-res results noisy rather than jagged/glitchy, which is nicer)
                 float randomOffset = BlueNoise.SampleLevel(samplerBlueNoise, squareUV(i.uv*3), 0);
                 randomOffset *= rayOffsetStrength;
-                
+
                 // Phase function makes clouds brighter around sun
                 float cosAngle = dot(rayDir, _WorldSpaceLightPos0.xyz);
                 float phaseVal = phase(cosAngle);
 
                 float dstTravelled = randomOffset;
                 float dstLimit = min(depth-dstToBox, dstInsideBox);
-                
-                
+
                 // March through volume:
-                const float stepSize = 11;
+                float stepSize = stepSizeRender;
                 float transmittance = 1;
                 float3 lightEnergy = 0;
 
                 while (dstTravelled < dstLimit) {
                     rayPos = entryPoint + rayDir * dstTravelled;
                     float density = sampleDensity(rayPos);
-                    
+
                     if (density > 0) {
 
                         float lightTransmittance = lightmarch(rayPos);
                         lightEnergy += density * stepSize * transmittance * lightTransmittance * phaseVal;
                         transmittance *= exp(-density * stepSize * lightAbsorptionThroughCloud);
-                    
+
                         // Early exit
                         if (transmittance < 0.01) {
                             break;
                         }
                     }
-                    
+
                     dstTravelled += stepSize;
                 }
 
-               
+
                 // Composite sky + background
                 float3 skyColBase = lerp(colA,colB, sqrt(abs(saturate(rayDir.y))));
                 float3 backgroundCol = tex2D(_MainTex,i.uv);
@@ -344,7 +340,7 @@ Shader "Hidden/Clouds"
                 // Sun
                 float focusedEyeCos = pow(saturate(cosAngle), params.x);
                 float sun = saturate(hg(focusedEyeCos, .9995)) * transmittance;
-                
+
                 // Add clouds
                 float3 cloudCol = lightEnergy * _LightColor0;
                 float3 col = backgroundCol * transmittance + cloudCol;

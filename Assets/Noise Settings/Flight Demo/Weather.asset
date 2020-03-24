@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   seed: 9
   numLayers: 4
-  scale: 2.12
+  scale: 0.1
   lacunarity: 1.36
   persistence: 0.58
   offset: {x: -69.75, y: 50.2}

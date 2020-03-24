@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52d494a2b3314ef41b9cf43b9c3870b9, type: 3}
+  m_Name: Altitude Alternate
+  m_EditorClassIdentifier: 
+  highestLayerAltitude: 0.9
+  lowestLayerAltitude: 0.1
+  linearOffsetStart: 0.2
+  linearOffsetFactor: -1
+  powerOffsetPower: 0.5
+  powerOffsetRatio: 0.75
+  powerOffsetPowerTop: 0.5
+  powerOffsetRatioTop: 0
+  initialPowerFactor: 2
+  iterativePowerFactor: 0.8
+  iterativePowerCount: 3
+  resolution: 512
+  isDirty: 1
