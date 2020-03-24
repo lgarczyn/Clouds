@@ -7,21 +7,33 @@ using UnityEngine.Rendering;
 public class AltitudeMap : MonoBehaviour {
 
     public AltitudeMapSettings altitudeSettings;
-    [HideInInspector]
-    public RenderTexture altitudeMap;
-    [HideInInspector]
-    public float altitudeOffset;
-    [HideInInspector]
-    public float altitudeMultiplier;
 
     public bool viewerEnabled;
     [HideInInspector]
     public bool showSettingsEditor = true;
 
-    [ExecuteInEditMode]
-    private void OnEnable() {
-        UpdateMap();
+    public RenderTexture altitudeMap{
+        get {
+            UpdateMap();
+            return (_altitudeMap);
+        }
     }
+    public float altitudeOffset {
+        get {
+            UpdateMap();
+            return (_altitudeOffset);
+        }
+    }
+    public float altitudeMultiplier {
+        get {
+            UpdateMap();
+            return (_altitudeMultiplier);
+        }
+    }
+
+    RenderTexture _altitudeMap;
+    float _altitudeOffset;
+    float _altitudeMultiplier;
 
     double Remap (double v, double minOld, double maxOld, double minNew, double maxNew) {
         return minNew + (v - minOld) * (maxNew - minNew) / (maxOld - minOld);
@@ -59,14 +71,16 @@ public class AltitudeMap : MonoBehaviour {
     }
 
     public void UpdateMap () {
-        if (altitudeMap != null && altitudeSettings.isDirty == false)
+        if (_altitudeMap != null && altitudeSettings.isDirty == false)
             return;
+
+        Debug.Log("Updating altitude map");
 
         altitudeSettings.isDirty = false;
 
         int resolution = altitudeSettings.resolution;
 
-        CreateTexture1D (ref altitudeMap, resolution, "altitudeMap");
+        CreateTexture1D (ref _altitudeMap, resolution, "altitudeMap");
         Texture2D temp = new Texture2D(resolution, 1);
 
         double min = float.PositiveInfinity;
@@ -88,13 +102,15 @@ public class AltitudeMap : MonoBehaviour {
             temp.SetPixel (i, 0, new Color((float)value, (float)value, (float)value, 0));
         }
 
-        altitudeOffset = (float)min;
-        altitudeMultiplier = (float)(max - min);
+        _altitudeOffset = (float)min;
+        _altitudeMultiplier = (float)(max - min);
+
+        Debug.Log(_altitudeOffset + " " + _altitudeMultiplier);
 
         temp.Apply();
 
-        RenderTexture.active = altitudeMap;
-        Graphics.Blit(temp, altitudeMap);
+        RenderTexture.active = _altitudeMap;
+        Graphics.Blit(temp, _altitudeMap);
         RenderTexture.active = null;
     }
 

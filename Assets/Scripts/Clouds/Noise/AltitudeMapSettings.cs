@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu]
 public class AltitudeMapSettings : ScriptableObject, ISerializationCallbackReceiver {
@@ -35,6 +33,7 @@ public class AltitudeMapSettings : ScriptableObject, ISerializationCallbackRecei
     [Range(16, 1024)]
     public int resolution = 512;
 
+    [System.NonSerialized]
     public bool isDirty = true;
 
     void OnValidate()
