@@ -137,6 +137,7 @@ public class CloudMaster : MonoBehaviour {
         material.SetFloat ("timeScale", (Application.isPlaying) ? timeScale : 0);
         material.SetFloat ("baseSpeed", baseSpeed);
         material.SetFloat ("detailSpeed", detailSpeed);
+        material.SetVector("playerPosition", GameObject.FindObjectOfType<MFlight.Demo.Plane>().transform.position);
 
         // Set debug params
         SetDebugParams ();

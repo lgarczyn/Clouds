@@ -105,6 +105,7 @@ Shader "Hidden/Clouds"
             float timeScale;
             float baseSpeed;
             float detailSpeed;
+            float3 playerPosition;
 
             // Debug settings:
             // Allow the 'picture in a picture' noise editing tool
@@ -228,9 +229,13 @@ Shader "Hidden/Clouds"
                 if (cheap)
                     return baseShapeDensityMeta * heightGradient;
 
+                // Attempt at writing a shockwave around the plane
+                // float dist = length(rayPos - playerPosition);
+                // baseShapeDensityMeta -= sin(dist / 1000) * 1000 / pow(dist / 10, 3);
+
                 // Try early returning, might be ignored by compiler since forking is hard on GPU
                 if (baseShapeDensityMeta < -1)
-                    return 0;
+                    return baseShapeDensityMeta * heightGradient / 5;
 
                 // Calculate base shape density
                 float4 shapeNoise = NoiseTex.SampleLevel(samplerNoiseTex, shapeSamplePos, mipLevel);
@@ -252,8 +257,8 @@ Shader "Hidden/Clouds"
                     float cloudDensity = baseShapeDensity - (1-detailFBM) * detailErodeWeight * detailNoiseWeight;
 
                     return cloudDensity * densityMultiplier * 0.1;
-                }
-                return 0;
+                } 
+                return baseShapeDensity * heightGradient / 5;
             }
 
             // Calculate proportion of light that reaches the given point from the lightsource
