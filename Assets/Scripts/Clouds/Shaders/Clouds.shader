@@ -182,7 +182,7 @@ Shader "Hidden/Clouds"
                 return AltitudeMap.SampleLevel(samplerAltitudeMap, heightPercent, 0) * altitudeMultiplier + altitudeOffset;
             }
 
-            float sampleDensity(float3 rayPos) {
+            float sampleDensity(float3 rayPos, bool cheap) {
                 // Constants:
                 const int mipLevel = 2;
                 const float baseScale = 1/1000.0;
@@ -225,6 +225,9 @@ Shader "Hidden/Clouds"
                 // TODO: standardize height gradient inside density
                 baseShapeDensityMeta += altitudeDensity(heightPercent) * heightGradient;
 
+                if (cheap)
+                    return baseShapeDensityMeta * heightGradient;
+
                 // Try early returning, might be ignored by compiler since forking is hard on GPU
                 if (baseShapeDensityMeta < -1)
                     return 0;
@@ -264,7 +267,7 @@ Shader "Hidden/Clouds"
                 float dstTravelled = 0;
 
                 for (int step = 0; step < numStepsLight; step ++) {
-                    float density = sampleDensity(position);
+                    float density = sampleDensity(position, true);
                     totalDensity += max(0, density * stepSize);
 
                     //Try early returning if less than 0.01 is passing through
@@ -320,7 +323,7 @@ Shader "Hidden/Clouds"
             // or similar optimizations, might be changed for higher precision close
             float getPrecision(Vector pos)
             {
-                return 1 / max(length(pos) / 200, 1);
+                return 1 / max(length(pos) / 500, 1);
             }
 
             float4 frag (v2f i) : SV_Target
@@ -378,7 +381,7 @@ Shader "Hidden/Clouds"
                 while (dstTravelled < dstLimit) {
                     rayPos = entryPoint + rayDir * dstTravelled;
                     float precision = getPrecision(dstTravelled + dstToBox);
-                    float density = sampleDensity(rayPos);
+                    float density = sampleDensity(rayPos, false);
 
                     if (density > 0) {
                         float lightTransmittance = lightmarch(rayPos);
