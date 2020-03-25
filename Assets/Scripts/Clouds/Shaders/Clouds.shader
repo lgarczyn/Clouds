@@ -381,9 +381,6 @@ Shader "Hidden/Clouds"
 
                 // March through volume:
                 float transmittance = 1;
-
-                // a float3 for reasons unknown
-                // honestly I have no idea why that's needed, it looks like it always has equal values
                 float lightEnergy = 0;
 
                 while (dstTravelled < dstLimit) {
@@ -421,8 +418,9 @@ Shader "Hidden/Clouds"
                 float focusedEyeCos = pow(saturate(cosAngle), params.x);
                 float sun = saturate(hg(focusedEyeCos, .995)) * transmittance;
 
+                // Increase light energy contrast
+                // TODO: make power a parameter
                 lightEnergy *= 0.6;
-                //lightEnergy = saturate(lightEnergy > 0.5 ? lightEnergy * lightEnergy : sqrt(lightEnergy));
                 const float power = 2;
                 if (lightEnergy > 0.5)
                 {
@@ -431,9 +429,7 @@ Shader "Hidden/Clouds"
                 }
                 else if (lightEnergy)
                     lightEnergy = pow(lightEnergy * 2, power) / 2;
-                //return (float4(lightEnergy.xxx, 0));
 
-                //lightEnergy = pow((saturate(lightEnergy * 0.7)), 2);
                 sun = saturate(sun);
                 transmittance = sqrt(saturate(transmittance));
 
