@@ -74,8 +74,6 @@ public class AltitudeMap : MonoBehaviour {
         if (_altitudeMap != null && altitudeSettings.isDirty == false)
             return;
 
-        Debug.Log("Updating altitude map");
-
         altitudeSettings.isDirty = false;
 
         int resolution = altitudeSettings.resolution;
@@ -104,8 +102,6 @@ public class AltitudeMap : MonoBehaviour {
 
         _altitudeOffset = (float)min;
         _altitudeMultiplier = (float)(max - min);
-
-        Debug.Log(_altitudeOffset + " " + _altitudeMultiplier);
 
         temp.Apply();
 
