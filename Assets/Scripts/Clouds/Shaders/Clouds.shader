@@ -180,7 +180,7 @@ Shader "Hidden/Clouds"
 
             float altitudeDensity(float heightPercent)
             {
-                return AltitudeMap.SampleLevel(samplerAltitudeMap, heightPercent, 0) * altitudeMultiplier + altitudeOffset;
+                return sqrt(AltitudeMap.SampleLevel(samplerAltitudeMap, heightPercent, 0)) * altitudeMultiplier + altitudeOffset;
             }
 
             float sampleDensity(float3 rayPos, bool cheap) {
@@ -411,7 +411,8 @@ Shader "Hidden/Clouds"
                 // backgroundCol = backgroundCol * (1-dstFog) + backgroundCol;
 
                 // Add shading to non-cloud objects
-                if (currentDepth < 5000)
+                // Could be done better by decoding normals
+                if (depth < 5000)
                     backgroundCol *= lerp(lightmarch(entryPoint + rayDir * dstTravelled), 1, 0.5);
 
                 // Sun
@@ -420,7 +421,7 @@ Shader "Hidden/Clouds"
 
                 // Increase light energy contrast
                 // TODO: make power a parameter
-                lightEnergy *= 0.6;
+                lightEnergy *= 0.5;
                 const float power = 2;
                 if (lightEnergy > 0.5)
                 {
