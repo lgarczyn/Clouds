@@ -11,7 +11,6 @@ public class MouseFlightZoom : MonoBehaviour
     private void Update() {
         if (MouseScroll != 0)
         {
-            Debug.Log(MouseScroll);
             GetComponent<MFlight.MouseFlightController>().offset *= 1 - MouseScroll * scrollPower ;
         }
     }
