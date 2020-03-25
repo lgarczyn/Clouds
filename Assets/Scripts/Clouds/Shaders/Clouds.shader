@@ -226,8 +226,9 @@ Shader "Hidden/Clouds"
                 // TODO: standardize height gradient inside density
                 baseShapeDensityMeta += altitudeDensity(heightPercent) * heightGradient;
 
-                if (cheap)
-                    return baseShapeDensityMeta * heightGradient;
+                // NOTE: performance factor
+                //if (cheap)
+                //    return baseShapeDensityMeta * heightGradient;
 
                 // Attempt at writing a shockwave around the plane
                 // float dist = length(rayPos - playerPosition);
@@ -244,7 +245,7 @@ Shader "Hidden/Clouds"
                 float baseShapeDensity = baseShapeDensityMeta * heightGradient + shapeFBM + densityOffset * .1;
 
                 // Save sampling from detail tex if shape density <= 0
-                if (baseShapeDensity > 0) {
+                if (baseShapeDensity > 0 && !cheap) {
                     // Sample detail noise
                     float3 detailSamplePos = uvw*detailNoiseScale + float3(time*.4,-time,time*0.1)*detailSpeed;
                     float4 detailNoise = DetailNoiseTex.SampleLevel(samplerDetailNoiseTex, detailSamplePos, mipLevel);
@@ -271,6 +272,7 @@ Shader "Hidden/Clouds"
                 float totalDensity = 0;
                 float dstTravelled = 0;
 
+                // TODO: check if branching is worth it
                 for (int step = 0; step < numStepsLight; step ++) {
                     float density = sampleDensity(position, true);
                     totalDensity += max(0, density * stepSize);
@@ -355,6 +357,7 @@ Shader "Hidden/Clouds"
                 // Depth and cloud container intersection info:
                 float nonlin_depth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, i.uv);
                 float depth = LinearEyeDepth(nonlin_depth) * viewLength;
+                float currentDepth = depth;
                 float2 rayToContainerInfo = rayBoxDst(boundsMin, boundsMax, rayPos, 1/rayDir);
                 float dstToBox = rayToContainerInfo.x;
                 float dstInsideBox = rayToContainerInfo.y;
@@ -381,23 +384,25 @@ Shader "Hidden/Clouds"
 
                 // a float3 for reasons unknown
                 // honestly I have no idea why that's needed, it looks like it always has equal values
-                float3 lightEnergy = 0;
+                float lightEnergy = 0;
 
                 while (dstTravelled < dstLimit) {
                     rayPos = entryPoint + rayDir * dstTravelled;
-                    float precision = getPrecision(dstTravelled + dstToBox);
                     float density = sampleDensity(rayPos, false);
 
                     if (density > 0) {
                         float lightTransmittance = lightmarch(rayPos);
                         transmittance *= exp(-density * stepSize * lightAbsorptionThroughCloud);
-                        lightEnergy += density * stepSize * transmittance * lightTransmittance * phaseVal;
+                        lightEnergy += density * stepSize * transmittance * lightTransmittance;
 
                         // Exit early if T is close to zero as further samples won't affect the result much
                         if (transmittance < 0.01) {
+                            transmittance -= 0.01;
+                            currentDepth = dstToBox + dstTravelled;
                             break;
                         }
                     }
+                    float precision = getPrecision(dstTravelled + dstToBox);
                     dstTravelled += stepSize * max(abs(density), 0.01) * 2 / precision;
                 }
 
@@ -408,16 +413,32 @@ Shader "Hidden/Clouds"
                 // float3 sky = dstFog * skyColBase;
                 // backgroundCol = backgroundCol * (1-dstFog) + backgroundCol;
 
+                // Add shading to non-cloud objects
+                if (currentDepth < 5000)
+                    backgroundCol *= lerp(lightmarch(entryPoint + rayDir * dstTravelled), 1, 0.5);
+
                 // Sun
                 float focusedEyeCos = pow(saturate(cosAngle), params.x);
                 float sun = saturate(hg(focusedEyeCos, .995)) * transmittance;
 
-                lightEnergy = pow((saturate(lightEnergy * 0.7)), 2);
+                lightEnergy *= 0.6;
+                //lightEnergy = saturate(lightEnergy > 0.5 ? lightEnergy * lightEnergy : sqrt(lightEnergy));
+                const float power = 2;
+                if (lightEnergy > 0.5)
+                {
+                    lightEnergy -= 0.5;
+                    lightEnergy = pow(lightEnergy * 2, 1 / power) / 2 + 0.5;
+                }
+                else if (lightEnergy)
+                    lightEnergy = pow(lightEnergy * 2, power) / 2;
+                //return (float4(lightEnergy.xxx, 0));
+
+                //lightEnergy = pow((saturate(lightEnergy * 0.7)), 2);
                 sun = saturate(sun);
                 transmittance = sqrt(saturate(transmittance));
 
                 // Add clouds
-                float3 cloudCol = lerp(colA, _LightColor0, lightEnergy);
+                float3 cloudCol = lerp(colA, _LightColor0, lightEnergy * phaseVal);
                 float3 col = lerp(cloudCol, backgroundCol, transmittance);
                 col = lerp(col, float3(1,1,1), sun);
                 return float4(col,0);
