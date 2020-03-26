@@ -52,6 +52,7 @@ public class CloudMaster : MonoBehaviour {
     [Header (headerDecoration + "Sky" + headerDecoration)]
     public Color colA;
     public Color colB;
+    public Color colC;
 
     // Internal
     [HideInInspector]
@@ -144,6 +145,7 @@ public class CloudMaster : MonoBehaviour {
 
         material.SetColor ("colA", colA);
         material.SetColor ("colB", colB);
+        material.SetColor ("colC", colC);
 
         // Blit does the following:
         // - sets _MainTex property on material to the source texture

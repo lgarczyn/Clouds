@@ -100,6 +100,7 @@ Shader "Hidden/Clouds"
             float4 _LightColor0;
             float4 colA;
             float4 colB;
+            float4 colC;
 
             // Animation settings
             float timeScale;
@@ -333,6 +334,23 @@ Shader "Hidden/Clouds"
                 return 1 / max(length(pos) / 500, 1);
             }
 
+            inline float LinearEyeDepthToOutDepth(float z)
+            {
+                return (1 - _ZBufferParams.w * z) / (_ZBufferParams.z * z);
+            }
+
+            float cinematicGradient(float i, uniform float power)
+            {
+                if (i > 0.5)
+                {
+                    i -= 0.5;
+                    i = pow(i * 2, 1 / power) / 2 + 0.5;
+                }
+                else if (i)
+                    i = pow(i * 2, power) / 2;
+                return (i);
+            }
+
             float4 frag (v2f i) : SV_Target
             {
                 #if DEBUG_MODE == 1
@@ -382,12 +400,14 @@ Shader "Hidden/Clouds"
                 // March through volume:
                 float transmittance = 1;
                 float lightEnergy = 0;
+                float colorRatio = 0.5;
 
                 while (dstTravelled < dstLimit) {
                     rayPos = entryPoint + rayDir * dstTravelled;
                     float density = sampleDensity(rayPos, false);
 
-                    if (density > 0) {
+                    // UNITY_BRANCH
+                     if (density > 0) {
                         float lightTransmittance = lightmarch(rayPos);
                         transmittance *= exp(-density * stepSize * lightAbsorptionThroughCloud);
                         lightEnergy += density * stepSize * transmittance * lightTransmittance;
@@ -395,13 +415,18 @@ Shader "Hidden/Clouds"
                         // Exit early if T is close to zero as further samples won't affect the result much
                         if (transmittance < 0.01) {
                             transmittance -= 0.01;
-                            currentDepth = dstToBox + dstTravelled;
                             break;
                         }
                     }
-                    float precision = getPrecision(dstTravelled + dstToBox);
-                    dstTravelled += stepSize * max(abs(density), 0.01) * 2 / precision;
+                    float precision = 1;//getPrecision(dstTravelled + dstToBox);
+                    if (density > 0)
+                        colorRatio *= pow(density, 0.01 * transmittance / precision);
+                    dstTravelled += stepSize * max(abs(density), 0.05) * 2 / precision;
                 }
+                currentDepth = dstToBox + dstTravelled;
+                colorRatio *= colorRatio;
+
+                //return (colorRatio.xxxx);
 
                 // Composite sky + background
                 // float3 skyColBase = lerp(colA,colB, sqrt(abs(saturate(rayDir.y))));
@@ -422,21 +447,21 @@ Shader "Hidden/Clouds"
                 // Increase light energy contrast
                 // TODO: make power a parameter
                 lightEnergy *= 0.5;
-                const float power = 2;
-                if (lightEnergy > 0.5)
-                {
-                    lightEnergy -= 0.5;
-                    lightEnergy = pow(lightEnergy * 2, 1 / power) / 2 + 0.5;
-                }
-                else if (lightEnergy)
-                    lightEnergy = pow(lightEnergy * 2, power) / 2;
+                lightEnergy = cinematicGradient(lightEnergy, 2);
+
+                colorRatio = cinematicGradient(colorRatio, 0.5);
 
                 sun = saturate(sun);
                 transmittance = sqrt(saturate(transmittance));
 
                 // Add clouds
-                float3 cloudCol = lerp(colA, _LightColor0, lightEnergy * phaseVal);
-                float3 col = lerp(cloudCol, backgroundCol, transmittance);
+                float3 cloudCol = lerp(colA, colB, saturate(colorRatio));
+
+                float dstFog = 1-exp(-currentDepth * 8*.00002);
+                float3 atmosCol = lerp(cloudCol, colC, dstFog);
+
+                float3 illuminatedCloudCol = lerp(atmosCol, _LightColor0, lightEnergy * phaseVal);
+                float3 col = lerp(illuminatedCloudCol, backgroundCol, transmittance);
                 col = lerp(col, float3(1,1,1), sun);
                 return float4(col,0);
 
