@@ -190,11 +190,12 @@ Shader "Hidden/Clouds"
                 const float baseScale = 1/1000.0;
 
                 // Calculate texture sample positions
+                timeScale = 0.3;
                 float time = _Time.x * timeScale;
                 float3 size = boundsMax - boundsMin;
                 float3 boundsCentre = (boundsMin+boundsMax) * .5;
                 float3 uvw = (size * .5 + rayPos) * baseScale * scale;
-                float3 shapeSamplePos = uvw + float3(time,time*0.1,time*0.2) * baseSpeed;
+                float3 shapeSamplePos = uvw;// + float3(time,time*0.1,time*0.2) * baseSpeed;
 
                 // Calculate height gradient from weather map
                 // Currently fully disabled
@@ -225,6 +226,7 @@ Shader "Hidden/Clouds"
 
                 // Add altitude density
                 // TODO: standardize height gradient inside density
+                float altitudeD = altitudeDensity(heightPercent) * heightGradient;
                 baseShapeDensityMeta += altitudeDensity(heightPercent) * heightGradient;
 
                 // NOTE: performance factor
@@ -239,16 +241,50 @@ Shader "Hidden/Clouds"
                 if (baseShapeDensityMeta < -1)
                     return baseShapeDensityMeta * heightGradient / 2;
 
+                float4 shapeNoiseMetaX = NoiseTex.SampleLevel(samplerNoiseTex, shapeSamplePosMeta + float3(0.001, 0, 0), mipLevel);
+                float4 normalizedShapeWeightsMetaX = shapeNoiseWeights / dot(shapeNoiseWeights, 1);
+                float shapeFBMMetaX = dot(shapeNoiseMetaX, normalizedShapeWeightsMetaX) * heightGradient;
+                float baseShapeDensityMetaX = (shapeFBMMetaX + densityOffset * .1 - 0.1) * 15;
+
+                float4 shapeNoiseMetaZ = NoiseTex.SampleLevel(samplerNoiseTex, shapeSamplePosMeta + float3(0, 0, 0.001), mipLevel);
+                float4 normalizedShapeWeightsMetaZ = shapeNoiseWeights / dot(shapeNoiseWeights, 1);
+                float shapeFBMMetaZ = dot(shapeNoiseMetaZ, normalizedShapeWeightsMetaZ) * heightGradient;
+                float baseShapeDensityMetaZ = (shapeFBMMetaZ + densityOffset * .1 - 0.1) * 15;
+
+                float3 gradient = float3(baseShapeDensityMetaX - baseShapeDensityMeta, 0, baseShapeDensityMetaZ - baseShapeDensityMeta);
+                gradient /= -heightGradient;
+                float3 dir = float3(-gradient.z, 0, gradient.x);
+
+                float dist = length(gradient);
+
+                float3 center = shapeSamplePos - gradient / 2;
+
+                float sinX = sin (time * baseSpeed);
+                float cosX = cos (time * baseSpeed);
+                float sinY = sin (time * baseSpeed);
+                float2x2 rotationMatrix = float2x2( cosX, -sinX, sinY, cosX);
+
+                shapeSamplePos.xz += mul (gradient.xz / 2, rotationMatrix );
+
+                //shapeSamplePos = center * -1;
+
                 // Calculate base shape density
                 float4 shapeNoise = NoiseTex.SampleLevel(samplerNoiseTex, shapeSamplePos, mipLevel);
                 float4 normalizedShapeWeights = shapeNoiseWeights / dot(shapeNoiseWeights, 1);
                 float shapeFBM = dot(shapeNoise, normalizedShapeWeights) * heightGradient;
                 float baseShapeDensity = baseShapeDensityMeta * heightGradient + shapeFBM + densityOffset * .1;
 
+                // return baseShapeDensity;
+
                 // Save sampling from detail tex if shape density <= 0
                 if (baseShapeDensity > 0 && !cheap) {
                     // Sample detail noise
-                    float3 detailSamplePos = uvw*detailNoiseScale + float3(time*.4,-time,time*0.1)*detailSpeed;
+                    float3 detailSamplePos = uvw*detailNoiseScale;// + float3(time*.4,-time,time*0.1)*detailSpeed;
+                    sinX = sin (time * detailSpeed);
+                    cosX = cos (time * detailSpeed);
+                    sinY = sin (time * detailSpeed);
+                    rotationMatrix = float2x2( cosX, -sinX, sinY, cosX);
+                    detailSamplePos.xz += mul (gradient.xz / 2, rotationMatrix) * detailNoiseScale;
                     float4 detailNoise = DetailNoiseTex.SampleLevel(samplerDetailNoiseTex, detailSamplePos, mipLevel);
                     float3 normalizedDetailWeights = detailWeights / dot(detailWeights, 1);
                     float detailFBM = dot(detailNoise, normalizedDetailWeights);
@@ -392,7 +428,7 @@ Shader "Hidden/Clouds"
                 float cosAngle = dot(rayDir, _WorldSpaceLightPos0.xyz);
                 float phaseVal = phase(cosAngle);
 
-                float dstTravelled = 1;//randomOffset;
+                float dstTravelled = 0;//randomOffset;
                 float dstLimit = min(depth-dstToBox, dstInsideBox);
 
                 float stepSize = stepSizeRender;
@@ -471,7 +507,7 @@ Shader "Hidden/Clouds"
                 // Add background
                 col = lerp(col, backgroundCol, transmittance);
                 // Add the sun
-                col = lerp(col, fixed3(1,1,1), sun);
+                col = lerp(col, _LightColor0 * 2, sun);
                 return fixed4(col,0);
 
             }
