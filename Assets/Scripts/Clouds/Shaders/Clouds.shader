@@ -237,7 +237,7 @@ Shader "Hidden/Clouds"
 
                 // Try early returning, might be ignored by compiler since forking is hard on GPU
                 if (baseShapeDensityMeta < -1)
-                    return baseShapeDensityMeta * heightGradient / 5;
+                    return baseShapeDensityMeta * heightGradient / 2;
 
                 // Calculate base shape density
                 float4 shapeNoise = NoiseTex.SampleLevel(samplerNoiseTex, shapeSamplePos, mipLevel);
@@ -351,7 +351,7 @@ Shader "Hidden/Clouds"
                 return (i);
             }
 
-            float4 frag (v2f i) : SV_Target
+            fixed4 frag (v2f i) : SV_Target
             {
                 #if DEBUG_MODE == 1
                 if (debugViewMode != 0) {
@@ -400,7 +400,7 @@ Shader "Hidden/Clouds"
                 // March through volume:
                 float transmittance = 1;
                 float lightEnergy = 0;
-                float colorRatio = 0.5;
+                float colorRatio = 1;
 
                 while (dstTravelled < dstLimit) {
                     rayPos = entryPoint + rayDir * dstTravelled;
@@ -419,20 +419,21 @@ Shader "Hidden/Clouds"
                         }
                     }
                     float precision = 1;//getPrecision(dstTravelled + dstToBox);
-                    if (density > 0)
-                        colorRatio *= pow(density, 0.01 * transmittance / precision);
+                    // if (density > 0)
+                    //     colorRatio *= pow(density, 0.01 * transmittance / precision);
                     dstTravelled += stepSize * max(abs(density), 0.05) * 2 / precision;
                 }
-                currentDepth = dstToBox + dstTravelled;
+                if (dstInsideBox > 0)
+                    currentDepth = dstToBox + dstTravelled;
                 colorRatio *= colorRatio;
 
                 //return (colorRatio.xxxx);
 
                 // Composite sky + background
                 // float3 skyColBase = lerp(colA,colB, sqrt(abs(saturate(rayDir.y))));
-                float3 backgroundCol = tex2D(_MainTex,i.uv);
+                fixed3 backgroundCol = tex2D(_MainTex,i.uv);
                 // float dstFog = 1-exp(-max(0,depth) * 8*.0001);
-                // float3 sky = dstFog * skyColBase;
+                // fixed3 sky = dstFog * skyColBase;
                 // backgroundCol = backgroundCol * (1-dstFog) + backgroundCol;
 
                 // Add shading to non-cloud objects
@@ -449,21 +450,29 @@ Shader "Hidden/Clouds"
                 lightEnergy *= 0.5;
                 lightEnergy = cinematicGradient(lightEnergy, 2);
 
-                colorRatio = cinematicGradient(colorRatio, 0.5);
+                // colorRatio = cinematicGradient(colorRatio, 0.5);
 
                 sun = saturate(sun);
                 transmittance = sqrt(saturate(transmittance));
 
                 // Add clouds
-                float3 cloudCol = lerp(colA, colB, saturate(colorRatio));
-
                 float dstFog = 1-exp(-currentDepth * 8*.00002);
-                float3 atmosCol = lerp(cloudCol, colC, dstFog);
-
-                float3 illuminatedCloudCol = lerp(atmosCol, _LightColor0, lightEnergy * phaseVal);
-                float3 col = lerp(illuminatedCloudCol, backgroundCol, transmittance);
-                col = lerp(col, float3(1,1,1), sun);
-                return float4(col,0);
+                fixed3 colAf = lerp(colA, colC, dstFog);
+                fixed3 colBf = lerp(colB, colC, dstFog);
+                fixed3 col;
+                if (lightEnergy < 0.5)
+                    col = lerp(colBf, colAf, lightEnergy * 2);
+                else
+                    col = lerp(colAf, _LightColor0, (lightEnergy - 0.5) * 2);
+                col *= phaseVal;
+                // // Add fog
+                // float dstFog = 1-exp(-currentDepth * 8*.00002);
+                // col = lerp(col, colC, dstFog);
+                // Add background
+                col = lerp(col, backgroundCol, transmittance);
+                // Add the sun
+                col = lerp(col, fixed3(1,1,1), sun);
+                return fixed4(col,0);
 
             }
 
