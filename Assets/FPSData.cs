@@ -78,6 +78,7 @@ public class FPSData : MonoBehaviour
         float score = (overheadScore * 1000 + (float)Screen.width * Screen.height) / (float)thirdQuartValue;
 
         text += "score: " + Mathf.Round(score / 100);
+        text += "\nfps: " + Mathf.Round(1 / Time.unscaledDeltaTime);
 
         GetComponent<Text>().text = text;
     }
