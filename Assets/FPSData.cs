@@ -16,14 +16,12 @@ public class FPSData : MonoBehaviour
     int frameNum;
 
     private void Awake() {
-        frameTimes = new SortedDictionary<int, int>();
-        frameNum = 0;
         firstFrame = true;
     }
 
     void Update()
     {
-        if (reset)
+        if (reset || frameTimes == null)
         {
             frameTimes = new SortedDictionary<int, int>();
             frameNum = 0;
