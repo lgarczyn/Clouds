@@ -58,6 +58,8 @@ public class CloudMaster : MonoBehaviour {
     [HideInInspector]
     public Material material;
 
+    bool isMaterialDirty = true;
+
     // The texture generators for the shader
     // TODO: standardize noise generators
     // TODO: allow multiple coexisting generators ?
@@ -83,10 +85,29 @@ public class CloudMaster : MonoBehaviour {
     [ImageEffectOpaque]
     private void OnRenderImage (RenderTexture src, RenderTexture dest) {
 
-        // Validate inputs
-        if (material == null || material.shader != shader) {
-            material = new Material (shader);
+        if (isMaterialDirty || material == null || Application.isPlaying == false)
+        {
+            isMaterialDirty = false;
+
+            // Validate inputs
+            if (material == null || material.shader != shader) {
+                material = new Material (shader);
+            }
+
+            SetParams();
+            SetDebugParams ();
         }
+
+        // Blit does the following:
+        // - sets _MainTex property on material to the source texture
+        // - sets the render target to the destination texture
+        // - draws a full-screen quad
+        // This copies the src texture to the dest texture, with whatever modifications the shader makes
+        Graphics.Blit (src, dest, material);
+    }
+
+    void SetParams ()
+    {
         numStepsLight = Mathf.Max (1, numStepsLight);
         stepSizeRender = Mathf.Max(5, stepSizeRender);
 
@@ -140,19 +161,9 @@ public class CloudMaster : MonoBehaviour {
         material.SetFloat ("detailSpeed", detailSpeed);
         material.SetVector("playerPosition", GameObject.FindObjectOfType<MFlight.Demo.Plane>().transform.position);
 
-        // Set debug params
-        SetDebugParams ();
-
         material.SetColor ("colA", colA);
         material.SetColor ("colB", colB);
         material.SetColor ("colC", colC);
-
-        // Blit does the following:
-        // - sets _MainTex property on material to the source texture
-        // - sets the render target to the destination texture
-        // - draws a full-screen quad
-        // This copies the src texture to the dest texture, with whatever modifications the shader makes
-        Graphics.Blit (src, dest, material);
     }
 
     void SetDebugParams () {
@@ -178,4 +189,7 @@ public class CloudMaster : MonoBehaviour {
         material.SetInt ("debugShowAllChannels", (noise.viewerShowAllChannels) ? 1 : 0);
     }
 
+    void OnValidate() {
+        isMaterialDirty = true;
+    }
 }
