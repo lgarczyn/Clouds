@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52d494a2b3314ef41b9cf43b9c3870b9, type: 3}
   m_Name: Altitude - New Height
   m_EditorClassIdentifier: 
-  highestLayerAltitude: 0.986
+  highestLayerAltitude: 0.952
   lowestLayerAltitude: 0.403
   linearOffsetStart: -0.73
   linearOffsetFactor: 9.61
-  powerOffsetPower: 2.52
-  powerOffsetRatio: 0.582
+  powerOffsetPower: 2.4
+  powerOffsetRatio: 0.538
   powerOffsetPowerTop: 7.41
   powerOffsetRatioTop: 2.82
-  initialPowerFactor: 5.69
-  iterativePowerFactor: 0.794
-  iterativePowerCount: 6
-  resolution: 512
+  initialPowerFactor: 10
+  iterativePowerFactor: 0.641
+  iterativePowerCount: 10
+  resolution: 995

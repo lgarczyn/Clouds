@@ -5,10 +5,11 @@ Shader "Hidden/Clouds"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        // material property used exclusively to check if material cloning works
+        NoiseTex ("noise", 3d) = "white" {}
     }
     SubShader
     {
-    
         // No culling or depth
         Cull Off ZWrite Off ZTest Always
 
@@ -32,17 +33,49 @@ Shader "Hidden/Clouds"
                 float4 pos : SV_POSITION;
                 float2 uv : TEXCOORD0;
                 float3 viewVector : TEXCOORD1;
+                float3 worldPos: TEXCOORD2;
             };
 
-            v2f vert (appdata v) {
-                v2f output;
-                output.pos = UnityObjectToClipPos(v.vertex);
-                output.uv = v.uv;
-                // Camera space matches OpenGL convention where cam forward is -z. In unity forward is positive z.
-                // (https://docs.unity3d.com/ScriptReference/Camera-cameraToWorldMatrix.html)
-                float3 viewVector = mul(unity_CameraInvProjection, float4(v.uv * 2 - 1, 0, -1));
-                output.viewVector = mul(unity_CameraToWorld, float4(viewVector,0));
-                return output;
+            // Undocumented VR matrices
+            // float4x4 _LeftWorldFromView;
+            // float4x4 _LeftViewFromScreen;
+            // #ifdef VR_MODE
+            // float4x4 _RightWorldFromView;
+            // float4x4 _RightViewFromScreen;
+            // #endif
+
+            // Vertex shader that procedurally outputs a full screen triangle
+            v2f vert(appdata v)
+            {
+                // Render settings
+                float near = _ProjectionParams.y;
+                float far = _ProjectionParams.z;
+                float2 orthoSize = unity_OrthoParams.xy;
+
+                v2f o;
+                float3 pos = UnityObjectToClipPos(v.vertex);
+                // TODO: cheaper way to calculate clip pos, but sometimes breaks
+                // float3(v.uv, 0) * float3(2,-2,0) - float3(1,-1,0); 
+                o.pos = float4(pos, 1);
+                o.uv = v.uv;
+
+                if (unity_OrthoParams.w)
+                {
+                    float3 viewVector = float4(0,0,1,0);
+                    o.viewVector = mul(unity_CameraToWorld, float4(viewVector,0));
+
+                    float4 worldPos = float4(float2(pos.x, -pos.y) * orthoSize, near, 1);
+                    o.worldPos = mul(unity_CameraToWorld, float4(worldPos));
+                }
+                else
+                {
+                    float3 viewVector = mul(unity_CameraInvProjection, float4(float2(pos.x, -pos.y), 1, -1));
+                    o.viewVector = mul(unity_CameraToWorld, float4(viewVector,0));
+
+                    o.worldPos = _WorldSpaceCameraPos;
+                }
+
+                return o;
             }
 
             // Textures
@@ -260,7 +293,7 @@ Shader "Hidden/Clouds"
 
                     return cloudDensity * densityMultiplier * 0.1;
                 } 
-                return baseShapeDensity * heightGradient / 5;
+                return baseShapeDensity * heightGradient / 2;
             }
 
             // Calculate proportion of light that reaches the given point from the lightsource
@@ -278,15 +311,15 @@ Shader "Hidden/Clouds"
                     float density = sampleDensity(position, true);
                     totalDensity += max(0, density * stepSize);
 
-                    //Try early returning if less than 0.01 is passing through
-                    if (totalDensity > -log(0.2) * lightAbsorptionTowardSun)
-                        break;
                     //Variable stepping, using the noise like a signed-distance-function
                     //Works well if hard contrast is avoided
                     float dst = stepSize * max(abs(density), 1);
                     position += dirToLight * dst;
                     dstTravelled += dst;
-                    //Due to variable stepping, skip if end is reached, probably no effect on perf
+                    //Try early returning if less than 0.01 is passing through
+                    if (totalDensity > -log(0.2) * lightAbsorptionTowardSun)
+                        break;
+                    //Due to variable stepping, skip if end is reached
                     if (dstTravelled >= dstInsideBox)
                         break;
                 }
@@ -351,6 +384,19 @@ Shader "Hidden/Clouds"
                 return (i);
             }
 
+            float getDepth(float2 uv)
+            {
+                float4 nonlin_depth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(uv));
+
+                // TODO: figure out why negative near planes break the depths
+                if (unity_OrthoParams.w && UNITY_REVERSED_Z)
+                    return lerp(_ProjectionParams.z, _ProjectionParams.y, nonlin_depth);
+                else if (unity_OrthoParams.w)
+                    return lerp(_ProjectionParams.y, _ProjectionParams.z, nonlin_depth);
+                else
+                    return LinearEyeDepth(nonlin_depth.r);
+            }
+
             fixed4 frag (v2f i) : SV_Target
             {
                 #if DEBUG_MODE == 1
@@ -368,17 +414,21 @@ Shader "Hidden/Clouds"
                 #endif
 
                 // Create ray
-                float3 rayPos = _WorldSpaceCameraPos;
-                float viewLength = length(i.viewVector);
-                float3 rayDir = i.viewVector / viewLength;
+                float3 rayPos = i.worldPos;
+                float3 rayDir = normalize(i.viewVector);
 
                 // Depth and cloud container intersection info:
-                float nonlin_depth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, i.uv);
-                float depth = LinearEyeDepth(nonlin_depth) * viewLength;
+                float depth = getDepth(i.uv);
                 float currentDepth = depth;
                 float2 rayToContainerInfo = rayBoxDst(boundsMin, boundsMax, rayPos, 1/rayDir);
                 float dstToBox = rayToContainerInfo.x;
                 float dstInsideBox = rayToContainerInfo.y;
+
+                //depth*=3;
+                //return (_ProjectionParams.y >= 0 && _ProjectionParams.y < 1).rrrr;
+
+                //return float4(1 / depth, 1 / depth * 100, SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(i.uv)), 1);
+
 
                 // point of intersection with the cloud container
                 float3 entryPoint = rayPos + rayDir * dstToBox;
@@ -392,7 +442,7 @@ Shader "Hidden/Clouds"
                 float cosAngle = dot(rayDir, _WorldSpaceLightPos0.xyz);
                 float phaseVal = phase(cosAngle);
 
-                float dstTravelled = 1;//randomOffset;
+                float dstTravelled = 0;//randomOffset;
                 float dstLimit = min(depth-dstToBox, dstInsideBox);
 
                 float stepSize = stepSizeRender;
@@ -438,8 +488,8 @@ Shader "Hidden/Clouds"
 
                 // Add shading to non-cloud objects
                 // Could be done better by decoding normals
-                if (depth < 5000)
-                    backgroundCol *= lerp(lightmarch(entryPoint + rayDir * dstTravelled), 1, 0.5);
+                // if (depth < 5000)
+                //     backgroundCol *= lerp(lightmarch(rayPos + rayDir * currentDepth), 1, 0.5);
 
                 // Sun
                 float focusedEyeCos = pow(saturate(cosAngle), params.x);
@@ -456,7 +506,7 @@ Shader "Hidden/Clouds"
                 transmittance = sqrt(saturate(transmittance));
 
                 // Add clouds
-                float dstFog = 1-exp(-currentDepth * 8*.00002);
+                float dstFog = 1-exp(-currentDepth * 8*.0002);
                 fixed3 colAf = lerp(colA, colC, dstFog);
                 fixed3 colBf = lerp(colB, colC, dstFog);
                 fixed3 col;
