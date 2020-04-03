@@ -386,15 +386,15 @@ Shader "Hidden/Clouds"
 
             float getDepth(float2 uv)
             {
-                float4 nonlin_depth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(uv));
+                float nonlin_depth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(uv));
 
                 // TODO: figure out why negative near planes break the depths
                 if (unity_OrthoParams.w && UNITY_REVERSED_Z)
-                    return lerp(_ProjectionParams.z, _ProjectionParams.y, nonlin_depth);
+                    return lerp(_ProjectionParams.z, _ProjectionParams.y, nonlin_depth) - _ProjectionParams.y;
                 else if (unity_OrthoParams.w)
-                    return lerp(_ProjectionParams.y, _ProjectionParams.z, nonlin_depth);
+                    return lerp(_ProjectionParams.y, _ProjectionParams.z, nonlin_depth) - _ProjectionParams.y;
                 else
-                    return LinearEyeDepth(nonlin_depth.r);
+                    return LinearEyeDepth(nonlin_depth);
             }
 
             fixed4 frag (v2f i) : SV_Target
@@ -414,11 +414,12 @@ Shader "Hidden/Clouds"
                 #endif
 
                 // Create ray
+                float distancePerspectiveModifier = length(i.viewVector);
                 float3 rayPos = i.worldPos;
-                float3 rayDir = normalize(i.viewVector);
+                float3 rayDir = i.viewVector / distancePerspectiveModifier;
 
                 // Depth and cloud container intersection info:
-                float depth = getDepth(i.uv);
+                float depth = getDepth(i.uv) * distancePerspectiveModifier;
                 float currentDepth = depth;
                 float2 rayToContainerInfo = rayBoxDst(boundsMin, boundsMax, rayPos, 1/rayDir);
                 float dstToBox = rayToContainerInfo.x;
