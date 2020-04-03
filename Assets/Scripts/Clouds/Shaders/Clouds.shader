@@ -398,6 +398,34 @@ Shader "Hidden/Clouds"
                     return LinearEyeDepth(nonlin_depth);
             }
 
+            fixed3 getSunColor(fixed3 color, float3 rayDir, float transmittance)
+            {
+                // Phase function makes clouds brighter around sun
+                float cosAngle = dot(rayDir, _WorldSpaceLightPos0.xyz);
+                float phaseVal = phase(cosAngle);
+
+                // Add the sun
+                float focusedEyeCos = pow(saturate(cosAngle), params.x);
+                float sun = saturate(hg(focusedEyeCos, .995)) * transmittance;
+
+                return lerp(color * phaseVal, normalize(_LightColor0) * 4, sun);
+            }
+
+            fixed3 getCloudColor(float currentDepth, float lightEnergy)
+            {
+                // Get a fog ratio
+                float dstFog = 1-exp(-currentDepth * 8*.0002);
+                // Apply to both cloud colors
+                fixed3 colAf = lerp(colA, colC, dstFog);
+                fixed3 colBf = lerp(colB, colC, dstFog);
+                // Chose which gradient to apply
+                // TODO: use a better way to lerp through these
+                if (lightEnergy < 0.5)
+                    return lerp(colBf, colAf, lightEnergy * 2);
+                else
+                    return lerp(colAf, _LightColor0, (lightEnergy - 0.5) * 2);
+            }
+
             fixed4 frag (v2f i) : SV_Target
             {
                 #if DEBUG_MODE == 1
@@ -421,16 +449,9 @@ Shader "Hidden/Clouds"
 
                 // Depth and cloud container intersection info:
                 float depth = getDepth(i.uv) * distancePerspectiveModifier;
-                float currentDepth = depth;
                 float2 rayToContainerInfo = rayBoxDst(boundsMin, boundsMax, rayPos, 1/rayDir);
                 float dstToBox = rayToContainerInfo.x;
                 float dstInsideBox = rayToContainerInfo.y;
-
-                //depth*=3;
-                //return (_ProjectionParams.y >= 0 && _ProjectionParams.y < 1).rrrr;
-
-                //return float4(1 / depth, 1 / depth * 100, SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(i.uv)), 1);
-
 
                 // point of intersection with the cloud container
                 float3 entryPoint = rayPos + rayDir * dstToBox;
@@ -440,10 +461,6 @@ Shader "Hidden/Clouds"
                 //float randomOffset = BlueNoise.SampleLevel(samplerBlueNoise, squareUV(i.uv*3), 0);
                 //randomOffset *= rayOffsetStrength;
 
-                // Phase function makes clouds brighter around sun
-                float cosAngle = dot(rayDir, _WorldSpaceLightPos0.xyz);
-                float phaseVal = phase(cosAngle);
-
                 float dstTravelled = 0;//randomOffset;
                 float dstLimit = min(depth-dstToBox, dstInsideBox);
 
@@ -452,7 +469,6 @@ Shader "Hidden/Clouds"
                 // March through volume:
                 float transmittance = 1;
                 float lightEnergy = 0;
-                float colorRatio = 1;
 
                 while (dstTravelled < dstLimit) {
                     rayPos = entryPoint + rayDir * dstTravelled;
@@ -471,61 +487,41 @@ Shader "Hidden/Clouds"
                         }
                     }
                     float precision = 1;//getPrecision(dstTravelled + dstToBox);
-                    // if (density > 0)
-                    //     colorRatio *= pow(density, 0.01 * transmittance / precision);
                     dstTravelled += stepSize * max(abs(density), 0.05) * 2 / precision;
                 }
+
+                float currentDepth;
                 if (dstInsideBox > 0)
                     currentDepth = dstToBox + dstTravelled;
-                colorRatio *= colorRatio;
+                else
+                    currentDepth = depth;
 
-                //return (colorRatio.xxxx);
-
-                // Composite sky + background
-                // float3 skyColBase = lerp(colA,colB, sqrt(abs(saturate(rayDir.y))));
+                // Skybox and plane
                 fixed3 backgroundCol = tex2D(_MainTex,i.uv);
-                // float dstFog = 1-exp(-max(0,depth) * 8*.0001);
-                // fixed3 sky = dstFog * skyColBase;
-                // backgroundCol = backgroundCol * (1-dstFog) + backgroundCol;
 
                 // Add shading to non-cloud objects
                 // Could be done better by decoding normals
-                // if (depth < 5000)
+                // if (hiddenByObject)
                 //     backgroundCol *= lerp(lightmarch(rayPos + rayDir * currentDepth), 1, 0.5);
-
-                // Sun
-                float focusedEyeCos = pow(saturate(cosAngle), params.x);
-                float sun = saturate(hg(focusedEyeCos, .995)) * transmittance;
 
                 // Increase light energy contrast
                 // TODO: make power a parameter
                 lightEnergy *= 0.5;
                 lightEnergy = cinematicGradient(lightEnergy, 2);
-
-                // colorRatio = cinematicGradient(colorRatio, 0.5);
-
-                sun = saturate(sun);
                 transmittance = sqrt(saturate(transmittance));
+                bool hiddenByObject = abs(dstLimit - dstInsideBox) > 1;
 
                 // Add clouds
-                float dstFog = 1-exp(-currentDepth * 8*.0002);
-                fixed3 colAf = lerp(colA, colC, dstFog);
-                fixed3 colBf = lerp(colB, colC, dstFog);
-                fixed3 col;
-                if (lightEnergy < 0.5)
-                    col = lerp(colBf, colAf, lightEnergy * 2);
-                else
-                    col = lerp(colAf, _LightColor0, (lightEnergy - 0.5) * 2);
-                col *= phaseVal;
-                // // Add fog
-                // float dstFog = 1-exp(-currentDepth * 8*.00002);
-                // col = lerp(col, colC, dstFog);
-                // Add background
-                col = lerp(col, backgroundCol, transmittance);
-                // Add the sun
-                col = lerp(col, fixed3(1,1,1), sun);
-                return fixed4(col,0);
+                fixed3 col = getCloudColor(currentDepth, lightEnergy);
 
+                // Add background or plane/objects
+                col = lerp(col, backgroundCol, transmittance);
+
+                // Add sun and sun glow
+                if (hiddenByObject == false)
+                    col = getSunColor(col, rayDir, transmittance);
+
+                return fixed4(col,0);
             }
 
             ENDCG
