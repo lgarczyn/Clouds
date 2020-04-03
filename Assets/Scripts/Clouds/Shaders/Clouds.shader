@@ -72,7 +72,8 @@ Shader "Hidden/Clouds"
                     float3 viewVector = mul(unity_CameraInvProjection, float4(float2(pos.x, -pos.y), 1, -1));
                     o.viewVector = mul(unity_CameraToWorld, float4(viewVector,0));
 
-                    o.worldPos = _WorldSpaceCameraPos;
+                    float3 worldPos = mul(unity_CameraInvProjection, float4(float2(pos.x, -pos.y), near, -1));
+                    o.worldPos = mul(unity_CameraToWorld, float4(worldPos,1));
                 }
 
                 return o;
