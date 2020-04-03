@@ -80,8 +80,6 @@ public class ShadowCameraMatrix : MonoBehaviour
                 shadowCamera.cameraToWorldMatrix
                 * Matrix4x4.Inverse(shadowCamera.nonJitteredProjectionMatrix)
                 * frustumCorners[i];
-
-            Debug.Log(frustumCorners[i]);
         }
 
         Color[] frustumColors = new Color[4]{Color.red, Color.blue, Color.yellow, Color.green}; 

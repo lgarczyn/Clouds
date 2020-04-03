@@ -12,9 +12,9 @@ public class ShadowMaster : MonoBehaviour
     private void Start() {
         shadowCamera = GetComponent<Camera>();
         shadowCamera.forceIntoRenderTexture = true;
+        shadowCamera.depthTextureMode |= DepthTextureMode.Depth;
         shadowCamera.enabled = false;
     }
-
 
     [ImageEffectOpaque]
     private void OnRenderImage (RenderTexture src, RenderTexture dest) {
