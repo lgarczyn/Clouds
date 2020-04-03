@@ -216,6 +216,7 @@ Shader "Hidden/Clouds"
                 float3 shapeSamplePosMeta = uvw;
                 shapeSamplePosMeta /= 10;
                 shapeSamplePosMeta.y /= 1.5;
+                shapeSamplePosMeta.y += (shapeSamplePosMeta.x + shapeSamplePosMeta.y) / 1000;
 
 
                 float4 shapeNoiseMeta = NoiseTex.SampleLevel(samplerNoiseTex, shapeSamplePosMeta , mipLevel);
@@ -236,7 +237,7 @@ Shader "Hidden/Clouds"
                 // baseShapeDensityMeta -= sin(dist / 1000) * 1000 / pow(dist / 10, 3);
 
                 // Try early returning, might be ignored by compiler since forking is hard on GPU
-                if (baseShapeDensityMeta < -1)
+                if (baseShapeDensityMeta < -1 || baseShapeDensityMeta > 1)
                     return baseShapeDensityMeta * heightGradient / 2;
 
                 // Calculate base shape density
