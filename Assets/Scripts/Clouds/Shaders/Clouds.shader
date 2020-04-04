@@ -192,6 +192,22 @@ Shader "Hidden/Clouds"
                 return float2(dstToBox, dstInsideBox);
             }
 
+            // Same code, but ignores the x and z bounds
+            float2 rayBoxDstVertical(float boundsMin, float boundsMax, float rayOrigin, float invRayDir)
+            {
+                float t0 = (boundsMin - rayOrigin) * invRayDir;
+                float t1 = (boundsMax - rayOrigin) * invRayDir;
+                float tmin = min(t0, t1);
+                float tmax = max(t0, t1);
+
+                float dstA = tmin;
+                float dstB = tmax;
+
+                float dstToBox = max(0, dstA);
+                float dstInsideBox = max(0, dstB - dstToBox);
+                return float2(dstToBox, dstInsideBox);
+            }
+
             // Henyey-Greenstein
             float hg(float a, float g) {
                 float g2 = g*g;
@@ -207,6 +223,10 @@ Shader "Hidden/Clouds"
             float beer(float d) {
                 float beer = exp(-d);
                 return beer;
+            }
+
+            float reverse_beer(float d) {
+                return -log(d);
             }
 
             float remap01(float v, float low, float high) {
@@ -239,7 +259,7 @@ Shader "Hidden/Clouds"
                 float gMin = 0.1;//remap(weatherMap.x,0,1,0.1,0.5);
                 float gMax = 0.9;//remap(weatherMap.x,0,1,gMin,0.9);
                 float heightPercent = (rayPos.y - boundsMin.y) / size.y;
-                float heightGradient = pow(saturate(remap(heightPercent, 0.0, gMin, 0, 1)) * saturate(remap(heightPercent, 1, gMax, 0, 1)), 0.1);
+                float heightGradient = pow(saturate(remap(heightPercent, 0.0, gMin, 0, 1)) * saturate(remap(heightPercent, 1, gMax, 0, 1)), 0.17);
 
 
                 // Calculate meta shape density
@@ -324,10 +344,112 @@ Shader "Hidden/Clouds"
                     if (dstTravelled >= dstInsideBox)
                         break;
                 }
-                float transmittance = beer(totalDensity*lightAbsorptionTowardSun);
-	
-                float clampedTransmittance = darknessThreshold + transmittance * (1-darknessThreshold);
-                return clampedTransmittance;
+                float transmittance = beer(totalDensity * lightAbsorptionTowardSun);
+
+                return lerp(darknessThreshold, 1, transmittance);
+            }
+
+            // Attempts at compressing ordered float4
+            fixed4 compressLightData(float4 data)
+            {
+                //data.gba = lerp(data.rgb, float3(1,1,1), data.gba);
+                //data.gba = lerp(data.rgb, data.gba, data.gba)
+                data.a = (data.a - data.b) / (1-data.b);
+                data.b = (data.b - data.g) / (1-data.g);
+                data.g = (data.g - data.r) / (1-data.r);
+                return data;
+            }
+            float4 decompressLightData(fixed4 data)
+            {
+                float4 result;
+
+                result.r = data.r;
+                result.g = data.r + data.g * (1 - data.r);
+                result.b = data.g + data.b * (1 - data.g);
+                result.a = data.b + data.a * (1 - data.b);
+                return result;
+            }
+
+            fixed4 shadowMarch(float3 position, float3 direction, float depth) {
+
+                // The absorption levels for which a sun distance is stored
+                float4 targets = float4(0.99, 0.7, 0.1, 0.01);
+                // The associated total densities needed to reach tem
+                float4 targetDensity = float4(
+                    reverse_beer(targets.x),
+                    reverse_beer(targets.y),
+                    reverse_beer(targets.z),
+                    reverse_beer(targets.w));
+                targetDensity *= lightAbsorptionTowardSun;
+                // The distances (as a ratio of the container) that light has traveled
+                // before reaching an absorption threshold
+                float4 result = float4(1,1,1,1);
+                // The current threshold
+                int targetIt = 0;
+
+                // The distance from the container and the distance to cross inside the container
+                float2 boxParams = rayBoxDstVertical(boundsMin.y, boundsMax.y, position.y, 1/direction.y);
+                float distanceToBox = boxParams.x;
+                float distanceToTravel = boxParams.y;
+                float distanceToTravelWithDepth = min(distanceToTravel, depth);
+
+                //adjust depth
+                depth -= distanceToBox;
+                if (depth < 0)
+                    return fixed4(0,0,0,0);
+
+                // Numbers of measurements of the cloud density
+                float stepSize = distanceToTravelWithDepth / numStepsLight;
+
+                // Adjust the position inside the container, and add half a step
+                position += direction * (stepSize * .5 + distanceToBox);
+
+                float totalDensity = 0;
+                float dstTravelled = 0;
+
+                // TODO: consider adding step-back for more precision
+                while (dstTravelled < distanceToTravelWithDepth) {
+
+                    // Sample current density
+                    float density = sampleDensity(position, false);
+                    // Modify the stepsize for variable stepping (less artifacts)
+                    float dst = stepSize * max(abs(density), 0.2);
+
+                    // Increment density counter
+                    totalDensity += max(0, density * dst);
+
+                    // If density reached current threshold
+                    if (totalDensity >= targetDensity.x)
+                    {
+                        // Calculate the current ratio of the distance to cross:
+                        float res = dstTravelled / distanceToTravel;
+
+                        // Tries to calculate the approximate distance after which threshold was met
+                        // minimal difference, so disabled for now
+                        // float approxDistance = dstTravelled - lastStepSize * (totalDensity - targetDensity.x) / (addedDensity);
+                        // float res = approxDistance / distanceToTravel;
+
+                        // store that ratio
+                        result.x = res;
+                        // rotate both result and threshold for the next position
+                        result.xyzw = result.yzwx;
+                        targetDensity.xyzw = targetDensity.yzwx;
+                        targetIt++;
+                        // If threshold was the last one, break
+                        // could be done by checking (result.x != 1), but targetIt is needed for rotating the result buffer
+                        if (targetIt >= 4)
+                            break;
+                    }
+                    // Variable stepping, using the noise like a signed-distance-function
+                    // Works well if hard contrast is avoided
+                    position += direction * dst;
+                    // Advance through volume
+                    dstTravelled += dst;
+                }
+                // If the last thresholds were never reach, set them to either 1, or to the ratio of the depth
+                for (;targetIt < 4; targetIt++)
+                    result.xyzw = (result * float4(0,1,1,1) + float4(dstTravelled / distanceToTravel, 0,0,0)).yzwx;
+                return saturate(result);
             }
 
             float4 debugDrawNoise(float2 uv) {
@@ -359,18 +481,6 @@ Shader "Hidden/Clouds"
                         return maskedChannels;
                     }
                 }
-            }
-
-            // Returns a multiplier used to change the step-size depending on distance to camera,
-            // or similar optimizations, might be changed for higher precision close
-            float getPrecision(Vector pos)
-            {
-                return 1 / max(length(pos) / 500, 1);
-            }
-
-            inline float LinearEyeDepthToOutDepth(float z)
-            {
-                return (1 - _ZBufferParams.w * z) / (_ZBufferParams.z * z);
             }
 
             float cinematicGradient(float i, uniform float power)
@@ -449,6 +559,7 @@ Shader "Hidden/Clouds"
 
                 // Depth and cloud container intersection info:
                 float depth = getDepth(i.uv) * distancePerspectiveModifier;
+
                 float2 rayToContainerInfo = rayBoxDst(boundsMin, boundsMax, rayPos, 1/rayDir);
                 float dstToBox = rayToContainerInfo.x;
                 float dstInsideBox = rayToContainerInfo.y;
@@ -464,7 +575,7 @@ Shader "Hidden/Clouds"
                 float dstTravelled = 0;//randomOffset;
                 float dstLimit = min(depth-dstToBox, dstInsideBox);
 
-                float stepSize = stepSizeRender;
+                float stepSize = stepSizeRender * distancePerspectiveModifier;
 
                 // March through volume:
                 float transmittance = 1;
@@ -474,7 +585,6 @@ Shader "Hidden/Clouds"
                     rayPos = entryPoint + rayDir * dstTravelled;
                     float density = sampleDensity(rayPos, false);
 
-                    // UNITY_BRANCH
                      if (density > 0) {
                         float lightTransmittance = lightmarch(rayPos);
                         transmittance *= exp(-density * stepSize * lightAbsorptionThroughCloud);
@@ -486,8 +596,7 @@ Shader "Hidden/Clouds"
                             break;
                         }
                     }
-                    float precision = 1;//getPrecision(dstTravelled + dstToBox);
-                    dstTravelled += stepSize * max(abs(density), 0.05) * 2 / precision;
+                    dstTravelled += stepSize * max(abs(density), 0.05) * 2;
                 }
 
                 float currentDepth;
