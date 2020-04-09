@@ -704,26 +704,28 @@ Shader "Hidden/Clouds"
                     rayPos = entryPoint + rayDir * dstTravelled;
                     float density = sampleDensity(rayPos, false);
 
-                    if (density > 0.01) {
-                        float4 lm = lightmarch(rayPos);
-                        float lightTransmittance = lm.a;
+                    float real_density = max(density, 0.004);
+                    float4 lm = lightmarch(rayPos);
+                    float lightTransmittance = lm.a;
 
-                        // Debug tools for shadow maps:
-                        // cloudColor2 = lm.rgb;
-                        // transmittance = 0;
-                        // lightEnergy = lightTransmittance;
-                        // break;
+                    // Debug tools for shadow maps:
+                    // cloudColor2 = lm.rgb;
+                    // transmittance = 0;
+                    // lightEnergy = lightTransmittance;
+                    // break;
 
-                        transmittance *= beer(density * stepSize * lightAbsorptionThroughCloud);
-                        // transmittance *= exp(-density * stepSize * lightAbsorptionThroughCloud / 2);
-                        lightEnergy += density * stepSize * transmittance * lightTransmittance;
-                        // transmittance *= exp(-density * stepSize * lightAbsorptionThroughCloud / 2);
+                    if (lightTransmittance > 0.01 || density > 0.004)
+                    {
+                        transmittance *= beer(real_density * stepSize * lightAbsorptionThroughCloud);
+                        // transmittance *= exp(-real_density * stepSize * lightAbsorptionThroughCloud / 2);
+                        lightEnergy += real_density * stepSize * transmittance * lightTransmittance;
+                        // transmittance *= exp(-real_density * stepSize * lightAbsorptionThroughCloud / 2);
+                    }
 
-                        // Exit early if T is close to zero as further samples won't affect the result much
-                        if (transmittance < 0.01) {
-                            transmittance -= 0.01;
-                            break;
-                        }
+                    // Exit early if T is close to zero as further samples won't affect the result much
+                    if (transmittance < 0.01) {
+                        transmittance -= 0.01;
+                        break;
                     }
                     dstTravelled += stepSize * max(abs(density), 0.05);
                 }
@@ -747,7 +749,7 @@ Shader "Hidden/Clouds"
                 // Increase light energy contrast
                 // TODO: make power a parameter
                 lightEnergy *= 0.5;
-                lightEnergy = cinematicGradient(lightEnergy, 2);
+                // lightEnergy = cinematicGradient(lightEnergy, 2);
                 transmittance = sqrt(saturate(transmittance));
 
                 // Add clouds

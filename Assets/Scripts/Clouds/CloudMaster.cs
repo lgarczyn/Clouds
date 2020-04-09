@@ -123,7 +123,7 @@ public class CloudMaster : MonoBehaviour {
     void SetParams ()
     {
         numStepsLight = Mathf.Max (1, numStepsLight);
-        stepSizeRender = Mathf.Max(5, stepSizeRender);
+        stepSizeRender = Mathf.Max(1, stepSizeRender);
 
         // Noise
         var noise = FindObjectOfType<NoiseGenerator> ();

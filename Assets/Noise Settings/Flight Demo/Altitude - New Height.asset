@@ -17,10 +17,10 @@ MonoBehaviour:
   linearOffsetStart: -0.73
   linearOffsetFactor: 9.61
   powerOffsetPower: 2.4
-  powerOffsetRatio: 0.538
+  powerOffsetRatio: 0.519
   powerOffsetPowerTop: 7.41
-  powerOffsetRatioTop: 2.82
+  powerOffsetRatioTop: 1.43
   initialPowerFactor: 10
-  iterativePowerFactor: 0.641
+  iterativePowerFactor: 0.574
   iterativePowerCount: 10
   resolution: 995
