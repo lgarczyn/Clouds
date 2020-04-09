@@ -5,8 +5,9 @@ Shader "Hidden/Clouds"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        // material property used exclusively to check if material cloning works
-        NoiseTex ("noise", 3d) = "white" {}
+        // material properties used exclusively to check if material cloning works
+        NoiseTex ("noise", 3D) = "white" {}
+        ShadowMap ("shadows", 2D) = "black" {}
     }
     SubShader
     {
@@ -19,6 +20,7 @@ Shader "Hidden/Clouds"
 
             #pragma vertex vert
             #pragma fragment frag
+            #pragma target 5.0
 
             #include "UnityCG.cginc"
             #include "Assets/Scripts/Clouds/Shaders/CloudDebug.cginc"
@@ -63,9 +65,11 @@ Shader "Hidden/Clouds"
                 {
                     float3 viewVector = float4(0,0,1,0);
                     o.viewVector = mul(unity_CameraToWorld, float4(viewVector,0));
+                    o.viewVector = -_WorldSpaceLightPos0;
 
                     float4 worldPos = float4(float2(pos.x, -pos.y) * orthoSize, near, 1);
                     o.worldPos = mul(unity_CameraToWorld, float4(worldPos));
+                    // o.worldPos += _WorldSpaceLightPos0 * near;
                 }
                 else
                 {
@@ -88,11 +92,16 @@ Shader "Hidden/Clouds"
             Texture2D<float4> WeatherMap;
             // 1D texture to give the 'thunderhead''vibe
             Texture2D<float> AltitudeMap;
+            // 2D texture containing the heights of 4 absorption levels
+            Texture2D<float4> ShadowMap;
+
+            static const float4 shadowMapAbsorptionLevels = float4(0.6, 0.4, 0.2, 0.01);
 
             SamplerState samplerNoiseTex;
             SamplerState samplerDetailNoiseTex;
             SamplerState samplerWeatherMap;
             SamplerState samplerAltitudeMap;
+            SamplerState samplerShadowMapLinearRepeat;
 
             sampler2D _MainTex;
             sampler2D _CameraDepthTexture;
@@ -259,7 +268,11 @@ Shader "Hidden/Clouds"
                 float gMin = 0.1;//remap(weatherMap.x,0,1,0.1,0.5);
                 float gMax = 0.9;//remap(weatherMap.x,0,1,gMin,0.9);
                 float heightPercent = (rayPos.y - boundsMin.y) / size.y;
-                float heightGradient = pow(saturate(remap(heightPercent, 0.0, gMin, 0, 1)) * saturate(remap(heightPercent, 1, gMax, 0, 1)), 0.17);
+
+                
+
+                //float heightGradient = min(min(heightPercent - gMin, gMax - heightPercent) * 2 + 1, 1);
+                float heightGradient = saturate(remap(heightPercent, 0.0, gMin, 0, 1)) * saturate(remap(heightPercent, 1, gMax, 0, 1));
 
 
                 // Calculate meta shape density
@@ -281,6 +294,8 @@ Shader "Hidden/Clouds"
                 // TODO: standardize height gradient inside density
                 baseShapeDensityMeta += altitudeDensity(heightPercent) * heightGradient;
 
+                // return (baseShapeDensityMeta / 2);
+
                 // NOTE: performance factor
                 //if (cheap)
                 //    return baseShapeDensityMeta * heightGradient;
@@ -291,7 +306,7 @@ Shader "Hidden/Clouds"
 
                 // Try early returning, might be ignored by compiler since forking is hard on GPU
                 if (baseShapeDensityMeta < -1)
-                    return baseShapeDensityMeta * heightGradient / 2;
+                    return baseShapeDensityMeta / 2;
 
                 // Calculate base shape density
                 float4 shapeNoise = NoiseTex.SampleLevel(samplerNoiseTex, shapeSamplePos, mipLevel);
@@ -312,46 +327,122 @@ Shader "Hidden/Clouds"
                     float detailErodeWeight = oneMinusShape * oneMinusShape * oneMinusShape;
                     float cloudDensity = baseShapeDensity - (1-detailFBM) * detailErodeWeight * detailNoiseWeight;
 
-                    return cloudDensity * densityMultiplier * 0.1;
+                    return cloudDensity * densityMultiplier / 2;
                 } 
-                return baseShapeDensity * heightGradient / 2;
+                return baseShapeDensity / 2;
             }
 
             // Calculate proportion of light that reaches the given point from the lightsource
-            float lightmarch(float3 position) {
-                float3 dirToLight = _WorldSpaceLightPos0.xyz;
-                float dstInsideBox = rayBoxDst(boundsMin, boundsMax, position, 1/dirToLight).y;
+            float4 lightmarch(float3 position) {
 
-                float stepSize = dstInsideBox/numStepsLight;
-                position += dirToLight * stepSize * .5;
-                float totalDensity = 0;
-                float dstTravelled = 0;
+                // The position inside the shadow map
+                float2 samplePos = (((position.y / -_WorldSpaceLightPos0.y) * _WorldSpaceLightPos0).xz + position.xz) / 3203 + 0.5;
 
-                // TODO: check if branching is worth it
-                for (int step = 0; step < numStepsLight; step ++) {
-                    float density = sampleDensity(position, true);
-                    totalDensity += max(0, density * stepSize);
+                // The absorption layers of the shadow map
+                float4 heights = ShadowMap.SampleLevel(samplerShadowMapLinearRepeat, samplePos, 0);
 
-                    //Variable stepping, using the noise like a signed-distance-function
-                    //Works well if hard contrast is avoided
-                    float dst = stepSize * max(abs(density), 1);
-                    position += dirToLight * dst;
-                    dstTravelled += dst;
-                    //Try early returning if less than 0.01 is passing through
-                    if (totalDensity > -log(0.2) * lightAbsorptionTowardSun)
-                        break;
-                    //Due to variable stepping, skip if end is reached
-                    if (dstTravelled >= dstInsideBox)
-                        break;
+                // The height inside the container, from 0 to 1
+                float height = ((position.y - boundsMin.y) / (boundsMax.y - boundsMin.y) );
+
+                // The absorption fo the layer above and below
+                float2 res;
+                // The height of the layer above and below, for interpolation
+                float2 range;
+                // The colors of the layer above and below, for debugging
+                float3 colorA;
+                float3 colorB;
+
+                // Selecting the right range, absorption and colors
+                // Could be done with a few one-liners at the price of readability
+                if (height > heights.x)
+                {
+                    range = float2(1, heights.x);
+                    res = float2(1, shadowMapAbsorptionLevels.x);
+                    colorA = float3(1,0,0);
+                    colorB = float3(1,1,0);
                 }
-                float transmittance = beer(totalDensity * lightAbsorptionTowardSun);
+                else if (height > heights.y)
+                {
+                    range = float2(heights.x, heights.y);
+                    res = float2(shadowMapAbsorptionLevels.x,shadowMapAbsorptionLevels.y);
+                    colorA = float3(1,1,0);
+                    colorB = float3(0,1,0);
+                }
+                else if (height > heights.z)
+                {
+                    range = float2(heights.y, heights.z);
+                    res = float2(shadowMapAbsorptionLevels.y,shadowMapAbsorptionLevels.z);
+                    colorA = float3(0,1,0);
+                    colorB = float3(0,1,1);
+                }
+                else if (height > heights.w)
+                {
+                    range = float2(heights.z, heights.w);
+                    res = float2(shadowMapAbsorptionLevels.z,shadowMapAbsorptionLevels.w);
+                    colorA = float3(0,1,1);
+                    colorB = float3(0,0,1);
+                }
+                else
+                {
+                    range = float2(heights.w, 0);
+                    res = float2(shadowMapAbsorptionLevels.w, 0);
+                    colorA = float3(0,0,1);
+                    colorB = float3(0,0,0);
+                }
 
-                return lerp(darknessThreshold, 1, transmittance);
+                // The ratio of the layers above and below for mixing
+                float rangeRatio = (height - range.x) / (range.y - range.x);
+
+                // Interpolation of the absorption layers
+                float absorption = lerp(res.x, res.y, rangeRatio);
+                // Exponential interpolation alternative, minor difference but expensive
+                // Float absorption = beer(lerp(reverse_beer(res.x), reverse_beer(res.y), rangeRatio));
+
+                float3 color = lerp(colorA, colorB, rangeRatio);
+                return float4(color, lerp(darknessThreshold, 1, absorption));
+
+                // The previous lightmarching code, for result comparison
+                // Could be used with the shadowmaps as a hinting mechanism for more dynamic shadow maps
+                {
+
+                    float3 dirToLight = _WorldSpaceLightPos0.xyz;
+                    float dstInsideBox = (position.y - boundsMin.y);//rayBoxDst(boundsMin, boundsMax, position, 1/dirToLight).y;
+
+                    float stepSize = dstInsideBox/numStepsLight;
+                    position += dirToLight * stepSize * .5;
+                    float totalDensity = 0;
+                    float dstTravelled = 0;
+
+                    // TODO: check if branching is worth it
+                    for (int step = 0; step < numStepsLight; step ++) {
+                        float density = sampleDensity(position, false);
+                        totalDensity += max(0, density * stepSize);
+
+                        //Variable stepping, using the noise like a signed-distance-function
+                        //Works well if hard contrast is avoided
+                        float dst = stepSize * max(abs(density), 1);
+                        position += dirToLight * dst;
+                        dstTravelled += dst;
+                        //Try early returning if less than 0.01 is passing through
+                        // if (totalDensity > -log(0.2) * lightAbsorptionTowardSun)
+                        //     break;
+                        //Due to variable stepping, skip if end is reached
+                        if (dstTravelled >= dstInsideBox)
+                            break;
+                    }
+                    float transmittance = beer(totalDensity * lightAbsorptionTowardSun);
+
+                    // float3 color = lerp(float3(0,1,0), float3(1,0,0), abs(transmittance - absorption));
+
+                    color.r = transmittance > res.x ? 0.5 + transmittance - res.x : 0.5;
+                    color.b = transmittance < res.y ? 0.5 + res.y - transmittance : 0.5;
+                    color.g = 0.5; 
+                    return float4(color, lerp(darknessThreshold, 1, transmittance));
+                }
             }
 
             // Attempts at compressing ordered float4
-            fixed4 compressLightData(float4 data)
-            {
+            float4 compressLightData(float4 data) {
                 //data.gba = lerp(data.rgb, float3(1,1,1), data.gba);
                 //data.gba = lerp(data.rgb, data.gba, data.gba)
                 data.a = (data.a - data.b) / (1-data.b);
@@ -359,8 +450,7 @@ Shader "Hidden/Clouds"
                 data.g = (data.g - data.r) / (1-data.r);
                 return data;
             }
-            float4 decompressLightData(fixed4 data)
-            {
+            float4 decompressLightData(float4 data) {
                 float4 result;
 
                 result.r = data.r;
@@ -370,17 +460,17 @@ Shader "Hidden/Clouds"
                 return result;
             }
 
-            fixed4 shadowMarch(float3 position, float3 direction, float depth) {
+            float4 shadowMarch(float3 position, float3 direction, float depth) {
 
-                // The absorption levels for which a sun distance is stored
-                float4 targets = float4(0.99, 0.7, 0.1, 0.01);
-                // The associated total densities needed to reach tem
+                // 'shadowMapAbsorptionLevels' represents the absorption levels for which a sun distance is stored
+                float4 targets = shadowMapAbsorptionLevels;
+                // 'targetDensity' is the associated total densities needed to reach them
                 float4 targetDensity = float4(
                     reverse_beer(targets.x),
                     reverse_beer(targets.y),
                     reverse_beer(targets.z),
                     reverse_beer(targets.w));
-                targetDensity *= lightAbsorptionTowardSun;
+                targetDensity /= lightAbsorptionTowardSun;
                 // The distances (as a ratio of the container) that light has traveled
                 // before reaching an absorption threshold
                 float4 result = float4(1,1,1,1);
@@ -394,9 +484,11 @@ Shader "Hidden/Clouds"
                 float distanceToTravelWithDepth = min(distanceToTravel, depth);
 
                 //adjust depth
+                // BUG: player can cast shadow on clouds above
+                // might want to remove external shadows altogether for now
                 depth -= distanceToBox;
                 if (depth < 0)
-                    return fixed4(0,0,0,0);
+                    return float4(1,1,1,1);
 
                 // Numbers of measurements of the cloud density
                 float stepSize = distanceToTravelWithDepth / numStepsLight;
@@ -408,15 +500,16 @@ Shader "Hidden/Clouds"
                 float dstTravelled = 0;
 
                 // TODO: consider adding step-back for more precision
-                while (dstTravelled < distanceToTravelWithDepth) {
+                for (int i = 0; i < numStepsLight; i++) {
+                // while (dstTravelled < distanceToTravelWithDepth) {
 
                     // Sample current density
                     float density = sampleDensity(position, false);
                     // Modify the stepsize for variable stepping (less artifacts)
-                    float dst = stepSize * max(abs(density), 0.2);
+                    float dst = stepSize * max(abs(density), 1);
 
                     // Increment density counter
-                    totalDensity += max(0, density * dst);
+                    totalDensity += max(0, density * stepSize);
 
                     // If density reached current threshold
                     if (totalDensity >= targetDensity.x)
@@ -447,9 +540,12 @@ Shader "Hidden/Clouds"
                     dstTravelled += dst;
                 }
                 // If the last thresholds were never reach, set them to either 1, or to the ratio of the depth
-                for (;targetIt < 4; targetIt++)
-                    result.xyzw = (result * float4(0,1,1,1) + float4(dstTravelled / distanceToTravel, 0,0,0)).yzwx;
-                return saturate(result);
+                // Currently uneeded, as light never reaches past the end of the container
+                // for (;targetIt < 4; targetIt++)
+                //     result.xyzw = result.yzwx; //(result * float4(0,1,1,1) + float4(dstTravelled / distanceToTravel, 0,0,0)).yzwx;
+
+                // Inverse the result, for use in the lightmarch function
+                return 1 - saturate(result);
             }
 
             float4 debugDrawNoise(float2 uv) {
@@ -536,7 +632,9 @@ Shader "Hidden/Clouds"
                     return lerp(colAf, _LightColor0, (lightEnergy - 0.5) * 2);
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            float4 rayMarch(float3 rayPos, float3 rayDir, float depth, float2 uv);
+
+            float4 frag (v2f i) : SV_Target
             {
                 #if DEBUG_MODE == 1
                 if (debugViewMode != 0) {
@@ -553,12 +651,26 @@ Shader "Hidden/Clouds"
                 #endif
 
                 // Create ray
-                float distancePerspectiveModifier = length(i.viewVector);
                 float3 rayPos = i.worldPos;
-                float3 rayDir = i.viewVector / distancePerspectiveModifier;
+                float3 rayDir = i.viewVector;
 
-                // Depth and cloud container intersection info:
-                float depth = getDepth(i.uv) * distancePerspectiveModifier;
+                // Get the depth value
+                float depth = getDepth(i.uv);
+
+                // If using an ortho camera for shadow mode
+                if (unity_OrthoParams.w)
+                    return shadowMarch(rayPos, rayDir, depth);
+                else
+                    return rayMarch(rayPos, rayDir, depth, i.uv);
+            }
+
+            float4 rayMarch(float3 rayPos, float3 rayDir, float depth, float2 uv) {
+
+                // Normalize ray because of perspective interpolation
+                float distancePerspectiveModifier = length(rayDir);
+                rayDir = rayDir / distancePerspectiveModifier;
+                // Normalize depth the same way
+                depth *= distancePerspectiveModifier;
 
                 float2 rayToContainerInfo = rayBoxDst(boundsMin, boundsMax, rayPos, 1/rayDir);
                 float dstToBox = rayToContainerInfo.x;
@@ -571,24 +683,41 @@ Shader "Hidden/Clouds"
                 // removed, as signed distance function approach works better
                 //float randomOffset = BlueNoise.SampleLevel(samplerBlueNoise, squareUV(i.uv*3), 0);
                 //randomOffset *= rayOffsetStrength;
+                //float dstTravelled = randomOffset;
 
-                float dstTravelled = 0;//randomOffset;
+                // Adds an empty sphere around the camera
+                // float dstTravelled = max(400 - dstToBox, 0);
+                float dstTravelled = 0;
                 float dstLimit = min(depth-dstToBox, dstInsideBox);
 
-                float stepSize = stepSizeRender * distancePerspectiveModifier;
+                // Allows a more consistent stepsize, at the cost of artifacts in a vignette patter
+                //float stepSize = stepSizeRender * distancePerspectiveModifier;
+                float stepSize = stepSizeRender;
 
                 // March through volume:
                 float transmittance = 1;
                 float lightEnergy = 0;
 
+                // float3 cloudColor2 = 0;
+
                 while (dstTravelled < dstLimit) {
                     rayPos = entryPoint + rayDir * dstTravelled;
                     float density = sampleDensity(rayPos, false);
 
-                     if (density > 0) {
-                        float lightTransmittance = lightmarch(rayPos);
-                        transmittance *= exp(-density * stepSize * lightAbsorptionThroughCloud);
+                    if (density > 0.01) {
+                        float4 lm = lightmarch(rayPos);
+                        float lightTransmittance = lm.a;
+
+                        // Debug tools for shadow maps:
+                        // cloudColor2 = lm.rgb;
+                        // transmittance = 0;
+                        // lightEnergy = lightTransmittance;
+                        // break;
+
+                        transmittance *= beer(density * stepSize * lightAbsorptionThroughCloud);
+                        // transmittance *= exp(-density * stepSize * lightAbsorptionThroughCloud / 2);
                         lightEnergy += density * stepSize * transmittance * lightTransmittance;
+                        // transmittance *= exp(-density * stepSize * lightAbsorptionThroughCloud / 2);
 
                         // Exit early if T is close to zero as further samples won't affect the result much
                         if (transmittance < 0.01) {
@@ -596,7 +725,7 @@ Shader "Hidden/Clouds"
                             break;
                         }
                     }
-                    dstTravelled += stepSize * max(abs(density), 0.05) * 2;
+                    dstTravelled += stepSize * max(abs(density), 0.05);
                 }
 
                 float currentDepth;
@@ -606,21 +735,23 @@ Shader "Hidden/Clouds"
                     currentDepth = depth;
 
                 // Skybox and plane
-                fixed3 backgroundCol = tex2D(_MainTex,i.uv);
+                fixed3 backgroundCol = tex2D(_MainTex, uv);
+                // TODO: fix false negative when outside of container
+                bool hiddenByObject = abs(dstLimit - dstInsideBox) > 1;
 
                 // Add shading to non-cloud objects
                 // Could be done better by decoding normals
-                // if (hiddenByObject)
-                //     backgroundCol *= lerp(lightmarch(rayPos + rayDir * currentDepth), 1, 0.5);
+                if (hiddenByObject)
+                    backgroundCol *= lerp(lightmarch(rayPos + rayDir * currentDepth), 1, 0.5);
 
                 // Increase light energy contrast
                 // TODO: make power a parameter
                 lightEnergy *= 0.5;
                 lightEnergy = cinematicGradient(lightEnergy, 2);
                 transmittance = sqrt(saturate(transmittance));
-                bool hiddenByObject = abs(dstLimit - dstInsideBox) > 1;
 
                 // Add clouds
+                // fixed3 col = cloudColor2;
                 fixed3 col = getCloudColor(currentDepth, lightEnergy);
 
                 // Add background or plane/objects
@@ -630,7 +761,7 @@ Shader "Hidden/Clouds"
                 if (hiddenByObject == false)
                     col = getSunColor(col, rayDir, transmittance);
 
-                return fixed4(col,0);
+                return float4(col,0);
             }
 
             ENDCG

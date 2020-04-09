@@ -56,6 +56,7 @@ public class CloudMaster : MonoBehaviour {
 
     [Header (headerDecoration + "Shadow Mapping" + headerDecoration)]
     public ShadowMaster shadowMapper;
+    public RenderTexture shadowMap;
 
     // Internal
     [HideInInspector]
@@ -83,6 +84,7 @@ public class CloudMaster : MonoBehaviour {
     void Awake () {
         if (Application.isPlaying)
             UpdateMaps();
+        Application.targetFrameRate = 60;
     }
 
     [ImageEffectOpaque]
@@ -101,9 +103,14 @@ public class CloudMaster : MonoBehaviour {
             SetDebugParams ();
 
             if (shadowMapper)
+            {
                 shadowMapper.SetMaterial(material);
+            }
 
         }
+        material.SetTexture("ShadowMap", shadowMap);
+        material.SetVector ("boundsMin", container.position - container.localScale / 2);
+        material.SetVector ("boundsMax", container.position + container.localScale / 2);
 
         // Blit does the following:
         // - sets _MainTex property on material to the source texture
