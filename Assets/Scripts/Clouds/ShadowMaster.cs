@@ -15,7 +15,6 @@ public class ShadowMaster : MonoBehaviour
     void Start() {
         shadowCamera = GetComponent<Camera>();
         shadowCamera.forceIntoRenderTexture = true;
-        shadowCamera.depthTextureMode |= DepthTextureMode.Depth;
         shadowCamera.enabled = false;
 
         EditorApplication.playModeStateChanged += HandleOnPlayModeChanged;

@@ -18,9 +18,6 @@ public class ShadowCameraMatrix : MonoBehaviour
 
         Camera shadowCamera = GetComponent<Camera>();
 
-        // Force the camera to calculate depth
-        shadowCamera.depthTextureMode = DepthTextureMode.Depth;
-
         if (active)
         {
             // Either use the sun or the input as our shadow direction
