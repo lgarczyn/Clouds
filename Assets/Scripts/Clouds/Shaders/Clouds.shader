@@ -140,6 +140,7 @@ Shader "Hidden/Clouds"
             float lightAbsorptionTowardSun;
             float lightAbsorptionThroughCloud;
             float darknessThreshold;
+            float godRaysIntensity;
             float4 _LightColor0;
             float4 colA;
             float4 colB;
@@ -705,7 +706,7 @@ Shader "Hidden/Clouds"
                     rayPos = entryPoint + rayDir * dstTravelled;
                     float density = sampleDensity(rayPos, false);
 
-                    float real_density = max(density, 0.004);
+                    float real_density = max(density, godRaysIntensity);
                     float4 lm = lightmarch(rayPos);
                     float lightTransmittance = lm.a;
 
@@ -715,7 +716,7 @@ Shader "Hidden/Clouds"
                     // lightEnergy = lightTransmittance;
                     // break;
 
-                    if (lightTransmittance > 0.01 || density > 0.004)
+                    if (lightTransmittance > 0.01 || density > godRaysIntensity)
                     {
                         transmittance *= beer(real_density * stepSize * lightAbsorptionThroughCloud);
                         // transmittance *= exp(-real_density * stepSize * lightAbsorptionThroughCloud / 2);

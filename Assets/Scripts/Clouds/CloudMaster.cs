@@ -12,7 +12,6 @@ public class CloudMaster : MonoBehaviour {
 
     [Header (headerDecoration + "March settings" + headerDecoration)]
     public float stepSizeRender = 8;
-    public int numStepsLight = 8;
     public float rayOffsetStrength;
     public Texture2D heightGradientTex;
 
@@ -31,6 +30,7 @@ public class CloudMaster : MonoBehaviour {
     public Vector3 detailOffset;
 
     [Header (headerDecoration + "Lighting" + headerDecoration)]
+    public int numStepsLight = 8;
     public float lightAbsorptionThroughCloud = 1;
     public float lightAbsorptionTowardSun = 1;
     [Range (0, 1)]
@@ -43,6 +43,8 @@ public class CloudMaster : MonoBehaviour {
     public float baseBrightness = .8f;
     [Range (0, 1)]
     public float phaseFactor = .15f;
+    [Range (0, 10)]
+    public float godRaysIntensity = 2f;
 
     [Header (headerDecoration + "Animation" + headerDecoration)]
     public float timeScale = 1;
@@ -178,6 +180,7 @@ public class CloudMaster : MonoBehaviour {
         material.SetColor ("colA", colA);
         material.SetColor ("colB", colB);
         material.SetColor ("colC", colC);
+        material.SetFloat ("godRaysIntensity", godRaysIntensity / 1000);
     }
 
     void SetDebugParams () {
