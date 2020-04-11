@@ -690,6 +690,7 @@ Shader "Hidden/Clouds"
                 // Adds an empty sphere around the camera
                 // float dstTravelled = max(400 - dstToBox, 0);
                 float dstTravelled = 0;
+                float avgDstTravelled = 0;
                 float dstLimit = min(depth-dstToBox, dstInsideBox);
 
                 // Allows a more consistent stepsize, at the cost of artifacts in a vignette patter
@@ -716,7 +717,7 @@ Shader "Hidden/Clouds"
                     // lightEnergy = lightTransmittance;
                     // break;
 
-                    if (lightTransmittance > 0.01 || density > godRaysIntensity)
+                    if (lightTransmittance > 0.3 || density > godRaysIntensity)
                     {
                         transmittance *= beer(real_density * stepSize * lightAbsorptionThroughCloud);
                         // transmittance *= exp(-real_density * stepSize * lightAbsorptionThroughCloud / 2);
@@ -730,6 +731,7 @@ Shader "Hidden/Clouds"
                         break;
                     }
                     dstTravelled += stepSize * max(abs(density), 0.05);
+                    avgDstTravelled += stepSize * max(abs(density), 0.05) * transmittance;
                 }
 
                 float currentDepth;
@@ -756,7 +758,7 @@ Shader "Hidden/Clouds"
 
                 // Add clouds
                 // fixed3 col = cloudColor2;
-                fixed3 col = getCloudColor(currentDepth, lightEnergy);
+                fixed3 col = getCloudColor(avgDstTravelled, lightEnergy);
 
                 // Add background or plane/objects
                 col = lerp(col, backgroundCol, transmittance);
