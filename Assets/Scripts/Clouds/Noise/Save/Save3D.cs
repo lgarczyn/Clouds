@@ -18,7 +18,7 @@ public class Save3D : MonoBehaviour {
         slicer.SetTexture (0, "volumeTexture", volumeTexture);
 
         for (int layer = 0; layer < resolution; layer++) {
-            var slice = new RenderTexture (resolution, resolution, 0);
+            var slice = RenderTexture.GetTemporary(resolution, resolution, 0);
             slice.dimension = UnityEngine.Rendering.TextureDimension.Tex2D;
             slice.enableRandomWrite = true;
             slice.Create ();
@@ -30,6 +30,7 @@ public class Save3D : MonoBehaviour {
 
             slices[layer] = ConvertFromRenderTexture (slice);
 
+            RenderTexture.ReleaseTemporary(slice);
         }
 
         var x = Tex3DFromTex2DArray (slices, resolution);
@@ -62,6 +63,7 @@ public class Save3D : MonoBehaviour {
         RenderTexture.active = rt;
         output.ReadPixels (new Rect (0, 0, rt.width, rt.height), 0, 0);
         output.Apply ();
+        RenderTexture.active = null;
         return output;
     }
 }
