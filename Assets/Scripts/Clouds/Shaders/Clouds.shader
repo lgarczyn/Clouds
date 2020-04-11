@@ -720,9 +720,7 @@ Shader "Hidden/Clouds"
                     if (lightTransmittance > 0.3 || density > godRaysIntensity)
                     {
                         transmittance *= beer(real_density * stepSize * lightAbsorptionThroughCloud);
-                        // transmittance *= exp(-real_density * stepSize * lightAbsorptionThroughCloud / 2);
                         lightEnergy += real_density * stepSize * transmittance * lightTransmittance;
-                        // transmittance *= exp(-real_density * stepSize * lightAbsorptionThroughCloud / 2);
                     }
 
                     // Exit early if T is close to zero as further samples won't affect the result much
@@ -754,7 +752,6 @@ Shader "Hidden/Clouds"
                 // TODO: make power a parameter
                 lightEnergy *= 0.5;
                 // lightEnergy = cinematicGradient(lightEnergy, 2);
-                transmittance = sqrt(saturate(transmittance));
 
                 // Add clouds
                 // fixed3 col = cloudColor2;
