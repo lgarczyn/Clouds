@@ -36,18 +36,10 @@ public class Worley2D : MonoBehaviour {
         // Validate
         resolution = Mathf.Max (1, resolution);
         numPoints = Mathf.Max (1, numPoints);
-        
-        if (tex2D == null || !tex2D.IsCreated() || tex2D.width != resolution) {
-            if (tex2D != null) {
-                tex2D.Release ();
-            }
-            //threeD.volum
-            tex2D = new RenderTexture (resolution, resolution, 0);
-            tex2D.enableRandomWrite = true;
-            tex2D.dimension = UnityEngine.Rendering.TextureDimension.Tex2D;
-            tex2D.Create ();
-            needsUpdate = true;
-        }
+
+        RenderTextureDescriptor desc = TextureTools.GetDescriptorBase(resolution, resolution);
+
+        TextureTools.VerifyTexture(ref tex2D, desc);
 
         if (needsUpdate) {
             needsUpdate = false;

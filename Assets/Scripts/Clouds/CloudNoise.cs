@@ -130,19 +130,15 @@ public class CloudNoise : MonoBehaviour {
     }
 
     void CreateTexture (ref RenderTexture texture, int resolution) {
-        if (texture == null || !texture.IsCreated () || texture.width != resolution || texture.height != resolution || texture.volumeDepth != resolution) {
-            if (texture != null) {
-                texture.Release ();
-            }
-            texture = new RenderTexture (resolution, resolution, 0, RenderTextureFormat.ARGB32);
-            texture.volumeDepth = resolution;
-            texture.enableRandomWrite = true;
-            texture.dimension = UnityEngine.Rendering.TextureDimension.Tex3D;
-            texture.wrapMode = TextureWrapMode.Repeat;
 
-            texture.Create ();
+        RenderTextureDescriptor desc = TextureTools.GetDescriptorNoise3D_RGBA(resolution);
+
+        desc.graphicsFormat = UnityEngine.Experimental.Rendering.GraphicsFormat.R8G8B8A8_UInt;
+
+        if (TextureTools.VerifyTexture(ref texture, desc))
             updateNoise = true;
-        }
+
+        texture.wrapMode = TextureWrapMode.Repeat;
     }
 
     public void ManualUpdate () {

@@ -78,7 +78,7 @@ public class AltitudeMap : MonoBehaviour {
 
         int resolution = altitudeSettings.resolution;
 
-        CreateTexture1D (ref _altitudeMap, resolution, "altitudeMap");
+        CreateTexture (ref _altitudeMap, resolution, "altitudeMap");
         Texture2D temp = new Texture2D(resolution, 1);
 
         double min = float.PositiveInfinity;
@@ -110,25 +110,12 @@ public class AltitudeMap : MonoBehaviour {
         RenderTexture.active = null;
     }
 
-    //TODO move all CreateTexture to new TextureTools static file
-    void CreateTexture1D (ref RenderTexture texture, int resolution, string name) {
-        var format = GraphicsFormat.R16_UNorm;
-        if (texture == null || !texture.IsCreated () ||
-            texture.dimension != TextureDimension.Tex2D ||
-            texture.width != resolution ||
-            texture.height != 1 ||
-            texture.graphicsFormat != format) {
-            if (texture != null) {
-                texture.Release ();
-            }
-            texture = new RenderTexture (resolution, 1, 0);
-            texture.graphicsFormat = format;
-            texture.enableRandomWrite = true;
-            texture.dimension = UnityEngine.Rendering.TextureDimension.Tex2D;
-            texture.name = name;
+    void CreateTexture (ref RenderTexture texture, int resolution, string name) {
 
-            texture.Create ();
-        }
+        RenderTextureDescriptor desc = TextureTools.GetDescriptorNoise1D_R(resolution);
+
+        TextureTools.VerifyTexture(ref texture, desc, name);
+
         texture.wrapMode = TextureWrapMode.Mirror;
         texture.filterMode = FilterMode.Bilinear;
     }
