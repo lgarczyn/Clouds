@@ -88,8 +88,6 @@ Shader "Hidden/Clouds"
             Texture3D<float4> NoiseTex;
             // Whisps and detailing
             Texture3D<float4> DetailNoiseTex;
-            // Larger scale 2D texture, currently unused
-            Texture2D<float4> WeatherMap;
             // 1D texture to give the 'thunderhead''vibe
             Texture2D<float> AltitudeMap;
             // 2D texture containing the heights of 4 absorption levels
@@ -99,7 +97,6 @@ Shader "Hidden/Clouds"
 
             SamplerState samplerNoiseTex;
             SamplerState samplerDetailNoiseTex;
-            SamplerState samplerWeatherMap;
             SamplerState samplerAltitudeMap;
             SamplerState samplerShadowMapLinearRepeat;
 
@@ -155,7 +152,7 @@ Shader "Hidden/Clouds"
             // Debug settings:
             // Allow the 'picture in a picture' noise editing tool
             // TODO: Will need to be heavily changed to remove this shader from the camera
-            int debugViewMode; // 0 = off; 1 = shape tex; 2 = detail tex; 3 = weathermap, 4 = altitudemap
+            int debugViewMode; // 0 = off; 1 = shape tex; 2 = detail tex; 4 = altitudemap
             int debugGreyscale;
             int debugShowAllChannels;
             float debugNoiseSliceDepth;
@@ -260,17 +257,10 @@ Shader "Hidden/Clouds"
                 float3 uvw = (size * .5 + rayPos) * baseScale * scale;
                 float3 shapeSamplePos = uvw + float3(time,time*0.1,time*0.2) * baseSpeed;
 
-                // Calculate height gradient from weather map
-                // Currently fully disabled
-                //float2 weatherUV = (size.xz * .5 + (rayPos.xz-boundsCentre.xz)) / max(size.x,size.z);
-                //float weatherMap = WeatherMap.SampleLevel(samplerWeatherMap, weatherUV, 1).x * 100;
-
                 // Sets a gradient tapering off at the top and bottom, avoiding ugly flat spots (which tend to look buggy)
-                float gMin = 0.1;//remap(weatherMap.x,0,1,0.1,0.5);
-                float gMax = 0.9;//remap(weatherMap.x,0,1,gMin,0.9);
+                float gMin = 0.1;
+                float gMax = 0.9;
                 float heightPercent = (rayPos.y - boundsMin.y) / size.y;
-
-                
 
                 //float heightGradient = min(min(heightPercent - gMin, gMax - heightPercent) * 2 + 1, 1);
                 float heightGradient = saturate(remap(heightPercent, 0.0, gMin, 0, 1)) * saturate(remap(heightPercent, 1, gMax, 0, 1));
@@ -561,9 +551,7 @@ Shader "Hidden/Clouds"
                 else if (debugViewMode == 2) {
                     channels = DetailNoiseTex.SampleLevel(samplerDetailNoiseTex, samplePos, 0);
                 }
-                else if (debugViewMode == 3) {
-                    channels = WeatherMap.SampleLevel(samplerWeatherMap, samplePos.xy, 0);
-                } else if (debugViewMode == 4) {
+                else if (debugViewMode == 4) {
                     channels = AltitudeMap.SampleLevel(samplerAltitudeMap, samplePos.yy, 0);
                 }
 

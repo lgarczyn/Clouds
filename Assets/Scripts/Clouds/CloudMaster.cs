@@ -70,16 +70,13 @@ public class CloudMaster : MonoBehaviour {
     // TODO: standardize noise generators
     // TODO: allow multiple coexisting generators ?
     // TODO: force the generators on the same object using [Require] ?
-    private WeatherMap weatherMapGen;
     private AltitudeMap altitudeMapGen;
     private NoiseGenerator noiseGen;
 
     void UpdateMaps()
     {
-        weatherMapGen = FindObjectOfType<WeatherMap> ();
         altitudeMapGen = FindObjectOfType<AltitudeMap> ();
         noiseGen = FindObjectOfType<NoiseGenerator> ();
-        weatherMapGen.UpdateMap ();
         altitudeMapGen.UpdateMap ();
     }
 
@@ -137,7 +134,6 @@ public class CloudMaster : MonoBehaviour {
 
         // WeatherMap and AltitudeMap
         UpdateMaps();
-        material.SetTexture ("WeatherMap", weatherMapGen.weatherMap);
         material.SetTexture ("AltitudeMap", altitudeMapGen.altitudeMap);
         material.SetFloat("altitudeOffset", altitudeMapGen.altitudeOffset);
         material.SetFloat("altitudeMultiplier", altitudeMapGen.altitudeMultiplier);
@@ -189,9 +185,6 @@ public class CloudMaster : MonoBehaviour {
         var noise = this.noiseGen;
         if (noise.viewerEnabled) {
             debugModeIndex = (noise.activeTextureType == NoiseGenerator.CloudNoiseType.Shape) ? 1 : 2;
-        }
-        if (weatherMapGen.viewerEnabled) {
-            debugModeIndex = 3;
         }
         if (altitudeMapGen.viewerEnabled) {
             debugModeIndex = 4;
