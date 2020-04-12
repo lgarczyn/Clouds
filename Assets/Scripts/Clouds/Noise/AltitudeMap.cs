@@ -45,7 +45,7 @@ public class AltitudeMap : MonoBehaviour {
 
         double height = Remap (heightPercent, set.lowestLayerAltitude, set.highestLayerAltitude, -0.1, 1.2);
         if (height > 1)
-            height = 2 - height;
+            height =  System.Math.Abs(2 - height);
         else if (height < 0)
             height = System.Math.Abs (height);
 

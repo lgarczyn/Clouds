@@ -23,7 +23,7 @@ public class AltitudeMapSettings : ScriptableObject, ISerializationCallbackRecei
     [Range(0f, 10f)]
     public float powerOffsetRatioTop = 0;
 
-    [Range(0f, 10f)]
+    [Range(0f, 20f)]
     public float initialPowerFactor = 2f;
     [Range(0f, 1f)]
     public float iterativePowerFactor = 0.8f;
