@@ -1573,7 +1573,7 @@ Transform:
   m_GameObject: {fileID: 1230604921}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3200, y: 600, z: 3200}
+  m_LocalScale: {x: 3200, y: 1400, z: 3200}
   m_Children: []
   m_Father: {fileID: 1331973712}
   m_RootOrder: 0
@@ -1720,7 +1720,7 @@ MonoBehaviour:
   heightGradientTex: {fileID: 0}
   cloudScale: 7.5
   densityMultiplier: 2.69
-  densityOffset: -4.94
+  densityOffset: -4.75
   shapeOffset: {x: 29.4, y: -47.87, z: 1.11}
   heightOffset: {x: 0, y: 0}
   shapeNoiseWeights: {x: 2.51, y: 0.89, z: 1.37, w: 0.57}
@@ -2704,7 +2704,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1630318330911044}
   m_LocalRotation: {x: 0.0889679, y: 0.7237322, z: 0.1097223, w: 0.6754684}
-  m_LocalPosition: {x: 393.2281, y: 91.21704, z: -274.0191}
+  m_LocalPosition: {x: 393.2281, y: 341, z: -274.0191}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4844328603125190}

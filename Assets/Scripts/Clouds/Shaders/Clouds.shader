@@ -65,11 +65,10 @@ Shader "Hidden/Clouds"
                 {
                     float3 viewVector = float4(0,0,1,0);
                     o.viewVector = mul(unity_CameraToWorld, float4(viewVector,0));
-                    o.viewVector = -_WorldSpaceLightPos0;
+                    // o.viewVector = -_WorldSpaceLightPos0;
 
                     float4 worldPos = float4(float2(pos.x, -pos.y) * orthoSize, near, 1);
                     o.worldPos = mul(unity_CameraToWorld, float4(worldPos));
-                    // o.worldPos += _WorldSpaceLightPos0 * near;
                 }
                 else
                 {
@@ -245,7 +244,7 @@ Shader "Hidden/Clouds"
                 return sqrt(AltitudeMap.SampleLevel(samplerAltitudeMap, heightPercent, 0)) * altitudeMultiplier + altitudeOffset;
             }
 
-            float sampleDensity(float3 rayPos, bool cheap) {
+            float sampleDensity(float3 rayPos, uniform int optimisation, float optiInterpolation) {
                 // Constants:
                 const int mipLevel = 2;
                 const float baseScale = 1/1000.0;
@@ -258,23 +257,33 @@ Shader "Hidden/Clouds"
                 float3 shapeSamplePos = uvw + float3(time,time*0.1,time*0.2) * baseSpeed;
 
                 // Sets a gradient tapering off at the top and bottom, avoiding ugly flat spots (which tend to look buggy)
-                float gMin = 0.1;
-                float gMax = 0.9;
+                float gMin = 0.2;
+                float gMax = 0.8;
                 float heightPercent = (rayPos.y - boundsMin.y) / size.y;
 
                 //float heightGradient = min(min(heightPercent - gMin, gMax - heightPercent) * 2 + 1, 1);
                 float heightGradient = saturate(remap(heightPercent, 0.0, gMin, 0, 1)) * saturate(remap(heightPercent, 1, gMax, 0, 1));
+                // heightGradient *= heightGradient;
 
+                // optimisation is set based on distance, and always uniform to avoid branching
+                // later iterations of the loops have higher optimization values
+                // if (optimisation > 5)
+                //     return heightGradient;
+
+                float altDensity = altitudeDensity(heightPercent) / 2 * heightGradient;
+
+                // optiInterpolation allows smooth lerping between optimization levels
+                // it approaches 1 rapidly when reaching the end of the loop
+                // if (optimisation > 4)
+                //     return altDensity; //lerp(altDensity, heightGradient, optiInterpolation);
 
                 // Calculate meta shape density
                 // Duplicated code to create a meta layer of clouds
                 // TODO: Fully seperate from normal noise settings
-                //float3 shapeSamplePosMeta = shapeSamplePos / 10;
-                //shapeSamplePosMeta.y /= 1.5;
                 float3 shapeSamplePosMeta = uvw;
                 shapeSamplePosMeta /= 10;
-                shapeSamplePosMeta.y /= 1.5;
-                shapeSamplePosMeta.y += (shapeSamplePosMeta.x + shapeSamplePosMeta.y) / 1000;
+                shapeSamplePosMeta.y /= 3;
+                // shapeSamplePosMeta.y += (shapeSamplePosMeta.x + shapeSamplePosMeta.y) / 1000;
 
 
                 float4 shapeNoiseMeta = NoiseTex.SampleLevel(samplerNoiseTex, shapeSamplePosMeta , mipLevel);
@@ -284,30 +293,32 @@ Shader "Hidden/Clouds"
 
                 // Add altitude density
                 // TODO: standardize height gradient inside density
-                baseShapeDensityMeta += altitudeDensity(heightPercent) * heightGradient;
+                baseShapeDensityMeta += altDensity;
 
-                // return (baseShapeDensityMeta / 2);
-
-                // NOTE: performance factor
-                //if (cheap)
-                //    return baseShapeDensityMeta * heightGradient;
+                if (optimisation > 3 || (baseShapeDensityMeta < -1 - densityOffset / 10))
+                    return baseShapeDensityMeta;// lerp(baseShapeDensityMeta, altDensity, optiInterpolation);
 
                 // Attempt at writing a shockwave around the plane
                 // float dist = length(rayPos - playerPosition);
                 // baseShapeDensityMeta -= sin(dist / 1000) * 1000 / pow(dist / 10, 3);
 
                 // Try early returning, might be ignored by compiler since forking is hard on GPU
-                if (baseShapeDensityMeta < -1)
-                    return baseShapeDensityMeta * heightGradient / 2;
+                // if (baseShapeDensityMeta < -1)
+                //     return baseShapeDensityMeta;
 
                 // Calculate base shape density
                 float4 shapeNoise = NoiseTex.SampleLevel(samplerNoiseTex, shapeSamplePos, mipLevel);
                 float4 normalizedShapeWeights = shapeNoiseWeights / dot(shapeNoiseWeights, 1);
-                float shapeFBM = dot(shapeNoise, normalizedShapeWeights) * heightGradient;
-                float baseShapeDensity = baseShapeDensityMeta * heightGradient + shapeFBM + densityOffset * .1;
+                float shapeFBM = dot(shapeNoise, normalizedShapeWeights);// * heightGradient;
+                float baseShapeDensity = shapeFBM + densityOffset * .1;
 
-                // Save sampling from detail tex if shape density <= 0
-                if (baseShapeDensity > 0 && !cheap) {
+                baseShapeDensity += baseShapeDensityMeta;
+
+                if (optimisation > 2)
+                    return lerp(baseShapeDensity, baseShapeDensityMeta, optiInterpolation);
+                if (baseShapeDensity > detailNoiseWeight || baseShapeDensity < 0)
+                    return (baseShapeDensity);
+
                     // Sample detail noise
                     float3 detailSamplePos = uvw*detailNoiseScale + float3(time*.4,-time,time*0.1)*detailSpeed;
                     float4 detailNoise = DetailNoiseTex.SampleLevel(samplerDetailNoiseTex, detailSamplePos, mipLevel);
@@ -317,11 +328,11 @@ Shader "Hidden/Clouds"
                     // Subtract detail noise from base shape (weighted by inverse density so that edges get eroded more than centre)
                     float oneMinusShape = 1 - shapeFBM;
                     float detailErodeWeight = oneMinusShape * oneMinusShape * oneMinusShape;
-                    float cloudDensity = baseShapeDensity - (1-detailFBM) * detailErodeWeight * detailNoiseWeight;
+                    float cloudDensity = baseShapeDensity - (1-detailFBM) * detailErodeWeight * detailNoiseWeight; 
+                    cloudDensity *= densityMultiplier / 2;
+                    // cloudDensity = baseShapeDensity - cloudDensity;
 
-                    return cloudDensity * densityMultiplier / 2;
-                } 
-                return baseShapeDensity / 2;
+                return lerp(cloudDensity, baseShapeDensity, optiInterpolation);
             }
 
             // Calculate proportion of light that reaches the given point from the lightsource
@@ -329,6 +340,10 @@ Shader "Hidden/Clouds"
 
                 // The position inside the shadow map
                 float2 samplePos = (((position.y / -_WorldSpaceLightPos0.y) * _WorldSpaceLightPos0).xz + position.xz) / 3203 + 0.5;
+
+                if (saturate(samplePos).x != samplePos.x || saturate(samplePos.y) != samplePos.y)
+                    return float4(1,1,1,1);
+                // samplePos += sin(position.x + position.y) / 10000 + cos((samplePos.x - samplePos.y) * 10000) / 10000;
 
                 // The absorption layers of the shadow map
                 float4 heights = ShadowMap.SampleLevel(samplerShadowMapLinearRepeat, samplePos, 0);
@@ -407,7 +422,7 @@ Shader "Hidden/Clouds"
 
                     // TODO: check if branching is worth it
                     for (int step = 0; step < numStepsLight; step ++) {
-                        float density = sampleDensity(position, false);
+                        float density = sampleDensity(position, 0, 0);
                         totalDensity += max(0, density * stepSize);
 
                         //Variable stepping, using the noise like a signed-distance-function
@@ -496,7 +511,7 @@ Shader "Hidden/Clouds"
                 // while (dstTravelled < distanceToTravelWithDepth) {
 
                     // Sample current density
-                    float density = sampleDensity(position, false);
+                    float density = sampleDensity(position, 3, 0);
                     // Modify the stepsize for variable stepping (less artifacts)
                     float dst = stepSize * max(abs(density), 1);
 
@@ -691,33 +706,50 @@ Shader "Hidden/Clouds"
 
                 // float3 cloudColor2 = 0;
 
-                while (dstTravelled < dstLimit) {
-                    rayPos = entryPoint + rayDir * dstTravelled;
-                    float density = sampleDensity(rayPos, false);
+                // Render distance = pow(10, 10)
+                for (int i = 1; i < 10; i++)
+                {
+                    float localMax = min(dstToBox + dstLimit, pow(8, i)) - dstToBox;
+                    float start = dstTravelled;
+                    while (dstTravelled < localMax) {
 
-                    float real_density = max(density, godRaysIntensity);
-                    float4 lm = lightmarch(rayPos);
-                    float lightTransmittance = lm.a;
+                        float loopRatioLinear = localMax == start ? 0 : (dstTravelled - start) / (localMax - start);
+                        float loopRatio = loopRatioLinear * loopRatioLinear;
+                        loopRatio *= loopRatio;
+                        loopRatio *= loopRatio;
+                        loopRatio *= loopRatio;
 
-                    // Debug tools for shadow maps:
-                    // cloudColor2 = lm.rgb;
-                    // transmittance = 0;
-                    // lightEnergy = lightTransmittance;
-                    // break;
+                        rayPos = entryPoint + rayDir * dstTravelled;
+                        float density = sampleDensity(rayPos, i, loopRatio);
 
-                    if (lightTransmittance > 0.3 || density > godRaysIntensity)
-                    {
-                        transmittance *= beer(real_density * stepSize * lightAbsorptionThroughCloud);
-                        lightEnergy += real_density * stepSize * transmittance * lightTransmittance;
+                        float real_density = max(density, godRaysIntensity);
+                        float4 lm = lightmarch(rayPos);
+                        float lightTransmittance = lm.a;
+
+                        // Debug tools for shadow maps:
+                        // cloudColor2 = lm.rgb;
+                        // transmittance = 0;
+                        // lightEnergy = lightTransmittance;
+                        // break;
+
+                        if (lightTransmittance > 0.3 || density > godRaysIntensity)
+                        {
+                            transmittance *= beer(real_density * stepSize * lightAbsorptionThroughCloud);
+                            lightEnergy += real_density * stepSize * transmittance * lightTransmittance;
+                        }
+                        dstTravelled += stepSize * max(abs(density), 0.05);
+                        avgDstTravelled += stepSize * max(abs(density), 0.05) * transmittance;
+                        // Exit early if T is close to zero as further samples won't affect the result much
+                        if (transmittance < 0.01 || dstTravelled > dstLimit) {
+                            //transmittance -= 0.01;
+                            break;
+                        }
                     }
-
                     // Exit early if T is close to zero as further samples won't affect the result much
-                    if (transmittance < 0.01) {
-                        transmittance -= 0.01;
+                    if (transmittance < 0.01 || dstTravelled > dstLimit) {
+                        //transmittance -= 0.01;
                         break;
                     }
-                    dstTravelled += stepSize * max(abs(density), 0.05);
-                    avgDstTravelled += stepSize * max(abs(density), 0.05) * transmittance;
                 }
 
                 float currentDepth;
