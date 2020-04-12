@@ -230,7 +230,7 @@ GameObject:
   - component: {fileID: 80616150}
   - component: {fileID: 80616149}
   - component: {fileID: 80616148}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -325,7 +325,7 @@ GameObject:
   - component: {fileID: 129159059}
   - component: {fileID: 129159058}
   - component: {fileID: 129159057}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1041,7 +1041,7 @@ GameObject:
   - component: {fileID: 541440709}
   - component: {fileID: 541440708}
   - component: {fileID: 541440707}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1338,7 +1338,7 @@ GameObject:
   - component: {fileID: 1142398882}
   - component: {fileID: 1142398881}
   - component: {fileID: 1142398880}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1421,7 +1421,7 @@ GameObject:
   - component: {fileID: 1166806715}
   - component: {fileID: 1166806717}
   - component: {fileID: 1166806719}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Shadow Caster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1459,7 +1459,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 256
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 470f7ae1a1b7ec349a5e9559bc869ec0, type: 2}
   m_TargetDisplay: 0
@@ -1736,7 +1736,7 @@ MonoBehaviour:
   backScattering: 0.33
   baseBrightness: 1
   phaseFactor: 0.83
-  godRaysIntensity: 1.02
+  godRaysIntensity: 2.26
   timeScale: 3
   baseSpeed: 0.3
   detailSpeed: 2
@@ -2226,7 +2226,7 @@ GameObject:
   - component: {fileID: 1728296858}
   - component: {fileID: 1728296857}
   - component: {fileID: 1728296856}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
