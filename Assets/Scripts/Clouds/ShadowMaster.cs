@@ -14,7 +14,6 @@ public class ShadowMaster : MonoBehaviour
 
     void Start() {
         shadowCamera = GetComponent<Camera>();
-        shadowCamera.forceIntoRenderTexture = true;
         shadowCamera.enabled = false;
 
         EditorApplication.playModeStateChanged += HandleOnPlayModeChanged;
@@ -22,13 +21,14 @@ public class ShadowMaster : MonoBehaviour
 
     [ImageEffectOpaque]
     void OnRenderImage (RenderTexture src, RenderTexture dest) {
+        src.DiscardContents(true, false);
         if (material)
             Graphics.Blit (src, dest, material);
         else
             Graphics.Blit (src, dest);
     }
 
-    void Update() {
+    void LateUpdate() {
         if ((Application.isPlaying == true && updateInGame)
         || (Application.isPlaying == false && updateInEditor))
         {
