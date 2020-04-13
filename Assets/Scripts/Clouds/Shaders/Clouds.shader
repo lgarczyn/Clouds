@@ -93,6 +93,7 @@ Shader "Hidden/Clouds"
             Texture2D<float4> ShadowMap;
 
             static const float4 shadowMapAbsorptionLevels = float4(0.6, 0.4, 0.2, 0.01);
+            float shadowMapSize;
 
             SamplerState samplerNoiseTex;
             SamplerState samplerDetailNoiseTex;
@@ -253,8 +254,7 @@ Shader "Hidden/Clouds"
                 float time = _Time.x * timeScale;
                 float3 size = boundsMax - boundsMin;
                 float3 boundsCentre = (boundsMin+boundsMax) * .5;
-                float3 uvw = (size * .5 + rayPos) * baseScale * scale;
-                float3 shapeSamplePos = uvw + float3(time,time*0.1,time*0.2) * baseSpeed;
+                float3 uvw = (float3(3200, 1400, 3200) / 2 + rayPos) * baseScale * scale;
 
                 // Sets a gradient tapering off at the top and bottom, avoiding ugly flat spots (which tend to look buggy)
                 float gMin = 0.2;
@@ -268,14 +268,14 @@ Shader "Hidden/Clouds"
                 // optimisation is set based on distance, and always uniform to avoid branching
                 // later iterations of the loops have higher optimization values
                 // if (optimisation > 5)
-                //     return heightGradient;
+                //     return 40;
 
                 float altDensity = altitudeDensity(heightPercent) / 2 * heightGradient;
 
                 // optiInterpolation allows smooth lerping between optimization levels
                 // it approaches 1 rapidly when reaching the end of the loop
-                // if (optimisation > 4)
-                //     return altDensity; //lerp(altDensity, heightGradient, optiInterpolation);
+                if (optimisation > 4)
+                    return lerp(altDensity, 40, optiInterpolation);
 
                 // Calculate meta shape density
                 // Duplicated code to create a meta layer of clouds
@@ -295,6 +295,9 @@ Shader "Hidden/Clouds"
                 // TODO: standardize height gradient inside density
                 baseShapeDensityMeta += altDensity;
 
+                if (optimisation > 3)
+                    return lerp(baseShapeDensityMeta, altDensity, optiInterpolation);
+
                 if (optimisation > 3 || (baseShapeDensityMeta < -1 - densityOffset / 10))
                     return baseShapeDensityMeta;// lerp(baseShapeDensityMeta, altDensity, optiInterpolation);
 
@@ -307,6 +310,7 @@ Shader "Hidden/Clouds"
                 //     return baseShapeDensityMeta;
 
                 // Calculate base shape density
+                float3 shapeSamplePos = uvw + float3(time,time*0.1,time*0.2) * baseSpeed;
                 float4 shapeNoise = NoiseTex.SampleLevel(samplerNoiseTex, shapeSamplePos, mipLevel);
                 float4 normalizedShapeWeights = shapeNoiseWeights / dot(shapeNoiseWeights, 1);
                 float shapeFBM = dot(shapeNoise, normalizedShapeWeights);// * heightGradient;
@@ -339,10 +343,8 @@ Shader "Hidden/Clouds"
             float4 lightmarch(float3 position) {
 
                 // The position inside the shadow map
-                float2 samplePos = (((position.y / -_WorldSpaceLightPos0.y) * _WorldSpaceLightPos0).xz + position.xz) / 3203 + 0.5;
+                float2 samplePos = (((position.y / -_WorldSpaceLightPos0.y) * _WorldSpaceLightPos0).xz + position.xz) / (shadowMapSize * 2) + 0.5;
 
-                if (saturate(samplePos).x != samplePos.x || saturate(samplePos.y) != samplePos.y)
-                    return float4(1,1,1,1);
                 // samplePos += sin(position.x + position.y) / 10000 + cos((samplePos.x - samplePos.y) * 10000) / 10000;
 
                 // The absorption layers of the shadow map
@@ -548,8 +550,8 @@ Shader "Hidden/Clouds"
                 }
                 // If the last thresholds were never reach, set them to either 1, or to the ratio of the depth
                 // Currently uneeded, as light never reaches past the end of the container
-                // for (;targetIt < 4; targetIt++)
-                //     result.xyzw = result.yzwx; //(result * float4(0,1,1,1) + float4(dstTravelled / distanceToTravel, 0,0,0)).yzwx;
+                for (;targetIt < 4; targetIt++)
+                    result.xyzw = result.yzwx; //(result * float4(0,1,1,1) + float4(dstTravelled / distanceToTravel, 0,0,0)).yzwx;
 
                 // Inverse the result, for use in the lightmarch function
                 return 1 - saturate(result);
@@ -674,6 +676,11 @@ Shader "Hidden/Clouds"
                 // Normalize ray because of perspective interpolation
                 float distancePerspectiveModifier = length(rayDir);
                 rayDir = rayDir / distancePerspectiveModifier;
+
+                // If an object was drawn except the skybox
+                // Usually the plane
+                // TODO: add check that the object is inside the skybox ?
+                bool hiddenByObject =  abs(depth - (_ProjectionParams.z - _ProjectionParams.y)) > 100;
                 // Normalize depth the same way
                 depth *= distancePerspectiveModifier;
 
@@ -709,12 +716,12 @@ Shader "Hidden/Clouds"
                 // Render distance = pow(10, 10)
                 for (int i = 1; i < 10; i++)
                 {
-                    float localMax = min(dstToBox + dstLimit, pow(8, i)) - dstToBox;
+                    float localMax = min(dstToBox + dstLimit, pow(9, i));
                     float start = dstTravelled;
-                    while (dstTravelled < localMax) {
+                    while (dstTravelled + dstToBox < localMax) {
 
                         float loopRatioLinear = localMax == start ? 0 : (dstTravelled - start) / (localMax - start);
-                        float loopRatio = loopRatioLinear * loopRatioLinear;
+                        float loopRatio = 0;//loopRatioLinear * loopRatioLinear;
                         loopRatio *= loopRatio;
                         loopRatio *= loopRatio;
                         loopRatio *= loopRatio;
@@ -740,13 +747,13 @@ Shader "Hidden/Clouds"
                         dstTravelled += stepSize * max(abs(density), 0.05);
                         avgDstTravelled += stepSize * max(abs(density), 0.05) * transmittance;
                         // Exit early if T is close to zero as further samples won't affect the result much
-                        if (transmittance < 0.01 || dstTravelled > dstLimit) {
+                        if (transmittance < 0.01) {
                             //transmittance -= 0.01;
                             break;
                         }
                     }
                     // Exit early if T is close to zero as further samples won't affect the result much
-                    if (transmittance < 0.01 || dstTravelled > dstLimit) {
+                    if (transmittance < 0.01) {
                         //transmittance -= 0.01;
                         break;
                     }
@@ -760,8 +767,6 @@ Shader "Hidden/Clouds"
 
                 // Skybox and plane
                 fixed3 backgroundCol = tex2D(_MainTex, uv);
-                // TODO: fix false negative when outside of container
-                bool hiddenByObject = abs(dstLimit - dstInsideBox) > 1;
 
                 // Add shading to non-cloud objects
                 // Could be done better by decoding normals

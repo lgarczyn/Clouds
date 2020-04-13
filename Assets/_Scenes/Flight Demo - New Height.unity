@@ -1455,7 +1455,7 @@ Camera:
   far clip plane: 2000
   field of view: 90
   orthographic: 1
-  orthographic size: 1600
+  orthographic size: 666.66
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -1573,7 +1573,7 @@ Transform:
   m_GameObject: {fileID: 1230604921}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3200, y: 1400, z: 3200}
+  m_LocalScale: {x: 1600, y: 1400, z: 1600}
   m_Children: []
   m_Father: {fileID: 1331973712}
   m_RootOrder: 0
@@ -1591,6 +1591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 4563114451573410}
+  increaseOnPlay: 1
 --- !u!1 &1306023367
 GameObject:
   m_ObjectHideFlags: 0
@@ -1728,15 +1729,15 @@ MonoBehaviour:
   detailNoiseWeight: 1.5
   detailNoiseWeights: {x: 2.57, y: 0.89, z: 1.37}
   detailOffset: {x: 130.23, y: 0, z: 0}
-  numStepsLight: 100
-  lightAbsorptionThroughCloud: 0.3
-  lightAbsorptionTowardSun: 1
+  numStepsLight: 147
+  lightAbsorptionThroughCloud: 0.24
+  lightAbsorptionTowardSun: 1.49
   darknessThreshold: 0.28
   forwardScattering: 0.72
   backScattering: 0.33
   baseBrightness: 1
   phaseFactor: 0.83
-  godRaysIntensity: 2.26
+  godRaysIntensity: 3.74
   timeScale: 3
   baseSpeed: 0.3
   detailSpeed: 2

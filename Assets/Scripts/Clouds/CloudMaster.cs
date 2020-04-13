@@ -108,6 +108,7 @@ public class CloudMaster : MonoBehaviour {
 
         }
         material.SetTexture("ShadowMap", shadowMap);
+        material.SetFloat("shadowMapSize", shadowMapper.GetSize());
         material.SetVector ("boundsMin", container.position - container.localScale / 2);
         material.SetVector ("boundsMax", container.position + container.localScale / 2);
 

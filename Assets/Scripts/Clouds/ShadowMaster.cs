@@ -28,11 +28,11 @@ public class ShadowMaster : MonoBehaviour
             Graphics.Blit (src, dest);
     }
 
-    void LateUpdate() {
+    public void Update() {
         if ((Application.isPlaying == true && updateInGame)
         || (Application.isPlaying == false && updateInEditor))
         {
-            shadowCamera.Render();
+            ForceRender();
         }
     }
 
@@ -41,11 +41,21 @@ public class ShadowMaster : MonoBehaviour
         material = src;
     }
 
+    public float GetSize()
+    {
+        return shadowCamera.orthographicSize;
+    }
+
+    public void ForceRender()
+    {
+        shadowCamera.Render();
+    }
+
     void HandleOnPlayModeChanged(PlayModeStateChange mode)
     {
         if (mode == PlayModeStateChange.EnteredEditMode || mode == PlayModeStateChange.EnteredPlayMode)
         {
-            shadowCamera.Render();
+            ForceRender();
         }
     }
 }
