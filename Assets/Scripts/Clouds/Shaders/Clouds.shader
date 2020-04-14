@@ -305,8 +305,10 @@ Shader "Hidden/Clouds"
                 if (optimisation > 3)
                     return lerp(baseShapeDensityMeta, heightDensityOffset + 3, optiInterpolation);
 
-                if (optimisation > 3 || (baseShapeDensityMeta < -1 - densityOffset / 10))
-                    return baseShapeDensityMeta;// lerp(baseShapeDensityMeta, altDensity, optiInterpolation);
+                // Early returning if further calculations is unlikely to affect results
+                // TODO: actually check if early returning is worth it
+                if (baseShapeDensityMeta < -1 - densityOffset / 10)
+                    return baseShapeDensityMeta;
 
                 // Attempt at writing a shockwave around the plane
                 // float dist = length(rayPos - playerPosition);
@@ -327,8 +329,8 @@ Shader "Hidden/Clouds"
 
                 if (optimisation > 2)
                     return lerp(baseShapeDensity, baseShapeDensityMeta, optiInterpolation);
-                if (baseShapeDensity > detailNoiseWeight || baseShapeDensity < 0)
-                    return (baseShapeDensity);
+                // if (baseShapeDensity > detailNoiseWeight || baseShapeDensity < 0)
+                //     return (baseShapeDensity);
 
                 // Sample detail noise
                 float3 detailSamplePos = uvw*detailNoiseScale + float3(time*.4,-time,time*0.1)*detailSpeed;
@@ -364,9 +366,6 @@ Shader "Hidden/Clouds"
                 float2 res;
                 // The height of the layer above and below, for interpolation
                 float2 range;
-                // The colors of the layer above and below, for debugging
-                float3 colorA;
-                float3 colorB;
 
                 // Selecting the right range, absorption and colors
                 // Could be done with a few one-liners at the price of readability
@@ -374,36 +373,26 @@ Shader "Hidden/Clouds"
                 {
                     range = float2(1, heights.x);
                     res = float2(1, shadowMapAbsorptionLevels.x);
-                    colorA = float3(1,0,0);
-                    colorB = float3(1,1,0);
                 }
                 else if (height > heights.y)
                 {
                     range = float2(heights.x, heights.y);
                     res = float2(shadowMapAbsorptionLevels.x,shadowMapAbsorptionLevels.y);
-                    colorA = float3(1,1,0);
-                    colorB = float3(0,1,0);
                 }
                 else if (height > heights.z)
                 {
                     range = float2(heights.y, heights.z);
                     res = float2(shadowMapAbsorptionLevels.y,shadowMapAbsorptionLevels.z);
-                    colorA = float3(0,1,0);
-                    colorB = float3(0,1,1);
                 }
                 else if (height > heights.w)
                 {
                     range = float2(heights.z, heights.w);
                     res = float2(shadowMapAbsorptionLevels.z,shadowMapAbsorptionLevels.w);
-                    colorA = float3(0,1,1);
-                    colorB = float3(0,0,1);
                 }
                 else
                 {
                     range = float2(heights.w, 0);
                     res = float2(shadowMapAbsorptionLevels.w, 0);
-                    colorA = float3(0,0,1);
-                    colorB = float3(0,0,0);
                 }
 
                 // The ratio of the layers above and below for mixing
@@ -413,11 +402,8 @@ Shader "Hidden/Clouds"
 
                 // Interpolation of the absorption layers
                 float absorption = lerp(res.x, res.y, rangeRatio);
-                // Exponential interpolation alternative, minor difference but expensive
-                // Float absorption = beer(lerp(reverse_beer(res.x), reverse_beer(res.y), rangeRatio));
 
-                float3 color = lerp(colorA, colorB, rangeRatio);
-                return float4(color, lerp(darknessThreshold, 1, absorption));
+                return lerp(darknessThreshold, 1, absorption);
 
                 // The previous lightmarching code, for result comparison
                 // Could be used with the shadowmaps as a hinting mechanism for more dynamic shadow maps
@@ -450,16 +436,12 @@ Shader "Hidden/Clouds"
                     }
                     float transmittance = beer(totalDensity * lightAbsorptionTowardSun);
 
-                    // float3 color = lerp(float3(0,1,0), float3(1,0,0), abs(transmittance - absorption));
-
-                    color.r = transmittance > res.x ? 0.5 + transmittance - res.x : 0.5;
-                    color.b = transmittance < res.y ? 0.5 + res.y - transmittance : 0.5;
-                    color.g = 0.5; 
-                    return float4(color, lerp(darknessThreshold, 1, transmittance));
+                    return lerp(darknessThreshold, 1, transmittance);
                 }
             }
 
             // Attempts at compressing ordered float4
+            // currently unused and unworking
             float4 compressLightData(float4 data) {
                 //data.gba = lerp(data.rgb, float3(1,1,1), data.gba);
                 //data.gba = lerp(data.rgb, data.gba, data.gba)
@@ -700,27 +682,17 @@ Shader "Hidden/Clouds"
                 // point of intersection with the cloud container
                 float3 entryPoint = rayPos + rayDir * dstToBox;
 
-                // random starting offset (makes low-res results noisy rather than jagged/glitchy, which is nicer)
-                // removed, as signed distance function approach works better
-                //float randomOffset = BlueNoise.SampleLevel(samplerBlueNoise, squareUV(i.uv*3), 0);
-                //randomOffset *= rayOffsetStrength;
-                //float dstTravelled = randomOffset;
-
                 // Adds an empty sphere around the camera
                 // float dstTravelled = max(400 - dstToBox, 0);
                 float dstTravelled = 0;
                 float avgDstTravelled = 0;
                 float dstLimit = min(depth-dstToBox, dstInsideBox);
 
-                // Allows a more consistent stepsize, at the cost of artifacts in a vignette patter
-                //float stepSize = stepSizeRender * distancePerspectiveModifier;
                 float stepSize = stepSizeRender;
 
                 // March through volume:
                 float transmittance = 1;
                 float lightEnergy = 0;
-
-                // float3 cloudColor2 = 0;
 
                 // max render distance = lodMinDistance + pow(lodLevelMagnitude, 5)
                 // but container limits the raycasting anyway
@@ -739,14 +711,7 @@ Shader "Hidden/Clouds"
                         float real_stepSize = stepSize * max(abs(density), 0.05);
 
                         float real_density = max(density, godRaysIntensity);
-                        float4 lm = lightmarch(rayPos);
-                        float lightTransmittance = lm.a;
-
-                        // Debug tools for shadow maps:
-                        // cloudColor2 = lm.rgb;
-                        // transmittance = 0;
-                        // lightEnergy = lightTransmittance;
-                        // break;
+                        float lightTransmittance = lightmarch(rayPos);
 
                         if (lightTransmittance > 0.3 || density > godRaysIntensity)
                         {
@@ -784,7 +749,6 @@ Shader "Hidden/Clouds"
                 // Increase light energy contrast
                 // TODO: make power a parameter
                 lightEnergy *= 0.5;
-                // lightEnergy = cinematicGradient(lightEnergy, 2);
 
                 // Add clouds
                 // When absorption (1 - transmittance) is low, less light energy has accumulated
