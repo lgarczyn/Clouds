@@ -401,6 +401,8 @@ Shader "Hidden/Clouds"
 
                 // The ratio of the layers above and below for mixing
                 float rangeRatio = (height - range.x) / (range.y - range.x);
+                if (isfinite(rangeRatio) == false)
+                    rangeRatio = 0;
 
                 // Interpolation of the absorption layers
                 float absorption = lerp(res.x, res.y, rangeRatio);
