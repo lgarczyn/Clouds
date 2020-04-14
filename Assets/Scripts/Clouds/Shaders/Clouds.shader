@@ -253,7 +253,7 @@ Shader "Hidden/Clouds"
                 // Calculate texture sample positions
                 float time = _Time.x * timeScale;
                 float3 size = boundsMax - boundsMin;
-                float3 boundsCentre = (boundsMin+boundsMax) * .5;
+                float3 boundsCentre = boundsMin + size * .5;
                 float3 uvw = (float3(3200, 1400, 3200) / 2 + rayPos) * baseScale * scale;
 
                 // Sets a gradient tapering off at the top and bottom, avoiding ugly flat spots (which tend to look buggy)
