@@ -81,6 +81,7 @@ public class CloudMaster : MonoBehaviour {
     public Material material;
 
     bool isMaterialDirty = true;
+    private Vector3 lastContainerPosition;
 
     // The texture generators for the shader
     // TODO: standardize noise generators
@@ -123,8 +124,14 @@ public class CloudMaster : MonoBehaviour {
             }
 
         }
-        material.SetVector ("boundsMin", container.position - container.localScale / 2);
-        material.SetVector ("boundsMax", container.position + container.localScale / 2);
+
+        // If the container has drifted by a large amount
+        if (Vector3.Distance(lastContainerPosition, container.position) > container.localScale.magnitude / 4)
+        {
+            material.SetVector ("boundsMin", container.position - container.localScale / 2);
+            material.SetVector ("boundsMax", container.position + container.localScale / 2);
+            lastContainerPosition = container.position;
+        }
 
         // Blit does the following:
         // - sets _MainTex property on material to the source texture
