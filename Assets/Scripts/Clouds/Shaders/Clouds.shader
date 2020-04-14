@@ -110,6 +110,7 @@ Shader "Hidden/Clouds"
             // Pretty self-explanatory noise combination parameters
             float densityMultiplier;
             float densityOffset;
+            float minTransmittance;
             float scale;
             float detailNoiseScale;
             float detailNoiseWeight;
@@ -123,6 +124,9 @@ Shader "Hidden/Clouds"
             float densityTaperUpStart;
             float densityTaperDownStrength;
             float densityTaperDownStart;
+            // LOD Settings
+            float lodLevelMagnitude;
+            float lodMinDistance;
             // Private parameters to recreate altitudeMap's range
             float altitudeOffset;
             float altitudeMultiplier;
@@ -718,12 +722,13 @@ Shader "Hidden/Clouds"
 
                 // float3 cloudColor2 = 0;
 
-                // Render distance = pow(10, 10)
+                // max render distance = lodMinDistance + pow(lodLevelMagnitude, 5)
+                // but container limits the raycasting anyway
                 for (int i = 1; i < 6; i++)
                 {
-                    float lodMaxDistance = pow(9, i);
-                    float localMax = min(dstToBox + dstLimit, lodMaxDistance);
-                    while (dstTravelled + dstToBox < localMax) {
+                    float lodMaxDistance = lodMinDistance + pow(lodLevelMagnitude, i);
+                    float localMax = min(dstToBox + dstLimit, lodMaxDistance) - dstToBox;
+                    while (dstTravelled < localMax) {
 
                         float loopRatioLinear = (dstTravelled + dstToBox) / (lodMaxDistance);
                         float loopRatio = loopRatioLinear * loopRatioLinear;
@@ -751,17 +756,16 @@ Shader "Hidden/Clouds"
                         dstTravelled += stepSize * max(abs(density), 0.05);
                         avgDstTravelled += stepSize * max(abs(density), 0.05) * transmittance;
                         // Exit early if T is close to zero as further samples won't affect the result much
-                        if (transmittance < 0.01) {
-                            //transmittance -= 0.01;
+                        if (transmittance < minTransmittance) {
                             break;
                         }
                     }
-                    // Exit early if T is close to zero as further samples won't affect the result much
-                    if (transmittance < 0.01) {
-                        //transmittance -= 0.01;
+                    // Truly exit the loop
+                    if (transmittance < minTransmittance) {
                         break;
                     }
                 }
+                transmittance = saturate((transmittance - minTransmittance) / (1 - minTransmittance));
 
                 float currentDepth;
                 if (dstInsideBox > 0)

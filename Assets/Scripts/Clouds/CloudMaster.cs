@@ -14,6 +14,12 @@ public class CloudMaster : MonoBehaviour {
     public float stepSizeRender = 8;
     public float rayOffsetStrength;
     public Texture2D heightGradientTex;
+    public float minTransmittance = 0.05f;
+
+    [Header (headerDecoration + "LOD Settings" + headerDecoration)]
+    [Range (0, 15)]
+    public float lodLevelMagnitude = 9;
+    public float lodMinDistance = 200;
 
     [Header (headerDecoration + "Base Shape" + headerDecoration)]
     public float cloudScale = 1;
@@ -23,6 +29,7 @@ public class CloudMaster : MonoBehaviour {
     public Vector2 heightOffset;
     public Vector4 shapeNoiseWeights;
 
+    [Header (headerDecoration + "Limit Taper Settings" + headerDecoration)]
     [Range (0, 100)]
     public float densityTaperUpStrength = 30;
     [Range (0, 1)]
@@ -153,6 +160,11 @@ public class CloudMaster : MonoBehaviour {
         int width = Mathf.CeilToInt (size.x);
         int height = Mathf.CeilToInt (size.y);
         int depth = Mathf.CeilToInt (size.z);
+
+        material.SetFloat("minTransmittance", minTransmittance);
+
+        material.SetFloat("lodLevelMagnitude", lodLevelMagnitude);
+        material.SetFloat("lodMinDistance", lodMinDistance);
 
         material.SetFloat ("scale", cloudScale);
         material.SetFloat ("densityMultiplier", densityMultiplier);

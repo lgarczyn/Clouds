@@ -1719,6 +1719,9 @@ MonoBehaviour:
   stepSizeRender: 5
   rayOffsetStrength: 9.19
   heightGradientTex: {fileID: 0}
+  minTransmittance: 0.1
+  lodLevelMagnitude: 6.42
+  lodMinDistance: 300
   cloudScale: 7.5
   densityMultiplier: 2.69
   densityOffset: -4.75
