@@ -781,8 +781,11 @@ Shader "Hidden/Clouds"
                 // lightEnergy = cinematicGradient(lightEnergy, 2);
 
                 // Add clouds
-                // fixed3 col = cloudColor2;
-                fixed3 col = getCloudColor(avgDstTravelled, lightEnergy);
+                // When absorption (1 - transmittance) is low, less light energy has accumulated
+                // This value accounts for that
+                float lowAbsorptionLightBalance = transmittance == 1 ? 1 : 1 / (1-transmittance);
+                // Get the cloud color depending on distance, and adjusted light energy
+                fixed3 col = getCloudColor(avgDstTravelled, lightEnergy * lowAbsorptionLightBalance);
 
                 // Add background or plane/objects
                 col = lerp(col, backgroundCol, transmittance);
