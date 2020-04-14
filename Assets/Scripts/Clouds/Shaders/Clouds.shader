@@ -118,6 +118,11 @@ Shader "Hidden/Clouds"
             float4 shapeNoiseWeights;
             // Used for silverlining while looking at the sun, currently broken
             float4 phaseParams;
+            // Parameters for the altitude taper
+            float densityTaperUpStrength;
+            float densityTaperUpStart;
+            float densityTaperDownStrength;
+            float densityTaperDownStart;
             // Private parameters to recreate altitudeMap's range
             float altitudeOffset;
             float altitudeMultiplier;
@@ -261,21 +266,18 @@ Shader "Hidden/Clouds"
                 float gMax = 0.8;
                 float heightPercent = (rayPos.y - boundsMin.y) / size.y;
 
-                //float heightGradient = min(min(heightPercent - gMin, gMax - heightPercent) * 2 + 1, 1);
-                float heightGradient = saturate(remap(heightPercent, 0.0, gMin, 0, 1)) * saturate(remap(heightPercent, 1, gMax, 0, 1));
-                // heightGradient *= heightGradient;
+                float heightDensityOffset = min(
+                    min(
+                        (heightPercent - densityTaperDownStart) * densityTaperDownStrength,
+                        (densityTaperUpStart - heightPercent) * densityTaperUpStrength
+                    ), 0);
 
                 // optimisation is set based on distance, and always uniform to avoid branching
                 // later iterations of the loops have higher optimization values
-                // if (optimisation > 5)
-                //     return 40;
-
-                float altDensity = altitudeDensity(heightPercent) / 2 * heightGradient;
-
-                // optiInterpolation allows smooth lerping between optimization levels
-                // it approaches 1 rapidly when reaching the end of the loop
                 if (optimisation > 4)
-                    return lerp(altDensity, 40, optiInterpolation);
+                    return heightDensityOffset + 3;
+
+                float altDensity = altitudeDensity(heightPercent) / 2 + heightDensityOffset;
 
                 // Calculate meta shape density
                 // Duplicated code to create a meta layer of clouds
@@ -285,18 +287,19 @@ Shader "Hidden/Clouds"
                 shapeSamplePosMeta.y /= 3;
                 // shapeSamplePosMeta.y += (shapeSamplePosMeta.x + shapeSamplePosMeta.y) / 1000;
 
-
                 float4 shapeNoiseMeta = NoiseTex.SampleLevel(samplerNoiseTex, shapeSamplePosMeta , mipLevel);
                 float4 normalizedShapeWeightsMeta = shapeNoiseWeights / dot(shapeNoiseWeights, 1);
-                float shapeFBMMeta = dot(shapeNoiseMeta, normalizedShapeWeightsMeta) * heightGradient;
+                float shapeFBMMeta = dot(shapeNoiseMeta, normalizedShapeWeightsMeta);
                 float baseShapeDensityMeta = (shapeFBMMeta + densityOffset * .1 - 0.1) * 15;
 
                 // Add altitude density
                 // TODO: standardize height gradient inside density
                 baseShapeDensityMeta += altDensity;
 
+                // optiInterpolation allows smooth lerping between optimization levels
+                // it approaches 1 rapidly when reaching the end of the loop
                 if (optimisation > 3)
-                    return lerp(baseShapeDensityMeta, altDensity, optiInterpolation);
+                    return lerp(baseShapeDensityMeta, heightDensityOffset + 3, optiInterpolation);
 
                 if (optimisation > 3 || (baseShapeDensityMeta < -1 - densityOffset / 10))
                     return baseShapeDensityMeta;// lerp(baseShapeDensityMeta, altDensity, optiInterpolation);
@@ -313,7 +316,7 @@ Shader "Hidden/Clouds"
                 float3 shapeSamplePos = uvw + float3(time,time*0.1,time*0.2) * baseSpeed;
                 float4 shapeNoise = NoiseTex.SampleLevel(samplerNoiseTex, shapeSamplePos, mipLevel);
                 float4 normalizedShapeWeights = shapeNoiseWeights / dot(shapeNoiseWeights, 1);
-                float shapeFBM = dot(shapeNoise, normalizedShapeWeights);// * heightGradient;
+                float shapeFBM = dot(shapeNoise, normalizedShapeWeights);
                 float baseShapeDensity = shapeFBM + densityOffset * .1;
 
                 baseShapeDensity += baseShapeDensityMeta;
@@ -323,18 +326,18 @@ Shader "Hidden/Clouds"
                 if (baseShapeDensity > detailNoiseWeight || baseShapeDensity < 0)
                     return (baseShapeDensity);
 
-                    // Sample detail noise
-                    float3 detailSamplePos = uvw*detailNoiseScale + float3(time*.4,-time,time*0.1)*detailSpeed;
-                    float4 detailNoise = DetailNoiseTex.SampleLevel(samplerDetailNoiseTex, detailSamplePos, mipLevel);
-                    float3 normalizedDetailWeights = detailWeights / dot(detailWeights, 1);
-                    float detailFBM = dot(detailNoise, normalizedDetailWeights);
+                // Sample detail noise
+                float3 detailSamplePos = uvw*detailNoiseScale + float3(time*.4,-time,time*0.1)*detailSpeed;
+                float4 detailNoise = DetailNoiseTex.SampleLevel(samplerDetailNoiseTex, detailSamplePos, mipLevel);
+                float3 normalizedDetailWeights = detailWeights / dot(detailWeights, 1);
+                float detailFBM = dot(detailNoise, normalizedDetailWeights);
 
-                    // Subtract detail noise from base shape (weighted by inverse density so that edges get eroded more than centre)
-                    float oneMinusShape = 1 - shapeFBM;
-                    float detailErodeWeight = oneMinusShape * oneMinusShape * oneMinusShape;
-                    float cloudDensity = baseShapeDensity - (1-detailFBM) * detailErodeWeight * detailNoiseWeight; 
-                    cloudDensity *= densityMultiplier / 2;
-                    // cloudDensity = baseShapeDensity - cloudDensity;
+                // Subtract detail noise from base shape (weighted by inverse density so that edges get eroded more than centre)
+                float oneMinusShape = 1 - shapeFBM;
+                float detailErodeWeight = oneMinusShape * oneMinusShape * oneMinusShape;
+                float cloudDensity = baseShapeDensity - (1-detailFBM) * detailErodeWeight * detailNoiseWeight; 
+                cloudDensity *= densityMultiplier / 2;
+                // cloudDensity = baseShapeDensity - cloudDensity;
 
                 return lerp(cloudDensity, baseShapeDensity, optiInterpolation);
             }

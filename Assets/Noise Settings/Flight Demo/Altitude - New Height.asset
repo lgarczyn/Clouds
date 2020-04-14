@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Altitude - New Height
   m_EditorClassIdentifier: 
   highestLayerAltitude: 0.952
-  lowestLayerAltitude: 0.5
+  lowestLayerAltitude: 0.326
   linearOffsetStart: -0.73
   linearOffsetFactor: 9.61
   powerOffsetPower: 2.4

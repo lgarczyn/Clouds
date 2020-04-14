@@ -23,6 +23,15 @@ public class CloudMaster : MonoBehaviour {
     public Vector2 heightOffset;
     public Vector4 shapeNoiseWeights;
 
+    [Range (0, 100)]
+    public float densityTaperUpStrength = 30;
+    [Range (0, 1)]
+    public float densityTaperUpStart = 0.8f;
+    [Range (0, 100)]
+    public float densityTaperDownStrength = 30;
+    [Range (0, 1)]
+    public float densityTaperDownStart = 0.2f;
+
     [Header (headerDecoration + "Detail" + headerDecoration)]
     public float detailNoiseScale = 10;
     public float detailNoiseWeight = .1f;
@@ -139,6 +148,7 @@ public class CloudMaster : MonoBehaviour {
         material.SetFloat("altitudeOffset", altitudeMapGen.altitudeOffset);
         material.SetFloat("altitudeMultiplier", altitudeMapGen.altitudeMultiplier);
 
+        // Marching settings
         Vector3 size = container.localScale;
         int width = Mathf.CeilToInt (size.x);
         int height = Mathf.CeilToInt (size.y);
@@ -160,6 +170,11 @@ public class CloudMaster : MonoBehaviour {
         material.SetVector ("detailWeights", detailNoiseWeights);
         material.SetVector ("shapeNoiseWeights", shapeNoiseWeights);
         material.SetVector ("phaseParams", new Vector4 (forwardScattering, backScattering, baseBrightness, phaseFactor));
+
+        material.SetFloat("densityTaperUpStrength", densityTaperUpStrength);
+        material.SetFloat("densityTaperUpStart", densityTaperUpStart);
+        material.SetFloat("densityTaperDownStrength", densityTaperDownStrength);
+        material.SetFloat("densityTaperDownStart", densityTaperDownStart);
 
         material.SetVector ("boundsMin", container.position - container.localScale / 2);
         material.SetVector ("boundsMax", container.position + container.localScale / 2);

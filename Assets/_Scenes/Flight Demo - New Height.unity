@@ -1725,6 +1725,10 @@ MonoBehaviour:
   shapeOffset: {x: 29.4, y: -47.87, z: 1.11}
   heightOffset: {x: 0, y: 0}
   shapeNoiseWeights: {x: 2.51, y: 0.89, z: 1.37, w: 0.57}
+  densityTaperUpStrength: 50.8
+  densityTaperUpStart: 0.885
+  densityTaperDownStrength: 65.9
+  densityTaperDownStart: 0.157
   detailNoiseScale: 4
   detailNoiseWeight: 1.5
   detailNoiseWeights: {x: 2.57, y: 0.89, z: 1.37}
