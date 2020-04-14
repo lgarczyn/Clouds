@@ -713,11 +713,9 @@ Shader "Hidden/Clouds"
                         float real_density = max(density, godRaysIntensity);
                         float lightTransmittance = lightmarch(rayPos);
 
-                        if (lightTransmittance > 0.3 || density > godRaysIntensity)
-                        {
-                            transmittance *= beer(real_density * stepSize * lightAbsorptionThroughCloud);
-                            lightEnergy += real_density * stepSize * transmittance * lightTransmittance;
-                        }
+                        transmittance *= beer(real_density * stepSize * lightAbsorptionThroughCloud);
+                        lightEnergy += real_density * stepSize * transmittance * lightTransmittance;
+
                         dstTravelled += stepSize * max(abs(density), 0.05);
                         avgDstTravelled += stepSize * max(abs(density), 0.05) * transmittance;
                         // Exit early if T is close to zero as further samples won't affect the result much
