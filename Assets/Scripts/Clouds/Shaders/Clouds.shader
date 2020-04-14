@@ -719,20 +719,19 @@ Shader "Hidden/Clouds"
                 // float3 cloudColor2 = 0;
 
                 // Render distance = pow(10, 10)
-                for (int i = 1; i < 10; i++)
+                for (int i = 1; i < 6; i++)
                 {
-                    float localMax = min(dstToBox + dstLimit, pow(9, i));
-                    float start = dstTravelled;
+                    float lodMaxDistance = pow(9, i);
+                    float localMax = min(dstToBox + dstLimit, lodMaxDistance);
                     while (dstTravelled + dstToBox < localMax) {
 
-                        float loopRatioLinear = localMax == start ? 0 : (dstTravelled - start) / (localMax - start);
-                        float loopRatio = 0;//loopRatioLinear * loopRatioLinear;
-                        loopRatio *= loopRatio;
-                        loopRatio *= loopRatio;
+                        float loopRatioLinear = (dstTravelled + dstToBox) / (lodMaxDistance);
+                        float loopRatio = loopRatioLinear * loopRatioLinear;
                         loopRatio *= loopRatio;
 
                         rayPos = entryPoint + rayDir * dstTravelled;
                         float density = sampleDensity(rayPos, i, loopRatio);
+                        float real_stepSize = stepSize * max(abs(density), 0.05);
 
                         float real_density = max(density, godRaysIntensity);
                         float4 lm = lightmarch(rayPos);
