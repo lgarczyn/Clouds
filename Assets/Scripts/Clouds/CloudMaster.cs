@@ -116,8 +116,6 @@ public class CloudMaster : MonoBehaviour {
             }
 
         }
-        material.SetTexture("ShadowMap", shadowMap);
-        material.SetFloat("shadowMapSize", shadowMapper.GetSize());
         material.SetVector ("boundsMin", container.position - container.localScale / 2);
         material.SetVector ("boundsMax", container.position + container.localScale / 2);
 
@@ -147,6 +145,8 @@ public class CloudMaster : MonoBehaviour {
         material.SetTexture ("AltitudeMap", altitudeMapGen.altitudeMap);
         material.SetFloat("altitudeOffset", altitudeMapGen.altitudeOffset);
         material.SetFloat("altitudeMultiplier", altitudeMapGen.altitudeMultiplier);
+        material.SetTexture("ShadowMap", shadowMap);
+        material.SetFloat("shadowMapSize", shadowMapper.GetSize());
 
         // Marching settings
         Vector3 size = container.localScale;
