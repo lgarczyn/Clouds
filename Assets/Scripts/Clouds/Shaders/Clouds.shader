@@ -24,6 +24,7 @@ Shader "Hidden/Clouds"
 
             #include "UnityCG.cginc"
             #include "Assets/Scripts/Clouds/Shaders/CloudDebug.cginc"
+            float4 _MainTex_TexelSize;
 
             // vertex input: position, UV
             struct appdata {
@@ -52,7 +53,7 @@ Shader "Hidden/Clouds"
 
                 #if UNITY_UV_STARTS_AT_TOP
                 if (_MainTex_TexelSize.y < 0)
-                        uv.y = 1-uv.y;
+                    v.uv.y = 1-v.uv.y;
                 #endif
                 // Render settings
                 float near = _ProjectionParams.y;
@@ -65,7 +66,7 @@ Shader "Hidden/Clouds"
                 // float3(v.uv, 0) * float3(2,-2,0) - float3(1,-1,0); 
                 o.pos = float4(pos, 1);
                 if (_ProjectionParams.x < 0)
-                    pos.y = 1 - pos.y;
+                    pos.y = -pos.y;
                 o.uv = v.uv;
 
                 if (unity_OrthoParams.w)
