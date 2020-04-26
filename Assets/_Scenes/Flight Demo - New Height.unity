@@ -2476,6 +2476,7 @@ GameObject:
   - component: {fileID: 4614795025184420}
   - component: {fileID: 114412279917838310}
   - component: {fileID: 1340265131733853}
+  - component: {fileID: 1340265131733854}
   m_Layer: 0
   m_Name: MouseFlightRig
   m_TagString: Untagged
@@ -2496,6 +2497,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollPower: 1
+  maxScroll: 4
+  minScroll: -0.8
+--- !u!114 &1340265131733854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1340265131733852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c30b286289f22d47a2f7654573be573, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1507817480001132
 GameObject:
   m_ObjectHideFlags: 0
