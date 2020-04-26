@@ -522,7 +522,7 @@ Shader "Hidden/Clouds"
                     if (totalDensity >= targetDensity.x)
                     {
                         // Calculate the current ratio of the distance to cross:
-                        float res = dstTravelled / distanceToTravel;
+                        float res = (dstTravelled + stepSize * 3) / distanceToTravel;
 
                         // Tries to calculate the approximate distance after which threshold was met
                         // minimal difference, so disabled for now
