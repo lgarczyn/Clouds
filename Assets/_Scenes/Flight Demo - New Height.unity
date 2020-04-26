@@ -1736,9 +1736,9 @@ MonoBehaviour:
   detailNoiseWeight: 1.5
   detailNoiseWeights: {x: 2.57, y: 0.89, z: 1.37}
   detailOffset: {x: 130.23, y: 0, z: 0}
-  numStepsLight: 739
-  lightAbsorptionThroughCloud: 0.2
-  lightAbsorptionTowardSun: 2.52
+  numStepsLight: 684
+  lightAbsorptionThroughCloud: 0.17
+  lightAbsorptionTowardSun: 1.49
   darknessThreshold: 0.28
   forwardScattering: 0.72
   backScattering: 0.33
