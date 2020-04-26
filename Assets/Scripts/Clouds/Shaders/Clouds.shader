@@ -98,6 +98,7 @@ Shader "Hidden/Clouds"
             Texture2D<float> AltitudeMap;
             // 2D texture containing the heights of 4 absorption levels
             Texture2D<float4> ShadowMap;
+            float4 ShadowMap_TexelSize;
 
             static const float4 shadowMapAbsorptionLevels = float4(0.6, 0.4, 0.2, 0.01);
             float shadowMapSize;
@@ -105,7 +106,7 @@ Shader "Hidden/Clouds"
             SamplerState samplerNoiseTex;
             SamplerState samplerDetailNoiseTex;
             SamplerState samplerAltitudeMap;
-            SamplerState samplerShadowMapLinearRepeat;
+            SamplerState samplerShadowMapPointRepeat;
 
             sampler2D _MainTex;
             sampler2D _CameraDepthTexture;
@@ -355,19 +356,10 @@ Shader "Hidden/Clouds"
                 return lerp(cloudDensity, baseShapeDensity, optiInterpolation);
             }
 
-            // Calculate proportion of light that reaches the given point from the lightsource
-            float4 lightmarch(float3 position) {
-
-                // The position inside the shadow map
-                float2 samplePos = (((position.y / -_WorldSpaceLightPos0.y) * _WorldSpaceLightPos0).xz + position.xz) / (shadowMapSize * 2) + 0.5;
-
-                // samplePos += sin(position.x + position.y) / 10000 + cos((samplePos.x - samplePos.y) * 10000) / 10000;
-
+            float sampleLightmap(float2 uv, float height)
+            {
                 // The absorption layers of the shadow map
-                float4 heights = ShadowMap.SampleLevel(samplerShadowMapLinearRepeat, samplePos, 0);
-
-                // The height inside the container, from 0 to 1
-                float height = ((position.y - boundsMin.y) / (boundsMax.y - boundsMin.y) );
+                float4 heights = ShadowMap.SampleLevel(samplerShadowMapPointRepeat, uv, 0);
 
                 // The absorption fo the layer above and below
                 float2 res;
@@ -410,41 +402,82 @@ Shader "Hidden/Clouds"
                 // Interpolation of the absorption layers
                 float absorption = lerp(res.x, res.y, rangeRatio);
 
-                return lerp(darknessThreshold, 1, absorption);
+                return absorption;
+            }
 
-                // The previous lightmarching code, for result comparison
-                // Could be used with the shadowmaps as a hinting mechanism for more dynamic shadow maps
-                {
+            // Calculate proportion of light that reaches the given point from the lightsource
+            float lightmarch(float3 position) {
 
-                    float3 dirToLight = _WorldSpaceLightPos0.xyz;
-                    float dstInsideBox = (position.y - boundsMin.y);//rayBoxDst(boundsMin, boundsMax, position, 1/dirToLight).y;
+                // The position inside the shadow map
+                float2 samplePos =
+                    (((position.y / -_WorldSpaceLightPos0.y) * _WorldSpaceLightPos0).xz + position.xz) / (shadowMapSize * 2) + 0.5;
+                // The height inside the container, from 0 to 1
+                float height = ((position.y - boundsMin.y) / (boundsMax.y - boundsMin.y) );
+                // samplePos += sin(position.x + position.y) / 10000 + cos((samplePos.x - samplePos.y) * 10000) / 10000;
 
-                    float stepSize = dstInsideBox/numStepsLight;
-                    position += dirToLight * stepSize * .5;
-                    float totalDensity = 0;
-                    float dstTravelled = 0;
+                if (height < 0)
+                    return (0);
+                if (height > 1)
+                    return (1);
 
-                    // TODO: check if branching is worth it
-                    for (int step = 0; step < numStepsLight; step ++) {
-                        float density = sampleDensity(position, 0, 0);
-                        totalDensity += max(0, density * stepSize);
+                // float ret_tm = sampleLightmap(samplePos, height);
+                // return lerp(darknessThreshold, 1, ret_tm);
+                
+                float3 st = float3(1 / 512.0, 1 / 512.0, 0);
 
-                        //Variable stepping, using the noise like a signed-distance-function
-                        //Works well if hard contrast is avoided
-                        float dst = stepSize * max(abs(density), 1);
-                        position += dirToLight * dst;
-                        dstTravelled += dst;
-                        //Try early returning if less than 0.01 is passing through
-                        // if (totalDensity > -log(0.2) * lightAbsorptionTowardSun)
-                        //     break;
-                        //Due to variable stepping, skip if end is reached
-                        if (dstTravelled >= dstInsideBox)
-                            break;
-                    }
-                    float transmittance = beer(totalDensity * lightAbsorptionTowardSun);
+                // float2 ratio = (samplePos % ShadowMap_TexelSize.xy + ShadowMap_TexelSize.xy) % ShadowMap_TexelSize.xy;
+                // float2 ratio = samplePos % ShadowMap_TexelSize.xy;
 
-                    return lerp(darknessThreshold, 1, transmittance);
+                float2 realUV = samplePos * 512;
+                float2 ratio = frac(realUV);
+                float2 uv = floor(realUV) / 512;
+
+                // TODO: use Gather instead of sample to reduce sample by 2
+                float TL = sampleLightmap(uv, height);
+                float TR = sampleLightmap(uv + st.xz, height);
+                float BL = sampleLightmap(uv + st.zy, height);
+                float BR = sampleLightmap(uv + st.xy, height);
+
+                float T = lerp(TL, TR, ratio.x);
+                float B = lerp(BL, BR, ratio.x);
+
+                float ret = lerp(T, B, ratio.y);
+
+                return lerp(darknessThreshold, 1, ret);
+            }
+            
+            // The previous lightmarching code, for result comparison
+            // Could be used with the shadowmaps as a hinting mechanism for more dynamic shadow maps
+            float4 old_lightmarch(float3 position)
+            {
+                float3 dirToLight = _WorldSpaceLightPos0.xyz;
+                float dstInsideBox = (position.y - boundsMin.y);//rayBoxDst(boundsMin, boundsMax, position, 1/dirToLight).y;
+
+                float stepSize = dstInsideBox/numStepsLight;
+                position += dirToLight * stepSize * .5;
+                float totalDensity = 0;
+                float dstTravelled = 0;
+
+                // TODO: check if branching is worth it
+                for (int step = 0; step < numStepsLight; step ++) {
+                    float density = sampleDensity(position, 0, 0);
+                    totalDensity += max(0, density * stepSize);
+
+                    //Variable stepping, using the noise like a signed-distance-function
+                    //Works well if hard contrast is avoided
+                    float dst = stepSize * max(abs(density), 1);
+                    position += dirToLight * dst;
+                    dstTravelled += dst;
+                    //Try early returning if less than 0.01 is passing through
+                    // if (totalDensity > -log(0.2) * lightAbsorptionTowardSun)
+                    //     break;
+                    //Due to variable stepping, skip if end is reached
+                    if (dstTravelled >= dstInsideBox)
+                        break;
                 }
+                float transmittance = beer(totalDensity * lightAbsorptionTowardSun);
+
+                return lerp(darknessThreshold, 1, transmittance);
             }
 
             // Attempts at compressing ordered float4
@@ -522,7 +555,7 @@ Shader "Hidden/Clouds"
                     if (totalDensity >= targetDensity.x)
                     {
                         // Calculate the current ratio of the distance to cross:
-                        float res = (dstTravelled + stepSize * 3) / distanceToTravel;
+                        float res = (dstTravelled + stepSize * 4) / distanceToTravel;
 
                         // Tries to calculate the approximate distance after which threshold was met
                         // minimal difference, so disabled for now
