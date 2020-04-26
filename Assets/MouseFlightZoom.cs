@@ -6,12 +6,24 @@ using UnityEngine;
 public class MouseFlightZoom : MonoBehaviour
 {
     public float scrollPower = 1f;
-
+    public float maxScroll = 4f;
+    public float minScroll = -0.8f;
     float _padScroll;
+    Vector3 _zoomOrigin;
+    float _currentZoom = 0;
+
+    private void Start()
+    {
+        _zoomOrigin = GetComponent<MFlight.MouseFlightController>().offset;
+    }
+
     private void Update() {
         if (MouseScroll != 0)
         {
-            GetComponent<MFlight.MouseFlightController>().offset *= 1 - MouseScroll * scrollPower ;
+            _currentZoom -= MouseScroll * scrollPower / 10;
+            _currentZoom = Mathf.Clamp(_currentZoom, minScroll, maxScroll);
+            Vector3 zoomOffset = _zoomOrigin * Mathf.Pow(2, _currentZoom);
+            GetComponent<MFlight.MouseFlightController>().offset = zoomOffset;
         }
     }
 
@@ -21,10 +33,9 @@ public class MouseFlightZoom : MonoBehaviour
         {
             float mouseScroll = Input.GetAxis("Mouse ScrollWheel");
 
-            if (mouseScroll != 0)
-                return mouseScroll;
-            else
-                return _padScroll;
+            float scroll = mouseScroll == 0 ? _padScroll : mouseScroll;
+
+            return Mathf.Clamp(scroll, -1, 1);
         }
     }
 
@@ -32,7 +43,7 @@ public class MouseFlightZoom : MonoBehaviour
     void OnGUI()
     {
         if (Event.current.type == EventType.ScrollWheel)
-            _padScroll = -Event.current.delta.y / 100;
+            _padScroll = Event.current.delta.y;
         else
             _padScroll = 0;
     }
