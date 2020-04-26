@@ -49,6 +49,11 @@ Shader "Hidden/Clouds"
             // Vertex shader that procedurally outputs a full screen triangle
             v2f vert(appdata v)
             {
+
+                #if UNITY_UV_STARTS_AT_TOP
+                if (_MainTex_TexelSize.y < 0)
+                        uv.y = 1-uv.y;
+                #endif
                 // Render settings
                 float near = _ProjectionParams.y;
                 float far = _ProjectionParams.z;
@@ -59,6 +64,8 @@ Shader "Hidden/Clouds"
                 // TODO: cheaper way to calculate clip pos, but sometimes breaks
                 // float3(v.uv, 0) * float3(2,-2,0) - float3(1,-1,0); 
                 o.pos = float4(pos, 1);
+                if (_ProjectionParams.x < 0)
+                    pos.y = 1 - pos.y;
                 o.uv = v.uv;
 
                 if (unity_OrthoParams.w)
@@ -67,15 +74,15 @@ Shader "Hidden/Clouds"
                     o.viewVector = mul(unity_CameraToWorld, float4(viewVector,0));
                     // o.viewVector = -_WorldSpaceLightPos0;
 
-                    float4 worldPos = float4(float2(pos.x, -pos.y) * orthoSize, near, 1);
+                    float4 worldPos = float4(float2(pos.x, pos.y) * orthoSize, near, 1);
                     o.worldPos = mul(unity_CameraToWorld, float4(worldPos));
                 }
                 else
                 {
-                    float3 viewVector = mul(unity_CameraInvProjection, float4(float2(pos.x, -pos.y), 1, -1));
+                    float3 viewVector = mul(unity_CameraInvProjection, float4(float2(pos.x, pos.y), 1, -1));
                     o.viewVector = mul(unity_CameraToWorld, float4(viewVector,0));
 
-                    float3 worldPos = mul(unity_CameraInvProjection, float4(float2(pos.x, -pos.y), near, -1));
+                    float3 worldPos = mul(unity_CameraInvProjection, float4(float2(pos.x, pos.y), near, -1));
                     o.worldPos = mul(unity_CameraToWorld, float4(worldPos,1));
                 }
 
@@ -594,10 +601,14 @@ Shader "Hidden/Clouds"
                 float nonlin_depth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(uv));
 
                 // TODO: figure out why negative near planes break the depths
-                if (unity_OrthoParams.w && UNITY_REVERSED_Z)
+                if (unity_OrthoParams.w)
+                {
+                    #ifdef UNITY_REVERSED_Z
                     return lerp(_ProjectionParams.z, _ProjectionParams.y, nonlin_depth) - _ProjectionParams.y;
-                else if (unity_OrthoParams.w)
+                    #else
                     return lerp(_ProjectionParams.y, _ProjectionParams.z, nonlin_depth) - _ProjectionParams.y;
+                    #endif
+                }
                 else
                     return LinearEyeDepth(nonlin_depth);
             }
@@ -671,7 +682,7 @@ Shader "Hidden/Clouds"
                 // If an object was drawn except the skybox
                 // Usually the plane
                 // TODO: add check that the object is inside the skybox ?
-                bool hiddenByObject =  abs(depth - (_ProjectionParams.z - _ProjectionParams.y)) > 100;
+                bool hiddenByObject = depth < _ProjectionParams.z;
                 // Normalize depth the same way
                 depth *= distancePerspectiveModifier;
 
