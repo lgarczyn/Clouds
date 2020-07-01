@@ -717,7 +717,7 @@ Shader "Hidden/Clouds"
                 // If an object was drawn except the skybox
                 // Usually the plane
                 // TODO: add check that the object is inside the skybox ?
-                bool hiddenByObject = depth < _ProjectionParams.z;
+                bool hiddenByObject = false; abs(depth - _ProjectionParams.z) > 10;
                 // Normalize depth the same way
                 depth *= distancePerspectiveModifier;
 
