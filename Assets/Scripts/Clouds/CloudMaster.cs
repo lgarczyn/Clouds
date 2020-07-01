@@ -24,6 +24,7 @@ public class CloudMaster : MonoBehaviour {
     [Header (headerDecoration + "Base Shape" + headerDecoration)]
     public float cloudScale = 1;
     public float densityMultiplier = 1;
+    public float visualDensityMultiplier = 1;
     public float densityOffset;
     public Vector3 shapeOffset;
     public Vector2 heightOffset;
@@ -175,6 +176,7 @@ public class CloudMaster : MonoBehaviour {
 
         material.SetFloat ("scale", cloudScale);
         material.SetFloat ("densityMultiplier", densityMultiplier);
+        material.SetFloat ("visualDensityMultiplier", visualDensityMultiplier);
         material.SetFloat ("densityOffset", densityOffset);
         material.SetFloat ("lightAbsorptionThroughCloud", lightAbsorptionThroughCloud);
         material.SetFloat ("lightAbsorptionTowardSun", lightAbsorptionTowardSun);

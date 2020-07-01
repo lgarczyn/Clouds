@@ -16,7 +16,9 @@ public class ShadowMaster : MonoBehaviour
         shadowCamera = GetComponent<Camera>();
         shadowCamera.enabled = false;
 
+        #if UNITY_EDITOR
         EditorApplication.playModeStateChanged += HandleOnPlayModeChanged;
+        #endif
     }
 
     [ImageEffectOpaque]
@@ -30,7 +32,8 @@ public class ShadowMaster : MonoBehaviour
 
     public void Update() {
         if ((Application.isPlaying == true && updateInGame)
-        || (Application.isPlaying == false && updateInEditor))
+        || (Application.isPlaying == false && updateInEditor)
+        || Time.frameCount == 10)
         {
             ForceRender();
         }
@@ -51,6 +54,8 @@ public class ShadowMaster : MonoBehaviour
         shadowCamera.Render();
     }
 
+    #if UNITY_EDITOR
+
     void HandleOnPlayModeChanged(PlayModeStateChange mode)
     {
         if (mode == PlayModeStateChange.EnteredEditMode || mode == PlayModeStateChange.EnteredPlayMode)
@@ -58,4 +63,6 @@ public class ShadowMaster : MonoBehaviour
             ForceRender();
         }
     }
+
+    #endif
 }

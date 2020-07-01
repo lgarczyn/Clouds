@@ -118,6 +118,7 @@ Shader "Hidden/Clouds"
             int3 mapSize;
             // Pretty self-explanatory noise combination parameters
             float densityMultiplier;
+            float visualDensityMultiplier;
             float densityOffset;
             float minTransmittance;
             float scale;
@@ -753,13 +754,14 @@ Shader "Hidden/Clouds"
 
                         rayPos = entryPoint + rayDir * dstTravelled;
                         float density = sampleDensity(rayPos, i, loopRatio);
-                        float real_stepSize = stepSize * max(abs(density), 0.05);
+                        float real_stepSize = clamp(stepSize * 500, 0, 1) * max(abs(density), 0.05);
 
                         float real_density = max(density, godRaysIntensity);
                         float lightTransmittance = lightmarch(rayPos);
 
                         transmittance *= beer(real_density * stepSize * lightAbsorptionThroughCloud);
-                        lightEnergy += real_density * stepSize * transmittance * lightTransmittance;
+                        lightEnergy += real_density * stepSize * transmittance * lightTransmittance * 0.5;
+                        transmittance /= sqrt(beer(real_density * stepSize * lightAbsorptionThroughCloud));
 
                         dstTravelled += stepSize * max(abs(density), 0.05);
                         avgDstTravelled += stepSize * max(abs(density), 0.05) * transmittance;
