@@ -1,5 +1,5 @@
 
-Shader "Hidden/Clouds"
+Shader "Raymarching/Clouds"
 {
 
     Properties
