@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode, ImageEffectAllowedInSceneView]
+[ExecuteInEditMode]
 public class CloudMaster : MonoBehaviour {
     const string headerDecoration = " --- ";
     [Header (headerDecoration + "Main" + headerDecoration)]
@@ -73,12 +73,13 @@ public class CloudMaster : MonoBehaviour {
     public Color colB;
     public Color colC;
 
-    [Header (headerDecoration + "Shadow Mapping" + headerDecoration)]
-    public ShadowMaster shadowMapper;
-    public RenderTexture shadowMap;
+    // [Header (headerDecoration + "Shadow Mapping" + headerDecoration)]
+    // public ShadowMaster shadowMapper;
+    // public RenderTexture shadowMap;
 
     // Internal
-    [HideInInspector]
+    // [HideInInspector]
+    [Header ("Output Material")]
     public Material material;
 
     bool isMaterialDirty = true;
@@ -104,8 +105,7 @@ public class CloudMaster : MonoBehaviour {
         Application.targetFrameRate = 60;
     }
 
-    [ImageEffectOpaque]
-    private void OnRenderImage (RenderTexture src, RenderTexture dest) {
+    private void Update () {
 
         if (isMaterialDirty || material == null || Application.isPlaying == false)
         {
@@ -117,13 +117,6 @@ public class CloudMaster : MonoBehaviour {
             }
 
             SetParams();
-            SetDebugParams ();
-
-            if (shadowMapper)
-            {
-                shadowMapper.SetMaterial(material);
-            }
-
         }
 
         // If the container has drifted by a large amount
@@ -133,13 +126,6 @@ public class CloudMaster : MonoBehaviour {
             material.SetVector ("boundsMax", container.position + container.localScale / 2);
             lastContainerPosition = container.position;
         }
-
-        // Blit does the following:
-        // - sets _MainTex property on material to the source texture
-        // - sets the render target to the destination texture
-        // - draws a full-screen quad
-        // This copies the src texture to the dest texture, with whatever modifications the shader makes
-        Graphics.Blit (src, dest, material);
     }
 
     void SetParams ()
@@ -160,8 +146,8 @@ public class CloudMaster : MonoBehaviour {
         material.SetTexture ("AltitudeMap", altitudeMapGen.altitudeMap);
         material.SetFloat("altitudeOffset", altitudeMapGen.altitudeOffset);
         material.SetFloat("altitudeMultiplier", altitudeMapGen.altitudeMultiplier);
-        material.SetTexture("ShadowMap", shadowMap);
-        material.SetFloat("shadowMapSize", shadowMapper.GetSize());
+        // material.SetTexture("ShadowMap", shadowMap);
+        // material.SetFloat("shadowMapSize", shadowMapper.GetSize());
 
         // Marching settings
         Vector3 size = container.localScale;
