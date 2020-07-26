@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlanktonController : MonoBehaviour
 {
-    public Transform camera;
+    new public Transform camera;
     void LateUpdate()
     {
         transform.position = camera.position;
