@@ -710,14 +710,43 @@ Shader "Hidden/Clouds"
                         float density = sampleDensity(rayPos, i, loopRatio);
                         float real_stepSize = stepSize * max(abs(density), 0.05);
 
-                        float real_density = max(density, godRaysIntensity);
+                        float real_density = clamp(density * 500, godRaysIntensity, 1);
                         float lightTransmittance = lightmarch(rayPos);
 
-                        transmittance *= beer(real_density * stepSize * lightAbsorptionThroughCloud);
-                        lightEnergy += real_density * stepSize * transmittance * lightTransmittance;
+                        if (i == 4)
+                        {
+                            lightTransmittance = (
+                                lightTransmittance
+                                + lightmarch(rayPos + rayDir * stepSize )
+                            ) / 2;
+                        }
+                        if (i == 3)
+                        {
+                            lightTransmittance = (
+                                lightTransmittance
+                                + lightmarch(rayPos + rayDir * stepSize )
+                                + lightmarch(rayPos + rayDir * stepSize * 2)
+                            ) / 3;
+                        }
+                        if (i < 3)
+                        {
+                            lightTransmittance = (
+                                lightTransmittance
+                                + lightmarch(rayPos + rayDir * stepSize / 2)
+                                + lightmarch(rayPos + rayDir * stepSize)
+                                + lightmarch(rayPos + rayDir * stepSize * 1.3)
+                                + lightmarch(rayPos + rayDir * stepSize * 2)
+                            ) / 5;
+                        }
 
-                        dstTravelled += stepSize * max(abs(density), 0.05);
-                        avgDstTravelled += stepSize * max(abs(density), 0.05) * transmittance;
+                        transmittance *= beer(real_density * real_stepSize * lightAbsorptionThroughCloud);
+
+                        transmittance *= beer(real_density * real_stepSize * lightAbsorptionThroughCloud);
+                        lightEnergy += real_density * real_stepSize * transmittance * lightTransmittance;
+                        transmittance /= beer(real_density * real_stepSize * lightAbsorptionThroughCloud);
+
+                        dstTravelled += real_stepSize;
+                        avgDstTravelled += real_stepSize * transmittance;
                         // Exit early if T is close to zero as further samples won't affect the result much
                         if (transmittance < minTransmittance) {
                             break;

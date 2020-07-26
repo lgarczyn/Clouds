@@ -1716,11 +1716,11 @@ MonoBehaviour:
   shader: {fileID: 4800000, guid: 7e5c642fc5a7742a1b257a0e6f60352b, type: 3}
   container: {fileID: 1230604923}
   cloudTestParams: {x: 0.9, y: 7.29, z: 0.64}
-  stepSizeRender: 5
+  stepSizeRender: 6.43
   rayOffsetStrength: 9.19
   heightGradientTex: {fileID: 0}
   minTransmittance: 0.1
-  lodLevelMagnitude: 6.42
+  lodLevelMagnitude: 8.48
   lodMinDistance: 300
   cloudScale: 7.5
   densityMultiplier: 2.69
@@ -1733,18 +1733,18 @@ MonoBehaviour:
   densityTaperDownStrength: 65.9
   densityTaperDownStart: 0.157
   detailNoiseScale: 4
-  detailNoiseWeight: 1.5
+  detailNoiseWeight: 0.25
   detailNoiseWeights: {x: 2.57, y: 0.89, z: 1.37}
   detailOffset: {x: 130.23, y: 0, z: 0}
   numStepsLight: 147
   lightAbsorptionThroughCloud: 0.24
-  lightAbsorptionTowardSun: 1.49
+  lightAbsorptionTowardSun: 1.17
   darknessThreshold: 0.28
   forwardScattering: 0.72
   backScattering: 0.33
   baseBrightness: 1
   phaseFactor: 0.83
-  godRaysIntensity: 3.74
+  godRaysIntensity: 4.31
   timeScale: 3
   baseSpeed: 0.3
   detailSpeed: 2
