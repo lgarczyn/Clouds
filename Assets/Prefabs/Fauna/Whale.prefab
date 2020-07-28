@@ -208,6 +208,7 @@ MonoBehaviour:
   depopDistance: 1000
   maxRepopDistance: 900
   minRepopDistance: 800
+  containerHeightRepopRange: 0.8
   dirChangeSpeed: 1
   speed: 20
   rotationSpeed: 0.2
@@ -318,6 +319,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.16588974
       objectReference: {fileID: 0}
+    - target: {fileID: -5716681864270162303, guid: 035a8130f4329504aaa80f75dc72628d,
+        type: 3}
+      propertyPath: m_Animation
+      value: 
+      objectReference: {fileID: 8450349730359761091, guid: 035a8130f4329504aaa80f75dc72628d,
+        type: 3}
     - target: {fileID: -5644294578197581074, guid: 035a8130f4329504aaa80f75dc72628d,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -462,6 +469,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: humpback_whale_model_baked_animation
+      objectReference: {fileID: 0}
+    - target: {fileID: -96216609086997662, guid: 035a8130f4329504aaa80f75dc72628d,
+        type: 3}
+      propertyPath: m_SkinnedMotionVectors
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 598126259335770281, guid: 035a8130f4329504aaa80f75dc72628d,
         type: 3}
