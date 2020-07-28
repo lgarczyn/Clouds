@@ -8,6 +8,7 @@ public class CloudMaster : MonoBehaviour {
     [Header (headerDecoration + "Main" + headerDecoration)]
     public Shader shader;
     public Transform container;
+    public Transform player;
     public Vector3 cloudTestParams;
 
     [Header (headerDecoration + "March settings" + headerDecoration)]
@@ -127,12 +128,13 @@ public class CloudMaster : MonoBehaviour {
         }
 
         // If the container has drifted by a large amount
-        if (Vector3.Distance(lastContainerPosition, container.position) > container.localScale.magnitude / 4)
-        {
+        // if (Vector3.Distance(lastContainerPosition, container.position) > container.localScale.magnitude / 4)
+        // {
             material.SetVector ("boundsMin", container.position - container.localScale / 2);
             material.SetVector ("boundsMax", container.position + container.localScale / 2);
+            material.SetVector ("playerPosition", player.position);
             lastContainerPosition = container.position;
-        }
+        // }
 
         // Blit does the following:
         // - sets _MainTex property on material to the source texture
@@ -140,6 +142,8 @@ public class CloudMaster : MonoBehaviour {
         // - draws a full-screen quad
         // This copies the src texture to the dest texture, with whatever modifications the shader makes
         Graphics.Blit (src, dest, material);
+
+        // dest.
     }
 
     void SetParams ()
