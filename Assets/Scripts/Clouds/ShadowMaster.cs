@@ -11,10 +11,13 @@ public class ShadowMaster : MonoBehaviour
     public Camera shadowCamera;
     public bool updateInEditor = true;
     public bool updateInGame = true;
+    int startingFrame = 0;
 
     void Start() {
         shadowCamera = GetComponent<Camera>();
         shadowCamera.enabled = false;
+
+        startingFrame = Time.frameCount;
 
         #if UNITY_EDITOR
         EditorApplication.playModeStateChanged += HandleOnPlayModeChanged;
@@ -33,7 +36,7 @@ public class ShadowMaster : MonoBehaviour
     public void Update() {
         if ((Application.isPlaying == true && updateInGame)
         || (Application.isPlaying == false && updateInEditor)
-        || Time.frameCount == 10)
+        || Time.frameCount == startingFrame + 2)
         {
             ForceRender();
         }
