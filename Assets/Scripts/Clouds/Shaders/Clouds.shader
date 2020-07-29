@@ -723,7 +723,7 @@ Shader "Hidden/Clouds"
                 // If an object was drawn except the skybox
                 // Usually the plane
                 // TODO: add check that the object is inside the skybox ?
-                bool hiddenByObject = false; abs(depth - _ProjectionParams.z) > 10;
+                bool hiddenByObject = abs(depth - _ProjectionParams.z) > 100;
                 // Normalize depth the same way
                 depth *= distancePerspectiveModifier;
 
@@ -781,6 +781,9 @@ Shader "Hidden/Clouds"
                         break;
                     }
                 }
+                if (depth > dstTravelled)
+                    hiddenByObject = false;
+
                 transmittance = saturate((transmittance - minTransmittance) / (1 - minTransmittance));
 
                 float currentDepth;
@@ -795,7 +798,7 @@ Shader "Hidden/Clouds"
                 // Add shading to non-cloud objects
                 // Could be done better by decoding normals
                 if (hiddenByObject)
-                    backgroundCol *= lerp(lightmarch(rayPos + rayDir * currentDepth), 1, 0.5);
+                    backgroundCol *= lerp(lightmarch(rayPos + rayDir * currentDepth), 1, 0.9);
 
                 // Increase light energy contrast
                 // TODO: make power a parameter
