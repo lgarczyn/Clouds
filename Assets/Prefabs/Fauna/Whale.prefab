@@ -214,7 +214,7 @@ MonoBehaviour:
   rotationSpeed: 0.2
   diveDuration: 2
   diveSpeed: 3
-  scaleRatioRange: 1.2
+  scaleRatioRange: 2
 --- !u!54 &7279520872201385023
 Rigidbody:
   m_ObjectHideFlags: 0
