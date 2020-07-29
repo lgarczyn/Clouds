@@ -91,4 +91,17 @@
     - Value of humanity?
     - Value of the native life?
     - Is the only winning move not to play?
-      - Spec Ops was kinda bitchy about this one
+      - Spec Ops was kinda bad about this one
+
+- Tweak graphics
+  - Shadows
+    - Use player position in lightmarch
+  - Better UI circle.cross
+  - Damage particles are not great, texture?
+
+- Clarify gameplay loop
+  - Resource bars should be instinctive
+  - Controls should be displayable ( pause screen ? )
+
+- Add gratification
+  - Win time -> instant replay value
