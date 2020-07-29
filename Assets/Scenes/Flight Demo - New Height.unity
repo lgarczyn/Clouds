@@ -844,7 +844,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  intensity: 300
+  intensity: 600
 --- !u!199 &277212111
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -1101,7 +1101,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0, g: 0, b: 0, a: 0.36862746}
+      maxColor: {r: 0.9811321, g: 0.118794054, b: 0.09255962, a: 0.12156863}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -12255,7 +12255,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  intensity: 300
+  intensity: 600
 --- !u!199 &975435368
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -12512,7 +12512,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0, g: 0, b: 0, a: 0.36862746}
+      maxColor: {r: 0.9811321, g: 0.118794054, b: 0.09255962, a: 0.12156863}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -19033,7 +19033,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0, g: 0, b: 0, a: 0.36862746}
+      maxColor: {r: 0, g: 0, b: 0, a: 0.12156863}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -23593,7 +23593,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  intensity: 500
+  intensity: 1000
 --- !u!1 &1705261442
 GameObject:
   m_ObjectHideFlags: 0
