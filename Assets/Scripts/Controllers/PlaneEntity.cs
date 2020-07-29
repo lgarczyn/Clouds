@@ -9,9 +9,9 @@ public class PlaneEntity : MonoBehaviour
     public float maxHealth = 100f;
     public float maxEnergy = 100f;
     public float maxMatter = 100f;
-    public float health;
-    public float energy;
-    public float matter;
+    public float health = 30;
+    public float energy = 30;
+    public float matter = 30;
 
     public float repairTimer = 3f;
 
@@ -22,19 +22,13 @@ public class PlaneEntity : MonoBehaviour
     public UnityEvent<float> energyChange;
     public UnityEvent<float> matterChange;
 
-    public void Start() {
-        this.health = this.maxHealth;
-        this.matter = this.maxMatter;
-        this.energy = this.maxEnergy;
-    }
-
     public void FixedUpdate() {
         this.healthChange.Invoke(this.health);
         this.timeSinceLastDamage += Time.fixedDeltaTime;
     }
 
     public void Damage(float damage) {
-        if (destroyed)
+        if (destroyed || damage <= 0f)
             return;
 
         timeSinceLastDamage = 0;
@@ -61,7 +55,14 @@ public class PlaneEntity : MonoBehaviour
     }
 
     public bool ShouldRepair() {
-        return health < maxHealth && timeSinceLastDamage > repairTimer;
+        Debug.Log(timeSinceLastDamage);
+        Debug.Log(health < maxHealth
+            && timeSinceLastDamage > repairTimer
+            && energy > 30f);
+        Debug.Log("health:" + health + " maxHealth:" +  maxHealth + " timeSinceLastDamage:" +  timeSinceLastDamage + " health:" +  health + " repairTimer:" +  repairTimer + " energy:" +  energy);
+        return health < maxHealth
+            && timeSinceLastDamage > repairTimer
+            && energy > 30f;
 
     }
     public void RefuelEnergy(float units) {
