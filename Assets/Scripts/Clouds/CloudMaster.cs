@@ -105,8 +105,29 @@ public class CloudMaster : MonoBehaviour {
         Application.targetFrameRate = 60;
     }
 
+
+    //Create a new texture
+    Texture2D texture;
+    Color sampledOutputPixel;
+
+    public float GetLightFromShader() {
+        if (sampledOutputPixel.b != 0f || sampledOutputPixel.a != 1f)
+            return -1f;
+
+        return sampledOutputPixel.g;
+    }
+    public float GetDensityFromShader() {
+        if (sampledOutputPixel.b != 0f || sampledOutputPixel.a != 1f)
+            return -1f;
+
+        return sampledOutputPixel.r;
+    }
+
     [ImageEffectOpaque]
     private void OnRenderImage (RenderTexture src, RenderTexture dest) {
+
+        if (!texture)
+            texture = new Texture2D(1, 1, TextureFormat.RGB24, false);
 
         if (isMaterialDirty || material == null || Application.isPlaying == false)
         {
@@ -143,7 +164,9 @@ public class CloudMaster : MonoBehaviour {
         // This copies the src texture to the dest texture, with whatever modifications the shader makes
         Graphics.Blit (src, dest, material);
 
-        // dest.
+        //Read the pixel in the Rect starting at 0,0 
+        texture.ReadPixels(new Rect(0, 0, 1, 1), 0, 0, false);
+        texture.Apply();
     }
 
     void SetParams ()
