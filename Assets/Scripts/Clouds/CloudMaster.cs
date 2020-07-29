@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode, ImageEffectAllowedInSceneView]
-public class CloudMaster : MonoBehaviour {
+public class CloudMaster : ResourceCalculator {
     const string headerDecoration = " --- ";
     [Header (headerDecoration + "Main" + headerDecoration)]
     public Shader shader;
@@ -110,13 +110,13 @@ public class CloudMaster : MonoBehaviour {
     Texture2D texture;
     Color sampledOutputPixel;
 
-    public float GetLightFromShader() {
+    override public float GetLight() {
         if (sampledOutputPixel.b != 0f || sampledOutputPixel.a != 1f)
             return -1f;
 
         return sampledOutputPixel.g;
     }
-    public float GetDensityFromShader() {
+    override public float GetDensity() {
         if (sampledOutputPixel.b != 0f || sampledOutputPixel.a != 1f)
             return -1f;
 
@@ -167,6 +167,7 @@ public class CloudMaster : MonoBehaviour {
         //Read the pixel in the Rect starting at 0,0 
         texture.ReadPixels(new Rect(0, 0, 1, 1), 0, 0, false);
         texture.Apply();
+        this.sampledOutputPixel = texture.GetPixel(0, 0);
     }
 
     void SetParams ()

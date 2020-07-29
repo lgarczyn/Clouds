@@ -10,7 +10,8 @@ public class PlaneRepairController : MonoBehaviour
         float repairs = repairPerSecond * Time.fixedDeltaTime;
 
         if (plane.ShouldRepair())
-            if (plane.TrySpendMatter(repairs))
-                plane.Repair(repairs);
+            if (plane.TrySpendMatter(repairs / 10f))
+                if (plane.TrySpendEnergy(repairs))
+                    plane.Repair(repairs);
     }
 }
