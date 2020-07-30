@@ -23,4 +23,4 @@ MonoBehaviour:
   initialPowerFactor: 10
   iterativePowerFactor: 0.574
   iterativePowerCount: 10
-  resolution: 995
+  resolution: 1024
