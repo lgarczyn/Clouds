@@ -98,6 +98,7 @@
     - Use player position in lightmarch
   - Better UI circle.cross
   - Damage particles are not great, texture?
+  - Big whales should have slower animation
 
 - Clarify gameplay loop
   - Resource bars should be instinctive
