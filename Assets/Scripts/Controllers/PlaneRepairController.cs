@@ -12,7 +12,7 @@ public class PlaneRepairController : MonoBehaviour
     private bool repairPressed;
 
     void Update() {
-        repairPressed = Input.GetKeyDown(repairKey);
+        repairPressed = Input.GetKey(repairKey);
     }
 
     void FixedUpdate() {
