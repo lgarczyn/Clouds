@@ -13,25 +13,19 @@ public class PlaneEntity : MonoBehaviour
     public float energy = 30;
     public float matter = 30;
 
-    public float repairTimer = 3f;
-
-    float timeSinceLastDamage = float.PositiveInfinity;
-
     public UnityEvent onDeath;
     public UnityEvent<float> healthChange;
     public UnityEvent<float> energyChange;
     public UnityEvent<float> matterChange;
+    public UnityEvent<bool> matterFull;
 
     public void FixedUpdate() {
         this.healthChange.Invoke(this.health);
-        this.timeSinceLastDamage += Time.fixedDeltaTime;
     }
 
     public void Damage(float damage) {
         if (destroyed || damage <= 0f)
             return;
-
-        timeSinceLastDamage = 0;
     
         this.health -= damage;
         this.health = Mathf.Clamp(this.health, 0, maxHealth);
@@ -55,11 +49,9 @@ public class PlaneEntity : MonoBehaviour
     }
 
     public bool ShouldRepair() {
-        return health < maxHealth
-            && timeSinceLastDamage > repairTimer
-            && energy > 30f;
-
+        return health < maxHealth && energy > 10f;
     }
+
     public void RefuelEnergy(float units) {
         if (destroyed)
             return;
@@ -83,7 +75,8 @@ public class PlaneEntity : MonoBehaviour
             return;
     
         this.matter = Mathf.Min(matter + units, maxMatter);
-        this.matterChange.Invoke(this.matter);
+        this.matterChange.Invoke(matter);
+        this.matterFull.Invoke(matter == maxMatter);
     }
     public bool TrySpendMatter(float units) {
         if (destroyed)
@@ -93,6 +86,7 @@ public class PlaneEntity : MonoBehaviour
             return false;
     
         this.matter -= units;
+        this.matterFull.Invoke(matter == maxMatter);
         return true;
     }
 }
