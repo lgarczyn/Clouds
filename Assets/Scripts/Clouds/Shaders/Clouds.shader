@@ -705,7 +705,11 @@ Shader "Hidden/Clouds"
                 if (unity_OrthoParams.w)
                     return shadowMarch(rayPos, rayDir, depth);
 
-                if (i.uv.x <= 0.5 / _ScreenParams.x && i.uv.y <= 0.5 / _ScreenParams.y) {
+                // If one of four corner pixels
+                float2 pixelSize = 1 / _ScreenParams.xy;
+                if ((i.uv.x <= pixelSize.x || i.uv.x >= _ScreenParams.x - pixelSize.x) &&
+                    (i.uv.y <= pixelSize.y || i.uv.y >= _ScreenParams.y - pixelSize.y))
+                {
                     float playerDensity = sampleDensity(playerPosition, 0, 0);
                     float playerLight = lightmarch(playerPosition);
                     return float4(playerDensity, playerLight, 0, 0);
