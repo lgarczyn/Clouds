@@ -48,6 +48,8 @@ public class PlaneDeathController : MonoBehaviour
 
         isDying = false;
 
-        SceneManager.LoadScene(0);
+        PlaythroughData.instance.timeSinceGameStart = Time.timeSinceLevelLoad;
+
+        SceneManager.LoadScene("GameOver");
     }
 }

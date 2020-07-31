@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Flight Demo - New Height.unity
     guid: 1688886d62ddbe340a07c0a991eff55e
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 85aa8656f73f9da3f9c1bf1b4b0621e5
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: 83fae609f13160a2f96b0ccc773ee587
   m_configObjects: {}

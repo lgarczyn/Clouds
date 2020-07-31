@@ -53,7 +53,8 @@ public class PlaneWinController : MonoBehaviour
         }
 
         if (thrustersActivated && transform.position.y > minHeightToWin) {
-            // SceneManager.LoadScene("Credits");
+            PlaythroughData.instance.timeSinceGameStart = Time.timeSinceLevelLoad;
+            SceneManager.LoadScene("Credits");
         }
     }
 }
