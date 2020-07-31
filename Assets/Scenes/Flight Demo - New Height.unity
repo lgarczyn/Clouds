@@ -25058,6 +25058,8 @@ GameObject:
   - component: {fileID: 1630318330911048}
   - component: {fileID: 1630318330911047}
   - component: {fileID: 1630318330911049}
+  - component: {fileID: 1630318330911051}
+  - component: {fileID: 1630318330911050}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -25261,6 +25263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plane: {fileID: 1630318330911045}
   resourceCalculator: {fileID: 1306023371}
+  deathController: {fileID: 1630318330911049}
   energyMultiplier: 5
   matterMultiplier: 20
   baseEnergyPerSecond: 1
@@ -25355,6 +25358,35 @@ MonoBehaviour:
   - {fileID: 414553710}
   - {fileID: 1340265131733852}
   - {fileID: 748317382}
+  gravityMultiplier: 3
+  isDying: 0
+--- !u!114 &1630318330911050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630318330911044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab5255473ec848ea8b3302fd8b513cea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1630318330911051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630318330911044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbff0fbeb69c1006d80140ce4c8e6b6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zoomController: {fileID: 1340265131733853}
+  scrollInDuration: 2
+  scrollInDistance: 10
 --- !u!1 &1767196812658636
 GameObject:
   m_ObjectHideFlags: 0

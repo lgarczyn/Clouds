@@ -11,6 +11,8 @@ public class PlaneResourceController : MonoBehaviour
 {
     public PlaneEntity plane;
     public ResourceCalculator resourceCalculator;
+
+    public PlaneDeathController deathController;
     public float energyMultiplier = 1f;
     public float matterMultiplier = 1f;
 
@@ -38,6 +40,8 @@ public class PlaneResourceController : MonoBehaviour
         plane.RefuelEnergy(energyMultiplier * energyVsLight.Evaluate(light) * Time.fixedDeltaTime);
         plane.RefuelMatter(matterMultiplier * matterVsDensity.Evaluate(density) * matterVsDepth.Evaluate(depth) * Time.fixedDeltaTime);
 
-        plane.TrySpendEnergy(baseEnergyPerSecond * Time.fixedDeltaTime);
+        if (plane.TrySpendEnergy(baseEnergyPerSecond * Time.fixedDeltaTime) == false) {
+            deathController.KillPlane();
+        }
     }
 }
