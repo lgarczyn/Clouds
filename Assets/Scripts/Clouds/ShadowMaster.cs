@@ -54,7 +54,8 @@ public class ShadowMaster : MonoBehaviour
 
     public void ForceRender()
     {
-        shadowCamera.Render();
+        if (shadowCamera)
+            shadowCamera.Render();
     }
 
     #if UNITY_EDITOR
