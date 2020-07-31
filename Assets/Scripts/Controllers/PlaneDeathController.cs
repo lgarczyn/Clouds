@@ -10,13 +10,24 @@ public class PlaneDeathController : MonoBehaviour
 
     public GameObject[] toDisable;
 
+    public float gravityMultiplier = 3f;
+
     Vector3 prevVelocity;
+
+    public bool isDying = false;
 
     public void FixedUpdate() {
         prevVelocity = planeRigidbody.velocity;
+
+        if (isDying) {
+            // Add more gravity during death anim
+            planeRigidbody.AddForce(Physics.gravity * gravityMultiplier, ForceMode.Acceleration);
+        }
     }
 
     public void KillPlane() {
+
+        isDying = true;
 
         foreach (var go in toDisable)
         {
@@ -34,6 +45,8 @@ public class PlaneDeathController : MonoBehaviour
     public IEnumerator RespawnCoroutine() {
         
         yield return new WaitForSeconds(5);
+
+        isDying = false;
 
         SceneManager.LoadScene(0);
     }
