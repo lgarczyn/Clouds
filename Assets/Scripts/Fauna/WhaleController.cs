@@ -13,6 +13,8 @@ public class WhaleController : MonoBehaviour
     public Transform container;
     public Transform player;
 
+    new public Animation animation;
+
     public Transform model;
     public float depopDistance = 1000f;
     public float maxRepopDistance = 500f;
@@ -24,6 +26,8 @@ public class WhaleController : MonoBehaviour
     public float diveDuration = 2f;
     public float diveSpeed = 0.1f;
     public float scaleRatioRange = 1.2f;
+    public float scaleBase = 1f;
+    public float animationSpeedBase = 1f;
 
     public float minHeight { get {
         return container.position.y - container.localScale.y / 2f;
@@ -38,7 +42,14 @@ public class WhaleController : MonoBehaviour
         Repop();
         rigidbody.rotation = Quaternion.LookRotation(velocity, Vector3.up);
 
-        model.localScale *= Random.Range(1f / scaleRatioRange, scaleRatioRange);
+        float scale = scaleBase * Random.Range(1f / scaleRatioRange, scaleRatioRange);
+
+        model.localScale *= scale;
+        
+        foreach (AnimationState state in animation)
+        {
+            state.speed /= Mathf.Sqrt(scale);
+        }
     }
 
     void FixedUpdate()

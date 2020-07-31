@@ -24841,21 +24841,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: af62814dace8ecf1a8ffdf1fc44feb2f, type: 2}
-    - target: {fileID: 2340949748363674786, guid: c91a60b6592cbc1aabc5169ef3e99927,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 2340949748363674786, guid: c91a60b6592cbc1aabc5169ef3e99927,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 2340949748363674786, guid: c91a60b6592cbc1aabc5169ef3e99927,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 7279520872201385020, guid: c91a60b6592cbc1aabc5169ef3e99927,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -24944,7 +24929,7 @@ PrefabInstance:
     - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
         type: 3}
       propertyPath: containerHeightRepopRange
-      value: 0.6
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
         type: 3}
@@ -24960,6 +24945,11 @@ PrefabInstance:
         type: 3}
       propertyPath: scaleRatioRange
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
+        type: 3}
+      propertyPath: scaleBase
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c91a60b6592cbc1aabc5169ef3e99927, type: 3}
@@ -25386,7 +25376,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zoomController: {fileID: 1340265131733853}
   scrollInDuration: 2
-  scrollInDistance: 10
+  scrollInDistance: 4
 --- !u!1 &1767196812658636
 GameObject:
   m_ObjectHideFlags: 0
