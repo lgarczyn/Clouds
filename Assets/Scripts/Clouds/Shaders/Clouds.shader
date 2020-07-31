@@ -707,9 +707,10 @@ Shader "Hidden/Clouds"
 
                 // If one of four corner pixels
                 float2 pixelSize = 1 / _ScreenParams.xy;
-                if ((i.uv.x <= pixelSize.x || i.uv.x >= _ScreenParams.x - pixelSize.x) &&
-                    (i.uv.y <= pixelSize.y || i.uv.y >= _ScreenParams.y - pixelSize.y))
+                if ((i.uv.x <= pixelSize.x || i.uv.x >= 1 - pixelSize.x) &&
+                    (i.uv.y <= pixelSize.y || i.uv.y >= 1 - pixelSize.y))
                 {
+                    // Store data for gameplay
                     float playerDensity = sampleDensity(playerPosition, 0, 0);
                     float playerLight = lightmarch(playerPosition);
                     return float4(playerDensity, playerLight, 0, 0);
