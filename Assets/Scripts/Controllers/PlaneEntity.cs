@@ -55,11 +55,6 @@ public class PlaneEntity : MonoBehaviour
     }
 
     public bool ShouldRepair() {
-        Debug.Log(timeSinceLastDamage);
-        Debug.Log(health < maxHealth
-            && timeSinceLastDamage > repairTimer
-            && energy > 30f);
-        Debug.Log("health:" + health + " maxHealth:" +  maxHealth + " timeSinceLastDamage:" +  timeSinceLastDamage + " health:" +  health + " repairTimer:" +  repairTimer + " energy:" +  energy);
         return health < maxHealth
             && timeSinceLastDamage > repairTimer
             && energy > 30f;
