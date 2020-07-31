@@ -11,6 +11,7 @@ public class MouseFlightZoom : MonoBehaviour
     float _padScroll;
     Vector3 _zoomOrigin;
     float _currentZoom = 0;
+    float _temporaryZoom = 0f;
 
     private void Start()
     {
@@ -18,13 +19,10 @@ public class MouseFlightZoom : MonoBehaviour
     }
 
     private void Update() {
-        if (MouseScroll != 0)
-        {
-            _currentZoom -= MouseScroll * scrollPower / 10;
-            _currentZoom = Mathf.Clamp(_currentZoom, minScroll, maxScroll);
-            Vector3 zoomOffset = _zoomOrigin * Mathf.Pow(2, _currentZoom);
-            GetComponent<MFlight.MouseFlightController>().offset = zoomOffset;
-        }
+        _currentZoom -= MouseScroll * scrollPower / 10;
+        _currentZoom = Mathf.Clamp(_currentZoom, minScroll, maxScroll);
+        Vector3 zoomOffset = _zoomOrigin * Mathf.Pow(2, _currentZoom + _temporaryZoom);
+        GetComponent<MFlight.MouseFlightController>().offset = zoomOffset;
     }
 
     float MouseScroll
@@ -37,6 +35,10 @@ public class MouseFlightZoom : MonoBehaviour
 
             return Mathf.Clamp(scroll, -1, 1);
         }
+    }
+
+    public void SetTemporaryZoom(float value) {
+        _temporaryZoom = value;
     }
 
     //Get TrackPad Scroll
