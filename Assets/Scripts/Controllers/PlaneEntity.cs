@@ -21,16 +21,17 @@ public class PlaneEntity : MonoBehaviour
 
     public void FixedUpdate() {
         this.healthChange.Invoke(this.health);
+        this.energyChange.Invoke(this.energy);
+        this.matterChange.Invoke(matter);
+        this.matterFull.Invoke(matter == maxMatter);
     }
 
     public void Damage(float damage) {
         if (destroyed || damage <= 0f)
             return;
-    
+
         this.health -= damage;
         this.health = Mathf.Clamp(this.health, 0, maxHealth);
-
-        this.healthChange.Invoke(this.health);
 
         if (this.health <= 0) {
             destroyed = true;
@@ -44,8 +45,6 @@ public class PlaneEntity : MonoBehaviour
 
         this.health += units;
         this.health = Mathf.Clamp(this.health, 0, maxHealth);
-
-        this.healthChange.Invoke(this.health);
     }
 
     public bool ShouldRepair() {
@@ -55,38 +54,33 @@ public class PlaneEntity : MonoBehaviour
     public void RefuelEnergy(float units) {
         if (destroyed)
             return;
-        
+
         this.energy = Mathf.Min(energy + units, maxEnergy);
-        this.energyChange.Invoke(this.energy);
     }
     public bool TrySpendEnergy(float units) {
         if (destroyed)
             return false;
-        
+
         if (energy < units)
             return false;
-    
+
         this.energy -= units;
-        this.energyChange.Invoke(this.energy);
         return true;
     }
     public void RefuelMatter(float units) {
         if (destroyed)
             return;
-    
+
         this.matter = Mathf.Min(matter + units, maxMatter);
-        this.matterChange.Invoke(matter);
-        this.matterFull.Invoke(matter == maxMatter);
     }
     public bool TrySpendMatter(float units) {
         if (destroyed)
             return false;
-        
+
         if (matter < units)
             return false;
-    
+
         this.matter -= units;
-        this.matterFull.Invoke(matter == maxMatter);
         return true;
     }
 }
