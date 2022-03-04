@@ -17206,6 +17206,7 @@ GameObject:
   m_Component:
   - component: {fileID: 847781466}
   - component: {fileID: 847781465}
+  - component: {fileID: 847781467}
   m_Layer: 0
   m_Name: Noise Generator
   m_TagString: Untagged
@@ -17225,7 +17226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b99ce195aa394570b614d890804bdfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeTextureType: 0
+  activeTextureType: 1
   activeChannel: 3
   autoUpdate: 1
   logComputeTime: 1
@@ -17240,14 +17241,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f37860370682c4203ae320b113e775a1, type: 2}
   - {fileID: 11400000, guid: 3399ea3804e6046ba9c660e6f956c0d4, type: 2}
   - {fileID: 11400000, guid: e4ab2474bf9394bc9ae7bba77e2c35f9, type: 2}
+  - {fileID: 11400000, guid: a47a06a6a0fd2134c95f77443516232f, type: 2}
   noiseCompute: {fileID: 7200000, guid: 18d71ea19186c49d9b17692355749824, type: 3}
   copy: {fileID: 7200000, guid: 7abd06564e4244f60857856659a3809f, type: 3}
-  viewerEnabled: 0
-  viewerGreyscale: 0
-  viewerShowAllChannels: 1
-  viewerSliceDepth: 0
-  viewerTileAmount: 1
-  viewerSize: 1
   showSettingsEditor: 1
   shapeTexture: {fileID: 1734356181}
   detailTexture: {fileID: 952315911}
@@ -17266,6 +17262,18 @@ Transform:
   m_Father: {fileID: 1331973712}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &847781467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 847781464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5ff12e51c52eca43bbcdea6427741da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &878343391
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24125,7 +24133,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1452681683
 RectTransform:
   m_ObjectHideFlags: 0
@@ -30180,7 +30188,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   altitudeSettings: {fileID: 11400000, guid: ab11a9088c4558244955cf097a85cb81, type: 2}
-  viewerEnabled: 0
   showSettingsEditor: 1
 --- !u!4 &1933089465 stripped
 Transform:
