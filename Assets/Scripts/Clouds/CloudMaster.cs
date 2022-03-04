@@ -139,7 +139,6 @@ public class CloudMaster : ResourceCalculator {
             }
 
             SetParams();
-            SetDebugParams ();
 
             if (shadowMapper)
             {
@@ -242,26 +241,6 @@ public class CloudMaster : ResourceCalculator {
         material.SetColor ("colB", colB);
         material.SetColor ("colC", colC);
         material.SetFloat ("godRaysIntensity", godRaysIntensity / 1000);
-    }
-
-    void SetDebugParams () {
-
-        int debugModeIndex = 0;
-        var noise = this.noiseGen;
-        if (noise.viewerEnabled) {
-            debugModeIndex = (noise.activeTextureType == NoiseGenerator.CloudNoiseType.Shape) ? 1 : 2;
-        }
-        if (altitudeMapGen.viewerEnabled) {
-            debugModeIndex = 4;
-        }
-
-        material.SetInt ("debugViewMode", debugModeIndex);
-        material.SetFloat ("debugNoiseSliceDepth", noise.viewerSliceDepth);
-        material.SetFloat ("debugTileAmount", noise.viewerTileAmount);
-        material.SetFloat ("viewerSize", noise.viewerSize);
-        material.SetVector ("debugChannelWeight", noise.ChannelMask);
-        material.SetInt ("debugGreyscale", (noise.viewerGreyscale) ? 1 : 0);
-        material.SetInt ("debugShowAllChannels", (noise.viewerShowAllChannels) ? 1 : 0);
     }
 
     void OnValidate() {

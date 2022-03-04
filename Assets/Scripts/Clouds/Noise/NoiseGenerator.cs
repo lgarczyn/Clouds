@@ -26,17 +26,6 @@ public class NoiseGenerator : MonoBehaviour {
     public ComputeShader noiseCompute;
     public ComputeShader copy;
 
-    [Header ("Viewer Settings")]
-    public bool viewerEnabled;
-    public bool viewerGreyscale = true;
-    public bool viewerShowAllChannels;
-    [Range (0, 1)]
-    public float viewerSliceDepth;
-    [Range (1, 5)]
-    public float viewerTileAmount = 1;
-    [Range (0, 1)]
-    public float viewerSize = 1;
-
     // Internal
     List<ComputeBuffer> buffersToRelease;
     bool updateNoise;

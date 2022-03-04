@@ -23,7 +23,6 @@ Shader "Hidden/Clouds"
             #pragma target 5.0
 
             #include "UnityCG.cginc"
-            #include "Assets/Scripts/Clouds/Shaders/CloudDebug.cginc"
             float4 _MainTex_TexelSize;
 
             // vertex input: position, UV
@@ -167,17 +166,6 @@ Shader "Hidden/Clouds"
             float baseSpeed;
             float detailSpeed;
             float3 playerPosition;
-
-            // Debug settings:
-            // Allow the 'picture in a picture' noise editing tool
-            // TODO: Will need to be heavily changed to remove this shader from the camera
-            int debugViewMode; // 0 = off; 1 = shape tex; 2 = detail tex; 4 = altitudemap
-            int debugGreyscale;
-            int debugShowAllChannels;
-            float debugNoiseSliceDepth;
-            float4 debugChannelWeight;
-            float debugTileAmount;
-            float viewerSize;
 
             // Maps a float from an interval to another, without bound checking
             float remap(float v, float minOld, float maxOld, float minNew, float maxNew) {
@@ -590,35 +578,6 @@ Shader "Hidden/Clouds"
                 return 1 - saturate(result);
             }
 
-            float4 debugDrawNoise(float2 uv) {
-
-                float4 channels = 0;
-                float3 samplePos = float3(uv.x,uv.y, debugNoiseSliceDepth);
-
-                if (debugViewMode == 1) {
-                    channels = NoiseTex.SampleLevel(samplerNoiseTex, samplePos, 0);
-                }
-                else if (debugViewMode == 2) {
-                    channels = DetailNoiseTex.SampleLevel(samplerDetailNoiseTex, samplePos, 0);
-                }
-                else if (debugViewMode == 4) {
-                    channels = AltitudeMap.SampleLevel(samplerAltitudeMap, samplePos.yy, 0);
-                }
-
-                if (debugShowAllChannels) {
-                    return channels;
-                }
-                else {
-                    float4 maskedChannels = (channels*debugChannelWeight);
-                    if (debugGreyscale || debugChannelWeight.w == 1) {
-                        return dot(maskedChannels,1);
-                    }
-                    else {
-                        return maskedChannels;
-                    }
-                }
-            }
-
             float cinematicGradient(float i, uniform float power)
             {
                 if (i > 0.5)
@@ -680,20 +639,6 @@ Shader "Hidden/Clouds"
 
             float4 frag (v2f i) : SV_Target
             {
-                #if DEBUG_MODE == 1
-                if (debugViewMode != 0) {
-                    float width = _ScreenParams.x;
-                    float height =_ScreenParams.y;
-                    float minDim = min(width, height);
-                    float x = i.uv.x * width;
-                    float y = (1-i.uv.y) * height;
-
-                    if (x < minDim*viewerSize && y < minDim*viewerSize) {
-                        return debugDrawNoise(float2(x/(minDim*viewerSize)*debugTileAmount, y/(minDim*viewerSize)*debugTileAmount));
-                    }
-                }
-                #endif
-
                 // Create ray
                 float3 rayPos = i.worldPos;
                 float3 rayDir = i.viewVector;
