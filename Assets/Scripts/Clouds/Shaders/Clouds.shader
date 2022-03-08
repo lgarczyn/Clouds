@@ -23,7 +23,6 @@ Shader "Hidden/Clouds"
             #pragma target 5.0
 
             #include "UnityCG.cginc"
-            #include "Assets/Scripts/Clouds/Shaders/CloudDebug.cginc"
             float4 _MainTex_TexelSize;
 
             // vertex input: position, UV
@@ -92,9 +91,9 @@ Shader "Hidden/Clouds"
 
             // Textures
             // The main cloud texture
-            Texture3D<float4> NoiseTex;
+            Texture3D<float> NoiseTex;
             // Whisps and detailing
-            Texture3D<float4> DetailNoiseTex;
+            Texture3D<float> DetailNoiseTex;
             // 1D texture to give the 'thunderhead''vibe
             Texture2D<float> AltitudeMap;
             // 2D texture containing the heights of 4 absorption levels
@@ -124,9 +123,6 @@ Shader "Hidden/Clouds"
             float scale;
             float detailNoiseScale;
             float detailNoiseWeight;
-            // Weights to balance the 4 channels of the detail shader
-            float3 detailWeights;
-            float4 shapeNoiseWeights;
             // Used for silverlining while looking at the sun, currently broken
             float4 phaseParams;
             // Parameters for the altitude taper
@@ -167,17 +163,6 @@ Shader "Hidden/Clouds"
             float baseSpeed;
             float detailSpeed;
             float3 playerPosition;
-
-            // Debug settings:
-            // Allow the 'picture in a picture' noise editing tool
-            // TODO: Will need to be heavily changed to remove this shader from the camera
-            int debugViewMode; // 0 = off; 1 = shape tex; 2 = detail tex; 4 = altitudemap
-            int debugGreyscale;
-            int debugShowAllChannels;
-            float debugNoiseSliceDepth;
-            float4 debugChannelWeight;
-            float debugTileAmount;
-            float viewerSize;
 
             // Maps a float from an interval to another, without bound checking
             float remap(float v, float minOld, float maxOld, float minNew, float maxNew) {
@@ -266,7 +251,6 @@ Shader "Hidden/Clouds"
 
             float sampleDensity(float3 rayPos, uniform int optimisation, float optiInterpolation) {
                 // Constants:
-                const int mipLevel = 2;
                 const float baseScale = 1/1000.0;
 
                 // Calculate texture sample positions
@@ -301,10 +285,11 @@ Shader "Hidden/Clouds"
                 shapeSamplePosMeta.y /= 3;
                 // shapeSamplePosMeta.y += (shapeSamplePosMeta.x + shapeSamplePosMeta.y) / 1000;
 
-                float4 shapeNoiseMeta = NoiseTex.SampleLevel(samplerNoiseTex, shapeSamplePosMeta , mipLevel);
-                float4 normalizedShapeWeightsMeta = shapeNoiseWeights / dot(shapeNoiseWeights, 1);
-                float shapeFBMMeta = dot(shapeNoiseMeta, normalizedShapeWeightsMeta);
-                float baseShapeDensityMeta = (shapeFBMMeta + densityOffset * .1 - 0.1) * 15;
+                // SampleLevel is used instead of Sample, because
+                // * MIP is always 0 because of 3d textures
+                // * Sample does not allow arbitrary depth loops
+                float shapeNoiseMeta = NoiseTex.SampleLevel(samplerNoiseTex, shapeSamplePosMeta, 0);
+                float baseShapeDensityMeta = (shapeNoiseMeta + densityOffset * .1 - 0.1) * 15;
 
                 // Add altitude density
                 // TODO: standardize height gradient inside density
@@ -330,10 +315,8 @@ Shader "Hidden/Clouds"
 
                 // Calculate base shape density
                 float3 shapeSamplePos = uvw + float3(time,time*0.1,time*0.2) * baseSpeed;
-                float4 shapeNoise = NoiseTex.SampleLevel(samplerNoiseTex, shapeSamplePos, mipLevel);
-                float4 normalizedShapeWeights = shapeNoiseWeights / dot(shapeNoiseWeights, 1);
-                float shapeFBM = dot(shapeNoise, normalizedShapeWeights);
-                float baseShapeDensity = shapeFBM + densityOffset * .1;
+                float shapeNoise = NoiseTex.SampleLevel(samplerNoiseTex, shapeSamplePos, 0);
+                float baseShapeDensity = shapeNoise + densityOffset * .1;
 
                 baseShapeDensity += baseShapeDensityMeta;
 
@@ -343,15 +326,13 @@ Shader "Hidden/Clouds"
                 //     return (baseShapeDensity);
 
                 // Sample detail noise
-                float3 detailSamplePos = uvw*detailNoiseScale + float3(time*.4,-time,time*0.1)*detailSpeed;
-                float4 detailNoise = DetailNoiseTex.SampleLevel(samplerDetailNoiseTex, detailSamplePos, mipLevel);
-                float3 normalizedDetailWeights = detailWeights / dot(detailWeights, 1);
-                float detailFBM = dot(detailNoise, normalizedDetailWeights);
+                float detailSamplePos = uvw*detailNoiseScale + float4(time*.4,-time,time*0.1, 0)*detailSpeed;
+                float detailNoise = DetailNoiseTex.SampleLevel(samplerDetailNoiseTex, detailSamplePos, 0);
 
                 // Subtract detail noise from base shape (weighted by inverse density so that edges get eroded more than centre)
-                float oneMinusShape = 1 - shapeFBM;
+                float oneMinusShape = 1 - shapeNoise;
                 float detailErodeWeight = oneMinusShape * oneMinusShape * oneMinusShape;
-                float cloudDensity = baseShapeDensity - (1-detailFBM) * detailErodeWeight * detailNoiseWeight; 
+                float cloudDensity = baseShapeDensity - (1-detailNoise) * detailErodeWeight * detailNoiseWeight; 
                 cloudDensity *= densityMultiplier / 2;
                 // cloudDensity = baseShapeDensity - cloudDensity;
 
@@ -409,6 +390,7 @@ Shader "Hidden/Clouds"
 
             // Calculate proportion of light that reaches the given point from the lightsource
             float lightmarch(float3 position) {
+                // TODO lookup SampleCMP
 
                 // The position inside the shadow map
                 float2 samplePos =
@@ -590,35 +572,6 @@ Shader "Hidden/Clouds"
                 return 1 - saturate(result);
             }
 
-            float4 debugDrawNoise(float2 uv) {
-
-                float4 channels = 0;
-                float3 samplePos = float3(uv.x,uv.y, debugNoiseSliceDepth);
-
-                if (debugViewMode == 1) {
-                    channels = NoiseTex.SampleLevel(samplerNoiseTex, samplePos, 0);
-                }
-                else if (debugViewMode == 2) {
-                    channels = DetailNoiseTex.SampleLevel(samplerDetailNoiseTex, samplePos, 0);
-                }
-                else if (debugViewMode == 4) {
-                    channels = AltitudeMap.SampleLevel(samplerAltitudeMap, samplePos.yy, 0);
-                }
-
-                if (debugShowAllChannels) {
-                    return channels;
-                }
-                else {
-                    float4 maskedChannels = (channels*debugChannelWeight);
-                    if (debugGreyscale || debugChannelWeight.w == 1) {
-                        return dot(maskedChannels,1);
-                    }
-                    else {
-                        return maskedChannels;
-                    }
-                }
-            }
-
             float cinematicGradient(float i, uniform float power)
             {
                 if (i > 0.5)
@@ -680,20 +633,6 @@ Shader "Hidden/Clouds"
 
             float4 frag (v2f i) : SV_Target
             {
-                #if DEBUG_MODE == 1
-                if (debugViewMode != 0) {
-                    float width = _ScreenParams.x;
-                    float height =_ScreenParams.y;
-                    float minDim = min(width, height);
-                    float x = i.uv.x * width;
-                    float y = (1-i.uv.y) * height;
-
-                    if (x < minDim*viewerSize && y < minDim*viewerSize) {
-                        return debugDrawNoise(float2(x/(minDim*viewerSize)*debugTileAmount, y/(minDim*viewerSize)*debugTileAmount));
-                    }
-                }
-                #endif
-
                 // Create ray
                 float3 rayPos = i.worldPos;
                 float3 rayDir = i.viewVector;

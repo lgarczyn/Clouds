@@ -2,6 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ * The class responsible for generating the 3D noise used in the cloud shader
+ * It is also capable of saving and loading noise textures, in collaboration with NoiseGenEditor
+ * Since noise will have to be generated at runtime, there's little point to saving and loading it
+ * The duplication of code for detail and shape is also less than ideal
+ * The same instance should handle only one texture, and collaborate with multiple others
+ * Linking should not be done using public variable, but using shared RenderTextures
+ */
 public class NoiseGenerator : MonoBehaviour {
 
     const int computeThreadGroupSize = 8;
@@ -21,21 +29,14 @@ public class NoiseGenerator : MonoBehaviour {
     public int shapeResolution = 132;
     public int detailResolution = 32;
 
+    public Vector4 shapeWeights;
     public WorleyNoiseSettings[] shapeSettings;
+    public Vector4 detailWeights;
     public WorleyNoiseSettings[] detailSettings;
     public ComputeShader noiseCompute;
     public ComputeShader copy;
 
-    [Header ("Viewer Settings")]
-    public bool viewerEnabled;
-    public bool viewerGreyscale = true;
-    public bool viewerShowAllChannels;
-    [Range (0, 1)]
-    public float viewerSliceDepth;
-    [Range (1, 5)]
-    public float viewerTileAmount = 1;
-    [Range (0, 1)]
-    public float viewerSize = 1;
+    public ComputeShader flatten;
 
     // Internal
     List<ComputeBuffer> buffersToRelease;
@@ -47,11 +48,17 @@ public class NoiseGenerator : MonoBehaviour {
     public RenderTexture shapeTexture;
     [SerializeField, HideInInspector]
     public RenderTexture detailTexture;
+    [SerializeField]
+    public RenderTexture shapeTextureFlat;
+    [SerializeField]
+    public RenderTexture detailTextureFlat;
 
     public void UpdateNoise () {
         ValidateParamaters ();
         CreateTexture (ref shapeTexture, shapeResolution, shapeNoiseName);
         CreateTexture (ref detailTexture, detailResolution, detailNoiseName);
+        CreateFlatTexture (ref shapeTextureFlat, shapeResolution, shapeNoiseName, this.shapeWeights);
+        CreateFlatTexture (ref detailTextureFlat, detailResolution, detailNoiseName, this.detailWeights);
 
         if (updateNoise && noiseCompute) {
             var timer = System.Diagnostics.Stopwatch.StartNew ();
@@ -101,7 +108,24 @@ public class NoiseGenerator : MonoBehaviour {
             foreach (var buffer in buffersToRelease) {
                 buffer.Release ();
             }
+
+            FlattenNoise();
         }
+    }
+
+    public void FlattenNoise() {
+        flatten.SetTexture (0, "texIn", ActiveTexture);
+        flatten.SetTexture (0, "texOut", ActiveFlatTexture);
+        flatten.SetVector("weights", ActiveWeights);
+        int numThreadGroups = Mathf.CeilToInt (ActiveTexture.width / 8f);
+        flatten.Dispatch (0, numThreadGroups, numThreadGroups, numThreadGroups);
+    }
+
+    public void LoadAll() {
+        Load (NoiseGenerator.shapeNoiseName, shapeTexture);
+        Load (NoiseGenerator.detailNoiseName, detailTexture);
+        LoadFlat (NoiseGenerator.shapeNoiseName, shapeTextureFlat, shapeWeights);
+        LoadFlat (NoiseGenerator.detailNoiseName, detailTextureFlat, detailWeights);
     }
 
     public void Load (string saveName, RenderTexture target) {
@@ -116,9 +140,33 @@ public class NoiseGenerator : MonoBehaviour {
         }
     }
 
+    public void LoadFlat (string saveName, RenderTexture target, Vector4 weights) {
+        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene ().name;
+        saveName = sceneName + "_" + saveName;
+        Texture3D savedTex = (Texture3D) Resources.Load (saveName);
+        if (savedTex != null && savedTex.width == target.width) {
+            flatten.SetTexture(0, "texIn", savedTex);
+            flatten.SetTexture(0, "texOut", target);
+            // Read real hint
+            flatten.SetVector("weights", weights);
+            int numThreadGroups = Mathf.CeilToInt (savedTex.width / 8f);
+            flatten.Dispatch (0, numThreadGroups, numThreadGroups, numThreadGroups);
+        }
+    }
+
     public RenderTexture ActiveTexture {
         get {
             return (activeTextureType == CloudNoiseType.Shape) ? shapeTexture : detailTexture;
+        }
+    }
+    public RenderTexture ActiveFlatTexture {
+        get {
+            return (activeTextureType == CloudNoiseType.Shape) ? shapeTextureFlat : detailTextureFlat;
+        }
+    }
+    public Vector3 ActiveWeights {
+        get {
+            return (activeTextureType == CloudNoiseType.Shape) ? shapeWeights : detailWeights;
         }
     }
 
@@ -200,6 +248,18 @@ public class NoiseGenerator : MonoBehaviour {
         texture.filterMode = FilterMode.Trilinear;
 
         Load(name, texture);
+    }
+
+    void CreateFlatTexture (ref RenderTexture texture, int resolution, string name, Vector4 weights) {
+
+        RenderTextureDescriptor desc = TextureTools.GetDescriptorNoise3D_R(resolution);
+
+        TextureTools.VerifyTexture(ref texture, desc, name);
+
+        texture.wrapMode = TextureWrapMode.Repeat;
+        texture.filterMode = FilterMode.Trilinear;
+
+        LoadFlat(name, texture, weights);
     }
 
     public void ManualUpdate () {

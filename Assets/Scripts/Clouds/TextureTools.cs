@@ -77,6 +77,13 @@ public static class TextureTools
         return desc;
     }
 
+    public static RenderTextureDescriptor GetDescriptorNoise3D_R(int dimension)
+    {
+        RenderTextureDescriptor desc = GetDescriptorBase(dimension, dimension, dimension);
+        desc.graphicsFormat = GraphicsFormat.R16_UNorm;
+        return desc;
+    }
+
     public static RenderTextureDescriptor GetDescriptorNoise3D_RGBA(int dimension)
     {
         RenderTextureDescriptor desc = GetDescriptorBase(dimension, dimension, dimension);

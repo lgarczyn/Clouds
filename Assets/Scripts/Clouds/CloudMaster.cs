@@ -29,7 +29,6 @@ public class CloudMaster : ResourceCalculator {
     public float densityOffset;
     public Vector3 shapeOffset;
     public Vector2 heightOffset;
-    public Vector4 shapeNoiseWeights;
 
     [Header (headerDecoration + "Limit Taper Settings" + headerDecoration)]
     [Range (0, 100)]
@@ -44,7 +43,6 @@ public class CloudMaster : ResourceCalculator {
     [Header (headerDecoration + "Detail" + headerDecoration)]
     public float detailNoiseScale = 10;
     public float detailNoiseWeight = .1f;
-    public Vector3 detailNoiseWeights;
     public Vector3 detailOffset;
 
     [Header (headerDecoration + "Lighting" + headerDecoration)]
@@ -139,7 +137,6 @@ public class CloudMaster : ResourceCalculator {
             }
 
             SetParams();
-            SetDebugParams ();
 
             if (shadowMapper)
             {
@@ -179,8 +176,8 @@ public class CloudMaster : ResourceCalculator {
         var noise = FindObjectOfType<NoiseGenerator> ();
         noise.UpdateNoise ();
 
-        material.SetTexture ("NoiseTex", noise.shapeTexture);
-        material.SetTexture ("DetailNoiseTex", noise.detailTexture);
+        material.SetTexture ("NoiseTex", noise.shapeTextureFlat);
+        material.SetTexture ("DetailNoiseTex", noise.detailTextureFlat);
         material.SetTexture ("HeightGradientTex", heightGradientTex);
 
         // WeatherMap and AltitudeMap
@@ -216,8 +213,6 @@ public class CloudMaster : ResourceCalculator {
         material.SetFloat ("detailNoiseWeight", detailNoiseWeight);
         material.SetVector ("shapeOffset", shapeOffset);
         material.SetVector ("detailOffset", detailOffset);
-        material.SetVector ("detailWeights", detailNoiseWeights);
-        material.SetVector ("shapeNoiseWeights", shapeNoiseWeights);
         material.SetVector ("phaseParams", new Vector4 (forwardScattering, backScattering, baseBrightness, phaseFactor));
 
         material.SetFloat("densityTaperUpStrength", densityTaperUpStrength);
@@ -242,26 +237,6 @@ public class CloudMaster : ResourceCalculator {
         material.SetColor ("colB", colB);
         material.SetColor ("colC", colC);
         material.SetFloat ("godRaysIntensity", godRaysIntensity / 1000);
-    }
-
-    void SetDebugParams () {
-
-        int debugModeIndex = 0;
-        var noise = this.noiseGen;
-        if (noise.viewerEnabled) {
-            debugModeIndex = (noise.activeTextureType == NoiseGenerator.CloudNoiseType.Shape) ? 1 : 2;
-        }
-        if (altitudeMapGen.viewerEnabled) {
-            debugModeIndex = 4;
-        }
-
-        material.SetInt ("debugViewMode", debugModeIndex);
-        material.SetFloat ("debugNoiseSliceDepth", noise.viewerSliceDepth);
-        material.SetFloat ("debugTileAmount", noise.viewerTileAmount);
-        material.SetFloat ("viewerSize", noise.viewerSize);
-        material.SetVector ("debugChannelWeight", noise.ChannelMask);
-        material.SetInt ("debugGreyscale", (noise.viewerGreyscale) ? 1 : 0);
-        material.SetInt ("debugShowAllChannels", (noise.viewerShowAllChannels) ? 1 : 0);
     }
 
     void OnValidate() {

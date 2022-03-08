@@ -8,7 +8,6 @@ public class AltitudeMap : MonoBehaviour {
 
     public AltitudeMapSettings altitudeSettings;
 
-    public bool viewerEnabled;
     [HideInInspector]
     public bool showSettingsEditor = true;
 
