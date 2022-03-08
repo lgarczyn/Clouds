@@ -1,0 +1,12 @@
+﻿#pragma kernel CSFlatten
+ 
+ Texture3D<float4> texIn;
+ RWTexture3D<float> texOut;
+ float4 weights;
+ 
+ [numthreads(8,8,8)]
+ void CSFlatten (uint3 id : SV_DispatchThreadID)
+ {
+    float4 normalizedWeights = weights / dot(weights, 1);
+    texOut[id] = dot(texIn[id], normalizedWeights);
+ }
