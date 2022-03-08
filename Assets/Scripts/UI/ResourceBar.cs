@@ -15,11 +15,11 @@ public class ResourceBar : MonoBehaviour
         bar.sizeDelta = new Vector2(bar.sizeDelta.x, Mathf.Round(100 * ratio));
 
         if (ratio > lastValue)
-            indicator.localScale = new Vector2(1f, 1f);
+            indicator.localScale = new Vector3(1f, 1f, 1f);
         else if (ratio < lastValue)
-            indicator.localScale = new Vector2(1f, -1f);
+            indicator.localScale = new Vector3(1f, -1f, 1f);
         else
-            indicator.localScale = new Vector2(0f, 0f);
+            indicator.localScale = new Vector3(0f, 0f, 1f);
 
         lastValue = ratio;
     }
