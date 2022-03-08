@@ -11315,6 +11315,43 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 486112143}
   m_PrefabAsset: {fileID: 0}
+--- !u!84 &490430513
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: DetailNoise
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 64
+  m_Height: 64
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 0
+  m_ColorFormat: 21
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 2
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 0
+    m_WrapV: 0
+    m_WrapW: 0
+  m_Dimension: 3
+  m_VolumeDepth: 64
+  m_ShadowSamplingMode: 2
 --- !u!1001 &525097015
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11581,6 +11618,43 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: c91a60b6592cbc1aabc5169ef3e99927, type: 3}
+--- !u!84 &576019795
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ShapeNoise
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 132
+  m_Height: 132
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 0
+  m_ColorFormat: 21
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 2
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 0
+    m_WrapV: 0
+    m_WrapW: 0
+  m_Dimension: 3
+  m_VolumeDepth: 132
+  m_ShadowSamplingMode: 2
 --- !u!4 &576739962 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7279520872201385020, guid: c91a60b6592cbc1aabc5169ef3e99927,
@@ -17206,7 +17280,6 @@ GameObject:
   m_Component:
   - component: {fileID: 847781466}
   - component: {fileID: 847781465}
-  - component: {fileID: 847781467}
   m_Layer: 0
   m_Name: Noise Generator
   m_TagString: Untagged
@@ -17226,27 +17299,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b99ce195aa394570b614d890804bdfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeTextureType: 1
+  activeTextureType: 0
   activeChannel: 3
   autoUpdate: 1
   logComputeTime: 1
   shapeResolution: 132
   detailResolution: 64
+  shapeWeights: {x: 2.51, y: 0.89, z: 1.37, w: 0.57}
   shapeSettings:
   - {fileID: 11400000, guid: ea6a376fd76944d779a16ea384ced6ff, type: 2}
   - {fileID: 11400000, guid: b1f27073f15ec4c87a59802da437d317, type: 2}
   - {fileID: 11400000, guid: d584944c9f0e04ac9a2cf9677f6a6c1f, type: 2}
   - {fileID: 11400000, guid: d73535d63d15d48988817d9c18e604f6, type: 2}
+  detailWeights: {x: 2.57, y: 0.89, z: 1.37, w: 0}
   detailSettings:
   - {fileID: 11400000, guid: f37860370682c4203ae320b113e775a1, type: 2}
   - {fileID: 11400000, guid: 3399ea3804e6046ba9c660e6f956c0d4, type: 2}
   - {fileID: 11400000, guid: e4ab2474bf9394bc9ae7bba77e2c35f9, type: 2}
-  - {fileID: 11400000, guid: a47a06a6a0fd2134c95f77443516232f, type: 2}
   noiseCompute: {fileID: 7200000, guid: 18d71ea19186c49d9b17692355749824, type: 3}
   copy: {fileID: 7200000, guid: 7abd06564e4244f60857856659a3809f, type: 3}
+  flatten: {fileID: 7200000, guid: ca934df2fbd293c43ad814cfd0431522, type: 3}
   showSettingsEditor: 1
   shapeTexture: {fileID: 1734356181}
   detailTexture: {fileID: 952315911}
+  shapeTextureFlat: {fileID: 576019795}
+  detailTextureFlat: {fileID: 490430513}
 --- !u!4 &847781466
 Transform:
   m_ObjectHideFlags: 0
@@ -17262,18 +17339,6 @@ Transform:
   m_Father: {fileID: 1331973712}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &847781467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 847781464}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5ff12e51c52eca43bbcdea6427741da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &878343391
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17539,7 +17604,7 @@ RenderTexture:
   m_ColorFormat: 24
   m_MipMap: 0
   m_GenerateMips: 1
-  m_SRGB: 1
+  m_SRGB: 0
   m_UseDynamicScale: 0
   m_BindMS: 0
   m_EnableCompatibleFormat: 1
@@ -24388,7 +24453,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - NoiseTex:
-        m_Texture: {fileID: 1734356181}
+        m_Texture: {fileID: 576019795}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - NoiseTexTrilinearRepeat:
