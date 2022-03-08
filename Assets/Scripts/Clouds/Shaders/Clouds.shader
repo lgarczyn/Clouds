@@ -91,9 +91,9 @@ Shader "Hidden/Clouds"
 
             // Textures
             // The main cloud texture
-            Texture3D<float4> NoiseTex;
+            Texture3D<float> NoiseTex;
             // Whisps and detailing
-            Texture3D<float4> DetailNoiseTex;
+            Texture3D<float> DetailNoiseTex;
             // 1D texture to give the 'thunderhead''vibe
             Texture2D<float> AltitudeMap;
             // 2D texture containing the heights of 4 absorption levels
@@ -123,9 +123,6 @@ Shader "Hidden/Clouds"
             float scale;
             float detailNoiseScale;
             float detailNoiseWeight;
-            // Weights to balance the 4 channels of the detail shader
-            float3 detailWeights;
-            float4 shapeNoiseWeights;
             // Used for silverlining while looking at the sun, currently broken
             float4 phaseParams;
             // Parameters for the altitude taper
@@ -254,7 +251,6 @@ Shader "Hidden/Clouds"
 
             float sampleDensity(float3 rayPos, uniform int optimisation, float optiInterpolation) {
                 // Constants:
-                const int mipLevel = 2;
                 const float baseScale = 1/1000.0;
 
                 // Calculate texture sample positions
@@ -289,10 +285,11 @@ Shader "Hidden/Clouds"
                 shapeSamplePosMeta.y /= 3;
                 // shapeSamplePosMeta.y += (shapeSamplePosMeta.x + shapeSamplePosMeta.y) / 1000;
 
-                float4 shapeNoiseMeta = NoiseTex.SampleLevel(samplerNoiseTex, shapeSamplePosMeta , mipLevel);
-                float4 normalizedShapeWeightsMeta = shapeNoiseWeights / dot(shapeNoiseWeights, 1);
-                float shapeFBMMeta = dot(shapeNoiseMeta, normalizedShapeWeightsMeta);
-                float baseShapeDensityMeta = (shapeFBMMeta + densityOffset * .1 - 0.1) * 15;
+                // SampleLevel is used instead of Sample, because
+                // * MIP is always 0 because of 3d textures
+                // * Sample does not allow arbitrary depth loops
+                float shapeNoiseMeta = NoiseTex.SampleLevel(samplerNoiseTex, shapeSamplePosMeta, 0);
+                float baseShapeDensityMeta = (shapeNoiseMeta + densityOffset * .1 - 0.1) * 15;
 
                 // Add altitude density
                 // TODO: standardize height gradient inside density
@@ -318,10 +315,8 @@ Shader "Hidden/Clouds"
 
                 // Calculate base shape density
                 float3 shapeSamplePos = uvw + float3(time,time*0.1,time*0.2) * baseSpeed;
-                float4 shapeNoise = NoiseTex.SampleLevel(samplerNoiseTex, shapeSamplePos, mipLevel);
-                float4 normalizedShapeWeights = shapeNoiseWeights / dot(shapeNoiseWeights, 1);
-                float shapeFBM = dot(shapeNoise, normalizedShapeWeights);
-                float baseShapeDensity = shapeFBM + densityOffset * .1;
+                float shapeNoise = NoiseTex.SampleLevel(samplerNoiseTex, shapeSamplePos, 0);
+                float baseShapeDensity = shapeNoise + densityOffset * .1;
 
                 baseShapeDensity += baseShapeDensityMeta;
 
@@ -331,15 +326,13 @@ Shader "Hidden/Clouds"
                 //     return (baseShapeDensity);
 
                 // Sample detail noise
-                float3 detailSamplePos = uvw*detailNoiseScale + float3(time*.4,-time,time*0.1)*detailSpeed;
-                float4 detailNoise = DetailNoiseTex.SampleLevel(samplerDetailNoiseTex, detailSamplePos, mipLevel);
-                float3 normalizedDetailWeights = detailWeights / dot(detailWeights, 1);
-                float detailFBM = dot(detailNoise, normalizedDetailWeights);
+                float detailSamplePos = uvw*detailNoiseScale + float4(time*.4,-time,time*0.1, 0)*detailSpeed;
+                float detailNoise = DetailNoiseTex.SampleLevel(samplerDetailNoiseTex, detailSamplePos, 0);
 
                 // Subtract detail noise from base shape (weighted by inverse density so that edges get eroded more than centre)
-                float oneMinusShape = 1 - shapeFBM;
+                float oneMinusShape = 1 - shapeNoise;
                 float detailErodeWeight = oneMinusShape * oneMinusShape * oneMinusShape;
-                float cloudDensity = baseShapeDensity - (1-detailFBM) * detailErodeWeight * detailNoiseWeight; 
+                float cloudDensity = baseShapeDensity - (1-detailNoise) * detailErodeWeight * detailNoiseWeight; 
                 cloudDensity *= densityMultiplier / 2;
                 // cloudDensity = baseShapeDensity - cloudDensity;
 
@@ -397,6 +390,7 @@ Shader "Hidden/Clouds"
 
             // Calculate proportion of light that reaches the given point from the lightsource
             float lightmarch(float3 position) {
+                // TODO lookup SampleCMP
 
                 // The position inside the shadow map
                 float2 samplePos =
