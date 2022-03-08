@@ -31,7 +31,8 @@ public class PlaneResourceController : MonoBehaviour
         if (light < 0f || density < 0f) {
 
             // TODO display error to client
-            Debug.LogWarning("Resource controller cannot calculate resources");
+            // If not on startup and resources still cannot be retrieved
+            if (Time.time > 1) Debug.LogWarning("Resource controller cannot calculate resources");
             return ;
         }
 
