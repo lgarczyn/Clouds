@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode, ImageEffectAllowedInSceneView]
-public class CloudMaster : ResourceCalculator {
+public class CloudMaster: MonoBehaviour {
     const string headerDecoration = " --- ";
     [Header (headerDecoration + "Main" + headerDecoration)]
     public Shader shader;
@@ -73,11 +72,10 @@ public class CloudMaster : ResourceCalculator {
     public Color colC;
 
     [Header (headerDecoration + "Shadow Mapping" + headerDecoration)]
-    public ShadowMaster shadowMapper;
     public RenderTexture shadowMap;
+    public Camera shadowCamera;
 
-    // Internal
-    [HideInInspector]
+    [Header (headerDecoration + "Output Material" + headerDecoration)]
     public Material material;
 
     bool isMaterialDirty = true;
@@ -104,48 +102,16 @@ public class CloudMaster : ResourceCalculator {
     }
 
 
-    //Create a new texture
-    Texture2D texture;
-    Color sampledOutputPixel;
-
-    override public float GetLight() {
-        if (sampledOutputPixel.b != 0f || sampledOutputPixel.a != 1f)
-            return -1f;
-
-        return sampledOutputPixel.g;
-    }
-    override public float GetDensity() {
-        if (sampledOutputPixel.b != 0f || sampledOutputPixel.a != 1f)
-            return -1f;
-
-        return sampledOutputPixel.r;
-    }
-
-    [ImageEffectOpaque]
-    private void OnRenderImage (RenderTexture src, RenderTexture dest) {
-
-        if (!texture)
-            texture = new Texture2D(1, 1, TextureFormat.RGB24, false);
+    private void LateUpdate () {
 
         if (isMaterialDirty || material == null || Application.isPlaying == false)
         {
             isMaterialDirty = false;
-
-            // Validate inputs
-            if (material == null || material.shader != shader) {
-                material = new Material (shader);
-            }
-
             SetParams();
-
-            if (shadowMapper)
-            {
-                shadowMapper.SetMaterial(material);
-            }
-
         }
 
         // If the container has drifted by a large amount
+        // TODO: put optimization back
         // if (Vector3.Distance(lastContainerPosition, container.position) > container.localScale.magnitude / 4)
         // {
             material.SetVector ("boundsMin", container.position - container.localScale / 2);
@@ -153,18 +119,6 @@ public class CloudMaster : ResourceCalculator {
             material.SetVector ("playerPosition", player.position);
             lastContainerPosition = container.position;
         // }
-
-        // Blit does the following:
-        // - sets _MainTex property on material to the source texture
-        // - sets the render target to the destination texture
-        // - draws a full-screen quad
-        // This copies the src texture to the dest texture, with whatever modifications the shader makes
-        Graphics.Blit (src, dest, material);
-
-        //Read the pixel in the Rect starting at 0,0 
-        texture.ReadPixels(new Rect(0, 0, 1, 1), 0, 0, false);
-        texture.Apply();
-        this.sampledOutputPixel = texture.GetPixel(0, 0);
     }
 
     void SetParams ()
@@ -186,7 +140,7 @@ public class CloudMaster : ResourceCalculator {
         material.SetFloat("altitudeOffset", altitudeMapGen.altitudeOffset);
         material.SetFloat("altitudeMultiplier", altitudeMapGen.altitudeMultiplier);
         material.SetTexture("ShadowMap", shadowMap);
-        material.SetFloat("shadowMapSize", shadowMapper.GetSize());
+        material.SetFloat("shadowMapSize", shadowCamera.orthographicSize);
 
         // Marching settings
         Vector3 size = container.localScale;
