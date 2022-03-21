@@ -652,7 +652,7 @@ Shader "Clouds"
                     // Store data for gameplay
                     float playerDensity = sampleDensity(playerPosition, 0, 0);
                     float playerLight = lightmarch(playerPosition);
-                    return float4(playerDensity, playerLight, 0, 0);
+                    return float4(playerDensity, playerLight, 0.5, 0.5);
                 }
 
                 return rayMarch(rayPos, rayDir, depth, i.uv);
