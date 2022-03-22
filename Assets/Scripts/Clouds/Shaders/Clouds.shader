@@ -589,6 +589,9 @@ Shader "Clouds"
                 float nonlin_depth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(uv));
 
                 // TODO: figure out why negative near planes break the depths
+                // TODO: use more recent tools:
+                // https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@11.0/manual/writing-shaders-urp-reconstruct-world-position.html
+                // https://alexanderameye.github.io/notes/realtime-caustics/
                 if (unity_OrthoParams.w)
                 {
                     #ifdef UNITY_REVERSED_Z
