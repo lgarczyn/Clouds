@@ -744,8 +744,9 @@ Shader "Clouds"
 
                 // Add shading to non-cloud objects
                 // Could be done better by decoding normals
-                if (hiddenByObject)
-                    backgroundCol *= lerp(lightmarch(rayPos + rayDir * currentDepth), 1, 0.9);
+                // if (hiddenByObject)
+                //     backgroundCol *= lerp(lightmarch(rayPos + rayDir * currentDepth), 1, 0.9);
+                // Code above doesn't work for obscure reasons
 
                 // Increase light energy contrast
                 // TODO: make power a parameter
@@ -762,6 +763,8 @@ Shader "Clouds"
                 col = lerp(col, backgroundCol, transmittance);
 
                 // Add sun and sun glow
+                // TODO: fix failure when outside of bounding box
+                // ie. sun appears in front of plane/whales
                 if (hiddenByObject == false)
                     col = getSunColor(col, rayDir, transmittance);
 
