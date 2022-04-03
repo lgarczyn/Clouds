@@ -27109,7 +27109,6 @@ MonoBehaviour:
   - {fileID: 706094435}
   - {fileID: 414553710}
   - {fileID: 1340265131733852}
-  - {fileID: 0}
   gravityMultiplier: 3
   isDying: 0
 --- !u!114 &1630318330911050
