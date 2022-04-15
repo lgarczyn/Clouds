@@ -32,6 +32,32 @@ public class Frame
     return new TransformD(globalPos, globalRot, globalScale);
   }
 
+  public QuaternionD toLocalRot(QuaternionD rot)
+  {
+    // TODO: minimize and test
+    return toLocalCoord(new TransformD(Vector3D.zero, rot)).rotation;
+  }
+  public Vector3D toLocalPos(Vector3D pos)
+  {
+    // TODO: minimize and test
+    return toLocalCoord(new TransformD(pos)).position;
+  }
+  public QuaternionD toGlobalRot(QuaternionD rot)
+  {
+    // TODO: minimize and test
+    return toGlobalCoord(new TransformD(Vector3D.zero, rot)).rotation;
+  }
+  public Vector3D toGlobalPos(Vector3D pos)
+  {
+    // TODO: minimize and test
+    return toGlobalCoord(new TransformD(pos)).position;
+  }
+
+  public TransformD fromLocalTransform(Transform transform)
+  {
+    return toGlobalCoord(new TransformD(transform.position, transform.rotation));
+  }
+
   public Frame(TransformD parameters = new TransformD())
   {
     this.parameters = parameters;

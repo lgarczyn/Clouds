@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using UnityEngine.Internal;
 
 public struct TransformD : IEquatable<TransformD>
 {
@@ -9,6 +8,8 @@ public struct TransformD : IEquatable<TransformD>
 
   public readonly double scale;
 
+  public static TransformD identity = new TransformD(Vector3D.zero);
+  public TransformD(Vector3D position) : this(position, QuaternionD.identity) { }
   public TransformD(Vector3D position, QuaternionD rotation, double scale = 1)
   {
     this.position = position;
