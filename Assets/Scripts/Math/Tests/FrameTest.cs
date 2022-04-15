@@ -51,27 +51,27 @@ public class FrameTest
     var testCoord = new TransformD(testPos, testRot, 2);
     // Reversible offset
     Debug.Log("Testing reversible offset");
-    var offsetSpace = new Frame(new TransformD(new Vector3D(10, 30, 1000), QuaternionD.identity, 1));
-    TestFrameReversible(offsetSpace, testCoord);
+    var offsetFrame = new FrameOfReference(new TransformD(new Vector3D(10, 30, 1000), QuaternionD.identity, 1));
+    TestFrameReversible(offsetFrame, testCoord);
     // Reversible rotation
     Debug.Log("Testing reversible rotation");
-    var rotationSpace = new Frame(new TransformD(Vector3D.zero, QuaternionD.Euler(36f, 96f, 105f), 1));
-    TestFrameReversible(rotationSpace, testCoord);
+    var rotationFrame = new FrameOfReference(new TransformD(Vector3D.zero, QuaternionD.Euler(36f, 96f, 105f), 1));
+    TestFrameReversible(rotationFrame, testCoord);
     // Reversible scale
     Debug.Log("Testing reversible scale");
-    var scaledSpace = new Frame(new TransformD(Vector3D.zero, QuaternionD.identity, 10));
-    TestFrameReversible(scaledSpace, testCoord);
+    var scaledFrame = new FrameOfReference(new TransformD(Vector3D.zero, QuaternionD.identity, 10));
+    TestFrameReversible(scaledFrame, testCoord);
     // Reversible combined
     Debug.Log("Testing reversible combined");
-    var space = new Frame(new TransformD(new Vector3D(10, 30, 1000), QuaternionD.Euler(36f, 96f, 105f), 10));
-    TestFrameReversible(space, testCoord);
+    var frame = new FrameOfReference(new TransformD(new Vector3D(10, 30, 1000), QuaternionD.Euler(36f, 96f, 105f), 10));
+    TestFrameReversible(frame, testCoord);
   }
-  void TestFrameReversible(Frame frame, TransformD point)
+  void TestFrameReversible(FrameOfReference frame, TransformD point)
   {
     var toLocalAndBack = frame.toLocal(frame.toGlobalCoord(point));
-    Assert.IsTrue(point.Approximately(toLocalAndBack), "Space" + frame + " toLocal not reversible: " + point + "!=" + toLocalAndBack);
+    Assert.IsTrue(point.Approximately(toLocalAndBack), "Frame" + frame + " toLocal not reversible: " + point + "!=" + toLocalAndBack);
     var toGlobalAndBack = frame.toGlobalCoord(frame.toLocal(point));
-    Assert.IsTrue(point.Approximately(toGlobalAndBack), "Space" + frame + " toGlobal not reversible: " + point + "!=" + toGlobalAndBack);
+    Assert.IsTrue(point.Approximately(toGlobalAndBack), "Frame" + frame + " toGlobal not reversible: " + point + "!=" + toGlobalAndBack);
   }
 
   [Test]
@@ -83,8 +83,8 @@ public class FrameTest
     // Correct scale
     Debug.Log("Testing correct scale");
     var appliedScale = 10;
-    var scaledSpace = new Frame(new TransformD(Vector3D.zero, QuaternionD.identity, appliedScale));
-    var scaledCoord = scaledSpace.toLocal(testCoord);
+    var scaledFrame = new FrameOfReference(new TransformD(Vector3D.zero, QuaternionD.identity, appliedScale));
+    var scaledCoord = scaledFrame.toLocal(testCoord);
     var expectedScaledCoord = new TransformD(
       testCoord.position / appliedScale,
       testCoord.rotation,
@@ -93,8 +93,8 @@ public class FrameTest
     // Correct offset
     Debug.Log("Testing correct offset");
     var appliedOffset = new Vector3D(10, 30, 1000);
-    var offsetSpace = new Frame(new TransformD(appliedOffset, QuaternionD.identity, 1));
-    var offsetCoord = offsetSpace.toLocal(testCoord);
+    var offsetFrame = new FrameOfReference(new TransformD(appliedOffset, QuaternionD.identity, 1));
+    var offsetCoord = offsetFrame.toLocal(testCoord);
     var expectedOffsetCoord = new TransformD(
       testCoord.position - appliedOffset,
       testCoord.rotation,
@@ -103,8 +103,8 @@ public class FrameTest
     // Correct rotation
     Debug.Log("Testing correct rotation");
     var appliedRotation = QuaternionD.Euler(36f, 96f, 105f);
-    var rotationSpace = new Frame(new TransformD(Vector3D.zero, appliedRotation, 1));
-    var rotationCoord = rotationSpace.toLocal(testCoord);
+    var rotationFrame = new FrameOfReference(new TransformD(Vector3D.zero, appliedRotation, 1));
+    var rotationCoord = rotationFrame.toLocal(testCoord);
     var expectedRotationCoord = new TransformD(
       QuaternionD.Inverse(appliedRotation) * testCoord.position,
       QuaternionD.Inverse(appliedRotation) * testCoord.rotation,
@@ -146,15 +146,15 @@ public class FrameTest
     child.transform.localRotation = (Quaternion)childRot;
     child.transform.localScale = Vector3.one * childScale;
 
-    var childInGlobalSpace = new Frame(parentCoord).toGlobalCoord(childCoord);
+    var childInGlobalFrame = new FrameOfReference(parentCoord).toGlobalCoord(childCoord);
 
-    var childInGlobalSpaceUnity = new TransformD(
+    var childInGlobalFrameUnity = new TransformD(
       child.transform.position,
       child.transform.rotation,
       (child.transform.lossyScale.x + child.transform.lossyScale.y + child.transform.lossyScale.z) / 3
     );
 
-    TestCoordEqual(childInGlobalSpace, childInGlobalSpaceUnity, "To Global Fail:", 0.0001f);
+    TestCoordEqual(childInGlobalFrame, childInGlobalFrameUnity, "To Global Fail:", 0.0001f);
   }
   void TestSoundnessGlobalToLocal()
   {
@@ -183,14 +183,14 @@ public class FrameTest
     // Since localScale cannot be set, simulate it
     child.transform.localScale = Vector3.one * (childScale / parentScale);
 
-    var childInLocalSpace = new Frame(parentCoord).toLocal(childCoord);
+    var childInLocalFrame = new FrameOfReference(parentCoord).toLocal(childCoord);
 
-    var childInLocalSpaceUnity = new TransformD(
+    var childInLocalFrameUnity = new TransformD(
       child.transform.localPosition,
       child.transform.localRotation,
       (child.transform.localScale.x + child.transform.localScale.y + child.transform.localScale.z) / 3
     );
 
-    TestCoordEqual(childInLocalSpace, childInLocalSpaceUnity, "To Local Fail:", 0.000001f);
+    TestCoordEqual(childInLocalFrame, childInLocalFrameUnity, "To Local Fail:", 0.000001f);
   }
 }

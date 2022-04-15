@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class JupiterSpace : Frame
+public class JupiterSpace : FrameOfReference
 {
 
   public const double JUPITER_DISTANCE_FROM_SUN = 149_550_000_000; // Actually Earth's orbit

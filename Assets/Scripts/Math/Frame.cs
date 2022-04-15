@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Frame
+public class FrameOfReference
 {
   protected TransformD transform;
 
@@ -58,7 +58,7 @@ public class Frame
     return toGlobalCoord(new TransformD(transform.position, transform.rotation));
   }
 
-  public Frame(TransformD transform = new TransformD())
+  public FrameOfReference(TransformD transform = new TransformD())
   {
     this.transform = transform;
   }

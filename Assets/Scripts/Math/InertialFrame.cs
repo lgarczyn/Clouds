@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InertialFrame : Frame
+public class InertialFrame : FrameOfReference
 {
   Vector3D velocity;
 
