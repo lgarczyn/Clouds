@@ -8,22 +8,22 @@ public class InertialFrame : Frame
 
   public InertialFrame(TransformD transform)
   {
-    this.parameters = transform;
+    this.transform = transform;
     this.velocity = Vector3D.zero;
   }
 
   public InertialFrame(TransformD transform, Vector3D velocity)
   {
-    this.parameters = transform;
+    this.transform = transform;
     this.velocity = velocity;
   }
 
   public void UpdatePos(double deltaTime)
   {
-    this.parameters = new TransformD(
-      this.parameters.position + velocity * deltaTime,
-      this.parameters.rotation,
-      this.parameters.scale
+    this.transform = new TransformD(
+      this.transform.position + velocity * deltaTime,
+      this.transform.rotation,
+      this.transform.scale
     );
   }
 }

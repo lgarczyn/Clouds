@@ -764,6 +764,11 @@ namespace UnityEngine
       return new UnityEngine.Quaternion((float)me.x, (float)me.y, (float)me.z, (float)me.w);
     }
 
+    public static explicit operator UnityEngine.Vector4(QuaternionD me)
+    {
+      return new UnityEngine.Vector4((float)me.x, (float)me.y, (float)me.z, (float)me.w);
+    }
+
     public static implicit operator QuaternionD(UnityEngine.Quaternion other)
     {
       return new QuaternionD(other.x, other.y, other.z, other.w);

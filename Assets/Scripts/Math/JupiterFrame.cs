@@ -25,12 +25,13 @@ public class JupiterSpace : Frame
       Vector3D.right
     );
 
+    // TODO: remove "+ 0.5" which is used here simply to start the game during the day
     QuaternionD revolution = QuaternionD.AngleAxis(
-      360.0 * time / JUPITER_REVOLUTION_PERIOD,
+      360.0 * (time / JUPITER_REVOLUTION_PERIOD + 0.5),
       Vector3D.up
     );
 
-    this.parameters = new TransformD(
+    this.transform = new TransformD(
       orbitalPosition,
       axialTilt * revolution,
       1
@@ -47,27 +48,71 @@ public class JupiterSpace : Frame
     return QuaternionD.LookRotation(-sunPosRelative);
   }
 
-  public QuaternionD GetSkyboxRotation()
-  {
-    // Take the default rotation of the solar system
-    QuaternionD posAbsolute = QuaternionD.identity;
-    // Find the relative rotation from Jupiter's point of view
-    QuaternionD sunPosRelative = this.toLocalRot(posAbsolute);
-    // Return that rotation
-    return sunPosRelative;
-  }
-
+  /// <summary>
+  /// Transform a coordinate quaternion to a point on the surface of Jupiter in Jupiter space
+  /// </summary>
+  /// <param name="latLong">
+  /// The rotation representation of the coordinates, which transforms a forward aligned vector
+  /// into the local "up" vector
+  /// </param>
+  /// <returns> A 1:1 scale point on the surface of Jupiter </returns>
   public Vector3D GetSurfacePoint(QuaternionD latLong)
   {
     // Remove 1.1 once jupiter is precise enough to avoid clipping
     return latLong * (Vector3D.forward * JUPITER_RADIUS * 1.1);
   }
 
-  public TransformD GetSurfaceTransform(QuaternionD latLong, double angle)
+  /// <summary>
+  /// Transform a coordinate quaternion to a transform on the surface of jupiter, aligned to the horizon
+  /// </summary>
+  /// <param name="latLong">
+  /// The rotation representation of the coordinates, which transforms a forward aligned vector
+  /// into the local "up" vector
+  /// </param>
+  /// <returns> A 1:1 scale transform on the surface of Jupiter </returns>
+  public TransformD GetSurfaceTransform(QuaternionD latLong)
   {
     return new TransformD(
       GetSurfacePoint(latLong),
-      latLong * QuaternionD.AngleAxis(90, Vector3D.right) * QuaternionD.AngleAxis(angle, Vector3D.up)
+      latLong * QuaternionD.AngleAxis(90, Vector3D.right)
     );
+  }
+
+  /// <summary>
+  /// Transform GCS coordinate to  a point on the surface of Jupiter in Jupiter space
+  /// </summary>
+  /// <param name="latitude">The latitude coordinate</param>
+  /// <param name="longitude">The longitude coordinate</param>
+  /// <param name="bearing">The "bearing", or angle around the local "up" axis</param>
+  /// <returns> A 1:1 scale point on the surface of Jupiter </returns>
+  public Vector3D GetSurfacePoint(double latitude, double longitude)
+  {
+    return GetSurfacePoint(GcsToQuaternion(latitude, longitude));
+  }
+
+  /// <summary>
+  /// Transform GCS coordinates into a transform on the surface of jupiter, aligned to the horizon
+  /// </summary>
+  /// <param name="latitude">The latitude coordinate</param>
+  /// <param name="longitude">The longitude coordinate</param>
+  /// <param name="bearing">The "bearing", or angle around the local "up" axis</param>
+  /// <returns> A 1:1 scale transform on the surface of Jupiter </returns>
+  public TransformD GetSurfaceTransform(double latitude, double longitude, double bearing = 0)
+  {
+    return GetSurfaceTransform(GcsToQuaternion(latitude, longitude, bearing));
+  }
+
+  /// <summary>
+  /// Transform coordinates to a point on the surface of Jupiter in Jupiter space
+  /// </summary>
+  /// <param name="latitude">The latitude coordinate</param>
+  /// <param name="longitude">The longitude coordinate</param>
+  /// <param name="bearing">The "bearing", or angle around the local "up" axis</param>
+  /// <returns></returns>
+  public QuaternionD GcsToQuaternion(double latitude, double longitude, double bearing = 0)
+  {
+    return QuaternionD.AngleAxis(longitude, Vector3.up) *
+      QuaternionD.AngleAxis(latitude, Vector3.right) *
+      QuaternionD.AngleAxis(bearing, Vector3.forward);
   }
 }

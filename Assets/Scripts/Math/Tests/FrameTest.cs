@@ -68,9 +68,9 @@ public class FrameTest
   }
   void TestFrameReversible(Frame frame, TransformD point)
   {
-    var toLocalAndBack = frame.toLocalCoord(frame.toGlobalCoord(point));
+    var toLocalAndBack = frame.toLocal(frame.toGlobalCoord(point));
     Assert.IsTrue(point.Approximately(toLocalAndBack), "Space" + frame + " toLocal not reversible: " + point + "!=" + toLocalAndBack);
-    var toGlobalAndBack = frame.toGlobalCoord(frame.toLocalCoord(point));
+    var toGlobalAndBack = frame.toGlobalCoord(frame.toLocal(point));
     Assert.IsTrue(point.Approximately(toGlobalAndBack), "Space" + frame + " toGlobal not reversible: " + point + "!=" + toGlobalAndBack);
   }
 
@@ -84,7 +84,7 @@ public class FrameTest
     Debug.Log("Testing correct scale");
     var appliedScale = 10;
     var scaledSpace = new Frame(new TransformD(Vector3D.zero, QuaternionD.identity, appliedScale));
-    var scaledCoord = scaledSpace.toLocalCoord(testCoord);
+    var scaledCoord = scaledSpace.toLocal(testCoord);
     var expectedScaledCoord = new TransformD(
       testCoord.position / appliedScale,
       testCoord.rotation,
@@ -94,7 +94,7 @@ public class FrameTest
     Debug.Log("Testing correct offset");
     var appliedOffset = new Vector3D(10, 30, 1000);
     var offsetSpace = new Frame(new TransformD(appliedOffset, QuaternionD.identity, 1));
-    var offsetCoord = offsetSpace.toLocalCoord(testCoord);
+    var offsetCoord = offsetSpace.toLocal(testCoord);
     var expectedOffsetCoord = new TransformD(
       testCoord.position - appliedOffset,
       testCoord.rotation,
@@ -104,7 +104,7 @@ public class FrameTest
     Debug.Log("Testing correct rotation");
     var appliedRotation = QuaternionD.Euler(36f, 96f, 105f);
     var rotationSpace = new Frame(new TransformD(Vector3D.zero, appliedRotation, 1));
-    var rotationCoord = rotationSpace.toLocalCoord(testCoord);
+    var rotationCoord = rotationSpace.toLocal(testCoord);
     var expectedRotationCoord = new TransformD(
       QuaternionD.Inverse(appliedRotation) * testCoord.position,
       QuaternionD.Inverse(appliedRotation) * testCoord.rotation,
@@ -183,7 +183,7 @@ public class FrameTest
     // Since localScale cannot be set, simulate it
     child.transform.localScale = Vector3.one * (childScale / parentScale);
 
-    var childInLocalSpace = new Frame(parentCoord).toLocalCoord(childCoord);
+    var childInLocalSpace = new Frame(parentCoord).toLocal(childCoord);
 
     var childInLocalSpaceUnity = new TransformD(
       child.transform.localPosition,

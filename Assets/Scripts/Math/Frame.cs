@@ -2,19 +2,19 @@ using UnityEngine;
 
 public class Frame
 {
-  protected TransformD parameters;
+  protected TransformD transform;
 
-  public TransformD toLocalCoord(TransformD coord)
+  public TransformD toLocal(TransformD coord)
   {
     var globalPos = coord.position;
     var globalRot = coord.rotation;
     var globalScale = coord.scale;
 
-    var inverseRot = QuaternionD.Inverse(parameters.rotation);
+    var inverseRot = QuaternionD.Inverse(transform.rotation);
 
-    var localPos = inverseRot * (globalPos - parameters.position) / parameters.scale;
+    var localPos = inverseRot * (globalPos - transform.position) / transform.scale;
     var localRot = inverseRot * globalRot;
-    var localScale = globalScale / parameters.scale;
+    var localScale = globalScale / transform.scale;
 
     return new TransformD(localPos, localRot, localScale);
   }
@@ -25,9 +25,9 @@ public class Frame
     var localRot = coord.rotation;
     var localScale = coord.scale;
 
-    var globalPos = (parameters.rotation * localPos) * parameters.scale + parameters.position;
-    var globalRot = parameters.rotation * localRot;
-    var globalScale = localScale * parameters.scale;
+    var globalPos = (transform.rotation * localPos) * transform.scale + transform.position;
+    var globalRot = transform.rotation * localRot;
+    var globalScale = localScale * transform.scale;
 
     return new TransformD(globalPos, globalRot, globalScale);
   }
@@ -35,12 +35,12 @@ public class Frame
   public QuaternionD toLocalRot(QuaternionD rot)
   {
     // TODO: minimize and test
-    return toLocalCoord(new TransformD(Vector3D.zero, rot)).rotation;
+    return toLocal(new TransformD(Vector3D.zero, rot)).rotation;
   }
   public Vector3D toLocalPos(Vector3D pos)
   {
     // TODO: minimize and test
-    return toLocalCoord(new TransformD(pos)).position;
+    return toLocal(new TransformD(pos)).position;
   }
   public QuaternionD toGlobalRot(QuaternionD rot)
   {
@@ -58,8 +58,8 @@ public class Frame
     return toGlobalCoord(new TransformD(transform.position, transform.rotation));
   }
 
-  public Frame(TransformD parameters = new TransformD())
+  public Frame(TransformD transform = new TransformD())
   {
-    this.parameters = parameters;
+    this.transform = transform;
   }
 }
