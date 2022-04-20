@@ -130,8 +130,8 @@ public class CloudMaster: MonoBehaviour {
         var noise = FindObjectOfType<NoiseGenerator> ();
         noise.UpdateNoise ();
 
-        material.SetTexture ("NoiseTex", noise.shapeTextureFlat);
-        material.SetTexture ("DetailNoiseTex", noise.detailTextureFlat);
+        material.SetTexture("ShapeTex", noise.shapeTextureFlat);
+        material.SetTexture ("DetailTex", noise.detailTextureFlat);
         material.SetTexture ("HeightGradientTex", heightGradientTex);
 
         // WeatherMap and AltitudeMap

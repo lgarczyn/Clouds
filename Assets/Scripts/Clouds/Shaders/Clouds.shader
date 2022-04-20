@@ -6,7 +6,8 @@ Shader "Clouds"
     {
         _MainTex ("Texture", 2D) = "white" {}
         // material properties used exclusively to check if material cloning works
-        NoiseTex ("noise", 3D) = "white" {}
+        ShapeTex ("shape", 3D) = "white" {}
+        DetailTex ("detail", 3D) = "white" {}
         ShadowMap ("shadows", 2D) = "black" {}
     }
     SubShader
@@ -91,9 +92,9 @@ Shader "Clouds"
 
             // Textures
             // The main cloud texture
-            Texture3D<float> NoiseTex;
+            Texture3D<float> ShapeTex;
             // Whisps and detailing
-            Texture3D<float> DetailNoiseTex;
+            Texture3D<float> DetailTex;
             // 1D texture to give the 'thunderhead''vibe
             Texture2D<float> AltitudeMap;
             // 2D texture containing the heights of 4 absorption levels
@@ -103,8 +104,8 @@ Shader "Clouds"
             static const float4 shadowMapAbsorptionLevels = float4(0.6, 0.4, 0.2, 0.01);
             float shadowMapSize;
 
-            SamplerState samplerNoiseTex;
-            SamplerState samplerDetailNoiseTex;
+            SamplerState samplerShapeTex;
+            SamplerState samplerDetailTex;
             SamplerState samplerAltitudeMap;
             SamplerState samplerShadowMapPointRepeat;
 
@@ -288,7 +289,7 @@ Shader "Clouds"
                 // SampleLevel is used instead of Sample, because
                 // * MIP is always 0 because of 3d textures
                 // * Sample does not allow arbitrary depth loops
-                float shapeNoiseMeta = NoiseTex.SampleLevel(samplerNoiseTex, shapeSamplePosMeta, 0);
+                float shapeNoiseMeta = ShapeTex.SampleLevel(samplerShapeTex, shapeSamplePosMeta, 0);
                 float baseShapeDensityMeta = (shapeNoiseMeta + densityOffset * .1 - 0.1) * 15;
 
                 // Add altitude density
@@ -315,7 +316,7 @@ Shader "Clouds"
 
                 // Calculate base shape density
                 float3 shapeSamplePos = uvw + float3(time,time*0.1,time*0.2) * baseSpeed;
-                float shapeNoise = NoiseTex.SampleLevel(samplerNoiseTex, shapeSamplePos, 0);
+                float shapeNoise = ShapeTex.SampleLevel(samplerShapeTex, shapeSamplePos, 0);
                 float baseShapeDensity = shapeNoise + densityOffset * .1;
 
                 baseShapeDensity += baseShapeDensityMeta;
@@ -327,7 +328,7 @@ Shader "Clouds"
 
                 // Sample detail noise
                 float detailSamplePos = uvw*detailNoiseScale + float4(time*.4,-time,time*0.1, 0)*detailSpeed;
-                float detailNoise = DetailNoiseTex.SampleLevel(samplerDetailNoiseTex, detailSamplePos, 0);
+                float detailNoise = DetailTex.SampleLevel(samplerDetailTex, detailSamplePos, 0);
 
                 // Subtract detail noise from base shape (weighted by inverse density so that edges get eroded more than centre)
                 float oneMinusShape = 1 - shapeNoise;
