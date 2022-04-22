@@ -19291,7 +19291,7 @@ MonoBehaviour:
   backScattering: 0.33
   baseBrightness: 1
   phaseFactor: 0.83
-  godRaysIntensity: 3.74
+  godRaysIntensity: 0.2
   timeScale: 3
   baseSpeed: 0.3
   detailSpeed: 2
