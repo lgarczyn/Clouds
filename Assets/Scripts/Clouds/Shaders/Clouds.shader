@@ -8,6 +8,7 @@ Shader "Clouds"
         // material properties used exclusively to check if material cloning works
         ShapeTex ("shape", 3D) = "white" {}
         DetailTex ("detail", 3D) = "white" {}
+        NoiseTex ("noise", 2D) = "white" {}
         ShadowMap ("shadows", 2D) = "black" {}
     }
     SubShader
@@ -97,6 +98,8 @@ Shader "Clouds"
             Texture3D<float> DetailTex;
             // 1D texture to give the 'thunderhead''vibe
             Texture2D<float> AltitudeMap;
+            // 2D texture to fix banding
+            Texture2D<float> NoiseTex;
             // 2D texture containing the heights of 4 absorption levels
             Texture2D<float4> ShadowMap;
             float4 ShadowMap_TexelSize;
@@ -106,6 +109,7 @@ Shader "Clouds"
 
             SamplerState samplerShapeTex;
             SamplerState samplerDetailTex;
+            SamplerState samplerNoiseTex;
             SamplerState samplerAltitudeMap;
             SamplerState samplerShadowMapPointRepeat;
 
@@ -141,6 +145,7 @@ Shader "Clouds"
             // March settings
             int numStepsLight;
             float stepSizeRender;
+            float firstStepNoiseMultiplier;
             float rayOffsetStrength;
             // Two opposite corners of the cloud container
             float3 boundsMin;
@@ -675,12 +680,18 @@ Shader "Clouds"
                 // Normalize depth the same way
                 depth *= distancePerspectiveModifier;
 
+                // Random offset to the start of raymarching
+                // Avoids some banding
+                // TODO: map texture 1:1 to actual pixels
+                float startNoiseOffset = (NoiseTex.SampleLevel(samplerNoiseTex, uv * 10 + _Time.xy * 97 , 0) - 0.5)
+                    * firstStepNoiseMultiplier * 3;
+
                 float2 rayToContainerInfo = rayBoxDst(boundsMin, boundsMax, rayPos, 1/rayDir);
                 float dstToBox = rayToContainerInfo.x;
                 float dstInsideBox = rayToContainerInfo.y;
 
                 // point of intersection with the cloud container
-                float3 entryPoint = rayPos + rayDir * dstToBox;
+                float3 entryPoint = rayPos + rayDir * (dstToBox + startNoiseOffset);
 
                 // Adds an empty sphere around the camera
                 // float dstTravelled = max(400 - dstToBox, 0);
@@ -710,6 +721,7 @@ Shader "Clouds"
                         float density = sampleDensity(rayPos, i, loopRatio);
                         float real_stepSize = clamp(stepSize * 500, 0, 1) * max(abs(density), 0.05);
 
+                        // TODO: fix banding when setting godrays
                         float real_density = max(density, godRaysIntensity);
                         float lightTransmittance = lightmarch(rayPos);
 

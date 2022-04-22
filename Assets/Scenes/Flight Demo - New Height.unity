@@ -19265,6 +19265,7 @@ MonoBehaviour:
   player: {fileID: 4563114451573410}
   cloudTestParams: {x: 0.9, y: 7.29, z: 0.64}
   stepSizeRender: 8.95
+  firstStepNoiseMultiplier: 2
   rayOffsetStrength: 9.19
   heightGradientTex: {fileID: 0}
   minTransmittance: 0.1
