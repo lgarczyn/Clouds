@@ -9,35 +9,32 @@ public class ShadowCameraMatrix : MonoBehaviour
   public Transform directionalLight;
   public bool active = true;
   public bool debug = false;
-  public bool useSun = true;
-  public Vector3 alternativeAngles;
   Matrix4x4 matrix = Matrix4x4.identity;
-
 
   private void LateUpdate()
   {
 
     Camera shadowCamera = GetComponent<Camera>();
 
-    if (active)
+    if (active && directionalLight)
     {
-      // Either use the sun or the input as our shadow direction
-      Quaternion target;
-      if (useSun && directionalLight != null)
-        target = directionalLight.rotation * Quaternion.Euler(-90, 0, 0);
-      else
-        target = Quaternion.Euler(alternativeAngles);
-
       // Set the initial camera matrix
       // Doesn't set the scaling, as Unity adds it from the camera parameters
       Matrix4x4 shadowMatrix = Matrix4x4.Ortho(-1, 1, -1, 1, -1, 1);
 
-      // Get the angles of sunlight
-      Vector3 angles = (target).eulerAngles;
+      // Get the direction of the sunlight
+      Vector3 sunlightDir = directionalLight.transform.forward;
+
+      // Project the vector onto the y=-1 plane
+      sunlightDir /= -sunlightDir.y;
+
+      // Draw the calculated line
+      // should be completely overlapped by the magenta frustrum center line when functional
+      Debug.DrawLine(Vector3.zero, sunlightDir, Color.green);
 
       // Add shear to the custom matrix to match the sunlight
-      matrix.m02 = Mathf.Tan(Mathf.Deg2Rad * angles.y);
-      matrix.m12 = Mathf.Tan(Mathf.Deg2Rad * -angles.x);
+      matrix.m02 = sunlightDir.x;
+      matrix.m12 = sunlightDir.z;
 
       // Combines the custom matrix, the ortho matrix, the current rotation, the current position
       shadowMatrix =
@@ -117,6 +114,13 @@ public class ShadowCameraMatrix : MonoBehaviour
     Debug.DrawLine(frustumCorners[5], frustumCorners[7], Color.white);
     Debug.DrawLine(frustumCorners[6], frustumCorners[4], Color.white);
     Debug.DrawLine(frustumCorners[7], frustumCorners[6], Color.white);
+
+    // Center line
+
+    Debug.DrawLine(
+        (frustumCorners[0] + frustumCorners[3]) / 2,
+        (frustumCorners[4] + frustumCorners[7]) / 2,
+        Color.magenta);
   }
 
 }
