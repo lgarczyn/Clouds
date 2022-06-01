@@ -9,13 +9,11 @@ public class CloudMaster : MonoBehaviour
   public Shader shader;
   public Transform container;
   public Transform player;
-  public Vector3 cloudTestParams;
 
   [Header(headerDecoration + "March settings" + headerDecoration)]
   public float stepSizeRender = 8;
   public float firstStepNoiseMultiplier = 3;
   public float rayOffsetStrength;
-  public Texture2D heightGradientTex;
   public float minTransmittance = 0.05f;
 
   [Header(headerDecoration + "LOD Settings" + headerDecoration)]
@@ -101,7 +99,6 @@ public class CloudMaster : MonoBehaviour
   {
     if (Application.isPlaying)
       UpdateMaps();
-    Application.targetFrameRate = 60;
   }
 
 
@@ -136,7 +133,6 @@ public class CloudMaster : MonoBehaviour
 
     material.SetTexture("ShapeTex", noise.shapeTextureFlat);
     material.SetTexture("DetailTex", noise.detailTextureFlat);
-    material.SetTexture("HeightGradientTex", heightGradientTex);
 
     // WeatherMap and AltitudeMap
     UpdateMaps();
@@ -164,7 +160,6 @@ public class CloudMaster : MonoBehaviour
     material.SetFloat("lightAbsorptionThroughCloud", lightAbsorptionThroughCloud);
     material.SetFloat("lightAbsorptionTowardSun", lightAbsorptionTowardSun);
     material.SetFloat("darknessThreshold", darknessThreshold);
-    material.SetVector("params", cloudTestParams);
     material.SetFloat("rayOffsetStrength", rayOffsetStrength);
 
     material.SetFloat("detailNoiseScale", detailNoiseScale);

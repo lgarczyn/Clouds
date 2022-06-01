@@ -4555,7 +4555,6 @@ GameObject:
   - component: {fileID: 1306023374}
   - component: {fileID: 1306023373}
   - component: {fileID: 1306023372}
-  - component: {fileID: 1306023371}
   - component: {fileID: 1306023370}
   - component: {fileID: 1306023369}
   - component: {fileID: 1306023368}
@@ -4654,60 +4653,6 @@ Skybox:
   m_GameObject: {fileID: 1306023367}
   m_Enabled: 1
   m_CustomSkybox: {fileID: 2100000, guid: d7fa24953d49378419ba50e0557fabff, type: 2}
---- !u!114 &1306023371
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1306023367}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07a0573c03ac54441823ca2219f520d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shader: {fileID: 4800000, guid: 7e5c642fc5a7742a1b257a0e6f60352b, type: 3}
-  container: {fileID: 1230604923}
-  player: {fileID: 4563114451573410}
-  cloudTestParams: {x: 0.9, y: 7.29, z: 0.64}
-  stepSizeRender: 8.95
-  firstStepNoiseMultiplier: 2
-  rayOffsetStrength: 9.19
-  heightGradientTex: {fileID: 0}
-  minTransmittance: 0.1
-  lodLevelMagnitude: 6.42
-  lodMinDistance: 300
-  cloudScale: 7.5
-  densityMultiplier: 2.69
-  visualDensityMultiplier: 1
-  densityOffset: -4.75
-  shapeOffset: {x: 29.4, y: -47.87, z: 1.11}
-  heightOffset: {x: 0, y: 0}
-  densityTaperUpStrength: 50.8
-  densityTaperUpStart: 0.885
-  densityTaperDownStrength: 65.9
-  densityTaperDownStart: 0.157
-  detailNoiseScale: 4
-  detailNoiseWeight: 1.5
-  detailOffset: {x: 130.23, y: 0, z: 0}
-  numStepsLight: 684
-  lightAbsorptionThroughCloud: 0.17
-  lightAbsorptionTowardSun: 1.49
-  darknessThreshold: 0.28
-  forwardScattering: 0.72
-  backScattering: 0.33
-  baseBrightness: 1
-  phaseFactor: 0.83
-  godRaysIntensity: 0.2
-  timeScale: 3
-  baseSpeed: 0.3
-  detailSpeed: 2
-  colA: {r: 0.85800004, g: 0.39013878, b: 0.163878, a: 1}
-  colB: {r: 0.575, g: 0, b: 0.03179736, a: 1}
-  colC: {r: 0.35686275, g: 0.10196078, b: 0.24850214, a: 0}
-  shadowMap: {fileID: 8400000, guid: 470f7ae1a1b7ec349a5e9559bc869ec0, type: 2}
-  shadowCamera: {fileID: 1166806715}
-  material: {fileID: 2100000, guid: feb5506ac90b28945a87d742b2d386f0, type: 2}
 --- !u!81 &1306023372
 AudioListener:
   m_ObjectHideFlags: 0
@@ -4829,6 +4774,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1331973712}
+  - component: {fileID: 1331973713}
   m_Layer: 0
   m_Name: Clouds
   m_TagString: Untagged
@@ -4855,6 +4801,58 @@ Transform:
   m_Father: {fileID: 1608915522}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1331973713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331973711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07a0573c03ac54441823ca2219f520d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: 7e5c642fc5a7742a1b257a0e6f60352b, type: 3}
+  container: {fileID: 1230604923}
+  player: {fileID: 4563114451573410}
+  stepSizeRender: 8.95
+  firstStepNoiseMultiplier: 2
+  rayOffsetStrength: 9.19
+  minTransmittance: 0.1
+  lodLevelMagnitude: 6.42
+  lodMinDistance: 300
+  cloudScale: 7.5
+  densityMultiplier: 2.69
+  visualDensityMultiplier: 1
+  densityOffset: -0.475
+  shapeOffset: {x: 29.4, y: -47.87, z: 1.11}
+  heightOffset: {x: 0, y: 0}
+  densityTaperUpStrength: 50.8
+  densityTaperUpStart: 0.885
+  densityTaperDownStrength: 65.9
+  densityTaperDownStart: 0.157
+  detailNoiseScale: 4
+  detailNoiseWeight: 1.5
+  detailOffset: {x: 130.23, y: 0, z: 0}
+  numStepsLight: 684
+  lightAbsorptionThroughCloud: 0.17
+  lightAbsorptionTowardSun: 1.49
+  darknessThreshold: 0.28
+  forwardScattering: 0.72
+  backScattering: 0.33
+  baseBrightness: 1
+  phaseFactor: 0.83
+  godRaysIntensity: 0.2
+  timeScale: 3
+  baseSpeed: 0.3
+  detailSpeed: 2
+  colA: {r: 0.85800004, g: 0.39013878, b: 0.163878, a: 1}
+  colB: {r: 0.575, g: 0, b: 0.03179736, a: 1}
+  colC: {r: 0.35686275, g: 0.10196078, b: 0.24850214, a: 0}
+  shadowMap: {fileID: 8400000, guid: 470f7ae1a1b7ec349a5e9559bc869ec0, type: 2}
+  shadowCamera: {fileID: 1166806715}
+  material: {fileID: 2100000, guid: feb5506ac90b28945a87d742b2d386f0, type: 2}
 --- !u!1001 &1353362811
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7178,6 +7176,11 @@ PrefabInstance:
       propertyPath: resourceCalculator
       value: 
       objectReference: {fileID: 1567621671}
+    - target: {fileID: 6036350815579256824, guid: 8580f51aba7053a4286c3ec8810a585e,
+        type: 3}
+      propertyPath: baseEnergyPerSecond
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6036350815579256825, guid: 8580f51aba7053a4286c3ec8810a585e,
         type: 3}
       propertyPath: toDisable.Array.data[0]

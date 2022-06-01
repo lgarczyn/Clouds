@@ -118,7 +118,6 @@ Shader "Clouds"
 
             // Shape settings
             // TODO: reorganize parameters (eg. phase into light setting)
-            float4 params;
             int3 mapSize;
             // Pretty self-explanatory noise combination parameters
             float densityMultiplier;
@@ -250,9 +249,10 @@ Shader "Clouds"
                 return (v-low)/(high-low);
             }
 
-            float altitudeDensity(float heightPercent)
+            float altitudeDensity(float height)
             {
-                return AltitudeMap.SampleLevel(samplerAltitudeMap, heightPercent, 0) * altitudeMultiplier + altitudeOffset;
+                float texturePos = height / 1400 - 0.5;
+                return a =  AltitudeMap.SampleLevel(samplerAltitudeMap, texturePos, 0) * altitudeMultiplier + altitudeOffset;
             }
 
             float sampleDensity(float3 rayPos, uniform int optimisation, float optiInterpolation) {
@@ -265,23 +265,13 @@ Shader "Clouds"
                 float3 boundsCentre = boundsMin + size * .5;
                 float3 uvw = (float3(3200, 1400, 3200) / 2 + rayPos) * baseScale * scale;
 
-                // Sets a gradient tapering off at the top and bottom, avoiding ugly flat spots (which tend to look buggy)
-                float gMin = 0.2;
-                float gMax = 0.8;
-                float heightPercent = (rayPos.y - boundsMin.y) / size.y;
-
-                float heightDensityOffset = min(
-                    min(
-                        (heightPercent - densityTaperDownStart) * densityTaperDownStrength,
-                        (densityTaperUpStart - heightPercent) * densityTaperUpStrength
-                    ), 0);
-
                 // optimisation is set based on distance, and always uniform to avoid branching
                 // later iterations of the loops have higher optimization values
-                if (optimisation > 4)
-                    return heightDensityOffset + 3;
 
-                float altDensity = altitudeDensity(heightPercent) / 2 + heightDensityOffset;
+                float altDensity = altitudeDensity(rayPos.y);
+
+                if (optimisation > 4)
+                    return altDensity;
 
                 // Calculate meta shape density
                 // Duplicated code to create a meta layer of clouds
@@ -295,7 +285,7 @@ Shader "Clouds"
                 // * MIP is always 0 because of 3d textures
                 // * Sample does not allow arbitrary depth loops
                 float shapeNoiseMeta = ShapeTex.SampleLevel(samplerShapeTex, shapeSamplePosMeta, 0);
-                float baseShapeDensityMeta = (shapeNoiseMeta + densityOffset * .1 - 0.1) * 15;
+                float baseShapeDensityMeta = (shapeNoiseMeta + densityOffset - 0.1) * 15;
 
                 // Add altitude density
                 // TODO: standardize height gradient inside density
@@ -304,11 +294,11 @@ Shader "Clouds"
                 // optiInterpolation allows smooth lerping between optimization levels
                 // it approaches 1 rapidly when reaching the end of the loop
                 if (optimisation > 3)
-                    return lerp(baseShapeDensityMeta, heightDensityOffset + 3, optiInterpolation);
+                    return lerp(baseShapeDensityMeta, altDensity, optiInterpolation);
 
                 // Early returning if further calculations is unlikely to affect results
                 // TODO: actually check if early returning is worth it
-                if (baseShapeDensityMeta < -1 - densityOffset / 10)
+                if (baseShapeDensityMeta < -1 - densityOffset)
                     return baseShapeDensityMeta;
 
                 // Attempt at writing a shockwave around the plane
@@ -322,7 +312,7 @@ Shader "Clouds"
                 // Calculate base shape density
                 float3 shapeSamplePos = uvw + float3(time,time*0.1,time*0.2) * baseSpeed;
                 float shapeNoise = ShapeTex.SampleLevel(samplerShapeTex, shapeSamplePos, 0);
-                float baseShapeDensity = shapeNoise + densityOffset * .1;
+                float baseShapeDensity = shapeNoise + densityOffset;
 
                 baseShapeDensity += baseShapeDensityMeta;
 
@@ -617,7 +607,7 @@ Shader "Clouds"
                 float phaseVal = phase(cosAngle);
 
                 // Add the sun
-                float focusedEyeCos = pow(saturate(cosAngle), params.x);
+                float focusedEyeCos = pow(saturate(cosAngle), 0.9);
                 float sun = saturate(hg(focusedEyeCos, .995)) * transmittance;
 
                 return lerp(color * phaseVal, normalize(_LightColor0) * 4, sun);
