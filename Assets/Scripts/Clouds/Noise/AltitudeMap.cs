@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering;
-using UnityEngine.Rendering;
 
 public class AltitudeMap : MonoBehaviour
 {
@@ -53,21 +50,21 @@ public class AltitudeMap : MonoBehaviour
 
     double height = Remap(heightPercent, set.lowestLayerAltitude, set.highestLayerAltitude, -0.1, 1.2);
     if (height > 1)
-      height = System.Math.Abs(2 - height);
+      height = Math.Abs(2 - height);
     else if (height < 0)
-      height = System.Math.Abs(height);
+      height = Math.Abs(height);
 
-    double result = System.Math.Abs(set.linearOffsetStart + height * set.linearOffsetFactor);
+    double result = Math.Abs(set.linearOffsetStart + height * set.linearOffsetFactor);
     double multiplier = set.initialPowerFactor;
     double originalHeight = height;
 
     for (int i = 0; i < set.iterativePowerCount; i++)
     {
-      double invertedGradient = System.Math.Abs(Remap(height, 0, 1, -1.2, 1.2));
+      double invertedGradient = Math.Abs(Remap(height, 0, 1, -1.2, 1.2));
       if (invertedGradient > 1)
-        invertedGradient = (2 - System.Math.Abs(invertedGradient));
+        invertedGradient = (2 - Math.Abs(invertedGradient));
 
-      result += System.Math.Pow(invertedGradient, 4) * multiplier;
+      result += Math.Pow(invertedGradient, 4) * multiplier;
       multiplier *= set.iterativePowerFactor;
       if (height > 0.5)
         height = height - 0.5;
@@ -75,8 +72,8 @@ public class AltitudeMap : MonoBehaviour
     }
 
     return result
-        * System.Math.Pow(1 - originalHeight, set.powerOffsetPower) * set.powerOffsetRatio
-        + System.Math.Pow(originalHeight, set.powerOffsetPowerTop) * set.powerOffsetRatioTop;
+        * Math.Pow(1 - originalHeight, set.powerOffsetPower) * set.powerOffsetRatio
+        + Math.Pow(originalHeight, set.powerOffsetPowerTop) * set.powerOffsetRatioTop;
   }
 
   public void UpdateMap()
