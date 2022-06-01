@@ -252,7 +252,7 @@ Shader "Clouds"
 
             float altitudeDensity(float heightPercent)
             {
-                return sqrt(AltitudeMap.SampleLevel(samplerAltitudeMap, heightPercent, 0)) * altitudeMultiplier + altitudeOffset;
+                return AltitudeMap.SampleLevel(samplerAltitudeMap, heightPercent, 0) * altitudeMultiplier + altitudeOffset;
             }
 
             float sampleDensity(float3 rayPos, uniform int optimisation, float optiInterpolation) {

@@ -105,7 +105,7 @@ public class AltitudeMap : MonoBehaviour
     for (int i = 0; i < resolution; i++)
     {
       double value = valueArray[i];
-      value = (value - min) / (max - min);
+      value = Math.Sqrt((value - min) / (max - min));
       temp.SetPixel(i, 0, new Color((float)value, (float)value, (float)value, 0));
     }
 
