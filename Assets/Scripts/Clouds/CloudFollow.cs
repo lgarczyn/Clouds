@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +16,7 @@ public class CloudFollow : MonoBehaviour
           transform.localScale.y,
           transform.localScale.z * 100
       );
+      increaseOnPlay = false;
     }
   }
 
