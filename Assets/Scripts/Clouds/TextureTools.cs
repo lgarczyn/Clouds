@@ -17,22 +17,23 @@ public static class TextureTools
     }
     else
     {
-      tex.enableRandomWrite = desc.enableRandomWrite;
-
       if (tex.dimension != desc.dimension
       || tex.width != desc.width
       || tex.height != desc.height
       || tex.volumeDepth != desc.volumeDepth
-      || tex.graphicsFormat != desc.graphicsFormat)
+      || tex.graphicsFormat != desc.graphicsFormat
+      || tex.enableRandomWrite != desc.enableRandomWrite
+      )
       {
         tex.Release();
         recreated = true;
+        tex.dimension = desc.dimension;
+        tex.width = desc.width;
+        tex.height = desc.height;
+        tex.volumeDepth = desc.volumeDepth;
+        tex.graphicsFormat = desc.graphicsFormat;
+        tex.enableRandomWrite = desc.enableRandomWrite;
       }
-      if (tex.dimension != desc.dimension) tex.dimension = desc.dimension;
-      if (tex.width != desc.width) tex.width = desc.width;
-      if (tex.height != desc.height) tex.height = desc.height;
-      if (tex.volumeDepth != desc.volumeDepth) tex.volumeDepth = desc.volumeDepth;
-      if (tex.graphicsFormat != desc.graphicsFormat) tex.graphicsFormat = desc.graphicsFormat;
     }
     if (tex.IsCreated() == false)
     {
