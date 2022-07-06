@@ -16,5 +16,6 @@ public class PlaneCheatController : MonoBehaviour
     if (Input.GetKey(KeyCode.LeftControl)) GetComponent<MFlight.Demo.Plane>().thrust *= controlSpeedMultiplier;
     if (Input.GetKeyDown(KeyCode.K)) GetComponent<Rigidbody>().position = Vector3.zero;
     if (Input.GetKeyDown(KeyCode.K)) GetComponent<Rigidbody>().velocity = Vector3.zero;
+    if (Input.GetKeyDown(KeyCode.L)) GetComponent<Rigidbody>().isKinematic = !GetComponent<Rigidbody>().isKinematic;
   }
 }
