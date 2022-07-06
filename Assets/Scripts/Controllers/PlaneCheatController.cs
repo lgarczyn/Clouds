@@ -5,14 +5,16 @@ using UnityEngine;
 [RequireComponent(typeof(MFlight.Demo.Plane))]
 public class PlaneCheatController : MonoBehaviour
 {
+  public float baseSpeed = 60;
   public float shiftSpeedMultiplier = 10;
   public float controlSpeedMultiplier = 100;
 
   void Update()
   {
-    if (Input.GetKeyDown(KeyCode.LeftShift)) GetComponent<MFlight.Demo.Plane>().thrust *= shiftSpeedMultiplier;
-    if (Input.GetKeyUp(KeyCode.LeftShift)) GetComponent<MFlight.Demo.Plane>().thrust /= shiftSpeedMultiplier;
-    if (Input.GetKeyDown(KeyCode.LeftControl)) GetComponent<MFlight.Demo.Plane>().thrust *= controlSpeedMultiplier;
-    if (Input.GetKeyUp(KeyCode.LeftControl)) GetComponent<MFlight.Demo.Plane>().thrust /= controlSpeedMultiplier;
+    GetComponent<MFlight.Demo.Plane>().thrust = baseSpeed;
+    if (Input.GetKey(KeyCode.LeftShift)) GetComponent<MFlight.Demo.Plane>().thrust *= shiftSpeedMultiplier;
+    if (Input.GetKey(KeyCode.LeftControl)) GetComponent<MFlight.Demo.Plane>().thrust *= controlSpeedMultiplier;
+    if (Input.GetKeyDown(KeyCode.K)) GetComponent<Rigidbody>().position = Vector3.zero;
+    if (Input.GetKeyDown(KeyCode.K)) GetComponent<Rigidbody>().velocity = Vector3.zero;
   }
 }
