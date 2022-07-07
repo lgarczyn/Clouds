@@ -9,6 +9,7 @@ public class CloudMaster : MonoBehaviour
   public Shader shader;
   public Transform container;
   public Transform player;
+  public Vector4 testParams;
 
   [Header(headerDecoration + "March settings" + headerDecoration)]
   public float stepSizeRender = 8;
@@ -17,32 +18,29 @@ public class CloudMaster : MonoBehaviour
   public float minTransmittance = 0.05f;
 
   [Header(headerDecoration + "LOD Settings" + headerDecoration)]
-  [Range(0, 15)]
+  [Range(0, 100)]
   public float lodLevelMagnitude = 9;
   public float lodMinDistance = 200;
 
-  [Header(headerDecoration + "Base Shape" + headerDecoration)]
-  public float cloudScale = 1;
-  public float densityMultiplier = 1;
-  public float visualDensityMultiplier = 1;
-  public float densityOffset;
-  public Vector3 shapeOffset;
-  public Vector2 heightOffset;
+  [Header(headerDecoration + "Layers" + headerDecoration)]
+  public float scaleGlobal = 1000;
+  public float weightGlobal = 1;
+  public float scale3 = 400;
+  public float weight3 = 1;
+  public float scale2 = 10;
+  public float weight2 = 1;
+  public float scale1 = 1;
+  public float weight1 = 1;
+  public float scale0 = 0.2f;
+  public float weight0 = 1;
 
-  [Header(headerDecoration + "Limit Taper Settings" + headerDecoration)]
-  [Range(0, 100)]
-  public float densityTaperUpStrength = 30;
-  [Range(0, 1)]
-  public float densityTaperUpStart = 0.8f;
-  [Range(0, 100)]
-  public float densityTaperDownStrength = 30;
-  [Range(0, 1)]
-  public float densityTaperDownStart = 0.2f;
-
-  [Header(headerDecoration + "Detail" + headerDecoration)]
-  public float detailNoiseScale = 10;
-  public float detailNoiseWeight = .1f;
-  public Vector3 detailOffset;
+  [Header(headerDecoration + "Animation" + headerDecoration)]
+  public float timeScale = 1;
+  public Vector3 windDirection = new Vector3(1, .1f, 0.3f);
+  public float speed3 = 0;
+  public float speed2 = 0;
+  public float speed1 = 0;
+  public float speed0 = 0;
 
   [Header(headerDecoration + "Lighting" + headerDecoration)]
   public int numStepsLight = 8;
@@ -60,11 +58,6 @@ public class CloudMaster : MonoBehaviour
   public float phaseFactor = .15f;
   [Range(0, 10)]
   public float godRaysIntensity = 2f;
-
-  [Header(headerDecoration + "Animation" + headerDecoration)]
-  public float timeScale = 1;
-  public float baseSpeed = 1;
-  public float detailSpeed = 2;
 
   [Header(headerDecoration + "Sky" + headerDecoration)]
   public Color colA;
@@ -85,14 +78,14 @@ public class CloudMaster : MonoBehaviour
   // TODO: standardize noise generators
   // TODO: allow multiple coexisting generators ?
   // TODO: force the generators on the same object using [Require] ?
-  private AltitudeMap altitudeMapGen;
+  private AltitudeAtlas altitudeAtlasGen;
   private NoiseGenerator noiseGen;
 
   void UpdateMaps()
   {
-    altitudeMapGen = FindObjectOfType<AltitudeMap>();
+    altitudeAtlasGen = FindObjectOfType<AltitudeAtlas>();
     noiseGen = FindObjectOfType<NoiseGenerator>();
-    altitudeMapGen.UpdateMap();
+    altitudeAtlasGen.UpdateMap();
   }
 
   void Awake()
@@ -115,6 +108,7 @@ public class CloudMaster : MonoBehaviour
     // TODO: put optimization back
     // if (Vector3.Distance(lastContainerPosition, container.position) > container.localScale.magnitude / 4)
     // {
+    material.SetVector("testParams", testParams);
     material.SetVector("boundsMin", container.position - container.localScale / 2);
     material.SetVector("boundsMax", container.position + container.localScale / 2);
     material.SetVector("playerPosition", player.position);
@@ -132,13 +126,16 @@ public class CloudMaster : MonoBehaviour
     noise.UpdateNoise();
 
     material.SetTexture("ShapeTex", noise.shapeTextureFlat);
-    material.SetTexture("DetailTex", noise.detailTextureFlat);
+    material.SetTexture("DetailTex", noise.shapeTextureFlat);
 
-    // WeatherMap and AltitudeMap
+    // WeatherMap and AltitudeAtlas
     UpdateMaps();
-    material.SetTexture("AltitudeMap", altitudeMapGen.altitudeMap);
-    material.SetFloat("altitudeOffset", altitudeMapGen.altitudeOffset);
-    material.SetFloat("altitudeMultiplier", altitudeMapGen.altitudeMultiplier);
+    material.SetTexture("AltitudeAtlas", altitudeAtlasGen.altitudeAtlas);
+    material.SetFloat("altitudeValueOffset", altitudeAtlasGen.altitudeValueOffsets.x);
+    material.SetFloat("altitudeValueMultiplier", altitudeAtlasGen.altitudeValueMultipliers.x);
+    material.SetFloat("altitudeOffset", (float)altitudeAtlasGen.altitudeOffset);
+    material.SetFloat("altitudeMultiplier", (float)altitudeAtlasGen.altitudeMultiplier);
+
     material.SetTexture("ShadowMap", shadowMap);
     material.SetFloat("shadowMapSize", shadowCamera.orthographicSize);
 
@@ -153,25 +150,29 @@ public class CloudMaster : MonoBehaviour
     material.SetFloat("lodLevelMagnitude", lodLevelMagnitude);
     material.SetFloat("lodMinDistance", lodMinDistance);
 
-    material.SetFloat("scale", cloudScale);
-    material.SetFloat("densityMultiplier", densityMultiplier);
-    material.SetFloat("visualDensityMultiplier", visualDensityMultiplier);
-    material.SetFloat("densityOffset", densityOffset);
+    material.SetFloat("scaleGlobal", scaleGlobal);
+    material.SetFloat("weightGlobal", weightGlobal);
+    material.SetFloat("scale0", scale0);
+    material.SetFloat("weight0", weight0);
+    material.SetFloat("scale1", scale1);
+    material.SetFloat("weight1", weight1);
+    material.SetFloat("scale2", scale2);
+    material.SetFloat("weight2", weight2);
+    material.SetFloat("scale3", scale3);
+    material.SetFloat("weight3", weight3);
+
+    material.SetVector("windDirection", windDirection);
+    material.SetFloat("speed0", speed0);
+    material.SetFloat("speed1", speed1);
+    material.SetFloat("speed2", speed2);
+    material.SetFloat("speed3", speed3);
+
     material.SetFloat("lightAbsorptionThroughCloud", lightAbsorptionThroughCloud);
     material.SetFloat("lightAbsorptionTowardSun", lightAbsorptionTowardSun);
     material.SetFloat("darknessThreshold", darknessThreshold);
     material.SetFloat("rayOffsetStrength", rayOffsetStrength);
 
-    material.SetFloat("detailNoiseScale", detailNoiseScale);
-    material.SetFloat("detailNoiseWeight", detailNoiseWeight);
-    material.SetVector("shapeOffset", shapeOffset);
-    material.SetVector("detailOffset", detailOffset);
     material.SetVector("phaseParams", new Vector4(forwardScattering, backScattering, baseBrightness, phaseFactor));
-
-    material.SetFloat("densityTaperUpStrength", densityTaperUpStrength);
-    material.SetFloat("densityTaperUpStart", densityTaperUpStart);
-    material.SetFloat("densityTaperDownStrength", densityTaperDownStrength);
-    material.SetFloat("densityTaperDownStart", densityTaperDownStart);
 
     material.SetVector("boundsMin", container.position - container.localScale / 2);
     material.SetVector("boundsMax", container.position + container.localScale / 2);
@@ -183,8 +184,6 @@ public class CloudMaster : MonoBehaviour
     material.SetVector("mapSize", new Vector4(width, height, depth, 0));
 
     material.SetFloat("timeScale", (Application.isPlaying) ? timeScale : 0);
-    material.SetFloat("baseSpeed", baseSpeed);
-    material.SetFloat("detailSpeed", detailSpeed);
     material.SetVector("playerPosition", GameObject.FindObjectOfType<MFlight.Demo.Plane>().transform.position);
 
     material.SetColor("colA", colA);

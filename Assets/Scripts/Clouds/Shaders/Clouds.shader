@@ -7,7 +7,6 @@ Shader "Clouds"
         _MainTex ("Texture", 2D) = "white" {}
         // material properties used exclusively to check if material cloning works
         ShapeTex ("shape", 3D) = "white" {}
-        DetailTex ("detail", 3D) = "white" {}
         NoiseTex ("noise", 2D) = "white" {}
         ShadowMap ("shadows", 2D) = "black" {}
     }
@@ -39,14 +38,6 @@ Shader "Clouds"
                 float3 viewVector : TEXCOORD1;
                 float3 worldPos: TEXCOORD2;
             };
-
-            // Undocumented VR matrices
-            // float4x4 _LeftWorldFromView;
-            // float4x4 _LeftViewFromScreen;
-            // #ifdef VR_MODE
-            // float4x4 _RightWorldFromView;
-            // float4x4 _RightViewFromScreen;
-            // #endif
 
             // Vertex shader that procedurally outputs a full screen triangle
             v2f vert(appdata v)
@@ -94,10 +85,8 @@ Shader "Clouds"
             // Textures
             // The main cloud texture
             Texture3D<float> ShapeTex;
-            // Whisps and detailing
-            Texture3D<float> DetailTex;
             // 1D texture to give the 'thunderhead''vibe
-            Texture2D<float> AltitudeMap;
+            Texture2D<float> AltitudeAtlas;
             // 2D texture to fix banding
             Texture2D<float> NoiseTex;
             // 2D texture containing the heights of 4 absorption levels
@@ -108,50 +97,56 @@ Shader "Clouds"
             float shadowMapSize;
 
             SamplerState samplerShapeTex;
-            SamplerState samplerDetailTex;
             SamplerState samplerNoiseTex;
-            SamplerState samplerAltitudeMap;
+            SamplerState samplerAltitudeAtlas;
             SamplerState samplerShadowMapPointRepeat;
 
             sampler2D _MainTex;
             sampler2D _CameraDepthTexture;
 
+            float4 testParams;
+
             // Shape settings
             // TODO: reorganize parameters (eg. phase into light setting)
             int3 mapSize;
             // Pretty self-explanatory noise combination parameters
-            float densityMultiplier;
-            float visualDensityMultiplier;
-            float densityOffset;
             float minTransmittance;
-            float scale;
-            float detailNoiseScale;
-            float detailNoiseWeight;
+
+            // Parameters for each fractal noise layer
+            float scaleGlobal;
+            float weightGlobal;
+            float3 windDirection;
+            float scale3;
+            float scale2;
+            float scale1;
+            float scale0;
+            float weight3;
+            float weight2;
+            float weight1;
+            float weight0;
+            float speed3;
+            float speed2;
+            float speed1;
+            float speed0;
+
             // Used for silverlining while looking at the sun, currently broken
             float4 phaseParams;
-            // Parameters for the altitude taper
-            float densityTaperUpStrength;
-            float densityTaperUpStart;
-            float densityTaperDownStrength;
-            float densityTaperDownStart;
             // LOD Settings
             float lodLevelMagnitude;
             float lodMinDistance;
-            // Private parameters to recreate altitudeMap's range
+            // Private parameters to recreate altitudeAtlas's range
             float altitudeOffset;
             float altitudeMultiplier;
+            float altitudeValueOffset;
+            float altitudeValueMultiplier;
 
             // March settings
             int numStepsLight;
             float stepSizeRender;
             float firstStepNoiseMultiplier;
-            float rayOffsetStrength;
             // Two opposite corners of the cloud container
             float3 boundsMin;
             float3 boundsMax;
-            // Used for offseting the noise patterns, currently unused
-            float3 shapeOffset;
-            float3 detailOffset;
 
             // Light settings
             float lightAbsorptionTowardSun;
@@ -165,8 +160,8 @@ Shader "Clouds"
 
             // Animation settings
             float timeScale;
-            float baseSpeed;
-            float detailSpeed;
+
+            // Player settings
             float3 playerPosition;
 
             // Maps a float from an interval to another, without bound checking
@@ -237,8 +232,7 @@ Shader "Clouds"
             }
 
             float beer(float d) {
-                float beer = exp(-d);
-                return beer;
+                return exp(-d);
             }
 
             float reverse_beer(float d) {
@@ -251,92 +245,80 @@ Shader "Clouds"
 
             float altitudeDensity(float height)
             {
-                float texturePos = height / 1400 - 0.5;
-                return a =  AltitudeMap.SampleLevel(samplerAltitudeMap, texturePos, 0) * altitudeMultiplier + altitudeOffset;
+                float texturePos = (height + altitudeOffset) * altitudeMultiplier;
+                float textureValue = AltitudeAtlas.SampleLevel(samplerAltitudeAtlas, texturePos, 0);
+                return textureValue * altitudeValueMultiplier + altitudeValueOffset;
             }
 
             float sampleDensity(float3 rayPos, uniform int optimisation, float optiInterpolation) {
-                // Constants:
-                const float baseScale = 1/1000.0;
-
                 // Calculate texture sample positions
                 float time = _Time.x * timeScale;
-                float3 size = boundsMax - boundsMin;
-                float3 boundsCentre = boundsMin + size * .5;
-                float3 uvw = (float3(3200, 1400, 3200) / 2 + rayPos) * baseScale * scale;
+                float3 uvw = rayPos / scaleGlobal;
 
                 // optimisation is set based on distance, and always uniform to avoid branching
                 // later iterations of the loops have higher optimization values
 
-                float altDensity = altitudeDensity(rayPos.y);
-
-                if (optimisation > 4)
-                    return altDensity;
-
-                // Calculate meta shape density
-                // Duplicated code to create a meta layer of clouds
-                // TODO: Fully seperate from normal noise settings
-                float3 shapeSamplePosMeta = uvw;
-                shapeSamplePosMeta /= 10;
-                shapeSamplePosMeta.y /= 3;
-                // shapeSamplePosMeta.y += (shapeSamplePosMeta.x + shapeSamplePosMeta.y) / 1000;
+                // optiInterpolation allows smooth lerping between optimization levels
+                // it approaches 1 rapidly when reaching the end of the loop
 
                 // SampleLevel is used instead of Sample, because
                 // * MIP is always 0 because of 3d textures
                 // * Sample does not allow arbitrary depth loops
-                float shapeNoiseMeta = ShapeTex.SampleLevel(samplerShapeTex, shapeSamplePosMeta, 0);
-                float baseShapeDensityMeta = (shapeNoiseMeta + densityOffset - 0.1) * 15;
 
-                // Add altitude density
-                // TODO: standardize height gradient inside density
-                baseShapeDensityMeta += altDensity;
+                float density = altitudeDensity(rayPos.y);
 
-                // optiInterpolation allows smooth lerping between optimization levels
-                // it approaches 1 rapidly when reaching the end of the loop
+                if (optimisation > 5)
+                    return density;
+
+                float3 wind = windDirection * (_Time.x * timeScale);
+
+                float prevDensity;
+
+                {
+                    float3 samplePos = uvw.zxy / scale3 + wind * speed3;
+                    float value = ShapeTex.SampleLevel(samplerShapeTex, samplePos, 0);
+                    prevDensity = density;
+                    density += (value - 0.5) * scale3 * weight3;
+                }
+
+                if (optimisation > 4)
+                    return lerp(density, prevDensity, optiInterpolation);
+
+                {
+                    float3 samplePos = uvw / scale2 + wind * speed2;
+                    float value = ShapeTex.SampleLevel(samplerShapeTex, samplePos, 0);
+                    prevDensity = density;
+                    density += (value - 0.5) * scale2 * weight2;
+                }
+
                 if (optimisation > 3)
-                    return lerp(baseShapeDensityMeta, altDensity, optiInterpolation);
+                    return lerp(density, prevDensity, optiInterpolation);
 
-                // Early returning if further calculations is unlikely to affect results
-                // TODO: actually check if early returning is worth it
-                if (baseShapeDensityMeta < -1 - densityOffset)
-                    return baseShapeDensityMeta;
+                {
+                    float3 samplePos = uvw / scale1 + wind * speed1;
+                    float value = ShapeTex.SampleLevel(samplerShapeTex, samplePos, 0);
 
-                // Attempt at writing a shockwave around the plane
-                // float dist = length(rayPos - playerPosition);
-                // baseShapeDensityMeta -= sin(dist / 1000) * 1000 / pow(dist / 10, 3);
-
-                // Try early returning, might be ignored by compiler since forking is hard on GPU
-                // if (baseShapeDensityMeta < -1)
-                //     return baseShapeDensityMeta;
-
-                // Calculate base shape density
-                float3 shapeSamplePos = uvw + float3(time,time*0.1,time*0.2) * baseSpeed;
-                float shapeNoise = ShapeTex.SampleLevel(samplerShapeTex, shapeSamplePos, 0);
-                float baseShapeDensity = shapeNoise + densityOffset;
-
-                baseShapeDensity += baseShapeDensityMeta;
+                    prevDensity = density;
+                    density += (value - 0.5) * scale1 * weight1;
+                }
 
                 if (optimisation > 2)
-                    return lerp(baseShapeDensity, baseShapeDensityMeta, optiInterpolation);
-                // if (baseShapeDensity > detailNoiseWeight || baseShapeDensity < 0)
-                //     return (baseShapeDensity);
+                    return lerp(density, prevDensity, optiInterpolation);
 
-                // Sample detail noise
-                float detailSamplePos = uvw*detailNoiseScale + float4(time*.4,-time,time*0.1, 0)*detailSpeed;
-                float detailNoise = DetailTex.SampleLevel(samplerDetailTex, detailSamplePos, 0);
+                {
+                    float3 samplePos = uvw / scale0 + time * wind * speed0;
+                    float value = ShapeTex.SampleLevel(samplerShapeTex, samplePos, 0);
 
-                // Subtract detail noise from base shape (weighted by inverse density so that edges get eroded more than centre)
-                float oneMinusShape = 1 - shapeNoise;
-                float detailErodeWeight = oneMinusShape * oneMinusShape * oneMinusShape;
-                float cloudDensity = baseShapeDensity - (1-detailNoise) * detailErodeWeight * detailNoiseWeight; 
-                cloudDensity *= densityMultiplier / 2;
-                // cloudDensity = baseShapeDensity - cloudDensity;
+                    prevDensity = density;
+                    density -= (value - 0.5) * scale0 * weight0;
+                }
 
-                return lerp(cloudDensity, baseShapeDensity, optiInterpolation);
+                return lerp(density, prevDensity, optiInterpolation);
             }
 
             float sampleLightmap(float2 uv, float height)
             {
+                return 0.5;
                 // The absorption layers of the shadow map
                 float4 heights = ShadowMap.SampleLevel(samplerShadowMapPointRepeat, uv, 0);
 
@@ -697,27 +679,31 @@ Shader "Clouds"
 
                 // max render distance = lodMinDistance + pow(lodLevelMagnitude, 5)
                 // but container limits the raycasting anyway
-                for (int i = 1; i < 6; i++)
+                for (int i = 1; i < 7; i++)
                 {
                     float lodMaxDistance = lodMinDistance + pow(lodLevelMagnitude, i);
                     float localMax = min(dstToBox + dstLimit, lodMaxDistance) - dstToBox;
+                    float start = dstTravelled;
                     while (dstTravelled < localMax) {
 
-                        float loopRatioLinear = (dstTravelled + dstToBox) / (lodMaxDistance);
-                        float loopRatio = loopRatioLinear * loopRatioLinear;
-                        loopRatio *= loopRatio;
+                        float loopRatioLinear = (dstTravelled - start) / (localMax - start);
+                        float loopRatio = loopRatioLinear;// * loopRatioLinear;
+                        // loopRatio *= loopRatio;
 
                         rayPos = entryPoint + rayDir * dstTravelled;
                         float density = sampleDensity(rayPos, i, loopRatio);
-                        float real_stepSize = clamp(stepSize * 500, 0, 1) * max(abs(density), 0.05);
 
                         // TODO: fix banding when setting godrays
                         float real_density = max(density, godRaysIntensity);
                         float lightTransmittance = lightmarch(rayPos);
 
-                        transmittance *= beer(real_density * stepSize * lightAbsorptionThroughCloud);
+                        // some day I'll figure out WTH I meant with this
+                        // clearly I'm just multiplying the transmitance by sqrt of beer
+                        // buut doing that gives a completely different result
+                        float beerRes = beer(real_density * stepSize * lightAbsorptionThroughCloud);
+                        transmittance *= beerRes;
                         lightEnergy += real_density * stepSize * transmittance * lightTransmittance * 0.5;
-                        transmittance /= sqrt(beer(real_density * stepSize * lightAbsorptionThroughCloud));
+                        transmittance /= sqrt(beerRes);
 
                         dstTravelled += stepSize * max(abs(density), 0.05);
                         avgDstTravelled += stepSize * max(abs(density), 0.05) * transmittance;
