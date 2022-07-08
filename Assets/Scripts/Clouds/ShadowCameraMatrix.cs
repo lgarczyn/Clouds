@@ -7,44 +7,73 @@ using UnityEngine;
 public class ShadowCameraMatrix : MonoBehaviour
 {
   public Transform directionalLight;
+  public Transform target;
   public bool active = true;
   public bool debug = false;
-  Matrix4x4 matrix = Matrix4x4.identity;
+
+  private static Vector3 CalculatePos(Vector3 targetPos, Vector3 sunlightDir)
+  {
+    float verticalPos = targetPos.y;
+    Vector3 newPos = new Vector3(targetPos.x, 0, targetPos.z);
+
+    // If the sunlight is not horizontal (would cause division by 0)
+    if (Mathf.Abs(sunlightDir.y) > 0)
+    {
+      // offset the camera so that it still aims at the target despite angle
+      newPos -= (targetPos.y / sunlightDir.y) * new Vector3(sunlightDir.x, 0, sunlightDir.z);
+    }
+    return newPos;
+  }
+
+  private static Matrix4x4 CalculateMatrix(Vector3 sunlightDir, Transform camera)
+  {
+    // Set the initial camera matrix
+    // Doesn't set the scaling, as Unity adds it from the camera parameters
+    Matrix4x4 shadowMatrix = Matrix4x4.Ortho(-1, 1, -1, 1, -1, 1);
+
+
+    // Project the vector onto the y=-1 plane
+    sunlightDir /= -sunlightDir.y;
+
+    // Draw the calculated line
+    // should be completely overlapped by the magenta frustrum center line when functional
+    Debug.DrawLine(Vector3.zero, sunlightDir, Color.green);
+
+    // Add shear to a new matrix to match the sunlight
+    Matrix4x4 shearMatrix = Matrix4x4.identity;
+    shearMatrix.m02 = sunlightDir.x;
+    shearMatrix.m12 = sunlightDir.z;
+
+    // Combines the shear matrix, the ortho matrix, the current rotation, the current position
+    shadowMatrix =
+        shearMatrix
+        * shadowMatrix
+        * Matrix4x4.Rotate(Quaternion.Inverse(camera.rotation))
+        * Matrix4x4.Translate(-camera.position);
+
+    return shadowMatrix;
+  }
 
   private void LateUpdate()
   {
-
+    // Get the camera component
     Camera shadowCamera = GetComponent<Camera>();
 
-    if (active && directionalLight)
+    if (active)
     {
-      // Set the initial camera matrix
-      // Doesn't set the scaling, as Unity adds it from the camera parameters
-      Matrix4x4 shadowMatrix = Matrix4x4.Ortho(-1, 1, -1, 1, -1, 1);
+      // Get the direction of sunlight or a placeholder
+      Vector3 sunlightDir = directionalLight ?
+          directionalLight.transform.forward :
+          new Vector3(0, -1, 0);
 
-      // Get the direction of the sunlight
-      Vector3 sunlightDir = directionalLight.transform.forward;
+      // Get the target follow position or a placeholder
+      Vector3 targetPos = target ?
+        target.position :
+        new Vector3(0, 0, 0);
 
-      // Project the vector onto the y=-1 plane
-      sunlightDir /= -sunlightDir.y;
-
-      // Draw the calculated line
-      // should be completely overlapped by the magenta frustrum center line when functional
-      Debug.DrawLine(Vector3.zero, sunlightDir, Color.green);
-
-      // Add shear to the custom matrix to match the sunlight
-      matrix.m02 = sunlightDir.x;
-      matrix.m12 = sunlightDir.z;
-
-      // Combines the custom matrix, the ortho matrix, the current rotation, the current position
-      shadowMatrix =
-          matrix
-          * shadowMatrix
-          * Matrix4x4.Rotate(Quaternion.Inverse(transform.rotation))
-          * Matrix4x4.Translate(-transform.position);
-
-      // Apply the matrix
-      shadowCamera.worldToCameraMatrix = shadowMatrix;
+      // Update position and matrix
+      transform.position = CalculatePos(targetPos, sunlightDir);
+      shadowCamera.worldToCameraMatrix = CalculateMatrix(sunlightDir, transform);
     }
     else
       shadowCamera.ResetWorldToCameraMatrix();
