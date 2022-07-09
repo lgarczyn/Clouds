@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -63,6 +63,7 @@ public class CloudMaster : MonoBehaviour
   public Color colA;
   public Color colB;
   public Color colC;
+  public float distanceFogMultiplier;
 
   [Header(headerDecoration + "Shadow Mapping" + headerDecoration)]
   public RenderTexture shadowMap;
@@ -189,6 +190,7 @@ public class CloudMaster : MonoBehaviour
     material.SetColor("colA", colA);
     material.SetColor("colB", colB);
     material.SetColor("colC", colC);
+    material.SetFloat("distanceFogMultiplier", distanceFogMultiplier / 1000);
     material.SetFloat("godRaysIntensity", godRaysIntensity / 1000);
   }
 

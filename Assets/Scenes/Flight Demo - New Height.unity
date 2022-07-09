@@ -4956,10 +4956,11 @@ MonoBehaviour:
   backScattering: 0.33
   baseBrightness: 1
   phaseFactor: 0.83
-  godRaysIntensity: 0.2
+  godRaysIntensity: 0
   colA: {r: 0.85800004, g: 0.39013878, b: 0.163878, a: 1}
   colB: {r: 0.575, g: 0, b: 0.03179736, a: 1}
-  colC: {r: 0.35686275, g: 0.10196078, b: 0.24850214, a: 0}
+  colC: {r: 0.18039216, g: 0.101960786, b: 0.35686275, a: 0}
+  distanceFogMultiplier: 0.04
   shadowMap: {fileID: 8400000, guid: 470f7ae1a1b7ec349a5e9559bc869ec0, type: 2}
   shadowCamera: {fileID: 1166806715}
   material: {fileID: 2100000, guid: feb5506ac90b28945a87d742b2d386f0, type: 2}

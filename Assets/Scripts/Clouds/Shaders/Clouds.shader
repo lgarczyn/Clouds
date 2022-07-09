@@ -157,6 +157,7 @@ Shader "Clouds"
             float4 colA;
             float4 colB;
             float4 colC;
+            float distanceFogMultiplier;
 
             // Animation settings
             float timeScale;
@@ -598,7 +599,7 @@ Shader "Clouds"
             fixed3 getCloudColor(float currentDepth, float lightEnergy)
             {
                 // Get a fog ratio
-                float dstFog = 1-exp(-currentDepth * 8*.0002);
+                float dstFog = 1-exp(-currentDepth * distanceFogMultiplier);
                 // Apply to both cloud colors
                 fixed3 colAf = lerp(colA, colC, dstFog);
                 fixed3 colBf = lerp(colB, colC, dstFog);
