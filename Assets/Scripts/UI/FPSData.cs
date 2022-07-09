@@ -78,6 +78,10 @@ public class FPSData : MonoBehaviour
         text += "score: " + Mathf.Round(score / 100);
         text += "\nfps: " + Mathf.Round(1 / Time.unscaledDeltaTime);
 
-        GetComponent<Text>().text = text;
-    }
+        Text textComp = GetComponent<Text>();
+
+        textComp.text = text;
+
+        if (Input.GetKeyDown(KeyCode.F)) textComp.enabled = !textComp.enabled;
+  }
 }
