@@ -95,6 +95,7 @@ Shader "Clouds"
 
             static const float4 shadowMapAbsorptionLevels = float4(0.6, 0.4, 0.2, 0.01);
             float shadowMapSize;
+            float3 shadowMapPosition;
 
             SamplerState samplerShapeTex;
             SamplerState samplerNoiseTex;
@@ -111,6 +112,7 @@ Shader "Clouds"
             int3 mapSize;
             // Pretty self-explanatory noise combination parameters
             float minTransmittance;
+            float maxDensity;
 
             // Parameters for each fractal noise layer
             float scaleGlobal;
@@ -319,7 +321,6 @@ Shader "Clouds"
 
             float sampleLightmap(float2 uv, float height)
             {
-                return 0.5;
                 // The absorption layers of the shadow map
                 float4 heights = ShadowMap.SampleLevel(samplerShadowMapPointRepeat, uv, 0);
 
@@ -369,31 +370,39 @@ Shader "Clouds"
 
             // Calculate proportion of light that reaches the given point from the lightsource
             float lightmarch(float3 position) {
-                // TODO lookup SampleCMP
+
+                float shadowMapHalfSize = shadowMapSize / 2;
+                float posY = position.y;
+                float2 posH = position.xz;
+                
+                // Remap the uv coordinates to a gamma model
+                // This allows for higher resolution shadows close to the player
+                // Could be heavily simplified, but this block can be commented to remove this
+                {
+                  float2 centeredPosition = posH - shadowMapPosition.xz;
+                  float2 scaledPosition = centeredPosition / shadowMapHalfSize;
+                  float2 mappedPosition = scaledPosition / sqrt(length(scaledPosition));
+                  posH = mappedPosition * shadowMapHalfSize;
+                }
+
+                float2 shearOffset = (posY / -_WorldSpaceLightPos0.y) * _WorldSpaceLightPos0.xz;
 
                 // The position inside the shadow map
-                float2 samplePos =
-                    (((position.y / -_WorldSpaceLightPos0.y) * _WorldSpaceLightPos0).xz + position.xz) / (shadowMapSize * 2) + 0.5;
+                float2 samplePos = (shearOffset + posH) / (shadowMapSize * 2) + 0.5;
                 // The height inside the container, from 0 to 1
-                float height = ((position.y - boundsMin.y) / (boundsMax.y - boundsMin.y) );
-                // samplePos += sin(position.x + position.y) / 10000 + cos((samplePos.x - samplePos.y) * 10000) / 10000;
+                float height = ((posY - boundsMin.y) / (boundsMax.y - boundsMin.y));
 
                 if (height < 0)
                     return (0);
                 if (height > 1)
                     return (1);
 
-                // float ret_tm = sampleLightmap(samplePos, height);
-                // return lerp(darknessThreshold, 1, ret_tm);
+                // Offset second sample by 1 pixel times the golden ratio
+                float3 st = float3(ShadowMap_TexelSize.xy, 0) * 1.618;
                 
-                float3 st = float3(1 / 512.0, 1 / 512.0, 0);
-
-                // float2 ratio = (samplePos % ShadowMap_TexelSize.xy + ShadowMap_TexelSize.xy) % ShadowMap_TexelSize.xy;
-                // float2 ratio = samplePos % ShadowMap_TexelSize.xy;
-
-                float2 realUV = samplePos * 512;
+                float2 realUV = samplePos * ShadowMap_TexelSize.zw;
                 float2 ratio = frac(realUV);
-                float2 uv = floor(realUV) / 512;
+                float2 uv = floor(realUV) / ShadowMap_TexelSize.zw;
 
                 // TODO: use Gather instead of sample to reduce sample by 2
                 float TL = sampleLightmap(uv, height);
@@ -463,7 +472,16 @@ Shader "Clouds"
                 return result;
             }
 
-            float4 shadowMarch(float3 position, float3 direction, float depth) {
+            float4 shadowMarch(float3 position, float3 direction) {
+
+                // gamma mapping of the position, to increase resolution on center of shadowmap
+                float3 centeredPosition = position - shadowMapPosition;
+                centeredPosition.y = 0;
+                float3 scaledPosition = centeredPosition * 2 / shadowMapSize;
+                float3 mappedPosition = scaledPosition * length(scaledPosition);
+                float3 rescaledPosition = mappedPosition / 2 * shadowMapSize;
+
+                position = rescaledPosition + shadowMapPosition + float3(0, position.y, 0);
 
                 // 'shadowMapAbsorptionLevels' represents the absorption levels for which a sun distance is stored
                 float4 targets = shadowMapAbsorptionLevels;
@@ -484,17 +502,21 @@ Shader "Clouds"
                 float2 boxParams = rayBoxDstVertical(boundsMin.y, boundsMax.y, position.y, 1/direction.y);
                 float distanceToBox = boxParams.x;
                 float distanceToTravel = boxParams.y;
-                float distanceToTravelWithDepth = min(distanceToTravel, depth);
 
-                //adjust depth
-                // BUG: player can cast shadow on clouds above
-                // might want to remove external shadows altogether for now
-                depth -= distanceToBox;
-                if (depth < 0)
-                    return float4(1,1,1,1);
+                // adjust depth depending on shadow caster depth map
+                // allows opaque geometry to create shadows
+                // currently disabled here, in the shadow pipeline and the shadow camera
+                // before adding back, test uv sqrt gamma mapping
+
+                // Get the depth value
+                // float depth = getDepth(i.uv); // TODO add uv sqrt gamma effect
+                // depth -= distanceToBox;
+                // if (depth < 0)
+                //     return float4(1,1,1,1);
+                // float distanceToTravelWithDepth = min(distanceToTravel, depth);
 
                 // Numbers of measurements of the cloud density
-                float stepSize = distanceToTravelWithDepth / numStepsLight;
+                float stepSize = distanceToTravel / numStepsLight;
 
                 // Adjust the position inside the container, and add half a step
                 position += direction * (stepSize * .5 + distanceToBox);
@@ -507,7 +529,7 @@ Shader "Clouds"
                 // while (dstTravelled < distanceToTravelWithDepth) {
 
                     // Sample current density
-                    float density = sampleDensity(position, 3, 0);
+                    float density = sampleDensity(position, 4, 0);
                     // Modify the stepsize for variable stepping (less artifacts)
                     float dst = stepSize * max(abs(density), 1);
 
@@ -611,7 +633,7 @@ Shader "Clouds"
                     return lerp(colAf, _LightColor0, (lightEnergy - 0.5) * 2);
             }
 
-            float4 rayMarch(float3 rayPos, float3 rayDir, float depth, float2 uv);
+            float4 rayMarch(float3 rayPos, float3 rayDir, float2 uv);
 
             float4 frag (v2f i) : SV_Target
             {
@@ -619,12 +641,9 @@ Shader "Clouds"
                 float3 rayPos = i.worldPos;
                 float3 rayDir = i.viewVector;
 
-                // Get the depth value
-                float depth = getDepth(i.uv);
-
                 // If using an ortho camera for shadow mode
                 if (unity_OrthoParams.w)
-                    return shadowMarch(rayPos, rayDir, depth);
+                    return shadowMarch(rayPos, rayDir);
 
                 // If one of four corner pixels
                 float2 pixelSize = 1 / _ScreenParams.xy;
@@ -637,10 +656,13 @@ Shader "Clouds"
                     return float4(playerDensity, playerLight, 0.5, 0.5);
                 }
 
-                return rayMarch(rayPos, rayDir, depth, i.uv);
+                return rayMarch(rayPos, rayDir, (float2)i.uv);
             }
 
-            float4 rayMarch(float3 rayPos, float3 rayDir, float depth, float2 uv) {
+            float4 rayMarch(float3 rayPos, float3 rayDir, float2 uv) {
+              
+                // Get the depth value
+                float depth = getDepth(uv);
 
                 // Normalize ray because of perspective interpolation
                 float distancePerspectiveModifier = length(rayDir);
@@ -693,6 +715,7 @@ Shader "Clouds"
 
                         rayPos = entryPoint + rayDir * dstTravelled;
                         float density = sampleDensity(rayPos, i, loopRatio);
+                        density = min(maxDensity, density);
 
                         // TODO: fix banding when setting godrays
                         float real_density = max(density, godRaysIntensity);

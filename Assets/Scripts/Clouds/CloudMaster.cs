@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +16,7 @@ public class CloudMaster : MonoBehaviour
   public float firstStepNoiseMultiplier = 3;
   public float rayOffsetStrength;
   public float minTransmittance = 0.05f;
+  public float maxDensity = 57.38f;
 
   [Header(headerDecoration + "LOD Settings" + headerDecoration)]
   [Range(0, 100)]
@@ -44,7 +45,9 @@ public class CloudMaster : MonoBehaviour
 
   [Header(headerDecoration + "Lighting" + headerDecoration)]
   public int numStepsLight = 8;
+  [Range(0.01f, 10)]
   public float lightAbsorptionThroughCloud = 1;
+  [Range(0.01f, 10)]
   public float lightAbsorptionTowardSun = 1;
   [Range(0, 1)]
   public float darknessThreshold = .2f;
@@ -113,6 +116,7 @@ public class CloudMaster : MonoBehaviour
     material.SetVector("boundsMin", container.position - container.localScale / 2);
     material.SetVector("boundsMax", container.position + container.localScale / 2);
     material.SetVector("playerPosition", player.position);
+    material.SetVector("shadowMapPosition", shadowCamera.transform.position);
     lastContainerPosition = container.position;
     // }
   }
@@ -147,6 +151,7 @@ public class CloudMaster : MonoBehaviour
     int depth = Mathf.CeilToInt(size.z);
 
     material.SetFloat("minTransmittance", minTransmittance);
+    material.SetFloat("maxDensity", maxDensity);
 
     material.SetFloat("lodLevelMagnitude", lodLevelMagnitude);
     material.SetFloat("lodMinDistance", lodMinDistance);
