@@ -373,22 +373,23 @@ Shader "Clouds"
 
                 float shadowMapHalfSize = shadowMapSize / 2;
                 float posY = position.y;
-                float2 posH = position.xz;
-                
-                // Remap the uv coordinates to a gamma model
-                // This allows for higher resolution shadows close to the player
-                // Could be heavily simplified, but this block can be commented to remove this
-                {
-                  float2 centeredPosition = posH - shadowMapPosition.xz;
-                  float2 scaledPosition = centeredPosition / shadowMapHalfSize;
-                  float2 mappedPosition = scaledPosition / sqrt(length(scaledPosition));
-                  posH = mappedPosition * shadowMapHalfSize;
-                }
-
+                // How much the sample should be offset due to the angle of the sun
                 float2 shearOffset = (posY / -_WorldSpaceLightPos0.y) * _WorldSpaceLightPos0.xz;
+                // The position in the shadow volume
+                float2 centeredPosition = position.xz + shearOffset - shadowMapPosition.xz;
+                // The [-1;1] position in the shadow volume
+                float2 scaledPosition = centeredPosition / shadowMapHalfSize;
+                
+                // Remap the uv coordinates to a quadratic model
+                // This allows for higher resolution shadows close to the player
+                // by giving a larger area to elements closer to the center line
+                scaledPosition = scaledPosition / sqrt(length(scaledPosition));
 
                 // The position inside the shadow map
-                float2 samplePos = (shearOffset + posH) / (shadowMapSize * 2) + 0.5;
+                // NOT quite sure why this is a division by 4 instead of two
+                // But hey, it works
+                float2 samplePos = scaledPosition / 4 + 0.5;
+
                 // The height inside the container, from 0 to 1
                 float height = ((posY - boundsMin.y) / (boundsMax.y - boundsMin.y));
 
@@ -398,6 +399,7 @@ Shader "Clouds"
                     return (1);
 
                 // Offset second sample by 1 pixel times the golden ratio
+                // TODO: try to get better results by more random sampling
                 float3 st = float3(ShadowMap_TexelSize.xy, 0) * 1.618;
                 
                 float2 realUV = samplePos * ShadowMap_TexelSize.zw;
@@ -472,16 +474,25 @@ Shader "Clouds"
                 return result;
             }
 
-            float4 shadowMarch(float3 position, float3 direction) {
+            float4 shadowMarch(float3 position, float3 direction, float2 uv) {
+                // quadratic remapping of the position, to increase resolution on center of shadowmap
+                // could be much simpler if we could calculate `length(scaledPosition)` in advance using uvs
+                // but it doesn't seem to work
+                {
+                    // how much the top of the shadow volume is offset from the middle
+                    float3 shadowMapStartOffset = (boundsMax.y / _WorldSpaceLightPos0.y) * _WorldSpaceLightPos0.xyz;
+                    shadowMapStartOffset.y = 0;
+                    // the center of the top square of the shadow volume
+                    float3 shadowMapStartPos = shadowMapPosition + shadowMapStartOffset;
+                    // The position relative to that square
+                    float3 centeredPosition = position - shadowMapStartPos;
+                    // Remap to range [-1;1]
+                    float2 scaledPosition = centeredPosition.xz * 2 / shadowMapSize;
+                    // Square the variations to bias them closer to 1
+                    centeredPosition.xz = centeredPosition.xz * length(scaledPosition);
 
-                // gamma mapping of the position, to increase resolution on center of shadowmap
-                float3 centeredPosition = position - shadowMapPosition;
-                centeredPosition.y = 0;
-                float3 scaledPosition = centeredPosition * 2 / shadowMapSize;
-                float3 mappedPosition = scaledPosition * length(scaledPosition);
-                float3 rescaledPosition = mappedPosition / 2 * shadowMapSize;
-
-                position = rescaledPosition + shadowMapPosition + float3(0, position.y, 0);
+                    position = centeredPosition + shadowMapStartPos;
+                }
 
                 // 'shadowMapAbsorptionLevels' represents the absorption levels for which a sun distance is stored
                 float4 targets = shadowMapAbsorptionLevels;
@@ -506,10 +517,10 @@ Shader "Clouds"
                 // adjust depth depending on shadow caster depth map
                 // allows opaque geometry to create shadows
                 // currently disabled here, in the shadow pipeline and the shadow camera
-                // before adding back, test uv sqrt gamma mapping
+                // before adding back, test uv quadratic mapping
 
                 // Get the depth value
-                // float depth = getDepth(i.uv); // TODO add uv sqrt gamma effect
+                // float depth = getDepth(i.uv); // TODO add uv quadratic effect
                 // depth -= distanceToBox;
                 // if (depth < 0)
                 //     return float4(1,1,1,1);
@@ -640,10 +651,11 @@ Shader "Clouds"
                 // Create ray
                 float3 rayPos = i.worldPos;
                 float3 rayDir = i.viewVector;
+                float2 uv = i.uv;
 
                 // If using an ortho camera for shadow mode
                 if (unity_OrthoParams.w)
-                    return shadowMarch(rayPos, rayDir);
+                    return shadowMarch(rayPos, rayDir, uv);
 
                 // If one of four corner pixels
                 float2 pixelSize = 1 / _ScreenParams.xy;
@@ -656,7 +668,7 @@ Shader "Clouds"
                     return float4(playerDensity, playerLight, 0.5, 0.5);
                 }
 
-                return rayMarch(rayPos, rayDir, (float2)i.uv);
+                return rayMarch(rayPos, rayDir, uv);
             }
 
             float4 rayMarch(float3 rayPos, float3 rayDir, float2 uv) {
