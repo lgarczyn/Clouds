@@ -391,7 +391,7 @@ Shader "Clouds"
                 float2 samplePos = scaledPosition / 4 + 0.5;
 
                 // The height inside the container, from 0 to 1
-                float height = ((posY - boundsMin.y) / (boundsMax.y - boundsMin.y));
+                float height = ((posY - shadowMapFarPlane) / (shadowMapNearPlane - shadowMapFarPlane));
 
                 if (height < 0)
                     return (0);
@@ -480,7 +480,7 @@ Shader "Clouds"
                 // but it doesn't seem to work
                 {
                     // how much the top of the shadow volume is offset from the middle
-                    float3 shadowMapStartOffset = (boundsMax.y / _WorldSpaceLightPos0.y) * _WorldSpaceLightPos0.xyz;
+                    float3 shadowMapStartOffset = (shadowMapNearPlane / _WorldSpaceLightPos0.y) * _WorldSpaceLightPos0.xyz;
                     shadowMapStartOffset.y = 0;
                     // the center of the top square of the shadow volume
                     float3 shadowMapStartPos = shadowMapPosition + shadowMapStartOffset;
@@ -510,7 +510,7 @@ Shader "Clouds"
                 int targetIt = 0;
 
                 // The distance from the container and the distance to cross inside the container
-                float2 boxParams = rayBoxDstVertical(boundsMin.y, boundsMax.y, position.y, 1/direction.y);
+                float2 boxParams = rayBoxDstVertical(shadowMapFarPlane, shadowMapNearPlane, position.y, 1/direction.y);
                 float distanceToBox = boxParams.x;
                 float distanceToTravel = boxParams.y;
 

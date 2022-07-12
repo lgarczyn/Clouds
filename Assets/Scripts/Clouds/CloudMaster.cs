@@ -113,10 +113,20 @@ public class CloudMaster : MonoBehaviour
     // if (Vector3.Distance(lastContainerPosition, container.position) > container.localScale.magnitude / 4)
     // {
     material.SetVector("testParams", testParams);
-    material.SetVector("boundsMin", container.position - container.localScale / 2);
-    material.SetVector("boundsMax", container.position + container.localScale / 2);
+    Vector3 boundsMin = container.position - container.localScale / 2;
+    Vector3 boundsMax = container.position + container.localScale / 2;
+
+    material.SetVector("boundsMin", boundsMin);
+    material.SetVector("boundsMax", boundsMax);
     material.SetVector("playerPosition", player.position);
     material.SetVector("shadowMapPosition", shadowCamera.transform.position);
+    material.SetFloat("shadowMapSize", shadowCamera.orthographicSize);
+
+    float shadowMapNearPlane = shadowCamera.transform.position.y - shadowCamera.nearClipPlane;
+    float shadowMapFarPlane = shadowCamera.transform.position.y - shadowCamera.farClipPlane;
+    material.SetFloat("shadowMapNearPlane", shadowMapNearPlane);
+    material.SetFloat("shadowMapFarPlane", shadowMapFarPlane);
+
     lastContainerPosition = container.position;
     // }
   }
