@@ -3,10 +3,23 @@ using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 using System.Collections.Generic;
 
+[Serializable]
+public struct Atlas
+{
+  public Atlas(string name)
+  {
+    this.curve = new AnimationCurve();
+    this.name = name;
+  }
+
+  public string name;
+  public AnimationCurve curve;
+}
+
 public class AltitudeAtlas : MonoBehaviour
 {
 
-  [SerializeField] List<AnimationCurve> atlases;
+  [SerializeField] List<Atlas> atlases;
   [SerializeField] int resolution;
   [SerializeField] double startAltitude;
   [SerializeField] double endAltitude;
@@ -71,7 +84,7 @@ public class AltitudeAtlas : MonoBehaviour
 
   float GetAltitudeDensity(int index, double height)
   {
-    return atlases[index].Evaluate((float)height);
+    return atlases[index].curve.Evaluate((float)height);
   }
 
   public void UpdateMap()
@@ -81,7 +94,7 @@ public class AltitudeAtlas : MonoBehaviour
 
     if (atlases.Count > 4) atlases.RemoveRange(4, atlases.Count - 4);
 
-    if (atlases.Count < 1) atlases.Add(new AnimationCurve());
+    if (atlases.Count < 1) atlases.Add(new Atlas("Density"));
 
     if (resolution < 16) resolution = 16;
 
