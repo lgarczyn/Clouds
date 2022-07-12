@@ -96,6 +96,8 @@ Shader "Clouds"
             static const float4 shadowMapAbsorptionLevels = float4(0.6, 0.4, 0.2, 0.01);
             float shadowMapSize;
             float3 shadowMapPosition;
+            float shadowMapNearPlane;
+            float shadowMapFarPlane;
 
             SamplerState samplerShapeTex;
             SamplerState samplerNoiseTex;
