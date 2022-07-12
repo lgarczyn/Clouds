@@ -16,6 +16,17 @@ public struct Atlas
   public AnimationCurve curve;
 }
 
+[Serializable]
+public enum AtlasFormat
+{
+  SFloat_16 = 1,
+  SFloat_32 = 2,
+  SNorm_8 = 3,
+  UNorm_8 = 4,
+  SNorm_16 = 5,
+  UNorm_16 = 6,
+}
+
 public class AltitudeAtlas : MonoBehaviour
 {
 
@@ -23,9 +34,7 @@ public class AltitudeAtlas : MonoBehaviour
   [SerializeField] int resolution;
   [SerializeField] double startAltitude;
   [SerializeField] double endAltitude;
-  [SerializeField] bool signed;
-  [SerializeField] bool normalized;
-  [SerializeField] bool precision;
+  [SerializeField] AtlasFormat format;
 
   [HideInInspector]
   public bool isDirty = true;
@@ -87,6 +96,14 @@ public class AltitudeAtlas : MonoBehaviour
     return atlases[index].curve.Evaluate((float)height);
   }
 
+  GraphicsFormat graphicsFormat
+  {
+    get
+    {
+      return getFormat(atlases.Count, format);
+    }
+  }
+
   public void UpdateMap()
   {
     if (_altitudeAtlas != null && isDirty == false)
@@ -101,7 +118,12 @@ public class AltitudeAtlas : MonoBehaviour
     isDirty = false;
 
     CreateTexture(ref _altitudeAtlas, resolution, atlases.Count);
-    Texture2D temp = new Texture2D(resolution, 1);
+    Texture2D temp = new Texture2D(
+      resolution,
+      1,
+      graphicsFormat,
+      TextureCreationFlags.None
+    );
 
     Vector4 mins = Vector4.positiveInfinity;
     Vector4 maxs = Vector4.negativeInfinity;
@@ -112,7 +134,7 @@ public class AltitudeAtlas : MonoBehaviour
     {
       for (int j = 0; j < atlases.Count; j++)
       {
-        double percent = i / (double)(resolution - 1);
+        double percent = i / (double)(resolution);
         double height = startAltitude + percent * (endAltitude - startAltitude);
         float value = GetAltitudeDensity(j, height);
         if (value < mins[j]) mins[j] = value;
@@ -146,7 +168,7 @@ public class AltitudeAtlas : MonoBehaviour
   void CreateTexture(ref RenderTexture texture, int resolution, int colorNum)
   {
     RenderTextureDescriptor desc = TextureTools.GetDescriptorBase(resolution, 1);
-    desc.graphicsFormat = getFormat(atlases.Count, signed, normalized, precision);
+    desc.graphicsFormat = graphicsFormat;
     desc.enableRandomWrite = false;
 
     TextureTools.VerifyTexture(ref texture, desc);
@@ -159,83 +181,46 @@ public class AltitudeAtlas : MonoBehaviour
     isDirty = true;
   }
 
-  static GraphicsFormat getFormat(int colorNum, bool signed, bool normalized, bool precision)
+  static GraphicsFormat getFormat(int colorNum, AtlasFormat format)
   {
-    // return GraphicsFormat.R32G32_SFloat;
-    if (precision)
+    switch (format)
     {
-
-      if (normalized)
-      {
-        if (signed)
-        {
-          if (colorNum == 4) return GraphicsFormat.R16G16B16A16_SNorm;
-          if (colorNum == 3) return GraphicsFormat.R16G16B16_SNorm;
-          if (colorNum == 2) return GraphicsFormat.R16G16_SNorm;
-          if (colorNum == 1) return GraphicsFormat.R16_SNorm;
-        }
-        else
-        {
-          if (colorNum == 4) return GraphicsFormat.R16G16B16A16_UNorm;
-          if (colorNum == 3) return GraphicsFormat.R16G16B16_UNorm;
-          if (colorNum == 2) return GraphicsFormat.R16G16_UNorm;
-          if (colorNum == 1) return GraphicsFormat.R16_UNorm;
-        }
-      }
-      else
-      {
-        if (signed)
-        {
-          if (colorNum == 4) return GraphicsFormat.R16G16B16A16_SInt;
-          if (colorNum == 3) return GraphicsFormat.R16G16B16_SInt;
-          if (colorNum == 2) return GraphicsFormat.R16G16_SInt;
-          if (colorNum == 1) return GraphicsFormat.R16_SInt;
-        }
-        else
-        {
-          if (colorNum == 4) return GraphicsFormat.R16G16B16A16_UInt;
-          if (colorNum == 3) return GraphicsFormat.R16G16B16_UInt;
-          if (colorNum == 2) return GraphicsFormat.R16G16_UInt;
-          if (colorNum == 1) return GraphicsFormat.R16_UInt;
-        }
-      }
-    }
-    else
-    {
-      if (normalized)
-      {
-        if (signed)
-        {
-          if (colorNum == 4) return GraphicsFormat.R8G8B8A8_SNorm;
-          if (colorNum == 3) return GraphicsFormat.R8G8B8_SNorm;
-          if (colorNum == 2) return GraphicsFormat.R8G8_SNorm;
-          if (colorNum == 1) return GraphicsFormat.R8_SNorm;
-        }
-        else
-        {
-          if (colorNum == 4) return GraphicsFormat.R8G8B8A8_UNorm;
-          if (colorNum == 3) return GraphicsFormat.R8G8B8_UNorm;
-          if (colorNum == 2) return GraphicsFormat.R8G8_UNorm;
-          if (colorNum == 1) return GraphicsFormat.R8_UNorm;
-        }
-      }
-      else
-      {
-        if (signed)
-        {
-          if (colorNum == 4) return GraphicsFormat.R8G8B8A8_SInt;
-          if (colorNum == 3) return GraphicsFormat.R8G8B8_SInt;
-          if (colorNum == 2) return GraphicsFormat.R8G8_SInt;
-          if (colorNum == 1) return GraphicsFormat.R8_SInt;
-        }
-        else
-        {
-          if (colorNum == 4) return GraphicsFormat.R8G8B8A8_UInt;
-          if (colorNum == 3) return GraphicsFormat.R8G8B8_UInt;
-          if (colorNum == 2) return GraphicsFormat.R8G8_UInt;
-          if (colorNum == 1) return GraphicsFormat.R8_UInt;
-        }
-      }
+      case AtlasFormat.SFloat_16:
+        if (colorNum == 1) return GraphicsFormat.R16_SFloat;
+        if (colorNum == 2) return GraphicsFormat.R16G16_SFloat;
+        if (colorNum == 3) return GraphicsFormat.R16G16B16_SFloat;
+        if (colorNum == 4) return GraphicsFormat.R16G16B16A16_SFloat;
+        break;
+      case AtlasFormat.SFloat_32:
+        if (colorNum == 1) return GraphicsFormat.R32_SFloat;
+        if (colorNum == 2) return GraphicsFormat.R32G32_SFloat;
+        if (colorNum == 3) return GraphicsFormat.R32G32B32_SFloat;
+        if (colorNum == 4) return GraphicsFormat.R32G32B32A32_SFloat;
+        break;
+      case AtlasFormat.SNorm_8:
+        if (colorNum == 1) return GraphicsFormat.R8_SNorm;
+        if (colorNum == 2) return GraphicsFormat.R8G8_SNorm;
+        if (colorNum == 3) return GraphicsFormat.R8G8B8_SNorm;
+        if (colorNum == 4) return GraphicsFormat.R8G8B8A8_SNorm;
+        break;
+      case AtlasFormat.UNorm_8:
+        if (colorNum == 1) return GraphicsFormat.R8_UNorm;
+        if (colorNum == 2) return GraphicsFormat.R8G8_UNorm;
+        if (colorNum == 3) return GraphicsFormat.R8G8B8_UNorm;
+        if (colorNum == 4) return GraphicsFormat.R8G8B8A8_UNorm;
+        break;
+      case AtlasFormat.SNorm_16:
+        if (colorNum == 1) return GraphicsFormat.R16_SNorm;
+        if (colorNum == 2) return GraphicsFormat.R16G16_SNorm;
+        if (colorNum == 3) return GraphicsFormat.R16G16B16_SNorm;
+        if (colorNum == 4) return GraphicsFormat.R16G16B16A16_SNorm;
+        break;
+      case AtlasFormat.UNorm_16:
+        if (colorNum == 1) return GraphicsFormat.R16_UNorm;
+        if (colorNum == 2) return GraphicsFormat.R16G16_UNorm;
+        if (colorNum == 3) return GraphicsFormat.R16G16B16_UNorm;
+        if (colorNum == 4) return GraphicsFormat.R16G16B16A16_UNorm;
+        break;
     }
     throw new System.Exception("Textures only support 1 to 4 colors");
   }
