@@ -115,8 +115,11 @@ public class AltitudeAtlas : MonoBehaviour
 
     isDirty = false;
 
-    // Create a temporary texture to hold the new values
+    // Update the render texture if necessary
     CreateTexture(ref _altitudeAtlas, resolution, atlases.Count);
+    // Create a temporary texture to hold the new values
+    // TODO: Check that the format is supported
+    // reverse engineer the RenderTexture fallback format instead of crashing
     Texture2D temp = new Texture2D(
       resolution,
       1,
