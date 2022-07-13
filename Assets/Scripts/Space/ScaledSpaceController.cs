@@ -7,7 +7,7 @@ public class ScaledSpaceController : MonoBehaviour
 {
   public FrameOfReference frame;
 
-  public const double SPACE_SCALE = 5 / JupiterSpace.JUPITER_RADIUS;
+  public const double SPACE_SCALE = 50 / JupiterSpace.JUPITER_RADIUS;
 
   void Awake()
   {
