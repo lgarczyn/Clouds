@@ -101,10 +101,13 @@ public class CloudMaster : MonoBehaviour
   private void LateUpdate()
   {
 
-    if (isMaterialDirty || material == null || Application.isPlaying == false)
+    if (isMaterialDirty // check if CloudMaster was changed in editor
+      || material == null // check if the material needs to be created again
+      || Application.isPlaying == false // always update in editor
+      || !material.HasProperty("isClean")) // check for shader recompile resetting material properties
     {
-      isMaterialDirty = false;
       SetParams();
+      isMaterialDirty = false;
     }
 
     // If the container has drifted by a large amount
@@ -205,6 +208,8 @@ public class CloudMaster : MonoBehaviour
     material.SetColor("colB", colB);
     material.SetColor("colC", colC);
     material.SetFloat("distanceFogMultiplier", distanceFogMultiplier / 1000);
+
+    material.SetInt("isClean", 1);
   }
 
   void OnValidate()
