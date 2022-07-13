@@ -404,7 +404,7 @@ Shader "Clouds"
                 float height = ((posY - shadowMapFarPlane) / (shadowMapNearPlane - shadowMapFarPlane));
 
                 if (height < 0)
-                    return (0);
+                    return (darknessThreshold);
                 if (height > 1)
                     return (1);
 
