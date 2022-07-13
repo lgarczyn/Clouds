@@ -8,9 +8,11 @@
 
 using System;
 using System.Globalization;
+using UnityEditor;
 
 namespace UnityEngine
 {
+  [Serializable]
   /// Representation of 3D vectors and points.
   public partial struct Vector3D : IEquatable<Vector3D>, IFormattable
   {
@@ -578,6 +580,5 @@ namespace UnityEngine
     {
       return new Vector3D(other.x, other.y, other.z);
     }
-
   }
 }

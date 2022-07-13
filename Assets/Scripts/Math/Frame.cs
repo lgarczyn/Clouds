@@ -1,7 +1,10 @@
 using UnityEngine;
+using System;
 
+[Serializable]
 public class FrameOfReference
 {
+  [SerializeField]
   protected TransformD transform;
 
   public TransformD toLocal(TransformD coord)

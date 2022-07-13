@@ -1,20 +1,27 @@
 using UnityEngine;
 using System;
 
+[Serializable]
 public struct TransformD : IEquatable<TransformD>
 {
-  public readonly Vector3D position;
-  public readonly QuaternionD rotation;
+  public Vector3D position { get { return this._position; } }
+  public QuaternionD rotation { get { return this._rotation; } }
+  public double scale { get { return this._scale; } }
 
-  public readonly double scale;
+  [SerializeField]
+  Vector3D _position;
+  [SerializeField]
+  QuaternionD _rotation;
+  [SerializeField]
+  double _scale;
 
   public static TransformD identity = new TransformD(Vector3D.zero);
   public TransformD(Vector3D position) : this(position, QuaternionD.identity) { }
   public TransformD(Vector3D position, QuaternionD rotation, double scale = 1)
   {
-    this.position = position;
-    this.rotation = rotation;
-    this.scale = scale;
+    this._position = position;
+    this._rotation = rotation;
+    this._scale = scale;
   }
 
   public override bool Equals(object obj)

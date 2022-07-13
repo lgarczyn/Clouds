@@ -1,5 +1,7 @@
 using UnityEngine;
+using System;
 
+[Serializable]
 public class InertialFrame : FrameOfReference
 {
   Vector3D velocity;

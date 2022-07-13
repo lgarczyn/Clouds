@@ -23,7 +23,7 @@ namespace UnityEngine
   //     ///
   //     Quaternions are used to represent rotations.
   //     ///
-  //[DefaultMember("Item")]
+  [Serializable]
   public struct QuaternionD : IEquatable<QuaternionD>
   {
     const double radToDeg = (180.0 / Math.PI);
