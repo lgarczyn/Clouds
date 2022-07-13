@@ -1,6 +1,13 @@
 using UnityEngine;
 using UnityEditor;
 
+// using OneLine;
+
+// [CustomPropertyDrawer(typeof(Vector3D))]
+// public class Vector3DDrawer : OneLinePropertyDrawer
+// {
+// }
+
 [CustomPropertyDrawer(typeof(Vector3D))]
 public class Vector3DDrawer : PropertyDrawer
 {
@@ -12,21 +19,21 @@ public class Vector3DDrawer : PropertyDrawer
   public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
   {
     // Find the SerializedProperties by name
-    var xProp = property.FindPropertyRelative(nameof(Vector3D.x));
-    var yProp = property.FindPropertyRelative(nameof(Vector3D.y));
-    var zProp = property.FindPropertyRelative(nameof(Vector3D.z));
+    var x = property.FindPropertyRelative(nameof(Vector3D.x));
+    var y = property.FindPropertyRelative(nameof(Vector3D.y));
+    var z = property.FindPropertyRelative(nameof(Vector3D.z));
+    Vector3D value = new Vector3D(x.doubleValue, y.doubleValue, z.doubleValue);
 
     // Using BeginProperty / EndProperty on the parent property means that
     // prefab override logic works on the entire property.
     EditorGUI.BeginProperty(position, label, property);
     {
-      // // Makes the fields disabled / grayed out
-      // EditorGUI.BeginDisabledGroup(true);
-      // {
-      EditorGUI.Vector3Field(position, label, new Vector3(
-        xProp.floatValue, yProp.floatValue, zProp.floatValue));
-      // }
-      // EditorGUI.EndDisabledGroup();
+      var sublabels = new GUIContent[] {
+        new GUIContent("X"),
+      new GUIContent("Y"),
+      new GUIContent("Z") };
+
+      EditorGUI.MultiPropertyField(position, sublabels, x, label);
     }
     EditorGUI.EndProperty();
   }

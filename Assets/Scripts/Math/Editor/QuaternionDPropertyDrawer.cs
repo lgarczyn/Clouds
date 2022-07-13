@@ -17,18 +17,19 @@ public class QuaternionDDrawer : PropertyDrawer
     var z = property.FindPropertyRelative(nameof(QuaternionD.z));
     var w = property.FindPropertyRelative(nameof(QuaternionD.w));
 
+    QuaternionD value = new QuaternionD(x.doubleValue, y.doubleValue, z.doubleValue, w.doubleValue);
+
     // Using BeginProperty / EndProperty on the parent property means that
     // prefab override logic works on the entire property.
     EditorGUI.BeginProperty(position, label, property);
     {
-      Vector3 euler = (Vector3)new QuaternionD(
-        x.doubleValue,
-        y.doubleValue,
-        z.doubleValue,
-        w.doubleValue
-      ).eulerAngles;
-      // In your case the best option would be a Vector3Field which handles the correct drawing
-      EditorGUI.Vector3Field(position, label, euler);
+      var sublabels = new GUIContent[] {
+        new GUIContent("X"),
+      new GUIContent("Y"),
+      new GUIContent("Z"),
+      new GUIContent("W") };
+
+      EditorGUI.MultiPropertyField(position, sublabels, x, label);
     }
     EditorGUI.EndProperty();
   }
