@@ -732,8 +732,8 @@ Shader "Clouds"
                     while (dstTravelled < localMax) {
 
                         float loopRatioLinear = (dstTravelled - start) / (localMax - start);
-                        float loopRatio = loopRatioLinear;// * loopRatioLinear;
-                        // loopRatio *= loopRatio;
+                        float loopRatio = loopRatioLinear * loopRatioLinear;
+                        loopRatio *= loopRatio;
 
                         rayPos = entryPoint + rayDir * dstTravelled;
                         float2 densities = sampleDensity(rayPos, i, loopRatio);
