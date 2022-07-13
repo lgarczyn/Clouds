@@ -60,7 +60,6 @@ public class CloudMaster : MonoBehaviour
   [Range(0, 1)]
   public float phaseFactor = .15f;
   [Range(0, 10)]
-  public float godRaysIntensity = 2f;
 
   [Header(headerDecoration + "Sky" + headerDecoration)]
   public Color colA;
@@ -122,6 +121,12 @@ public class CloudMaster : MonoBehaviour
     material.SetVector("shadowMapPosition", shadowCamera.transform.position);
     material.SetFloat("shadowMapSize", shadowCamera.orthographicSize);
 
+    material.SetTexture("AltitudeAtlas", altitudeAtlasGen.altitudeAtlas);
+    material.SetVector("altitudeValueOffsets", altitudeAtlasGen.altitudeValueOffsets);
+    material.SetVector("altitudeValueMultipliers", altitudeAtlasGen.altitudeValueMultipliers);
+    material.SetFloat("altitudeOffset", (float)altitudeAtlasGen.altitudeOffset);
+    material.SetFloat("altitudeMultiplier", (float)altitudeAtlasGen.altitudeMultiplier);
+
     float shadowMapNearPlane = shadowCamera.transform.position.y - shadowCamera.nearClipPlane;
     float shadowMapFarPlane = shadowCamera.transform.position.y - shadowCamera.farClipPlane;
     material.SetFloat("shadowMapNearPlane", shadowMapNearPlane);
@@ -145,12 +150,6 @@ public class CloudMaster : MonoBehaviour
 
     // WeatherMap and AltitudeAtlas
     UpdateMaps();
-    material.SetTexture("AltitudeAtlas", altitudeAtlasGen.altitudeAtlas);
-    material.SetFloat("altitudeValueOffset", altitudeAtlasGen.altitudeValueOffsets.x);
-    material.SetFloat("altitudeValueMultiplier", altitudeAtlasGen.altitudeValueMultipliers.x);
-    material.SetFloat("altitudeOffset", (float)altitudeAtlasGen.altitudeOffset);
-    material.SetFloat("altitudeMultiplier", (float)altitudeAtlasGen.altitudeMultiplier);
-
     material.SetTexture("ShadowMap", shadowMap);
     material.SetFloat("shadowMapSize", shadowCamera.orthographicSize);
 
@@ -206,7 +205,6 @@ public class CloudMaster : MonoBehaviour
     material.SetColor("colB", colB);
     material.SetColor("colC", colC);
     material.SetFloat("distanceFogMultiplier", distanceFogMultiplier / 1000);
-    material.SetFloat("godRaysIntensity", godRaysIntensity / 1000);
   }
 
   void OnValidate()

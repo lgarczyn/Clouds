@@ -141,8 +141,8 @@ Shader "Clouds"
             // Private parameters to recreate altitudeAtlas's range
             float altitudeOffset;
             float altitudeMultiplier;
-            float altitudeValueOffset;
-            float altitudeValueMultiplier;
+            float4 altitudeValueOffsets;
+            float4 altitudeValueMultipliers;
 
             // March settings
             int numStepsLight;
@@ -156,7 +156,6 @@ Shader "Clouds"
             float lightAbsorptionTowardSun;
             float lightAbsorptionThroughCloud;
             float darknessThreshold;
-            float godRaysIntensity;
             float4 _LightColor0;
             float4 colA;
             float4 colB;
@@ -248,14 +247,21 @@ Shader "Clouds"
                 return (v-low)/(high-low);
             }
 
-            float altitudeDensity(float height)
+            float4 altitudeDensity(float height)
             {
                 float texturePos = (height + altitudeOffset) * altitudeMultiplier;
-                float textureValue = AltitudeAtlas.SampleLevel(samplerAltitudeAtlas, texturePos, 0);
-                return textureValue * altitudeValueMultiplier + altitudeValueOffset;
+                float4 textureValue = AltitudeAtlas.SampleLevel(samplerAltitudeAtlas, texturePos, 0);
+                return textureValue * altitudeValueMultipliers + altitudeValueOffsets;
             }
 
-            float sampleDensity(float3 rayPos, uniform int optimisation, float optiInterpolation) {
+            float2 returnDensity(float density, float prevDensity, float ratio, float haze) {
+              return float2(
+                lerp(density, prevDensity, ratio),
+                haze
+              );
+            }
+
+            float2 sampleDensity(float3 rayPos, int optimisation, float optiInterpolation) {
                 // Calculate texture sample positions
                 float time = _Time.x * timeScale;
                 float3 uvw = rayPos / scaleGlobal;
@@ -270,10 +276,12 @@ Shader "Clouds"
                 // * MIP is always 0 because of 3d textures
                 // * Sample does not allow arbitrary depth loops
 
-                float density = altitudeDensity(rayPos.y);
+                float2 altitudeValues = altitudeDensity(rayPos.y);
+                float density = altitudeValues.x;
+                float haze = altitudeValues.y;
 
                 if (optimisation > 5)
-                    return density;
+                    return altitudeValues;
 
                 float3 wind = windDirection * (_Time.x * timeScale);
 
@@ -287,7 +295,7 @@ Shader "Clouds"
                 }
 
                 if (optimisation > 4)
-                    return lerp(density, prevDensity, optiInterpolation);
+                    return returnDensity(density, prevDensity, optiInterpolation, haze);
 
                 {
                     float3 samplePos = uvw / scale2 + wind * speed2;
@@ -297,7 +305,7 @@ Shader "Clouds"
                 }
 
                 if (optimisation > 3)
-                    return lerp(density, prevDensity, optiInterpolation);
+                    return returnDensity(density, prevDensity, optiInterpolation, haze);
 
                 {
                     float3 samplePos = uvw / scale1 + wind * speed1;
@@ -308,7 +316,7 @@ Shader "Clouds"
                 }
 
                 if (optimisation > 2)
-                    return lerp(density, prevDensity, optiInterpolation);
+                    return returnDensity(density, prevDensity, optiInterpolation, haze);
 
                 {
                     float3 samplePos = uvw / scale0 + time * wind * speed0;
@@ -318,7 +326,7 @@ Shader "Clouds"
                     density -= (value - 0.5) * scale0 * weight0;
                 }
 
-                return lerp(density, prevDensity, optiInterpolation);
+                return returnDensity(density, prevDensity, optiInterpolation, haze);
             }
 
             float sampleLightmap(float2 uv, float height)
@@ -728,11 +736,13 @@ Shader "Clouds"
                         // loopRatio *= loopRatio;
 
                         rayPos = entryPoint + rayDir * dstTravelled;
-                        float density = sampleDensity(rayPos, i, loopRatio);
+                        float2 densities = sampleDensity(rayPos, i, loopRatio);
+                        float density = densities.x;
+                        float haze = densities.y;
                         density = min(maxDensity, density);
+                        haze *= pow(abs(density), testParams.x);
 
-                        // TODO: fix banding when setting godrays
-                        float real_density = max(density, godRaysIntensity);
+                        float real_density = max(density,haze);
                         float lightTransmittance = lightmarch(rayPos);
 
                         // some day I'll figure out WTH I meant with this
