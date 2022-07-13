@@ -21,10 +21,8 @@ public enum AtlasFormat
 {
   SFloat_16 = 1,
   SFloat_32 = 2,
-  SNorm_8 = 3,
-  UNorm_8 = 4,
-  SNorm_16 = 5,
-  UNorm_16 = 6,
+  UNorm_8 = 3,
+  UNorm_16 = 4,
 }
 
 public class AltitudeAtlas : MonoBehaviour
@@ -34,7 +32,7 @@ public class AltitudeAtlas : MonoBehaviour
   [SerializeField] int resolution;
   [SerializeField] double startAltitude;
   [SerializeField] double endAltitude;
-  [SerializeField] AtlasFormat format;
+  [SerializeField] AtlasFormat format = AtlasFormat.UNorm_16;
 
   [HideInInspector]
   public bool isDirty = true;
@@ -117,6 +115,7 @@ public class AltitudeAtlas : MonoBehaviour
 
     isDirty = false;
 
+    // Create a temporary texture to hold the new values
     CreateTexture(ref _altitudeAtlas, resolution, atlases.Count);
     Texture2D temp = new Texture2D(
       resolution,
@@ -125,44 +124,45 @@ public class AltitudeAtlas : MonoBehaviour
       TextureCreationFlags.None
     );
 
+    // the min and max values of each atlas
     Vector4 mins = Vector4.positiveInfinity;
     Vector4 maxs = Vector4.negativeInfinity;
 
-    float[,] valueArray = new float[resolution, atlases.Count];
+    // The pixels to write to the atlas, before normalization
+    Vector4[] valueArray = new Vector4[resolution];
 
+    // Get the values from the curves, and calculate the min and max values
     for (int i = 0; i < resolution; i++)
     {
       for (int j = 0; j < atlases.Count; j++)
       {
-        double percent = i / (double)(resolution);
-        double height = startAltitude + percent * (endAltitude - startAltitude);
+        double height = Remap(i, 0, resolution - 1, startAltitude, endAltitude);
         float value = GetAltitudeDensity(j, height);
         if (value < mins[j]) mins[j] = value;
         if (value > maxs[j]) maxs[j] = value;
-        valueArray[i, j] = value;
+        valueArray[i][j] = value;
       }
     }
 
+    // The multiplier to restore the original range
+    Vector4 multiplier = (maxs - mins);
+
+    // Apply the normalization and store it in the texture
     for (int i = 0; i < resolution; i++)
     {
-      Vector4 pixel = Vector4.zero;
-      for (int j = 0; j < atlases.Count; j++)
-      {
-        float value = valueArray[i, j];
-        value = (value - mins[j]) / (maxs[j] - mins[j]);
-        pixel[j] = (float)value;
-      }
-      temp.SetPixel(i, 0, pixel);
+      Vector4 pixel = valueArray[i];
+      Vector4 normalized = (pixel - mins).InverseScale(multiplier);
+      temp.SetPixel(i, 0, normalized);
     }
-
-    _atlasOffsets = mins;
-    _atlasMultipliers = (maxs - mins);
-
+    // Apply the texture and store the parameters
     temp.Apply();
 
     RenderTexture.active = _altitudeAtlas;
     Graphics.Blit(temp, _altitudeAtlas);
     RenderTexture.active = null;
+
+    _atlasOffsets = mins;
+    _atlasMultipliers = multiplier;
   }
 
   void CreateTexture(ref RenderTexture texture, int resolution, int colorNum)
@@ -197,23 +197,11 @@ public class AltitudeAtlas : MonoBehaviour
         if (colorNum == 3) return GraphicsFormat.R32G32B32_SFloat;
         if (colorNum == 4) return GraphicsFormat.R32G32B32A32_SFloat;
         break;
-      case AtlasFormat.SNorm_8:
-        if (colorNum == 1) return GraphicsFormat.R8_SNorm;
-        if (colorNum == 2) return GraphicsFormat.R8G8_SNorm;
-        if (colorNum == 3) return GraphicsFormat.R8G8B8_SNorm;
-        if (colorNum == 4) return GraphicsFormat.R8G8B8A8_SNorm;
-        break;
       case AtlasFormat.UNorm_8:
         if (colorNum == 1) return GraphicsFormat.R8_UNorm;
         if (colorNum == 2) return GraphicsFormat.R8G8_UNorm;
         if (colorNum == 3) return GraphicsFormat.R8G8B8_UNorm;
         if (colorNum == 4) return GraphicsFormat.R8G8B8A8_UNorm;
-        break;
-      case AtlasFormat.SNorm_16:
-        if (colorNum == 1) return GraphicsFormat.R16_SNorm;
-        if (colorNum == 2) return GraphicsFormat.R16G16_SNorm;
-        if (colorNum == 3) return GraphicsFormat.R16G16B16_SNorm;
-        if (colorNum == 4) return GraphicsFormat.R16G16B16A16_SNorm;
         break;
       case AtlasFormat.UNorm_16:
         if (colorNum == 1) return GraphicsFormat.R16_UNorm;
