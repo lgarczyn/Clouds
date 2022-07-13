@@ -740,6 +740,7 @@ Shader "Clouds"
                         float density = densities.x;
                         float haze = densities.y;
                         density = min(maxDensity, density);
+                        haze = max(0, haze);
 
                         float real_density = max(density,haze);
                         float lightTransmittance = lightmarch(rayPos);
