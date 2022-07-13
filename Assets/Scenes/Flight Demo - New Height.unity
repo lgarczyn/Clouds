@@ -1254,6 +1254,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ee8acffce78e1d498053d6898bb093e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  frame:
+    transform:
+      _position:
+        x: 0
+        y: 0
+        z: 0
+      _rotation:
+        x: 0
+        y: 0
+        z: 0
+        w: 0
+      _scale: 0
   timeScale: 1
 --- !u!1 &414553710 stripped
 GameObject:
@@ -3270,6 +3282,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fea7b20fec744f248a5ff9d100b99fae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  frame:
+    transform:
+      _position:
+        x: 0
+        y: 0
+        z: 0
+      _rotation:
+        x: 0
+        y: 0
+        z: 0
+        w: 0
+      _scale: 0
 --- !u!1 &996771640
 GameObject:
   m_ObjectHideFlags: 0
@@ -5824,6 +5848,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 773c4693fb29cad4b9493a382572560f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  frame:
+    transform:
+      _position:
+        x: 0
+        y: 0
+        z: 0
+      _rotation:
+        x: 0
+        y: 0
+        z: 0
+        w: 0
+      _scale: 0
   jupiterSpace: {fileID: 385219343}
   timeScale: 1
   latitude: 0
@@ -6898,11 +6934,8 @@ MonoBehaviour:
   resolution: 1024
   startAltitude: -30000
   endAltitude: 30000
-  floating: 1
-  signed: 1
-  normalized: 1
-  precision: 1
-  isDirty: 0
+  format: 4
+  isDirty: 1
   _altitudeAtlas: {fileID: 8400000, guid: c8b74445f6928f04d8be84f4059b44ac, type: 2}
 --- !u!4 &1933089465 stripped
 Transform:
