@@ -15,6 +15,8 @@ public class AltitudeAtlasEditor : UnityEditor.Editor
     DrawDefaultInspector();
 
     altitude.UpdateMap();
+
+    GUILayout.Label(altitude.altitudeAtlas);
   }
 
   void OnEnable()
