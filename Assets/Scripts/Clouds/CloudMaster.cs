@@ -60,6 +60,7 @@ public class CloudMaster : MonoBehaviour
   [Range(0, 1)]
   public float phaseFactor = .15f;
   [Range(0, 10)]
+  public float psychedelicEffect = 0f;
 
   [Header(headerDecoration + "Sky" + headerDecoration)]
   public Color colA;
@@ -191,6 +192,8 @@ public class CloudMaster : MonoBehaviour
     material.SetFloat("rayOffsetStrength", rayOffsetStrength);
 
     material.SetVector("phaseParams", new Vector4(forwardScattering, backScattering, baseBrightness, phaseFactor));
+
+    material.SetFloat("psychedelicEffect", psychedelicEffect);
 
     material.SetVector("boundsMin", container.position - container.localScale / 2);
     material.SetVector("boundsMax", container.position + container.localScale / 2);

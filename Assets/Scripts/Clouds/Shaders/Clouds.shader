@@ -135,6 +135,8 @@ Shader "Clouds"
 
             // Used for silverlining while looking at the sun, currently broken
             float4 phaseParams;
+            // Effects
+            float psychedelicEffect;
             // LOD Settings
             float lodLevelMagnitude;
             float lodMinDistance;
@@ -740,9 +742,8 @@ Shader "Clouds"
                         float density = densities.x;
                         float haze = densities.y;
                         density = min(maxDensity, density);
-                        haze = max(0, haze);
 
-                        float real_density = max(density,haze);
+                        float real_density = max(max(density,haze), 0) - psychedelicEffect;
                         float lightTransmittance = lightmarch(rayPos);
 
                         // some day I'll figure out WTH I meant with this
