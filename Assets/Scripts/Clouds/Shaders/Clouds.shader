@@ -94,7 +94,7 @@ Shader "Clouds"
             float4 ShadowMap_TexelSize;
 
             static const float4 shadowMapAbsorptionLevels = float4(0.6, 0.4, 0.2, 0.01);
-            float shadowMapSize;
+            float shadowMapHalfSize;
             float3 shadowMapPosition;
             float shadowMapNearPlane;
             float shadowMapFarPlane;
@@ -391,8 +391,6 @@ Shader "Clouds"
 
             // Calculate proportion of light that reaches the given point from the lightsource
             float lightmarch(float3 position) {
-
-                float shadowMapHalfSize = shadowMapSize / 2;
                 float posY = position.y;
                 // How much the sample should be offset due to the angle of the sun
                 float2 shearOffset = (posY / -_WorldSpaceLightPos0.y) * _WorldSpaceLightPos0.xz;
@@ -410,6 +408,8 @@ Shader "Clouds"
                 // The position inside the shadow map
                 // NOT quite sure why this is a division by 4 instead of two
                 // But hey, it works
+                float2 samplePos = scaledPosition / 2 + 0.5;
+
                 // if sample is out of range of the shadow map
                 if (samplePos.x != saturate(samplePos.x) || samplePos.y != saturate(samplePos.y)) {
                   // calculate a replacement value using altitude
@@ -516,7 +516,7 @@ Shader "Clouds"
                     // The position relative to that square
                     float3 centeredPosition = position - shadowMapStartPos;
                     // Remap to range [-1;1]
-                    float2 scaledPosition = centeredPosition.xz * 2 / shadowMapSize;
+                    float2 scaledPosition = centeredPosition.xz / shadowMapHalfSize;
                     // Square the variations to bias them closer to 1
                     centeredPosition.xz = centeredPosition.xz * manhattanLength(scaledPosition);
 

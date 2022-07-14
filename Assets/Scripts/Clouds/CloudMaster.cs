@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -157,7 +157,7 @@ public class CloudMaster : MonoBehaviour
     // WeatherMap and AltitudeAtlas
     UpdateMaps();
     material.SetTexture("ShadowMap", shadowMap);
-    material.SetFloat("shadowMapSize", shadowCamera.orthographicSize);
+    material.SetFloat("shadowMapHalfSize", shadowCamera.orthographicSize);
 
 
     material.SetFloat("outOfBoundMaxLightAltitude", outOfBoundMaxLightAltitude);
