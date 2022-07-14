@@ -403,7 +403,7 @@ Shader "Clouds"
 
                 // calculate a replacement value using altitude
                 float simulatedSample = saturate(remap(posY, // Altitude
-                   outOfBoundMaxLightAltitude, outOfBoundMinLightAltitude, // Range of altitudes gradient
+                   outOfBoundMinLightAltitude, outOfBoundMaxLightAltitude, // Range of altitudes gradient
                    darknessThreshold, 1 // Output range
                 ));
 
