@@ -10,6 +10,7 @@ public class ShadowCameraMatrix : MonoBehaviour
   public Transform target;
   public bool active = true;
   public bool debug = false;
+  public float roundFact = 1f;
 
   private static Vector3 CalculatePos(Vector3 targetPos, Vector3 sunlightDir)
   {
@@ -23,6 +24,12 @@ public class ShadowCameraMatrix : MonoBehaviour
       newPos -= (targetPos.y / sunlightDir.y) * new Vector3(sunlightDir.x, 0, sunlightDir.z);
     }
     return newPos;
+  }
+
+  private static Vector3 Round(Vector3 pos, float factor)
+  {
+    if (factor == 0) return pos;
+    return (Vector3)Vector3Int.RoundToInt(pos / factor) * factor;
   }
 
   private static Matrix4x4 CalculateMatrix(Vector3 sunlightDir, Transform camera)
@@ -72,7 +79,7 @@ public class ShadowCameraMatrix : MonoBehaviour
         new Vector3(0, 0, 0);
 
       // Update position and matrix
-      transform.position = CalculatePos(targetPos, sunlightDir);
+      transform.position = Round(CalculatePos(targetPos, sunlightDir), roundFact);
       shadowCamera.worldToCameraMatrix = CalculateMatrix(sunlightDir, transform);
     }
     else

@@ -4078,6 +4078,7 @@ MonoBehaviour:
   target: {fileID: 4563114451573410}
   active: 1
   debug: 1
+  roundFact: 3
 --- !u!4 &1166806718
 Transform:
   m_ObjectHideFlags: 0
