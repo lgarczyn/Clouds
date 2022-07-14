@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -71,6 +71,8 @@ public class CloudMaster : MonoBehaviour
   [Header(headerDecoration + "Shadow Mapping" + headerDecoration)]
   public RenderTexture shadowMap;
   public Camera shadowCamera;
+  public float outOfBoundMaxLightAltitude = 15322;
+  public float outOfBoundMinLightAltitude = -403;
 
   [Header(headerDecoration + "Output Material" + headerDecoration)]
   public Material material;
@@ -156,6 +158,10 @@ public class CloudMaster : MonoBehaviour
     UpdateMaps();
     material.SetTexture("ShadowMap", shadowMap);
     material.SetFloat("shadowMapSize", shadowCamera.orthographicSize);
+
+
+    material.SetFloat("outOfBoundMaxLightAltitude", outOfBoundMaxLightAltitude);
+    material.SetFloat("outOfBoundMinLightAltitude", outOfBoundMinLightAltitude);
 
     // Marching settings
     Vector3 size = container.localScale;

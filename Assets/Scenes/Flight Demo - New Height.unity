@@ -4990,6 +4990,8 @@ MonoBehaviour:
   distanceFogMultiplier: 0.04
   shadowMap: {fileID: 8400000, guid: 470f7ae1a1b7ec349a5e9559bc869ec0, type: 2}
   shadowCamera: {fileID: 1166806715}
+  outOfBoundMaxLightAltitude: 15322
+  outOfBoundMinLightAltitude: -403
   material: {fileID: 2100000, guid: feb5506ac90b28945a87d742b2d386f0, type: 2}
 --- !u!1001 &1353362811
 PrefabInstance:

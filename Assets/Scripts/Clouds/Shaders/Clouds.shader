@@ -380,6 +380,13 @@ Shader "Clouds"
                 return absorption;
             }
 
+            // the max absolute component of a vector
+            // used for quadratic scaling of the shadowmap sampling
+            float manhattanLength(float2 a) {
+              float2 m = abs(a);
+              return max(m.x, m.y);
+            }
+
             // Calculate proportion of light that reaches the given point from the lightsource
             float lightmarch(float3 position) {
 
@@ -395,12 +402,20 @@ Shader "Clouds"
                 // Remap the uv coordinates to a quadratic model
                 // This allows for higher resolution shadows close to the player
                 // by giving a larger area to elements closer to the center line
-                scaledPosition = scaledPosition / sqrt(length(scaledPosition));
+                // manhattan length is used instead of length, to avoid wasting the corners of the shadowmap
+                scaledPosition = scaledPosition / sqrt(manhattanLength(scaledPosition));
 
                 // The position inside the shadow map
                 // NOT quite sure why this is a division by 4 instead of two
                 // But hey, it works
-                float2 samplePos = scaledPosition / 4 + 0.5;
+                // if sample is out of range of the shadow map
+                if (samplePos.x != saturate(samplePos.x) || samplePos.y != saturate(samplePos.y)) {
+                  // calculate a replacement value using altitude
+                  return saturate(remap(posY, // Altitude
+                   outOfBoundMaxLightAltitude, outOfBoundMinLightAltitude, // Range of altitudes gradient
+                   darknessThreshold, 1 // Output range
+                  ));
+                }
 
                 // The height inside the container, from 0 to 1
                 float height = ((posY - shadowMapFarPlane) / (shadowMapNearPlane - shadowMapFarPlane));
@@ -501,7 +516,7 @@ Shader "Clouds"
                     // Remap to range [-1;1]
                     float2 scaledPosition = centeredPosition.xz * 2 / shadowMapSize;
                     // Square the variations to bias them closer to 1
-                    centeredPosition.xz = centeredPosition.xz * length(scaledPosition);
+                    centeredPosition.xz = centeredPosition.xz * manhattanLength(scaledPosition);
 
                     position = centeredPosition + shadowMapStartPos;
                 }
