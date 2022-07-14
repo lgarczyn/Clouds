@@ -100,6 +100,7 @@ Shader "Clouds"
             float shadowMapFarPlane;
             float outOfBoundMaxLightAltitude;
             float outOfBoundMinLightAltitude;
+            float outOfBoundInterpolationStrength;
 
             SamplerState samplerShapeTex;
             SamplerState samplerNoiseTex;
@@ -398,26 +399,27 @@ Shader "Clouds"
                 float2 centeredPosition = position.xz + shearOffset - shadowMapPosition.xz;
                 // The [-1;1] position in the shadow volume
                 float2 scaledPosition = centeredPosition / shadowMapHalfSize;
+                float mDistanceFromCenter = manhattanLength(scaledPosition); 
+
+                // calculate a replacement value using altitude
+                float simulatedSample = saturate(remap(posY, // Altitude
+                   outOfBoundMaxLightAltitude, outOfBoundMinLightAltitude, // Range of altitudes gradient
+                   darknessThreshold, 1 // Output range
+                ));
+
+                // If the position is out of the texture, return the fake sample
+                if (mDistanceFromCenter > 1) {
+                  return simulatedSample;
+                }
                 
                 // Remap the uv coordinates to a quadratic model
                 // This allows for higher resolution shadows close to the player
                 // by giving a larger area to elements closer to the center line
                 // manhattan length is used instead of length, to avoid wasting the corners of the shadowmap
-                scaledPosition = scaledPosition / sqrt(manhattanLength(scaledPosition));
+                scaledPosition = scaledPosition / sqrt(mDistanceFromCenter);
 
-                // The position inside the shadow map
-                // NOT quite sure why this is a division by 4 instead of two
-                // But hey, it works
+                // The position inside the shadow map texture, range [0; 1]
                 float2 samplePos = scaledPosition / 2 + 0.5;
-
-                // if sample is out of range of the shadow map
-                if (samplePos.x != saturate(samplePos.x) || samplePos.y != saturate(samplePos.y)) {
-                  // calculate a replacement value using altitude
-                  return saturate(remap(posY, // Altitude
-                   outOfBoundMaxLightAltitude, outOfBoundMinLightAltitude, // Range of altitudes gradient
-                   darknessThreshold, 1 // Output range
-                  ));
-                }
 
                 // The height inside the container, from 0 to 1
                 float height = ((posY - shadowMapFarPlane) / (shadowMapNearPlane - shadowMapFarPlane));
@@ -441,12 +443,19 @@ Shader "Clouds"
                 float BL = sampleLightmap(uv + st.zy, height);
                 float BR = sampleLightmap(uv + st.xy, height);
 
+                // Average the samples depending on pos
                 float T = lerp(TL, TR, ratio.x);
                 float B = lerp(BL, BR, ratio.x);
-
                 float ret = lerp(T, B, ratio.y);
+                // Remap range to minimum light
+                ret = lerp(darknessThreshold, 1, ret);
 
-                return lerp(darknessThreshold, 1, ret);
+                // calculate how much of the simulation should be used
+                // allows for a softer boundary with the fake samples
+                float simulationInterpolation = pow(mDistanceFromCenter, outOfBoundInterpolationStrength);
+
+                // Interpolate and return
+                return lerp(ret, simulatedSample, simulationInterpolation);
             }
             
             // The previous lightmarching code, for result comparison

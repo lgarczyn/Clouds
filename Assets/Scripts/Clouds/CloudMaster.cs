@@ -73,6 +73,7 @@ public class CloudMaster : MonoBehaviour
   public Camera shadowCamera;
   public float outOfBoundMaxLightAltitude = 15322;
   public float outOfBoundMinLightAltitude = -403;
+  public float outOfBoundInterpolationStrength = 4;
 
   [Header(headerDecoration + "Output Material" + headerDecoration)]
   public Material material;
@@ -162,6 +163,7 @@ public class CloudMaster : MonoBehaviour
 
     material.SetFloat("outOfBoundMaxLightAltitude", outOfBoundMaxLightAltitude);
     material.SetFloat("outOfBoundMinLightAltitude", outOfBoundMinLightAltitude);
+    material.SetFloat("outOfBoundInterpolationStrength", outOfBoundInterpolationStrength);
 
     // Marching settings
     Vector3 size = container.localScale;
