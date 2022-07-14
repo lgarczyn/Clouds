@@ -4978,7 +4978,7 @@ MonoBehaviour:
   speed0: 0
   numStepsLight: 1810
   lightAbsorptionThroughCloud: 0.17
-  lightAbsorptionTowardSun: 1.49
+  lightAbsorptionTowardSun: 0.745
   darknessThreshold: 0.28
   forwardScattering: 0.72
   backScattering: 0.33

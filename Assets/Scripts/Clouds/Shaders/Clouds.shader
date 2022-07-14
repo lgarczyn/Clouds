@@ -769,19 +769,23 @@ Shader "Clouds"
                         float haze = densities.y;
                         density = min(maxDensity, density);
 
-                        float real_density = max(max(density,haze), 0) - psychedelicEffect;
+                        // Calculate the total density the ray has hit on this step
+                        float realDensity = max(max(density,haze), 0) - psychedelicEffect;
+                        // Calculate how much the ray should move forward depending on density
+                        float realStepSize = max(abs(density), 0.05) * stepSize;
+                        // Calculate the amount of light at this position
                         float lightTransmittance = lightmarch(rayPos);
 
-                        // some day I'll figure out WTH I meant with this
-                        // clearly I'm just multiplying the transmitance by sqrt of beer
-                        // buut doing that gives a completely different result
-                        float beerRes = beer(real_density * stepSize * lightAbsorptionThroughCloud);
+                        // Calculate the absorption based on density and distance moved
+                        float beerRes = beer(realDensity * stepSize * lightAbsorptionThroughCloud);
+                        // update transmitance
                         transmittance *= beerRes;
-                        lightEnergy += real_density * stepSize * transmittance * lightTransmittance * 0.5;
-                        transmittance /= sqrt(beerRes);
+                        // Add light energy based on absorption and light received
+                        // Not sure why it looks so much better by squaring the beer value
+                        lightEnergy += realDensity * transmittance * beerRes * lightTransmittance;
 
-                        dstTravelled += stepSize * max(abs(density), 0.05);
-                        avgDstTravelled += stepSize * max(abs(density), 0.05) * transmittance;
+                        dstTravelled += realStepSize;
+                        avgDstTravelled += realStepSize * transmittance;
                         // Exit early if T is close to zero as further samples won't affect the result much
                         if (transmittance < minTransmittance) {
                             break;
@@ -795,7 +799,11 @@ Shader "Clouds"
                 if (depth > dstTravelled)
                     hiddenByObject = false;
 
-                transmittance = saturate((transmittance - minTransmittance) / (1 - minTransmittance));
+                // Correct transmittance calculations
+                transmittance = saturate(remap01(transmittance, minTransmittance, 1));
+                // Correct light energy calculations
+                lightEnergy *= 0.25 * stepSize;
+
 
                 float currentDepth;
                 if (dstInsideBox > 0)
@@ -811,10 +819,6 @@ Shader "Clouds"
                 // if (hiddenByObject)
                 //     backgroundCol *= lerp(lightmarch(rayPos + rayDir * currentDepth), 1, 0.9);
                 // Code above doesn't work for obscure reasons
-
-                // Increase light energy contrast
-                // TODO: make power a parameter
-                lightEnergy *= 0.5;
 
                 // Add clouds
                 // When absorption (1 - transmittance) is low, less light energy has accumulated
