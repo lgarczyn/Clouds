@@ -98,6 +98,8 @@ Shader "Clouds"
             float3 shadowMapPosition;
             float shadowMapNearPlane;
             float shadowMapFarPlane;
+            float outOfBoundMaxLightAltitude;
+            float outOfBoundMinLightAltitude;
 
             SamplerState samplerShapeTex;
             SamplerState samplerNoiseTex;
