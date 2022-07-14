@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -45,12 +45,8 @@ public class CloudMaster : MonoBehaviour
 
   [Header(headerDecoration + "Lighting" + headerDecoration)]
   public int numStepsLight = 8;
-  [Range(0.01f, 10)]
+  [Range(0.01f, 1)]
   public float lightAbsorptionThroughCloud = 1;
-  [Range(0.01f, 10)]
-  public float lightAbsorptionTowardSun = 1;
-  [Range(0, 1)]
-  public float darknessThreshold = .2f;
   [Range(0, 1)]
   public float forwardScattering = .83f;
   [Range(0, 1)]
@@ -71,6 +67,10 @@ public class CloudMaster : MonoBehaviour
   [Header(headerDecoration + "Shadow Mapping" + headerDecoration)]
   public RenderTexture shadowMap;
   public Camera shadowCamera;
+  [Range(0.001f, 0.1f)]
+  public float lightAbsorptionTowardSun = 1;
+  [Range(0, 1)]
+  public float darknessThreshold = .2f;
   public float outOfBoundMaxLightAltitude = 15322;
   public float outOfBoundMinLightAltitude = -403;
   public float outOfBoundInterpolationStrength = 4;

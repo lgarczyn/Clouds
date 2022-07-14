@@ -770,22 +770,28 @@ Shader "Clouds"
                         density = min(maxDensity, density);
 
                         // Calculate the total density the ray has hit on this step
-                        float realDensity = max(max(density,haze), 0) - psychedelicEffect;
+                        float realDensity = max(max(density,haze), 0) * stepSize - psychedelicEffect;
                         // Calculate how much the ray should move forward depending on density
                         float realStepSize = max(abs(density), 0.05) * stepSize;
                         // Calculate the amount of light at this position
-                        float lightTransmittance = lightmarch(rayPos);
 
                         // Calculate the absorption based on density and distance moved
-                        float beerRes = beer(realDensity * stepSize * lightAbsorptionThroughCloud);
-                        // update transmitance
+                        float beerRes = beer(realDensity * lightAbsorptionThroughCloud);
+                        // update transmittance
                         transmittance *= beerRes;
-                        // Add light energy based on absorption and light received
-                        // Not sure why it looks so much better by squaring the beer value
-                        lightEnergy += realDensity * transmittance * beerRes * lightTransmittance;
 
+                        // Calculate the amount of light emitted from that area
+                        float lightTransmittance = lightmarch(rayPos) * beerRes;
+                        // Multiply by density of the area and visibility of the pixel
+                        lightTransmittance *= realDensity * transmittance;
+                        // Add to light energy accumulator
+                        lightEnergy += lightTransmittance;
+
+                        // Move forward
                         dstTravelled += realStepSize;
+                        // calculate average distance of sample weighted by their influence on the pixel
                         avgDstTravelled += realStepSize * transmittance;
+
                         // Exit early if T is close to zero as further samples won't affect the result much
                         if (transmittance < minTransmittance) {
                             break;
@@ -802,7 +808,7 @@ Shader "Clouds"
                 // Correct transmittance calculations
                 transmittance = saturate(remap01(transmittance, minTransmittance, 1));
                 // Correct light energy calculations
-                lightEnergy *= 0.25 * stepSize;
+                lightEnergy *= 0.25;
 
 
                 float currentDepth;

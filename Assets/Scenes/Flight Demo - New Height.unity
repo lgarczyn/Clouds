@@ -4046,7 +4046,7 @@ Camera:
   far clip plane: 20000
   field of view: 90
   orthographic: 1
-  orthographic size: 16000
+  orthographic size: 10000
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
@@ -4977,9 +4977,7 @@ MonoBehaviour:
   speed1: 1
   speed0: 0
   numStepsLight: 1810
-  lightAbsorptionThroughCloud: 0.17
-  lightAbsorptionTowardSun: 0.745
-  darknessThreshold: 0.28
+  lightAbsorptionThroughCloud: 0.085
   forwardScattering: 0.72
   backScattering: 0.33
   baseBrightness: 1
@@ -4991,8 +4989,10 @@ MonoBehaviour:
   distanceFogMultiplier: 0.04
   shadowMap: {fileID: 8400000, guid: 470f7ae1a1b7ec349a5e9559bc869ec0, type: 2}
   shadowCamera: {fileID: 1166806715}
-  outOfBoundMaxLightAltitude: 15322
-  outOfBoundMinLightAltitude: -403
+  lightAbsorptionTowardSun: 0.0073
+  darknessThreshold: 0.28
+  outOfBoundMaxLightAltitude: 2841
+  outOfBoundMinLightAltitude: 23397
   outOfBoundInterpolationStrength: 8
   material: {fileID: 2100000, guid: feb5506ac90b28945a87d742b2d386f0, type: 2}
 --- !u!1001 &1353362811
