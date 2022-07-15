@@ -295,8 +295,6 @@ Shader "Clouds"
 
                 float3 wind = windDirection * (_Time.x * timeScale);
 
-                float prevDensity;
-
                 {
                     float3 samplePos = uvw.zxy / scale3 + wind * speed3;
                     float value = ShapeTex.SampleLevel(samplerShapeTex, samplePos, 0);
