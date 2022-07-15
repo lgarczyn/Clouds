@@ -86,7 +86,7 @@ Shader "Clouds"
             // The main cloud texture
             Texture3D<float> ShapeTex;
             // 1D texture to give the 'thunderhead''vibe
-            Texture2D<float> AltitudeAtlas;
+            Texture2D<float4> AltitudeAtlas;
             // 2D texture to fix banding
             Texture2D<float> NoiseTex;
             // 2D texture containing the heights of 4 absorption levels
@@ -284,9 +284,14 @@ Shader "Clouds"
                 float2 altitudeValues = altitudeDensity(rayPos.y);
                 float density = altitudeValues.x;
                 float haze = altitudeValues.y;
+                float prevDensity = density;
 
+                // Early return for distant object
+                // Interpolates between the most detailed version available and the previous one
+                // This erases the sharp border between levels of details
+                // Here of course both versions are the same, but the following returns are not 
                 if (optimisation > 5)
-                    return altitudeValues;
+                    return returnDensity(density, prevDensity, optiInterpolation, haze);
 
                 float3 wind = windDirection * (_Time.x * timeScale);
 
