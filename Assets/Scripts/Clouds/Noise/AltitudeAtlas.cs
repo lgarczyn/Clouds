@@ -230,9 +230,6 @@ public class AltitudeAtlas : MonoBehaviour
       {
         // Get the output pixel
         Color c = pixelsOut[i];
-        // Calculate the square diff with the original pixel
-        Vector4 diff = (Vector4)(c - pixels[i]);
-        squareError += Vector4.Scale(diff, diff);
         // Calculate the original cuve values
         c = (Color)(Vector4.Scale(c, _atlasMultipliers) + _atlasOffsets);
         // Calculate the original curve time
@@ -242,6 +239,10 @@ public class AltitudeAtlas : MonoBehaviour
         {
           _curvesOut[j].AddKey(alt, c[j]);
         }
+
+        // Calculate the square diff with the original pixel
+        Vector4 diff = (Vector4)c - valueArray[i];
+        squareError += Vector4.Scale(diff, diff);
       };
       // Average the errors
       _meanSquareError = squareError / resolution;
