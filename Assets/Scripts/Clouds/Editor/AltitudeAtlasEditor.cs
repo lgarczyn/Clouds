@@ -15,8 +15,6 @@ public class AltitudeAtlasEditor : UnityEditor.Editor
   {
     DrawDefaultInspector();
 
-    altitude.UpdateMap();
-
     GUILayout.Label("Error: " + altitude.meanSquareError);
     GUILayout.Label("Output:");
     // Create an empty label 30px high
