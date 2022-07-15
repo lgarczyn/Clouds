@@ -71,8 +71,9 @@ public class CloudMaster : MonoBehaviour
   public float lightAbsorptionTowardSun = 1;
   [Range(0, 1)]
   public float darknessThreshold = .2f;
-  public float outOfBoundMaxLightAltitude = 15322;
   public float outOfBoundMinLightAltitude = -403;
+
+  public float outOfBoundMaxLightAltitude = 15322;
   public float outOfBoundInterpolationStrength = 4;
 
   [Header(headerDecoration + "Output Material" + headerDecoration)]
