@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 using System.Collections.Generic;
@@ -83,6 +83,7 @@ public class AltitudeAtlas : MonoBehaviour
   {
     get
     {
+      UpdateMap();
       return _meanSquareError;
     }
   }
@@ -91,6 +92,7 @@ public class AltitudeAtlas : MonoBehaviour
   {
     get
     {
+      UpdateMap();
       return _curvesOut;
     }
   }
@@ -236,7 +238,7 @@ public class AltitudeAtlas : MonoBehaviour
         // Calculate the original curve time
         float alt = (float)Remap(i, 0, resolution, startAltitude, endAltitude);
         // Add the keys to each curve
-        for (int j = 0; j < atlases.Count; i++)
+        for (int j = 0; j < atlases.Count; j++)
         {
           _curvesOut[j].AddKey(alt, c[j]);
         }
