@@ -45,4 +45,34 @@ public static class VectorHelper
   {
     return Vector4.Scale(a, b.Inverse());
   }
+
+  public static Vector2 Min(this Vector2 a, Vector2 b)
+  {
+    return new Vector2(MathF.Min(a.x, b.x), MathF.Min(a.y, b.y));
+  }
+
+  public static Vector3 Min(this Vector3 a, Vector3 b)
+  {
+    return new Vector3(MathF.Min(a.x, b.x), MathF.Min(a.y, b.y), MathF.Min(a.z, b.z));
+  }
+
+  public static Vector4 Min(this Vector4 a, Vector4 b)
+  {
+    return new Vector4(MathF.Min(a.x, b.x), MathF.Min(a.y, b.y), MathF.Min(a.z, b.z), MathF.Min(a.w, b.w));
+  }
+
+  public static Vector2 Max(this Vector2 a, Vector2 b)
+  {
+    return new Vector2(MathF.Max(a.x, b.x), MathF.Max(a.y, b.y));
+  }
+
+  public static Vector3 Max(this Vector3 a, Vector3 b)
+  {
+    return new Vector3(MathF.Max(a.x, b.x), MathF.Max(a.y, b.y), MathF.Max(a.z, b.z));
+  }
+
+  public static Vector4 Max(this Vector4 a, Vector4 b)
+  {
+    return new Vector4(MathF.Max(a.x, b.x), MathF.Max(a.y, b.y), MathF.Max(a.z, b.z), MathF.Max(a.w, b.w));
+  }
 }
