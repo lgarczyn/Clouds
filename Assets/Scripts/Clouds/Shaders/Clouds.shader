@@ -177,6 +177,10 @@ Shader "Clouds"
             float remap(float v, float minOld, float maxOld, float minNew, float maxNew) {
                 return minNew + (v-minOld) * (maxNew - minNew) / (maxOld-minOld);
             }
+            // Maps a float from an interval to another, with bound checking
+            float remapClamped(float v, float minOld, float maxOld, float minNew, float maxNew) {
+                return clamp(remap(v, minOld, maxOld, minNew, maxNew), minNew, maxNew);
+            }
 
             float2 squareUV(float2 uv) {
                 float width = _ScreenParams.x;
@@ -405,10 +409,10 @@ Shader "Clouds"
                 float mDistanceFromCenter = manhattanLength(scaledPosition); 
 
                 // calculate a replacement value using altitude
-                float simulatedSample = saturate(remap(posY, // Altitude
+                float simulatedSample = remapClamped(posY, // Altitude
                    outOfBoundMinLightAltitude, outOfBoundMaxLightAltitude, // Range of altitudes gradient
                    darknessThreshold, 1 // Output range
-                ));
+                );
 
                 // If the position is out of the texture, return the fake sample
                 if (mDistanceFromCenter > 1) {
