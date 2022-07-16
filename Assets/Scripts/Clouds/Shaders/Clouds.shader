@@ -110,8 +110,10 @@ Shader "Clouds"
             sampler2D _MainTex;
             sampler2D _CameraDepthTexture;
 
+            // Editor settings
             float4 testParams;
             float4 testColor;
+            bool isClean;
 
             // Shape settings
             // TODO: reorganize parameters (eg. phase into light setting)
@@ -724,6 +726,11 @@ Shader "Clouds"
               
                 // Get the depth value
                 float depth = getDepth(uv);
+                // Skybox and plane
+                fixed3 backgroundCol = tex2D(_MainTex, uv);
+                // If in editor, do not run
+                // Incorrect params in editor tend to crash it
+                if (!isClean) return float4(backgroundCol, 1);
 
                 // Normalize ray because of perspective interpolation
                 float distancePerspectiveModifier = length(rayDir);
@@ -840,8 +847,6 @@ Shader "Clouds"
                 else
                     currentDepth = depth;
 
-                // Skybox and plane
-                fixed3 backgroundCol = tex2D(_MainTex, uv);
 
                 // Add shading to non-cloud objects
                 // Could be done better by decoding normals
