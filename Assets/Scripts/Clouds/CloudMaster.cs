@@ -10,6 +10,7 @@ public class CloudMaster : MonoBehaviour
   public Transform container;
   public Transform player;
   public Vector4 testParams;
+  public Color testColor;
 
   [Header(headerDecoration + "March settings" + headerDecoration)]
   public float stepSizeRender = 8;
@@ -120,6 +121,7 @@ public class CloudMaster : MonoBehaviour
     // if (Vector3.Distance(lastContainerPosition, container.position) > container.localScale.magnitude / 4)
     // {
     material.SetVector("testParams", testParams);
+    material.SetColor("testColor", testColor);
     Vector3 boundsMin = container.position - container.localScale / 2;
     Vector3 boundsMax = container.position + container.localScale / 2;
 

@@ -111,6 +111,7 @@ Shader "Clouds"
             sampler2D _CameraDepthTexture;
 
             float4 testParams;
+            float4 testColor;
 
             // Shape settings
             // TODO: reorganize parameters (eg. phase into light setting)
