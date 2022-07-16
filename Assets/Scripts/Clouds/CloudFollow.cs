@@ -12,9 +12,9 @@ public class CloudFollow : MonoBehaviour
     if (increaseOnPlay)
     {
       transform.localScale = new Vector3(
-          transform.localScale.x * 100,
+          transform.localScale.x * 1000,
           transform.localScale.y,
-          transform.localScale.z * 100
+          transform.localScale.z * 1000
       );
       increaseOnPlay = false;
     }
