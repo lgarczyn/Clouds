@@ -4777,7 +4777,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1306023367}
   m_LocalRotation: {x: 0.0889679, y: 0.7237322, z: 0.1097223, w: 0.6754684}
-  m_LocalPosition: {x: 388.24, y: 91.21704, z: -274.0191}
+  m_LocalPosition: {x: -388.24, y: 91.21704, z: -274.0191}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4954,7 +4954,7 @@ MonoBehaviour:
   player: {fileID: 4563114451573410}
   testParams: {x: 0, y: 0, z: 0, w: 0}
   testColor: {r: 0.043137252, g: 0.56683064, b: 1, a: 1}
-  stepSizeRender: 10.72
+  stepSizeRender: 9.73
   firstStepNoiseMultiplier: 2
   stepSizeNoiseRatio: 0.5
   rayOffsetStrength: 9.19
@@ -4963,7 +4963,7 @@ MonoBehaviour:
   lodLevelMagnitude: 10
   lodMinDistance: 300
   scaleGlobal: 127.61
-  weightGlobal: 1
+  weightGlobal: 0.79
   scale3: 400
   weight3: 1
   scale2: 28.4
@@ -4971,12 +4971,12 @@ MonoBehaviour:
   scale1: 2.5
   weight1: 1
   scale0: 0.19
-  weight0: 4.6
+  weight0: -4.57
   timeScale: 3
   windDirection: {x: 1, y: 0.1, z: 0.3}
   speed3: 0
   speed2: 0
-  speed1: 1
+  speed1: 0.18
   speed0: 0
   numStepsLight: 1810
   lightAbsorptionThroughCloud: 0.186
