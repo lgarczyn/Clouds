@@ -6,9 +6,25 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlaneCheatController : MonoBehaviour
 {
-  public float baseSpeed = 60;
   public float shiftSpeedMultiplier = 7;
   public float controlSpeedMultiplier = 40;
+
+  [HideInInspector]
+  public float baseSpeed = 60;
+  [HideInInspector]
+  public Vector3 startPos = Vector3.zero;
+  [HideInInspector]
+  public Quaternion startRotation = Quaternion.identity;
+
+  void Start()
+  {
+    MFlight.Demo.Plane plane = GetComponent<MFlight.Demo.Plane>();
+    Rigidbody rigidbody = GetComponent<Rigidbody>();
+
+    baseSpeed = plane.thrust;
+    startPos = rigidbody.position;
+    startRotation = rigidbody.rotation;
+  }
 
   void Update()
   {
@@ -21,8 +37,13 @@ public class PlaneCheatController : MonoBehaviour
     if (Input.GetKeyDown(KeyCode.L)) rigidbody.isKinematic = !rigidbody.isKinematic;
     if (Input.GetKeyDown(KeyCode.K))
     {
-      rigidbody.position = Vector3.zero;
-      if (!rigidbody.isKinematic) rigidbody.velocity = Vector3.zero;
+      rigidbody.position = startPos;
+      rigidbody.rotation = startRotation;
+      if (!rigidbody.isKinematic)
+      {
+        rigidbody.velocity = Vector3.zero;
+        rigidbody.angularVelocity = Vector3.zero;
+      }
     }
   }
 }
