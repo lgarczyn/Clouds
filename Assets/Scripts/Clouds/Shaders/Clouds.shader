@@ -154,6 +154,7 @@ Shader "Clouds"
             int numStepsLight;
             float stepSizeRender;
             float firstStepNoiseMultiplier;
+            float stepSizeNoiseRatio;
             // Two opposite corners of the cloud container
             float3 boundsMin;
             float3 boundsMax;
@@ -161,12 +162,14 @@ Shader "Clouds"
             // Light settings
             float lightAbsorptionTowardSun;
             float lightAbsorptionThroughCloud;
+            float hazeColorFactor;
+            float hazeTransmittanceFactor;
+            float lightPower;
             float darknessThreshold;
             float4 _LightColor0;
             float4 colA;
             float4 colB;
             float4 colC;
-            float distanceFogMultiplier;
 
             // Animation settings
             float timeScale;
@@ -675,19 +678,19 @@ Shader "Clouds"
                 return lerp(color * phaseVal, normalize(_LightColor0) * 4, sun);
             }
 
-            fixed3 getCloudColor(float currentDepth, float lightEnergy)
+            fixed3 getCloudColor(float lightEnergy, float hazeRatio)
             {
-                // Get a fog ratio
-                float dstFog = 1-exp(-currentDepth * distanceFogMultiplier);
                 // Apply to both cloud colors
-                fixed3 colAf = lerp(colA, colC, dstFog);
-                fixed3 colBf = lerp(colB, colC, dstFog);
+                // fixed3 colAf = lerp(colA, colC, hazeRatio);
+                // fixed3 colBf = lerp(colB, colC, hazeRatio);
                 // Chose which gradient to apply
                 // TODO: use a better way to lerp through these
+                fixed3 cloud;
                 if (lightEnergy < 0.5)
-                    return lerp(colBf, colAf, lightEnergy * 2);
+                    cloud = lerp(colB, colA, lightEnergy * 2);
                 else
-                    return lerp(colAf, _LightColor0, (lightEnergy - 0.5) * 2);
+                    cloud = lerp(colA, _LightColor0, (lightEnergy - 0.5) * 2);
+                return lerp(cloud, colC, saturate(hazeRatio));
             }
 
             float4 rayMarch(float3 rayPos, float3 rayDir, float2 uv);
@@ -733,30 +736,32 @@ Shader "Clouds"
                 // Normalize depth the same way
                 depth *= distancePerspectiveModifier;
 
-                // Random offset to the start of raymarching
-                // Avoids some banding
-                // TODO: map texture 1:1 to actual pixels
-                float startNoiseOffset = (NoiseTex.SampleLevel(samplerNoiseTex, uv * 10 + _Time.xy * 97 , 0) - 0.5)
-                    * firstStepNoiseMultiplier * 3;
-
                 float2 rayToContainerInfo = rayBoxDst(boundsMin, boundsMax, rayPos, 1/rayDir);
                 float dstToBox = rayToContainerInfo.x;
                 float dstInsideBox = rayToContainerInfo.y;
 
+                
+                // Random offset to the start and speed of raymarching
+                // Avoids some banding
+                float noiseSample = NoiseTex.SampleLevel(samplerNoiseTex, uv * 10 + _Time.xy * 97 , 0);
+                float startNoiseOffset = (noiseSample - 0.5)
+                    * firstStepNoiseMultiplier * 3;
+                float stepsizeNoiseComponent = noiseSample
+                    * stepSizeRender * stepSizeNoiseRatio;
+
                 // point of intersection with the cloud container
                 float3 entryPoint = rayPos + rayDir * (dstToBox + startNoiseOffset);
+                float stepSize = stepSizeRender + stepsizeNoiseComponent;
 
                 // Adds an empty sphere around the camera
                 // float dstTravelled = max(400 - dstToBox, 0);
                 float dstTravelled = 0;
-                float avgDstTravelled = 0;
                 float dstLimit = min(depth-dstToBox, dstInsideBox);
-
-                float stepSize = stepSizeRender;
 
                 // March through volume:
                 float transmittance = 1;
                 float lightEnergy = 0;
+                float hazeRatio = 0;
 
                 // max render distance = lodMinDistance + pow(lodLevelMagnitude, 5)
                 // but container limits the raycasting anyway
@@ -774,7 +779,7 @@ Shader "Clouds"
                         rayPos = entryPoint + rayDir * dstTravelled;
                         float2 densities = sampleDensity(rayPos, i, loopRatio);
                         float density = densities.x;
-                        float haze = densities.y;
+                        float haze = densities.y / hazeTransmittanceFactor;
                         density = min(maxDensity, density);
 
                         // Calculate the total density the ray has hit on this step
@@ -785,9 +790,13 @@ Shader "Clouds"
 
                         // Calculate the absorption based on density and distance moved
                         float beerRes = beer(realDensity * lightAbsorptionThroughCloud);
+                        float oldTransmittance = transmittance;
                         // update transmittance
                         transmittance *= beerRes;
 
+                        // Calculate how much of the loss in transmittance is due to haze
+                        hazeRatio += max(haze - density, 0) * (oldTransmittance - transmittance);
+                        
                         // Calculate the amount of light emitted from that area
                         float lightTransmittance = lightmarch(rayPos) * beerRes;
                         // Multiply by density of the area and visibility of the pixel
@@ -797,8 +806,6 @@ Shader "Clouds"
 
                         // Move forward
                         dstTravelled += realStepSize;
-                        // calculate average distance of sample weighted by their influence on the pixel
-                        avgDstTravelled += realStepSize * transmittance;
 
                         // Exit early if T is close to zero as further samples won't affect the result much
                         if (transmittance < minTransmittance) {
@@ -813,10 +820,18 @@ Shader "Clouds"
                 if (depth > dstTravelled)
                     hiddenByObject = false;
 
-                // Correct transmittance calculations
+                // Correct haze ratio
+                // Series of correction allows independent modifications of haze color, strength and distance
+                hazeRatio *= hazeTransmittanceFactor / hazeColorFactor / lightAbsorptionThroughCloud;
+                // Correct transmittance calculations for full range
                 transmittance = saturate(remap01(transmittance, minTransmittance, 1));
                 // Correct light energy calculations
-                lightEnergy *= 0.25;
+                // Allows independent change lightPower and light absorption
+                lightEnergy *= lightPower * lightAbsorptionThroughCloud;
+                // When absorption (1 - transmittance) is low, less light energy has accumulated
+                // This value accounts for that
+                float lowAbsorptionLightBalance = transmittance == 1 ? 1 : 1 / (1-transmittance);
+                lightEnergy *= lowAbsorptionLightBalance;
 
 
                 float currentDepth;
@@ -835,11 +850,8 @@ Shader "Clouds"
                 // Code above doesn't work for obscure reasons
 
                 // Add clouds
-                // When absorption (1 - transmittance) is low, less light energy has accumulated
-                // This value accounts for that
-                float lowAbsorptionLightBalance = transmittance == 1 ? 1 : 1 / (1-transmittance);
-                // Get the cloud color depending on distance, and adjusted light energy
-                fixed3 col = getCloudColor(avgDstTravelled, lightEnergy * lowAbsorptionLightBalance);
+                // Get the cloud color depending on hazeAmount and adjusted light energy
+                fixed3 col = getCloudColor(lightEnergy, hazeRatio);
 
                 // Add background or plane/objects
                 col = lerp(col, backgroundCol, transmittance);

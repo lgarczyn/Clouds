@@ -15,6 +15,7 @@ public class CloudMaster : MonoBehaviour
   [Header(headerDecoration + "March settings" + headerDecoration)]
   public float stepSizeRender = 8;
   public float firstStepNoiseMultiplier = 3;
+  public float stepSizeNoiseRatio = 0.5f;
   public float rayOffsetStrength;
   public float minTransmittance = 0.05f;
   public float maxDensity = 57.38f;
@@ -46,8 +47,15 @@ public class CloudMaster : MonoBehaviour
 
   [Header(headerDecoration + "Lighting" + headerDecoration)]
   public int numStepsLight = 8;
-  [Range(0.01f, 1)]
-  public float lightAbsorptionThroughCloud = 1;
+  [Range(0.01f, 0.5f)]
+  public float lightAbsorptionThroughCloud = 0.1f;
+  [Range(0.01f, 500f)]
+  public float hazeColorFactor = 10f;
+  [Range(0.01f, 2f)]
+  public float hazeTransmittanceFactor = 0.1f;
+  [Range(0f, 5f)]
+  public float lightPower = 2.5f;
+  [Header(headerDecoration + "Sun halo" + headerDecoration)]
   [Range(0, 1)]
   public float forwardScattering = .83f;
   [Range(0, 1)]
@@ -56,6 +64,7 @@ public class CloudMaster : MonoBehaviour
   public float baseBrightness = .8f;
   [Range(0, 1)]
   public float phaseFactor = .15f;
+  [Header(headerDecoration + "Effects" + headerDecoration)]
   [Range(0, 10)]
   public float psychedelicEffect = 0f;
 
@@ -63,7 +72,6 @@ public class CloudMaster : MonoBehaviour
   public Color colA;
   public Color colB;
   public Color colC;
-  public float distanceFogMultiplier;
 
   [Header(headerDecoration + "Shadow Mapping" + headerDecoration)]
   public RenderTexture shadowMap;
@@ -198,6 +206,9 @@ public class CloudMaster : MonoBehaviour
     material.SetFloat("speed3", speed3);
 
     material.SetFloat("lightAbsorptionThroughCloud", lightAbsorptionThroughCloud);
+    material.SetFloat("hazeColorFactor", hazeColorFactor);
+    material.SetFloat("hazeTransmittanceFactor", hazeTransmittanceFactor);
+    material.SetFloat("lightPower", lightPower);
     material.SetFloat("lightAbsorptionTowardSun", lightAbsorptionTowardSun);
     material.SetFloat("darknessThreshold", darknessThreshold);
     material.SetFloat("rayOffsetStrength", rayOffsetStrength);
@@ -212,6 +223,7 @@ public class CloudMaster : MonoBehaviour
     material.SetInt("numStepsLight", numStepsLight);
     material.SetFloat("stepSizeRender", stepSizeRender);
     material.SetFloat("firstStepNoiseMultiplier", firstStepNoiseMultiplier);
+    material.SetFloat("stepSizeNoiseRatio", stepSizeNoiseRatio);
 
     material.SetVector("mapSize", new Vector4(width, height, depth, 0));
 
@@ -221,7 +233,6 @@ public class CloudMaster : MonoBehaviour
     material.SetColor("colA", colA);
     material.SetColor("colB", colB);
     material.SetColor("colC", colC);
-    material.SetFloat("distanceFogMultiplier", distanceFogMultiplier / 1000);
 
     material.SetInt("isClean", 1);
   }

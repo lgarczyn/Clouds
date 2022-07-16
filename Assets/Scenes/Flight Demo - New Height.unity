@@ -4952,9 +4952,11 @@ MonoBehaviour:
   shader: {fileID: 4800000, guid: 7e5c642fc5a7742a1b257a0e6f60352b, type: 3}
   container: {fileID: 1230604923}
   player: {fileID: 4563114451573410}
-  testParams: {x: 1, y: 1, z: 0, w: 0}
-  stepSizeRender: 8.95
+  testParams: {x: 0, y: 0, z: 0, w: 0}
+  testColor: {r: 0.043137252, g: 0.56683064, b: 1, a: 1}
+  stepSizeRender: 10.72
   firstStepNoiseMultiplier: 2
+  stepSizeNoiseRatio: 0.5
   rayOffsetStrength: 9.19
   minTransmittance: 0.1
   maxDensity: 57.38
@@ -4977,7 +4979,10 @@ MonoBehaviour:
   speed1: 1
   speed0: 0
   numStepsLight: 1810
-  lightAbsorptionThroughCloud: 0.085
+  lightAbsorptionThroughCloud: 0.186
+  hazeColorFactor: 500
+  hazeTransmittanceFactor: 1.552
+  lightPower: 2.5
   forwardScattering: 0.72
   backScattering: 0.33
   baseBrightness: 1
@@ -4985,8 +4990,7 @@ MonoBehaviour:
   psychedelicEffect: 0
   colA: {r: 0.85800004, g: 0.39013878, b: 0.163878, a: 1}
   colB: {r: 0.575, g: 0, b: 0.03179736, a: 1}
-  colC: {r: 0.18039216, g: 0.101960786, b: 0.35686275, a: 0}
-  distanceFogMultiplier: 0.04
+  colC: {r: 0.2901961, g: 0.44705883, b: 0.50980395, a: 0}
   shadowMap: {fileID: 8400000, guid: 470f7ae1a1b7ec349a5e9559bc869ec0, type: 2}
   shadowCamera: {fileID: 1166806715}
   lightAbsorptionTowardSun: 0.0073
@@ -6819,16 +6823,16 @@ MonoBehaviour:
         time: 21308.947
         value: 0.0029892677
         inSlope: -0.00000017467357
-        outSlope: 0.0000041907956
+        outSlope: 0.000000058122964
         tangentMode: 69
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 33647.758
-        value: 0.0546987
-        inSlope: 0.0000041907956
-        outSlope: -0.00000082376386
+        time: 57643.25
+        value: 0.005101125
+        inSlope: 0.000000058122964
+        outSlope: -0.0000001193705
         tangentMode: 69
         weightedMode: 0
         inWeight: 0.33333334
@@ -6836,7 +6840,7 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 99993.1
         value: 0.000045802513
-        inSlope: -0.00000082376386
+        inSlope: -0.0000001193705
         outSlope: -0.0000027123233
         tangentMode: 69
         weightedMode: 0
@@ -6850,7 +6854,7 @@ MonoBehaviour:
   endAltitude: 100000
   format: 1
   normalize: 0
-  isDirty: 0
+  isDirty: 1
   _altitudeAtlas: {fileID: 8400000, guid: c8b74445f6928f04d8be84f4059b44ac, type: 2}
 --- !u!4 &1933089465 stripped
 Transform:
@@ -7724,9 +7728,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb8e466887dea549aa253f50919bf39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSpeed: 60
   shiftSpeedMultiplier: 10
   controlSpeedMultiplier: 100
+  baseSpeed: 60
+  startPos: {x: 0, y: 0, z: 0}
+  startRotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!114 &114412279917838310 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5933174257901130070, guid: 8580f51aba7053a4286c3ec8810a585e,
