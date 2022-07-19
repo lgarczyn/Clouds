@@ -3,65 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class WhaleController : MonoBehaviour
+public class WhaleController : FaunaController
 {
-  new Rigidbody rigidbody;
   Vector3 velocity = Vector3.forward;
   public float diveCounter = 0f;
 
-
-  public Transform container;
-  public Transform player;
-
-  public Animation[] animations;
-
-  public Transform model;
-  public float depopDistance = 1000f;
-  public float maxRepopDistance = 500f;
-  public float minRepopDistance = 200f;
-  public float containerHeightRepopRange = 0.8f;
   public float dirChangeSpeed = 0.1f;
   public float speed = 0.2f;
   public float rotationSpeed = 0.1f;
   public float diveDuration = 2f;
   public float diveSpeed = 0.1f;
-  public float scaleRatioRange = 1.2f;
-  public float scaleBase = 1f;
-  public float animationSpeedBase = 1f;
 
-  public float minHeight
+  protected override void OnRepop(Vector3 newPos)
   {
-    get
-    {
-      return container.position.y - container.localScale.y / 2f;
-    }
-  }
-  public float maxHeight
-  {
-    get
-    {
-      return container.position.y + container.localScale.y / 2f;
-    }
-  }
-
-  void Start()
-  {
-    rigidbody = GetComponent<Rigidbody>();
+    Rigidbody rigidbody = GetComponent<Rigidbody>();
     velocity = Random.insideUnitSphere * speed;
-    Repop();
     rigidbody.rotation = Quaternion.LookRotation(velocity, Vector3.up);
-
-    float scale = scaleBase * Random.Range(1f / scaleRatioRange, scaleRatioRange);
-
-    model.localScale *= scale;
-
-    foreach (Animation animation in animations)
-    {
-      foreach (AnimationState state in animation)
-      {
-        state.speed /= Mathf.Sqrt(scale);
-      }
-    }
   }
 
   void FixedUpdate()
@@ -73,39 +30,14 @@ public class WhaleController : MonoBehaviour
     // Calculate new velocity plus the dive bias
     velocity += (velocityChange + GetDiveVelocity()) * Time.fixedDeltaTime;
 
-    // Either repop or move normally
-    if (ShouldRepop())
-      Repop();
-    else
-    {
-      // Move forward
-      rigidbody.MovePosition(rigidbody.position + velocity * Time.fixedDeltaTime * speed);
-      // Rotate forward
-      rigidbody.MoveRotation(
-          Quaternion.Slerp(
-              rigidbody.rotation,
-              Quaternion.LookRotation(velocity, Vector3.up),
-              Time.fixedDeltaTime * rotationSpeed));
-    }
-  }
-
-  // Move the whale in a hollow cylinder around the player 
-  void Repop()
-  {
-    Vector3 playerPos = new Vector3(player.position.x, 0f, player.position.z);
-
-    float randomRadius = Random.Range(minRepopDistance, maxRepopDistance);
-    float randomAngle = Random.Range(-Mathf.PI, Mathf.PI);
-    float randomHeight = Random.Range(minHeight, maxHeight) * containerHeightRepopRange;
-
-
-    Vector3 randomPos = new Vector3(
-        Mathf.Cos(randomAngle) * randomRadius,
-        randomHeight,
-        Mathf.Sin(randomAngle) * randomRadius
-    );
-
-    rigidbody.position = playerPos + randomPos;
+    // Move forward
+    GetComponent<Rigidbody>().MovePosition(GetComponent<Rigidbody>().position + velocity * Time.fixedDeltaTime * speed);
+    // Rotate forward
+    GetComponent<Rigidbody>().MoveRotation(
+        Quaternion.Slerp(
+            GetComponent<Rigidbody>().rotation,
+            Quaternion.LookRotation(velocity, Vector3.up),
+            Time.fixedDeltaTime * rotationSpeed));
   }
 
   // Calculate velocity bias to stay in container
@@ -113,8 +45,8 @@ public class WhaleController : MonoBehaviour
   {
     // If outside of bounds, set a pool of velocity to be spread over diveDuration
     float newCounter =
-        rigidbody.position.y > maxHeight ? -1f :
-        rigidbody.position.y < minHeight ? 1f :
+        GetComponent<Rigidbody>().position.y > maxHeight ? -1f :
+        GetComponent<Rigidbody>().position.y < minHeight ? 1f :
         0f;
 
     newCounter *= diveDuration / Time.fixedDeltaTime;
@@ -132,13 +64,5 @@ public class WhaleController : MonoBehaviour
       diveCounter = 0f;
 
     return returnVelocity;
-  }
-
-  bool ShouldRepop()
-  {
-    Vector2 playerPos = new Vector2(player.position.x, player.position.z);
-    Vector2 whalePos = new Vector2(rigidbody.position.x, rigidbody.position.z);
-
-    return Vector2.Distance(playerPos, whalePos) > depopDistance;
   }
 }
