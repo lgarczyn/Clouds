@@ -113,7 +113,7 @@ Shader "Clouds"
             // Editor settings
             float4 testParams;
             float4 testColor;
-            bool isClean;
+            bool enabled;
 
             // Shape settings
             // TODO: reorganize parameters (eg. phase into light setting)
@@ -730,7 +730,7 @@ Shader "Clouds"
                 fixed3 backgroundCol = tex2D(_MainTex, uv);
                 // If in editor, do not run
                 // Incorrect params in editor tend to crash it
-                if (!isClean) return float4(backgroundCol, 1);
+                if (!enabled) return float4(backgroundCol, 1);
 
                 // Normalize ray because of perspective interpolation
                 float distancePerspectiveModifier = length(rayDir);
