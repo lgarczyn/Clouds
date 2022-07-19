@@ -18,6 +18,7 @@ public class LocalSpaceController : MonoBehaviour
   public double longitude;
   [Range(-180, +180)]
   public double bearing;
+  public double altitude;
 
   void Update()
   {
@@ -35,7 +36,8 @@ public class LocalSpaceController : MonoBehaviour
     TransformD transform = jupiterSpace.frame.GetSurfaceTransform(
       latitude,
       longitude,
-      bearing
+      bearing,
+      altitude
     );
 
     frame = new InertialFrame(transform);

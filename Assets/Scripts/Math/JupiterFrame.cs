@@ -58,23 +58,24 @@ public class JupiterSpace : FrameOfReference
   /// into the local "up" vector
   /// </param>
   /// <returns> A 1:1 scale point on the surface of Jupiter </returns>
-  public Vector3D GetSurfacePoint(QuaternionD latLong)
+  public Vector3D GetSurfacePoint(QuaternionD latLong, double altitude = JUPITER_RADIUS)
   {
-    return latLong * (Vector3D.forward * JUPITER_RADIUS);
+    return latLong * (Vector3D.forward * altitude);
   }
 
   /// <summary>
   /// Transform a coordinate quaternion to a transform on the surface of jupiter, aligned to the horizon
   /// </summary>
   /// <param name="latLong">
+  /// <param name="altitude">The altitude coordinate</param>
   /// The rotation representation of the coordinates, which transforms a forward aligned vector
   /// into the local "up" vector
   /// </param>
   /// <returns> A 1:1 scale transform on the surface of Jupiter </returns>
-  public TransformD GetSurfaceTransform(QuaternionD latLong)
+  public TransformD GetSurfaceTransform(QuaternionD latLong, double altitude = JUPITER_RADIUS)
   {
     return new TransformD(
-      GetSurfacePoint(latLong),
+      GetSurfacePoint(latLong, altitude),
       latLong * QuaternionD.AngleAxis(90, Vector3D.right)
     );
   }
@@ -84,9 +85,9 @@ public class JupiterSpace : FrameOfReference
   /// </summary>
   /// <param name="latitude">The latitude coordinate</param>
   /// <param name="longitude">The longitude coordinate</param>
-  /// <param name="bearing">The "bearing", or angle around the local "up" axis</param>
+  /// <param name="altitude">The altitude coordinate</param>
   /// <returns> A 1:1 scale point on the surface of Jupiter </returns>
-  public Vector3D GetSurfacePoint(double latitude, double longitude)
+  public Vector3D GetSurfacePoint(double latitude, double longitude, double altitude = JUPITER_RADIUS)
   {
     return GetSurfacePoint(GcsToQuaternion(latitude, longitude));
   }
@@ -97,10 +98,14 @@ public class JupiterSpace : FrameOfReference
   /// <param name="latitude">The latitude coordinate</param>
   /// <param name="longitude">The longitude coordinate</param>
   /// <param name="bearing">The "bearing", or angle around the local "up" axis</param>
+  /// <param name="altitude">The altitude coordinate</param>
   /// <returns> A 1:1 scale transform on the surface of Jupiter </returns>
-  public TransformD GetSurfaceTransform(double latitude, double longitude, double bearing = 0)
+  public TransformD GetSurfaceTransform(
+    double latitude, double longitude, double bearing = 0, double altitude = JUPITER_RADIUS)
   {
-    return GetSurfaceTransform(GcsToQuaternion(latitude, longitude, bearing));
+    return GetSurfaceTransform(
+      GcsToQuaternion(latitude, longitude, bearing),
+      altitude);
   }
 
   /// <summary>
