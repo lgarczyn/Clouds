@@ -53,6 +53,8 @@ public class FaunaController : MonoBehaviour
 
     GetComponent<Rigidbody>().position = newPos;
 
+    GetComponentInChildren<Animation>().Play();
+
     OnRepop(newPos);
   }
 
