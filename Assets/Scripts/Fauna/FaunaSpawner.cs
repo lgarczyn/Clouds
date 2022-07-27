@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 [Serializable]
-public class Type
+public class FaunaType
 {
   public GameObject copy;
   public int population;
@@ -14,7 +14,7 @@ public class Type
 
 public class FaunaSpawner : MonoBehaviour
 {
-  public List<Type> types;
+  public List<FaunaType> types;
 
   private void Start()
   {
@@ -26,9 +26,20 @@ public class FaunaSpawner : MonoBehaviour
     SpawnAndDestroy();
   }
 
-  void SpawnAndDestroy()
+  public void Reset()
   {
-    foreach (Type type in types)
+    foreach (FaunaType type in types)
+    {
+      int oldPop = type.population;
+      type.population = 0;
+      SpawnAndDestroy();
+      type.population = oldPop;
+    }
+  }
+
+  private void SpawnAndDestroy()
+  {
+    foreach (FaunaType type in types)
     {
       // disable the copy used for spawning
       type.copy.SetActive(false);
