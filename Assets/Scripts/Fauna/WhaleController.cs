@@ -13,6 +13,8 @@ public class WhaleController : FaunaController
   public float rotationSpeed = 0.1f;
   public float diveDuration = 2f;
   public float diveSpeed = 0.1f;
+  public float maxHeight = 10000f;
+  public float minHeight = -10000f;
 
   protected override void OnRepop(Vector3 newPos)
   {
