@@ -4348,7 +4348,7 @@ PrefabInstance:
     - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
         type: 3}
       propertyPath: scaleBase
-      value: 10
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
         type: 3}
@@ -4905,6 +4905,11 @@ PrefabInstance:
       propertyPath: container
       value: 
       objectReference: {fileID: 1230604923}
+    - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
+        type: 3}
+      propertyPath: scaleBase
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7315555427379012999, guid: c91a60b6592cbc1aabc5169ef3e99927,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
