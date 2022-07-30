@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(MFlight.Demo.Plane))]
+[RequireComponent(typeof(PlaneThrustController))]
 [RequireComponent(typeof(Rigidbody))]
 public class PlaneCheatController : MonoBehaviour
 {
@@ -18,22 +18,22 @@ public class PlaneCheatController : MonoBehaviour
 
   void Start()
   {
-    MFlight.Demo.Plane plane = GetComponent<MFlight.Demo.Plane>();
+    PlaneThrustController thrustController = GetComponent<PlaneThrustController>();
     Rigidbody rigidbody = GetComponent<Rigidbody>();
 
-    baseSpeed = plane.thrust;
+    baseSpeed = thrustController.baseThrust;
     startPos = rigidbody.position;
     startRotation = rigidbody.rotation;
   }
 
   void Update()
   {
-    MFlight.Demo.Plane plane = GetComponent<MFlight.Demo.Plane>();
+    PlaneThrustController thrustController = GetComponent<PlaneThrustController>();
     Rigidbody rigidbody = GetComponent<Rigidbody>();
 
-    plane.thrust = baseSpeed;
-    if (Input.GetKey(KeyCode.LeftShift)) plane.thrust *= shiftSpeedMultiplier;
-    if (Input.GetKey(KeyCode.LeftControl)) plane.thrust *= controlSpeedMultiplier;
+    thrustController.baseThrust = baseSpeed;
+    if (Input.GetKey(KeyCode.LeftShift)) thrustController.baseThrust *= shiftSpeedMultiplier;
+    if (Input.GetKey(KeyCode.LeftControl)) thrustController.baseThrust *= controlSpeedMultiplier;
     if (Input.GetKeyDown(KeyCode.L)) rigidbody.isKinematic = !rigidbody.isKinematic;
     if (Input.GetKeyDown(KeyCode.K))
     {

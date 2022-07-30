@@ -44,7 +44,7 @@ public class ResourceExtractorHack : ResourceCalculator
         return sampledOutputPixel.g;
     }
     override public float GetDensity() {
-        return sampledOutputPixel.r;
+        return (sampledOutputPixel.r - 0.5f) * 100;
     }
 
     void OnDestroy()

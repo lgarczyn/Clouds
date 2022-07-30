@@ -28,7 +28,8 @@ public class PlaneResourceController : MonoBehaviour
         float light = resourceCalculator.GetLight();
         float density = resourceCalculator.GetDensity();
 
-        if (light < 0f || density < 0f) {
+        if (light < 0f)
+        {
 
             // TODO display error to client
             // If not on startup and resources still cannot be retrieved
