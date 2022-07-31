@@ -16,7 +16,7 @@ public class WhaleController : FaunaController
   public float maxHeight = 10000f;
   public float minHeight = -10000f;
 
-  protected override void OnRepop(Vector3 newPos)
+  protected override void OnRepop()
   {
     Rigidbody rigidbody = GetComponent<Rigidbody>();
     velocity = Random.insideUnitSphere * speed;

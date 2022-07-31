@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: cb9186398e1ad134ab925a8c37e9814b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb9186398e1ad134ab925a8c37e9814b,
         type: 3}
@@ -210,15 +210,15 @@ LODGroup:
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.132
+  - screenRelativeHeight: 0.06
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 6137870810926089398}
-  - screenRelativeHeight: 0.0749
+  - screenRelativeHeight: 0.03
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 8586802802231721857}
-  - screenRelativeHeight: 0.01
+  - screenRelativeHeight: 0.0005
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 5820849756495170691}
@@ -252,7 +252,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3011eeb95c1af34687a52432a00ccd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  container: {fileID: 0}
   player: {fileID: 0}
   animations:
   - {fileID: 9156106109011105248}
@@ -260,7 +259,6 @@ MonoBehaviour:
   depopDistance: 1000
   maxRepopDistance: 500
   minRepopDistance: 200
-  containerHeightRepopRange: 0.8
   scaleRatioRange: 4
   scaleBase: 1
   animationSpeedBase: 1

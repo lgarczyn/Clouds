@@ -2747,6 +2747,21 @@ PrefabInstance:
       propertyPath: container
       value: 
       objectReference: {fileID: 1230604923}
+    - target: {fileID: 5795045825599229421, guid: 2db9fe709c74f7640a558b917161aed3,
+        type: 3}
+      propertyPath: depopDistance
+      value: 2500
+      objectReference: {fileID: 0}
+    - target: {fileID: 5795045825599229421, guid: 2db9fe709c74f7640a558b917161aed3,
+        type: 3}
+      propertyPath: maxRepopDistance
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5795045825599229421, guid: 2db9fe709c74f7640a558b917161aed3,
+        type: 3}
+      propertyPath: minRepopDistance
+      value: 2000
+      objectReference: {fileID: 0}
     - target: {fileID: 7459505091457676185, guid: 2db9fe709c74f7640a558b917161aed3,
         type: 3}
       propertyPath: m_RootOrder

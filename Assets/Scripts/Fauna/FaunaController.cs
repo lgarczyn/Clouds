@@ -17,31 +17,39 @@ public class FaunaController : MonoBehaviour
   public float scaleBase = 1f;
   public float animationSpeedBase = 1f;
 
+  private float scale;
+  private float lastRepop;
+
   void Start()
   {
     Repop();
-
-    float scale = scaleBase * Random.Range(1f / scaleRatioRange, scaleRatioRange);
-
-    model.localScale = Vector3.one * scale;
-
-    foreach (Animation animation in animations)
-    {
-      foreach (AnimationState state in animation)
-      {
-        state.speed /= Mathf.Sqrt(scale);
-      }
-    }
   }
 
   void FixedUpdate()
   {
-    // Either repop
+    // Try to repop
     if (ShouldRepop()) Repop();
+
+    // Scale into full size over a second, to avoid popping into view
+    float scaleAnim = Mathf.Clamp((Time.time - lastRepop), 0.01f, 1);
+
+    this.transform.localScale = Vector3.one * (scaleAnim * scale * scaleBase);
   }
 
   // Move the whale in a hollow cylinder around the player 
   void Repop()
+  {
+
+    lastRepop = Time.time;
+
+    SetRandomPos();
+    SetRandomScale();
+    GetComponentInChildren<Animation>().Play();
+
+    OnRepop();
+  }
+
+  void SetRandomPos()
   {
     Vector3 playerPos = player.position;
 
@@ -53,12 +61,24 @@ public class FaunaController : MonoBehaviour
 
     GetComponent<Rigidbody>().position = newPos;
 
-    GetComponentInChildren<Animation>().Play();
-
-    OnRepop(newPos);
   }
 
-  protected virtual void OnRepop(Vector3 newPos) { }
+  void SetRandomScale()
+  {
+    scale = scaleBase * Random.Range(1f / scaleRatioRange, scaleRatioRange);
+
+    model.localScale = Vector3.one * 0.01f;
+
+    foreach (Animation animation in animations)
+    {
+      foreach (AnimationState state in animation)
+      {
+        state.speed = 1;// / Mathf.Sqrt(scale);
+      }
+    }
+  }
+
+  protected virtual void OnRepop() { }
 
   bool ShouldRepop()
   {
