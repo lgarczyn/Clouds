@@ -442,24 +442,27 @@ Shader "Clouds"
                 if (height > 1)
                     return (1);
 
-                // Offset second sample by 1 pixel times the golden ratio
-                // TODO: try to get better results by more random sampling
-                float3 st = float3(ShadowMap_TexelSize.xy, 0) * 1.618;
-                
-                float2 realUV = samplePos * ShadowMap_TexelSize.zw;
-                float2 ratio = frac(realUV);
-                float2 uv = floor(realUV) / ShadowMap_TexelSize.zw;
+                {
+                  // Multiple samples
+                  // Offset second sample by 1 pixel times the golden ratio
+                  // TODO: try to get better results by more random sampling
+                  // float3 st = float3(ShadowMap_TexelSize.xy, 0) * 1.618;
+                  
+                  // float2 realUV = samplePos * ShadowMap_TexelSize.zw;
+                  // float2 ratio = frac(realUV);
+                  // float2 uv = floor(realUV) / ShadowMap_TexelSize.zw;
+                  // TODO: use Gather instead of sample to reduce sample by 2
+                  // float TL = sampleLightmap(uv, height);
+                  // float TR = sampleLightmap(uv + st.xz, height);
+                  // float BL = sampleLightmap(uv + st.zy, height);
+                  // float BR = sampleLightmap(uv + st.xy, height);
 
-                // TODO: use Gather instead of sample to reduce sample by 2
-                float TL = sampleLightmap(uv, height);
-                float TR = sampleLightmap(uv + st.xz, height);
-                float BL = sampleLightmap(uv + st.zy, height);
-                float BR = sampleLightmap(uv + st.xy, height);
-
-                // Average the samples depending on pos
-                float T = lerp(TL, TR, ratio.x);
-                float B = lerp(BL, BR, ratio.x);
-                float ret = lerp(T, B, ratio.y);
+                  // Average the samples depending on pos
+                  // float T = lerp(TL, TR, ratio.x);
+                  // float B = lerp(BL, BR, ratio.x);
+                  // float ret = lerp(T, B, ratio.y);
+                }
+                float ret =  sampleLightmap(samplePos, height);
                 // Remap range to minimum light
                 ret = lerp(darknessThreshold, 1, ret);
 
