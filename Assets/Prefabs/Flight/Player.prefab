@@ -19666,6 +19666,8 @@ GameObject:
   - component: {fileID: 6036350815579256825}
   - component: {fileID: 6036350815579256827}
   - component: {fileID: 6036350815579256826}
+  - component: {fileID: 4563114451573420}
+  - component: {fileID: 4563114451573421}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -19680,7 +19682,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6036350815579256820}
-  m_LocalRotation: {x: 0.0889679, y: 0.7237322, z: 0.1097223, w: 0.6754684}
+  m_LocalRotation: {x: -0.08896738, y: -0.72373164, z: -0.10972393, w: -0.6754687}
   m_LocalPosition: {x: 393.2281, y: 341, z: -274.0191}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
@@ -19693,8 +19695,8 @@ Transform:
   - {fileID: 6035008020827950591}
   - {fileID: 6035008020490059628}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: -150, z: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -2.214, y: -266.362, z: 16.094}
 --- !u!54 &5981469090452608560
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -19710,7 +19712,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &5933081180824767606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19931,7 +19933,7 @@ MonoBehaviour:
   deathController: {fileID: 6036350815579256825}
   energyMultiplier: 5
   matterMultiplier: 20
-  baseEnergyPerSecond: 1
+  baseEnergyPerSecond: 0
   matterVsDensity:
     serializedVersion: 2
     m_Curve:
@@ -20087,6 +20089,74 @@ MonoBehaviour:
   keyToWin: 32
   minHeightToActivateThrust: 700
   minHeightToWin: 3000
+--- !u!114 &4563114451573420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6036350815579256820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcb8e466887dea549aa253f50919bf39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shiftSpeedMultiplier: 10
+  controlSpeedMultiplier: 100
+  baseSpeed: 60
+  startPos: {x: 0, y: 0, z: 0}
+  startRotation: {x: 0, y: 0, z: 0, w: 1}
+--- !u!114 &4563114451573421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6036350815579256820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee3998c1092e4cb468deb5b978e035d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceCalculator: {fileID: 0}
+  baseThrust: 60
+  densityVsThrust:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0
+      value: 4
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  trailWidthMultiplier: 0.1
+  trails:
+  - {fileID: 5951041666436364342}
+  - {fileID: 5951091796808472838}
 --- !u!1 &6036508552637036764
 GameObject:
   m_ObjectHideFlags: 0
@@ -20636,7 +20706,7 @@ LODGroup:
   m_AnimateCrossFading: 1
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.3166
+  - screenRelativeHeight: 0.1371
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 3950258219446996308}

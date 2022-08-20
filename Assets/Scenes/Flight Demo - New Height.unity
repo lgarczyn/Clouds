@@ -797,12 +797,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 454625383}
   m_CullTransparentMesh: 0
---- !u!96 &477726468 stripped
-TrailRenderer:
-  m_CorrespondingSourceObject: {fileID: 5951041666436364342, guid: 8580f51aba7053a4286c3ec8810a585e,
-    type: 3}
-  m_PrefabInstance: {fileID: 6035008019564179120}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &486112143
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1029,12 +1023,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 554278366}
   m_CullTransparentMesh: 0
---- !u!96 &640844997 stripped
-TrailRenderer:
-  m_CorrespondingSourceObject: {fileID: 5951091796808472838, guid: 8580f51aba7053a4286c3ec8810a585e,
-    type: 3}
-  m_PrefabInstance: {fileID: 6035008019564179120}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &650841737 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7279520872201385020, guid: c91a60b6592cbc1aabc5169ef3e99927,
@@ -3525,12 +3513,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1714497002}
   m_CullTransparentMesh: 0
---- !u!1 &1719511041 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6036350815579256820, guid: 8580f51aba7053a4286c3ec8810a585e,
-    type: 3}
-  m_PrefabInstance: {fileID: 6035008019564179120}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1856051677
 GameObject:
   m_ObjectHideFlags: 0
@@ -4307,74 +4289,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6035008019564179120}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4563114451573420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1719511041}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcb8e466887dea549aa253f50919bf39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shiftSpeedMultiplier: 10
-  controlSpeedMultiplier: 100
-  baseSpeed: 60
-  startPos: {x: 0, y: 0, z: 0}
-  startRotation: {x: 0, y: 0, z: 0, w: 1}
---- !u!114 &4563114451573421
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1719511041}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee3998c1092e4cb468deb5b978e035d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resourceCalculator: {fileID: 1567621671}
-  baseThrust: 60
-  densityVsThrust:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -5
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0
-      value: 4
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 5
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  trailWidthMultiplier: 0.1
-  trails:
-  - {fileID: 477726468}
-  - {fileID: 640844997}
 --- !u!114 &114412279917838310 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5933174257901130070, guid: 8580f51aba7053a4286c3ec8810a585e,
@@ -4564,11 +4478,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 414724919}
     m_Modifications:
-    - target: {fileID: 4916233574981330029, guid: 8580f51aba7053a4286c3ec8810a585e,
-        type: 3}
-      propertyPath: m_LODs.Array.data[0].screenRelativeHeight
-      value: 0.1371
-      objectReference: {fileID: 0}
+    - target: {fileID: 4563114451573421, guid: 8580f51aba7053a4286c3ec8810a585e, type: 3}
+      propertyPath: resourceCalculator
+      value: 
+      objectReference: {fileID: 1567621671}
     - target: {fileID: 5933174257901130070, guid: 8580f51aba7053a4286c3ec8810a585e,
         type: 3}
       propertyPath: cam
@@ -4604,11 +4517,6 @@ PrefabInstance:
       propertyPath: resourceCalculator
       value: 
       objectReference: {fileID: 1567621671}
-    - target: {fileID: 6036350815579256824, guid: 8580f51aba7053a4286c3ec8810a585e,
-        type: 3}
-      propertyPath: baseEnergyPerSecond
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6036350815579256825, guid: 8580f51aba7053a4286c3ec8810a585e,
         type: 3}
       propertyPath: toDisable.Array.data[0]
