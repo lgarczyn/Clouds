@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(MFlight.Demo.Plane))]
+[RequireComponent(typeof(PlayerPlane))]
 [RequireComponent(typeof(Plane))]
 public class PlaneThrustController : MonoBehaviour
 {
@@ -16,7 +16,7 @@ public class PlaneThrustController : MonoBehaviour
 
   void Start()
   {
-    MFlight.Demo.Plane plane = GetComponent<MFlight.Demo.Plane>();
+    PlayerPlane plane = GetComponent<PlayerPlane>();
   }
 
   void Update()
@@ -29,7 +29,7 @@ public class PlaneThrustController : MonoBehaviour
       multiplier = densityVsThrust.Evaluate(density);
     }
 
-    MFlight.Demo.Plane plane = GetComponent<MFlight.Demo.Plane>();
+    PlayerPlane plane = GetComponent<PlayerPlane>();
     plane.thrust = baseThrust * multiplier;
 
     foreach (TrailRenderer trail in trails)

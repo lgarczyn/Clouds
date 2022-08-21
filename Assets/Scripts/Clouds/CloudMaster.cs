@@ -228,7 +228,7 @@ public class CloudMaster : MonoBehaviour
     material.SetVector("mapSize", new Vector4(width, height, depth, 0));
 
     material.SetFloat("timeScale", (Application.isPlaying) ? timeScale : 0);
-    material.SetVector("playerPosition", GameObject.FindObjectOfType<MFlight.Demo.Plane>().transform.position);
+    material.SetVector("playerPosition", GameObject.FindObjectOfType<PlayerPlane>().transform.position);
 
     material.SetColor("colA", colA);
     material.SetColor("colB", colB);

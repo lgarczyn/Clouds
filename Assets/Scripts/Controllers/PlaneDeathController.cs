@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlaneDeathController : MonoBehaviour
 {
   public Rigidbody planeRigidbody;
-  public MFlight.Demo.Plane planeScript;
+  public PlayerPlane planeScript;
 
   public GameObject[] toDisable;
 

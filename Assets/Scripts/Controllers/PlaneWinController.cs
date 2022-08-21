@@ -11,7 +11,7 @@ public class PlaneWinController : MonoBehaviour
     public GameObject[] activateOnThrusters;
     public PlaneEntity plane;
 
-    public MFlight.Demo.Plane flightController;
+  public PlayerPlane flightController;
 
     public KeyCode keyToWin;
 
