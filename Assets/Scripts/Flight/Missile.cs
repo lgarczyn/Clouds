@@ -11,23 +11,26 @@ public class Missile : MonoBehaviour
   [SerializeField] private PIDController3D controller;
 
   public float rotateSpeed = 10f;
-  public float parameterVariation = 0.5f;
 
-  public float friendPushRadius = 100f;
-  public float friendPushForce = 1f;
+  [Range(0f, 3f)]
+  public float parameterVariation = 0.5f;
 
   [Range(0.1f, 1f)]
   public float velocityLimitingFactor = 0.9f;
 
-  // public bool reset;
+  private float GetRandomVariation()
+  {
+    return Random.Range(1 / (1 + parameterVariation), 1 + parameterVariation);
+  }
 
   private void Start()
   {
     float v = parameterVariation;
-    controller.Kp += Random.Range(-v, v) * Random.Range(-v, v);
-    controller.Ki += Random.Range(-v, v) * Random.Range(-v, v);
-    controller.Kd += Random.Range(-v, v) * Random.Range(-v, v);
-    controller.N += Random.Range(-v, v) * Random.Range(-v, v);
+    controller.Kp *= GetRandomVariation();
+    controller.Ki *= GetRandomVariation();
+    controller.Kd *= GetRandomVariation();
+    controller.N *= GetRandomVariation();
+    transform.position += Random.insideUnitSphere * 100;
   }
 
   private void FixedUpdate()
