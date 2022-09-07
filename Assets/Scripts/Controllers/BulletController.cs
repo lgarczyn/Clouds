@@ -32,6 +32,8 @@ public class BulletController : MonoBehaviour
 
   void OnCollisionEnter(Collision collisionInfo)
   {
+    GameObject.Destroy(gameObject, 5);
+
     var target = collisionInfo.gameObject;
     Rigidbody r = GetComponent<Rigidbody>();
 
@@ -55,6 +57,9 @@ public class BulletController : MonoBehaviour
       damageReceiver.Damage(damage);
     }
 
-    GameObject.Destroy(gameObject);
+    TrailRenderer trail = GetComponent<TrailRenderer>();
+    trail.AddPosition(contact);
+    trail.emitting = false;
+    trail.autodestruct = true;
   }
 }
