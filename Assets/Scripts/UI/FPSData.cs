@@ -92,6 +92,19 @@ public class FPSData : MonoBehaviour
       text += "\ncpu: " + System.Math.Round(timingInfos[0].cpuFrameTime) + "ms";
     }
 
+    PlayerPlane plane = FindObjectOfType<PlayerPlane>();
+    if (plane)
+    {
+      Vector3 pos = plane.transform.position;
+      text += "\npos: " + Mathf.Round(pos.x) + "," + Mathf.Round(pos.y) + "," + Mathf.Round(pos.z);
+      Rigidbody r = plane.GetComponent<Rigidbody>();
+      if (r)
+      {
+        text += "\nvelocity: " + Mathf.Round(r.velocity.magnitude);
+      }
+    }
+
+
     Text textComp = GetComponent<Text>();
 
     textComp.text = text;

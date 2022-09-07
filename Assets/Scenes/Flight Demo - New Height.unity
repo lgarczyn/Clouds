@@ -2817,12 +2817,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2142470675}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &876863109 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6036350815579256820, guid: 8580f51aba7053a4286c3ec8810a585e,
-    type: 3}
-  m_PrefabInstance: {fileID: 6035008019564179120}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &888041470 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5848834044144880813, guid: 802aaba54aad6bb498ab13e1e6f477c5,
@@ -5425,7 +5419,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 200}
+  m_SizeDelta: {x: 160, y: 1000}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1452681684
 MonoBehaviour:
@@ -8999,23 +8993,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6035008019564179120}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4563114451573411
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 876863109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4649316c0142ac64ab9ffb56958471b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bps: 100
-  spread: 0.1
-  bulletPrefab: {fileID: 3234327436353005917, guid: a0e949b45c86f4c478ecda1ba44198f5,
-    type: 3}
-  lastShotTimestamp: 0
 --- !u!54 &4563114451573422 stripped
 Rigidbody:
   m_CorrespondingSourceObject: {fileID: 5981469090452608560, guid: 8580f51aba7053a4286c3ec8810a585e,
@@ -9288,11 +9265,6 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 1306023374}
-    - target: {fileID: 5933174257901130070, guid: 8580f51aba7053a4286c3ec8810a585e,
-        type: 3}
-      propertyPath: offset.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6036350815579256820, guid: 8580f51aba7053a4286c3ec8810a585e,
         type: 3}
       propertyPath: m_Name
@@ -9328,11 +9300,6 @@ PrefabInstance:
       propertyPath: toDisable.Array.data[0]
       value: 
       objectReference: {fileID: 706094435}
-    - target: {fileID: 6036350815579256825, guid: 8580f51aba7053a4286c3ec8810a585e,
-        type: 3}
-      propertyPath: toDisable.Array.data[1]
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6036350815579256826, guid: 8580f51aba7053a4286c3ec8810a585e,
         type: 3}
       propertyPath: canWinUI
