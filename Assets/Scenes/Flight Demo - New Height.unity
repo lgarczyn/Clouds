@@ -5106,7 +5106,6 @@ MonoBehaviour:
   darknessThreshold: 0.28
   outOfBoundMinLightAltitude: 2841
   outOfBoundMaxLightAltitude: 12698
-  outOfBoundInterpolationStrength: 8
   material: {fileID: 2100000, guid: feb5506ac90b28945a87d742b2d386f0, type: 2}
 --- !u!114 &1331973714
 MonoBehaviour:
@@ -5607,26 +5606,6 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 4563114451573410}
-    - target: {fileID: 5795045825599229421, guid: 2db9fe709c74f7640a558b917161aed3,
-        type: 3}
-      propertyPath: container
-      value: 
-      objectReference: {fileID: 1230604923}
-    - target: {fileID: 5795045825599229421, guid: 2db9fe709c74f7640a558b917161aed3,
-        type: 3}
-      propertyPath: depopDistance
-      value: 2500
-      objectReference: {fileID: 0}
-    - target: {fileID: 5795045825599229421, guid: 2db9fe709c74f7640a558b917161aed3,
-        type: 3}
-      propertyPath: maxRepopDistance
-      value: 2000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5795045825599229421, guid: 2db9fe709c74f7640a558b917161aed3,
-        type: 3}
-      propertyPath: minRepopDistance
-      value: 2000
-      objectReference: {fileID: 0}
     - target: {fileID: 7459505091457676185, guid: 2db9fe709c74f7640a558b917161aed3,
         type: 3}
       propertyPath: m_RootOrder
@@ -9026,6 +9005,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
         type: 3}
+      propertyPath: speed
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
+        type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 4563114451573410}
@@ -9041,13 +9025,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
         type: 3}
+      propertyPath: minHeight
+      value: 7000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
+        type: 3}
       propertyPath: scaleBase
       value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
         type: 3}
       propertyPath: depopDistance
-      value: 2000
+      value: 4000
       objectReference: {fileID: 0}
     - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
         type: 3}
@@ -9062,12 +9051,17 @@ PrefabInstance:
     - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
         type: 3}
       propertyPath: maxRepopDistance
-      value: 1500
+      value: 3500
       objectReference: {fileID: 0}
     - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
         type: 3}
       propertyPath: minRepopDistance
-      value: 1400
+      value: 3400
+      objectReference: {fileID: 0}
+    - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
+        type: 3}
+      propertyPath: animationSpeedBase
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
         type: 3}
@@ -9195,6 +9189,11 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 772031379}
     m_Modifications:
+    - target: {fileID: 5488829598484082996, guid: 089216045b3f22a4da3088c0937a143a,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8470785026211923537, guid: 089216045b3f22a4da3088c0937a143a,
         type: 3}
       propertyPath: m_Name
@@ -9356,36 +9355,6 @@ PrefabInstance:
       propertyPath: resourceCalculator
       value: 
       objectReference: {fileID: 1567621671}
-    - target: {fileID: 269844475539726705, guid: 8580f51aba7053a4286c3ec8810a585e,
-        type: 3}
-      propertyPath: resources
-      value: 
-      objectReference: {fileID: 1567621671}
-    - target: {fileID: 269844475539726705, guid: 8580f51aba7053a4286c3ec8810a585e,
-        type: 3}
-      propertyPath: lowpassVsDensity.m_Curve.Array.data[1].time
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 269844475539726705, guid: 8580f51aba7053a4286c3ec8810a585e,
-        type: 3}
-      propertyPath: lowpassVsDensity.m_Curve.Array.data[0].inSlope
-      value: -1533.3334
-      objectReference: {fileID: 0}
-    - target: {fileID: 269844475539726705, guid: 8580f51aba7053a4286c3ec8810a585e,
-        type: 3}
-      propertyPath: lowpassVsDensity.m_Curve.Array.data[1].inSlope
-      value: -1533.3334
-      objectReference: {fileID: 0}
-    - target: {fileID: 269844475539726705, guid: 8580f51aba7053a4286c3ec8810a585e,
-        type: 3}
-      propertyPath: lowpassVsDensity.m_Curve.Array.data[0].outSlope
-      value: -1533.3334
-      objectReference: {fileID: 0}
-    - target: {fileID: 269844475539726705, guid: 8580f51aba7053a4286c3ec8810a585e,
-        type: 3}
-      propertyPath: lowpassVsDensity.m_Curve.Array.data[1].outSlope
-      value: -1533.3334
-      objectReference: {fileID: 0}
     - target: {fileID: 5933174257901130070, guid: 8580f51aba7053a4286c3ec8810a585e,
         type: 3}
       propertyPath: cam
@@ -9662,6 +9631,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -9.811843
       objectReference: {fileID: 0}
+    - target: {fileID: 6206137353858246611, guid: c91a60b6592cbc1aabc5169ef3e99927,
+        type: 3}
+      propertyPath: m_LODs.Array.data[2].screenRelativeHeight
+      value: 0.001
+      objectReference: {fileID: 0}
     - target: {fileID: 6557739417603074324, guid: c91a60b6592cbc1aabc5169ef3e99927,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -9754,8 +9728,38 @@ PrefabInstance:
       objectReference: {fileID: 1230604923}
     - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
         type: 3}
+      propertyPath: maxHeight
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
+        type: 3}
+      propertyPath: minHeight
+      value: 7000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
+        type: 3}
       propertyPath: scaleBase
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
+        type: 3}
+      propertyPath: depopDistance
+      value: 3500
+      objectReference: {fileID: 0}
+    - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
+        type: 3}
+      propertyPath: maxRepopDistance
+      value: 3200
+      objectReference: {fileID: 0}
+    - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
+        type: 3}
+      propertyPath: minRepopDistance
+      value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7279520872201385022, guid: c91a60b6592cbc1aabc5169ef3e99927,
+        type: 3}
+      propertyPath: animationSpeedBase
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7315555427379012999, guid: c91a60b6592cbc1aabc5169ef3e99927,
         type: 3}

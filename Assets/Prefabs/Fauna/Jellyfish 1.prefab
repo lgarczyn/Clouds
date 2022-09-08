@@ -11,22 +11,22 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: cb9186398e1ad134ab925a8c37e9814b,
         type: 3}
       propertyPath: m_RootOrder
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb9186398e1ad134ab925a8c37e9814b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 593.87
+      value: -214.44
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb9186398e1ad134ab925a8c37e9814b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 300
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb9186398e1ad134ab925a8c37e9814b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb9186398e1ad134ab925a8c37e9814b,
         type: 3}
@@ -256,9 +256,9 @@ MonoBehaviour:
   animations:
   - {fileID: 9156106109011105248}
   model: {fileID: 7459505091457676185}
-  depopDistance: 1000
-  maxRepopDistance: 500
-  minRepopDistance: 200
+  depopDistance: 2500
+  maxRepopDistance: 2000
+  minRepopDistance: 2000
   scaleRatioRange: 4
   scaleBase: 1
   animationSpeedBase: 1

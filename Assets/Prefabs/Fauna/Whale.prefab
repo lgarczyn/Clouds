@@ -386,7 +386,7 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 746407847468164843}
-  - screenRelativeHeight: 0.014537588
+  - screenRelativeHeight: 0.001
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 7011018146858988310}
@@ -1424,24 +1424,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8084390b67b822e09805cb12da414a74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  diveCounter: 0
-  container: {fileID: 0}
   player: {fileID: 0}
   animations:
   - {fileID: 2519857945805297275}
   model: {fileID: 6056319220243828919}
-  depopDistance: 1500
-  maxRepopDistance: 1200
-  minRepopDistance: 1000
-  containerHeightRepopRange: 0.8
+  depopDistance: 3500
+  maxRepopDistance: 3200
+  minRepopDistance: 3000
+  scaleRatioRange: 2
+  scaleBase: 10
+  animationSpeedBase: 3
+  diveCounter: 0
   dirChangeSpeed: 1
   speed: 20
   rotationSpeed: 0.2
   diveDuration: 2
   diveSpeed: 3
-  scaleRatioRange: 2
-  scaleBase: 1
-  animationSpeedBase: 1
+  maxHeight: 10000
+  minHeight: 7000
 --- !u!54 &7279520872201385023
 Rigidbody:
   m_ObjectHideFlags: 0

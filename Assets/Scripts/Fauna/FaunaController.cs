@@ -33,7 +33,7 @@ public class FaunaController : MonoBehaviour
     // Scale into full size over a second, to avoid popping into view
     float scaleAnim = Mathf.Clamp((Time.time - lastRepop), 0.01f, 1);
 
-    this.transform.localScale = Vector3.one * (scaleAnim * scale * scaleBase);
+    this.transform.localScale = Vector3.one * (scaleAnim * scale);
   }
 
   // Move the whale in a hollow cylinder around the player 
@@ -67,13 +67,13 @@ public class FaunaController : MonoBehaviour
   {
     scale = scaleBase * Random.Range(1f / scaleRatioRange, scaleRatioRange);
 
-    model.localScale = Vector3.one * 0.01f;
+    model.localScale = Vector3.one * scale;
 
     foreach (Animation animation in animations)
     {
       foreach (AnimationState state in animation)
       {
-        state.speed = 1;// / Mathf.Sqrt(scale);
+        state.speed = animationSpeedBase / Mathf.Sqrt(scale);
       }
     }
   }
