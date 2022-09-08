@@ -100,7 +100,6 @@ Shader "Clouds"
             float shadowMapFarPlane;
             float outOfBoundMaxLightAltitude;
             float outOfBoundMinLightAltitude;
-            float outOfBoundInterpolationStrength;
 
             SamplerState samplerShapeTex;
             SamplerState samplerNoiseTex;
@@ -468,7 +467,7 @@ Shader "Clouds"
 
                 // calculate how much of the simulation should be used
                 // allows for a softer boundary with the fake samples
-                float simulationInterpolation = pow(mDistanceFromCenter, outOfBoundInterpolationStrength);
+                float simulationInterpolation = pow(mDistanceFromCenter, 8);
 
                 // Interpolate and return
                 return lerp(ret, simulatedSample, simulationInterpolation);

@@ -5105,7 +5105,7 @@ MonoBehaviour:
   lightAbsorptionTowardSun: 0.0073
   darknessThreshold: 0.28
   outOfBoundMinLightAltitude: 2841
-  outOfBoundMaxLightAltitude: 23397
+  outOfBoundMaxLightAltitude: 12698
   outOfBoundInterpolationStrength: 8
   material: {fileID: 2100000, guid: feb5506ac90b28945a87d742b2d386f0, type: 2}
 --- !u!114 &1331973714
