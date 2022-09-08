@@ -20,7 +20,6 @@ public class BulletController : MonoBehaviour
     r.rotation = Quaternion.LookRotation(normalizedDir, Vector3.forward);
 
     TrailRenderer trail = GetComponent<TrailRenderer>();
-    trail.AddPosition(parent.position);
   }
 
   void FixedUpdate()

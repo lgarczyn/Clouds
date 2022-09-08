@@ -20678,7 +20678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bps: 100
-  spread: 0.1
+  spread: 0.08
   bulletPrefab: {fileID: 3234327436353005917, guid: a0e949b45c86f4c478ecda1ba44198f5,
     type: 3}
   lastShotTimestamp: 0
