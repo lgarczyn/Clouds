@@ -10,18 +10,17 @@ public class BulletController : MonoBehaviour
   [SerializeField] float damage = 10;
   [SerializeField] float lifetime = 10;
   [SerializeField] GameObject collisionEffect;
-  [HideInInspector]
-  [SerializeField] bool canDestroy;
 
 
-  public void Init(Rigidbody parent, Vector3 normalizedDir, bool canDestroy = true)
+  public void Init(Rigidbody parent, Vector3 normalizedDir)
   {
     Rigidbody r = GetComponent<Rigidbody>();
     r.position = parent.position + normalizedDir * marginOnSpawn;
     r.velocity = parent.velocity + baseVelocity * normalizedDir;
     r.rotation = Quaternion.LookRotation(normalizedDir, Vector3.forward);
 
-    this.canDestroy = canDestroy;
+    TrailRenderer trail = GetComponent<TrailRenderer>();
+    trail.AddPosition(parent.position);
   }
 
   void FixedUpdate()
