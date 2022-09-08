@@ -44,7 +44,7 @@ public class MissileFiringController : MonoBehaviour
         r.position, Quaternion.identity,
         transform.parent
         );
-    bulletGO.GetComponent<BulletController>().Init(r, actualDir, false);
+    bulletGO.GetComponent<BulletController>().Init(r, actualDir);
 
     reloadTime = 1 / bps * Random.Range(0.9f, 1.1f);
   }
