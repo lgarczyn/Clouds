@@ -17,10 +17,14 @@ public class PlaneSoundController : MonoBehaviour
     float speed = plane.velocity.magnitude;
     float altitude = plane.position.y;
 
-    GetComponents<AudioSource>().Do((s) => s.pitch = pitchVsSpeed.Evaluate(speed));
-    GetComponents<AudioSource>().Do((s) => s.volume =
-      volumeVsSpeed.Evaluate(speed)
-      * volumeVsAltitude.Evaluate(altitude)
-      * volume);
+    AudioSource[] sources = GetComponents<AudioSource>();
+
+    float currentPitch = pitchVsSpeed.Evaluate(speed);
+    float currentVolume = volume *
+      volumeVsSpeed.Evaluate(speed) *
+      volumeVsAltitude.Evaluate(altitude);
+
+    sources.Do((s) => s.pitch = currentPitch);
+    sources.Do((s) => s.volume = currentVolume);
   }
 }

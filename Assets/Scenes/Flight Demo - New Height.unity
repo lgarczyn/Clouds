@@ -3641,6 +3641,110 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1097051206}
   m_CullTransparentMesh: 0
+--- !u!1 &1101370460
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1101370461}
+  - component: {fileID: 1101370463}
+  - component: {fileID: 1101370462}
+  - component: {fileID: 1101370464}
+  m_Layer: 0
+  m_Name: SoundListener
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1101370461
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1101370460}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1306023374}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1101370462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1101370460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3eb6f0464c54d664390c4cd48554b19a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lowpassVsDensity:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 24000
+      inSlope: -7333.3335
+      outSlope: -7333.3335
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 3
+      value: 2000
+      inSlope: -7333.3335
+      outSlope: -7333.3335
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  resources: {fileID: 1567621671}
+--- !u!81 &1101370463
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1101370460}
+  m_Enabled: 1
+--- !u!169 &1101370464
+AudioLowPassFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1101370460}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_LowpassResonanceQ: 1
+  lowpassLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.22727273
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &1102317012
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4546,7 +4650,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1306023374}
   - component: {fileID: 1306023373}
-  - component: {fileID: 1306023372}
   - component: {fileID: 1306023370}
   - component: {fileID: 1306023369}
   - component: {fileID: 1306023368}
@@ -4645,14 +4748,6 @@ Skybox:
   m_GameObject: {fileID: 1306023367}
   m_Enabled: 1
   m_CustomSkybox: {fileID: 2100000, guid: d7fa24953d49378419ba50e0557fabff, type: 2}
---- !u!81 &1306023372
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1306023367}
-  m_Enabled: 1
 --- !u!20 &1306023373
 Camera:
   m_ObjectHideFlags: 0
@@ -4707,7 +4802,8 @@ Transform:
   m_LocalPosition: {x: -388.24, y: 91.21704, z: -274.0191}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1101370461}
   m_Father: {fileID: 1608915522}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: -150, z: 0}
@@ -9260,6 +9356,36 @@ PrefabInstance:
       propertyPath: resourceCalculator
       value: 
       objectReference: {fileID: 1567621671}
+    - target: {fileID: 269844475539726705, guid: 8580f51aba7053a4286c3ec8810a585e,
+        type: 3}
+      propertyPath: resources
+      value: 
+      objectReference: {fileID: 1567621671}
+    - target: {fileID: 269844475539726705, guid: 8580f51aba7053a4286c3ec8810a585e,
+        type: 3}
+      propertyPath: lowpassVsDensity.m_Curve.Array.data[1].time
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 269844475539726705, guid: 8580f51aba7053a4286c3ec8810a585e,
+        type: 3}
+      propertyPath: lowpassVsDensity.m_Curve.Array.data[0].inSlope
+      value: -1533.3334
+      objectReference: {fileID: 0}
+    - target: {fileID: 269844475539726705, guid: 8580f51aba7053a4286c3ec8810a585e,
+        type: 3}
+      propertyPath: lowpassVsDensity.m_Curve.Array.data[1].inSlope
+      value: -1533.3334
+      objectReference: {fileID: 0}
+    - target: {fileID: 269844475539726705, guid: 8580f51aba7053a4286c3ec8810a585e,
+        type: 3}
+      propertyPath: lowpassVsDensity.m_Curve.Array.data[0].outSlope
+      value: -1533.3334
+      objectReference: {fileID: 0}
+    - target: {fileID: 269844475539726705, guid: 8580f51aba7053a4286c3ec8810a585e,
+        type: 3}
+      propertyPath: lowpassVsDensity.m_Curve.Array.data[1].outSlope
+      value: -1533.3334
+      objectReference: {fileID: 0}
     - target: {fileID: 5933174257901130070, guid: 8580f51aba7053a4286c3ec8810a585e,
         type: 3}
       propertyPath: cam
