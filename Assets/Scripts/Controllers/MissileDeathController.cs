@@ -12,7 +12,7 @@ public class MissileDeathController : MonoBehaviour, IDamageReceiver
   public MonoBehaviour[] toDisable;
   public Renderer[] rendererToDisable;
 
-  public float Damage(float damage)
+  public float Damage(float damage, bool onOff)
   {
     enabled = false;
     deathParticles.gameObject.SetActive(true);

@@ -18,6 +18,8 @@ public class PlaneEntity : MonoBehaviour, IDamageReceiver
   public UnityEvent<float> energyChange;
   public UnityEvent<float> matterChange;
   public UnityEvent<bool> matterFull;
+  public UnityEvent<float> damageTaken;
+  public UnityEvent<float> repeatingDamageTaken;
 
   public void FixedUpdate()
   {
@@ -27,8 +29,11 @@ public class PlaneEntity : MonoBehaviour, IDamageReceiver
     this.matterFull.Invoke(matter == maxMatter);
   }
 
-  public float Damage(float damage)
+  public float Damage(float damage, bool oneOff)
   {
+    if (oneOff) this.damageTaken.Invoke(damage);
+    else repeatingDamageTaken.Invoke(damage);
+
     if (destroyed || damage <= 0f)
       return damage;
 

@@ -8760,6 +8760,18 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 802aaba54aad6bb498ab13e1e6f477c5, type: 3}
+--- !u!114 &2108937674 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2108937674, guid: 8580f51aba7053a4286c3ec8810a585e,
+    type: 3}
+  m_PrefabInstance: {fileID: 6035008019564179120}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70be0d8949defd142bbf5af785b3d62e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2139397237
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9367,6 +9379,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6036350815579256821, guid: 8580f51aba7053a4286c3ec8810a585e,
         type: 3}
+      propertyPath: damageTaken.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036350815579256821, guid: 8580f51aba7053a4286c3ec8810a585e,
+        type: 3}
+      propertyPath: damageTaken.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2108937674}
+    - target: {fileID: 6036350815579256821, guid: 8580f51aba7053a4286c3ec8810a585e,
+        type: 3}
       propertyPath: energyChange.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 60312805}
@@ -9380,6 +9402,11 @@ PrefabInstance:
       propertyPath: matterChange.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1097051208}
+    - target: {fileID: 6036350815579256821, guid: 8580f51aba7053a4286c3ec8810a585e,
+        type: 3}
+      propertyPath: damageTaken.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayDamageSound
+      objectReference: {fileID: 0}
     - target: {fileID: 6036350815579256822, guid: 8580f51aba7053a4286c3ec8810a585e,
         type: 3}
       propertyPath: resourceCalculator

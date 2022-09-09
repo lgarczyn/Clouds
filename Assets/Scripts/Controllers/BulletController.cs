@@ -52,7 +52,7 @@ public class BulletController : MonoBehaviour
 
     if (damageReceiver != null)
     {
-      damageReceiver.Damage(damage);
+      damageReceiver.Damage(damage, true);
     }
 
     TrailRenderer trail = GetComponent<TrailRenderer>();
