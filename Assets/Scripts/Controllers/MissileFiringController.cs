@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class MissileFiringController : MonoBehaviour
 {
-  public float bps = 10;
+  public float rps = 10;
   public float spread = 0.1f;
   public BulletController bulletPrefab;
   public float bulletSpeed = 1000f;
@@ -46,6 +46,6 @@ public class MissileFiringController : MonoBehaviour
         );
     bulletGO.GetComponent<BulletController>().Init(r, actualDir);
 
-    reloadTime = 1 / bps * Random.Range(0.9f, 1.1f);
+    reloadTime = 1 / rps * Random.Range(0.9f, 1.1f);
   }
 }

@@ -3,21 +3,27 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlaneFiringController : MonoBehaviour
 {
-  public float bps = 10;
+  public float rps = 10;
   public float spread = 0.1f;
   public BulletController bulletPrefab;
+  public WeaponAudio audioPlayer;
 
   [SerializeField]
   [HideInInspector]
   double lastShotTimestamp = 0;
+  bool firing = false;
 
   void FixedUpdate()
   {
 
-    if (Input.GetMouseButton(0))
+    if (lastShotTimestamp + 1f / rps < Time.fixedTimeAsDouble)
     {
-      if (lastShotTimestamp + 1f / bps < Time.fixedTimeAsDouble)
+      if (Input.GetMouseButton(0))
       {
+        if (firing == false && audioPlayer) audioPlayer.StartFire(rps);
+
+        firing = true;
+
         Rigidbody rigidbody = GetComponent<Rigidbody>();
 
         Vector3 dir = (Camera.main.transform.forward
@@ -29,6 +35,11 @@ public class PlaneFiringController : MonoBehaviour
           );
         bulletGO.GetComponent<BulletController>().Init(rigidbody, dir);
         lastShotTimestamp = Time.fixedTimeAsDouble;
+      }
+      else
+      {
+        if (firing == true && audioPlayer) audioPlayer.EndFire();
+        firing = false;
       }
     }
   }

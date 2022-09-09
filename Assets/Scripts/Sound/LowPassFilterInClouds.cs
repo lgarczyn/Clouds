@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(AudioLowPassFilter))]
-public class LocalSoundEffectManager : MonoBehaviour
+public class LowPassFilterInClouds : MonoBehaviour
 {
   [SerializeField] AnimationCurve lowpassVsDensity;
   [SerializeField] ResourceCalculator resources;
