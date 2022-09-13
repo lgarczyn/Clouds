@@ -266,8 +266,7 @@ MonoBehaviour:
   deathParticles: {fileID: 3375466901747055346}
   toDisable:
   - {fileID: 5848834044144880814}
-  rendererToDisable:
-  - {fileID: 7885217861617067682}
+  trail: {fileID: 7885217861617067682}
 --- !u!1 &5848834044336837777
 GameObject:
   m_ObjectHideFlags: 0

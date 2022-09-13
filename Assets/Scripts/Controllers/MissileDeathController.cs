@@ -10,14 +10,14 @@ public class MissileDeathController : MonoBehaviour, IDamageReceiver
   public ParticleSystemRenderer deathParticles;
 
   public MonoBehaviour[] toDisable;
-  public Renderer[] rendererToDisable;
+  public TrailRenderer trail;
 
   public float Damage(float damage, bool onOff)
   {
     enabled = false;
     deathParticles.gameObject.SetActive(true);
     toDisable.Do((t) => t.enabled = false);
-    rendererToDisable.Do((t) => t.enabled = false);
+    trail.emitting = false;
     GetComponent<Rigidbody>().AddRelativeTorque(Random.insideUnitSphere * 30, ForceMode.VelocityChange);
     Destroy(gameObject, timeToDie);
     return -damage;
