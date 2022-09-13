@@ -33,7 +33,7 @@ public class PlaneCheatController : MonoBehaviour
 
     thrustController.baseThrust = baseSpeed;
     if (Input.GetKey(KeyCode.LeftShift)) thrustController.baseThrust *= shiftSpeedMultiplier;
-    if (Input.GetKey(KeyCode.LeftControl)) thrustController.baseThrust *= controlSpeedMultiplier;
+    // if (Input.GetKey(KeyCode.LeftControl)) thrustController.baseThrust *= controlSpeedMultiplier;
     if (Input.GetKeyDown(KeyCode.L)) rigidbody.isKinematic = !rigidbody.isKinematic;
     if (Input.GetKeyDown(KeyCode.K))
     {
