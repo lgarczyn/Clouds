@@ -362,7 +362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5e50dc53e1772a4bbb40c9638a0641c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volume: 0.3
+  volume: 0.2
   volumeVsSpeed:
     serializedVersion: 2
     m_Curve:
@@ -20448,7 +20448,7 @@ MonoBehaviour:
   mouseAim: {fileID: 6038797109022958342}
   cameraRig: {fileID: 6039472198707684646}
   cam: {fileID: 0}
-  offset: {x: 0, y: 0, z: -9.5}
+  offset: {x: 0, y: 0, z: -3.5}
   camSmoothSpeed: 5
   mouseSensitivity: 1
   aimDistance: 300
@@ -20706,7 +20706,7 @@ MonoBehaviour:
       - m_Target: {fileID: 2108937674}
         m_TargetAssemblyTypeName: DamageSoundController, Assembly-CSharp
         m_MethodName: PlayDamageSound
-        m_Mode: 6
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -20715,6 +20715,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  repeatingDamageTaken:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &6036350815579256822
 MonoBehaviour:
   m_ObjectHideFlags: 0
