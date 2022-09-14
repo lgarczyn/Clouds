@@ -5075,7 +5075,7 @@ MonoBehaviour:
   container: {fileID: 1230604923}
   player: {fileID: 4563114451573410}
   testParams: {x: 0, y: 0, z: 0, w: 0}
-  testColor: {r: 0.043137252, g: 0.56683064, b: 1, a: 1}
+  testColor: {r: 0.043137252, g: 0.3074294, b: 1, a: 1}
   stepSizeRender: 9.73
   firstStepNoiseMultiplier: 2
   stepSizeNoiseRatio: 0.5
@@ -6569,10 +6569,10 @@ MonoBehaviour:
       _scale: 0
   jupiterSpace: {fileID: 385219343}
   timeScale: 1
-  latitude: 0
+  latitude: 13.5
   longitude: 0
   bearing: 0
-  altitude: 0
+  altitude: 69911000
 --- !u!4 &1610830711 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5848834044144880813, guid: 802aaba54aad6bb498ab13e1e6f477c5,
@@ -7871,16 +7871,16 @@ MonoBehaviour:
         time: 21308.947
         value: 0.0029892677
         inSlope: -0.00000017467357
-        outSlope: 0.000000058122964
+        outSlope: 0.0000008358804
         tangentMode: 69
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 57643.25
-        value: 0.005101125
-        inSlope: 0.000000058122964
-        outSlope: -0.0000001193705
+        value: 0.033360403
+        inSlope: 0.0000008358804
+        outSlope: -0.0000007866521
         tangentMode: 69
         weightedMode: 0
         inWeight: 0.33333334
@@ -7888,7 +7888,7 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 99993.1
         value: 0.000045802513
-        inSlope: -0.0000001193705
+        inSlope: -0.0000007866521
         outSlope: -0.0000027123233
         tangentMode: 69
         weightedMode: 0
@@ -7902,7 +7902,7 @@ MonoBehaviour:
   endAltitude: 100000
   format: 1
   normalize: 0
-  isDirty: 1
+  isDirty: 0
   _altitudeAtlas: {fileID: 8400000, guid: c8b74445f6928f04d8be84f4059b44ac, type: 2}
 --- !u!1001 &1918322869
 PrefabInstance:
@@ -8773,18 +8773,6 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 802aaba54aad6bb498ab13e1e6f477c5, type: 3}
---- !u!114 &2108937674 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2108937674, guid: 8580f51aba7053a4286c3ec8810a585e,
-    type: 3}
-  m_PrefabInstance: {fileID: 6035008019564179120}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70be0d8949defd142bbf5af785b3d62e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2139397237
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9195,6 +9183,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5299662383524462172, guid: 732e31a3870c5b44c8f11a887a158a65,
         type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5299662383524462172, guid: 732e31a3870c5b44c8f11a887a158a65,
+        type: 3}
       propertyPath: localSpace
       value: 
       objectReference: {fileID: 1608915523}
@@ -9392,16 +9385,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6036350815579256821, guid: 8580f51aba7053a4286c3ec8810a585e,
         type: 3}
-      propertyPath: damageTaken.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6036350815579256821, guid: 8580f51aba7053a4286c3ec8810a585e,
-        type: 3}
-      propertyPath: damageTaken.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 2108937674}
-    - target: {fileID: 6036350815579256821, guid: 8580f51aba7053a4286c3ec8810a585e,
-        type: 3}
       propertyPath: energyChange.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 60312805}
@@ -9415,11 +9398,6 @@ PrefabInstance:
       propertyPath: matterChange.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1097051208}
-    - target: {fileID: 6036350815579256821, guid: 8580f51aba7053a4286c3ec8810a585e,
-        type: 3}
-      propertyPath: damageTaken.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayDamageSound
-      objectReference: {fileID: 0}
     - target: {fileID: 6036350815579256822, guid: 8580f51aba7053a4286c3ec8810a585e,
         type: 3}
       propertyPath: resourceCalculator

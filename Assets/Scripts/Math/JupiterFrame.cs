@@ -89,7 +89,7 @@ public class JupiterSpace : FrameOfReference
   /// <returns> A 1:1 scale point on the surface of Jupiter </returns>
   public Vector3D GetSurfacePoint(double latitude, double longitude, double altitude = JUPITER_RADIUS)
   {
-    return GetSurfacePoint(GcsToQuaternion(latitude, longitude));
+    return GetSurfacePoint(GcsToQuaternion(latitude, longitude), altitude);
   }
 
   /// <summary>
