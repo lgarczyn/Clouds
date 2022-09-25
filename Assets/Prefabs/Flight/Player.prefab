@@ -20563,7 +20563,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 5933174257901130070}
   thrust: 60
-  turnTorque: {x: 25, y: 20, z: 20}
+  turnTorque: {x: 25, y: 20, z: 50}
   forceMult: 30
   sensitivity: 8
   aggressiveTurnAngle: 8
@@ -21073,7 +21073,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dc882135d5abef4f81b9f7c509060ca, type: 2}
+  - {fileID: -876546973899608171, guid: ab4823c637ae30841b554f453f201abc, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -21094,25 +21094,34 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: 3
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.1
+    widthMultiplier: 1
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0
-        inSlope: 5.415829
-        outSlope: 5.415829
+        value: 0.2
+        inSlope: 24.485132
+        outSlope: 1.8506323
+        tangentMode: 5
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.35952324
+        value: 0.6496525
+        inSlope: 0.16381212
+        outSlope: 0.16381212
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.06501547
+        outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1
-        value: 0
+        time: 0.9716667
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -21124,10 +21133,10 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.8679245, g: 0.7581324, b: 0.59362763, a: 1}
+      key0: {r: 1, g: 1, b: 1, a: 0}
       key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0.7411765}
-      key3: {r: 0, g: 0, b: 0, a: 0.7411765}
+      key2: {r: 0, g: 0, b: 0, a: 0.36078432}
+      key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
@@ -21141,8 +21150,8 @@ TrailRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 65535
+      atime1: 964
+      atime2: 32189
       atime3: 65535
       atime4: 0
       atime5: 0
@@ -21150,7 +21159,7 @@ TrailRenderer:
       atime7: 0
       m_Mode: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 4
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
@@ -21321,7 +21330,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dc882135d5abef4f81b9f7c509060ca, type: 2}
+  - {fileID: -876546973899608171, guid: ab4823c637ae30841b554f453f201abc, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -21342,25 +21351,34 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: 3
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.1
+    widthMultiplier: 1
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0
-        inSlope: 5.415829
-        outSlope: 5.415829
+        value: 0.2
+        inSlope: 24.485132
+        outSlope: 1.8506323
+        tangentMode: 5
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.35952324
+        value: 0.6496525
+        inSlope: 0.16381212
+        outSlope: 0.16381212
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.06501547
+        outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1
-        value: 0
+        time: 0.9716667
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -21372,10 +21390,10 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.8679245, g: 0.7581324, b: 0.59362763, a: 1}
+      key0: {r: 1, g: 1, b: 1, a: 0}
       key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0.7411765}
-      key3: {r: 0, g: 0, b: 0, a: 0.7411765}
+      key2: {r: 0, g: 0, b: 0, a: 0.36078432}
+      key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
@@ -21389,8 +21407,8 @@ TrailRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 65535
+      atime1: 964
+      atime2: 32189
       atime3: 65535
       atime4: 0
       atime5: 0
@@ -21398,7 +21416,7 @@ TrailRenderer:
       atime7: 0
       m_Mode: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 4
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
