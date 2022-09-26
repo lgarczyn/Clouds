@@ -129,6 +129,8 @@ public class MouseFlightController : MonoBehaviour
 
   void LateUpdate()
   {
+    if (Input.GetKey(KeyCode.V)) return;
+
     cam.position = cameraRig.position;
     cam.rotation = cameraRig.rotation;
     cam.position += cam.forward * offset.z;
