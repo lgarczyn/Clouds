@@ -59,11 +59,6 @@ public class PlaneEntity : MonoBehaviour, IDamageReceiver
     this.health = Mathf.Clamp(this.health, 0, maxHealth);
   }
 
-  public bool ShouldRepair()
-  {
-    return health < maxHealth && energy > 10f;
-  }
-
   public void RefuelEnergy(float units)
   {
     if (destroyed)
