@@ -4,24 +4,29 @@ using UnityEngine;
 
 public class PlaneRepairController : MonoBehaviour
 {
-    public PlaneEntity plane;
-    public float repairPerSecond = 1f;
+  public PlaneEntity plane;
+  public float repairPerSecond = 1f;
+  public float delayBeforeHeal = 10f;
 
-    public KeyCode repairKey;
+  private float timeSinceLastDamage = float.PositiveInfinity;
 
-    private bool repairPressed;
+  public void OnDamage()
+  {
+    timeSinceLastDamage = 0;
+  }
 
-    void Update() {
-        repairPressed = Input.GetKey(repairKey);
+  void FixedUpdate()
+  {
+    timeSinceLastDamage += Time.fixedDeltaTime;
+
+    float repairs = repairPerSecond * Time.fixedDeltaTime;
+
+    if (timeSinceLastDamage > delayBeforeHeal)
+    {
+      if (plane.ShouldRepair())
+      {
+        plane.Repair(repairs);
+      }
     }
-
-    void FixedUpdate() {
-        float repairs = repairPerSecond * Time.fixedDeltaTime;
-
-        if (repairPressed)
-            if (plane.ShouldRepair())
-                if (plane.TrySpendMatter(repairs / 10f))
-                    if (plane.TrySpendEnergy(repairs))
-                        plane.Repair(repairs);
-    }
+  }
 }
