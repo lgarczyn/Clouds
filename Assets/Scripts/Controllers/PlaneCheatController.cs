@@ -37,7 +37,7 @@ public class PlaneCheatController : MonoBehaviour
     }
     if (Input.GetKeyDown(KeyCode.I))
     {
-      FindObjectsOfType<Missile>().Do((m) => Destroy(m.gameObject));
+      FindObjectsOfType<MissileDeathController>().Do((m) => m.Damage(1, true));
     }
   }
 }
