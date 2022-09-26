@@ -45,5 +45,9 @@ public class PlaneCheatController : MonoBehaviour
         rigidbody.angularVelocity = Vector3.zero;
       }
     }
+    if (Input.GetKeyDown(KeyCode.I))
+    {
+      FindObjectsOfType<Missile>().Do((m) => Destroy(m.gameObject));
+    }
   }
 }
