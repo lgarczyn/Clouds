@@ -20715,9 +20715,33 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 6036350815579256823}
+        m_TargetAssemblyTypeName: PlaneRepairController, Assembly-CSharp
+        m_MethodName: OnDamage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   repeatingDamageTaken:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6036350815579256823}
+        m_TargetAssemblyTypeName: PlaneRepairController, Assembly-CSharp
+        m_MethodName: OnDamage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6036350815579256822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20776,87 +20800,9 @@ MonoBehaviour:
   plane: {fileID: 6036350815579256821}
   resourceCalculator: {fileID: 0}
   deathController: {fileID: 6036350815579256825}
-  energyMultiplier: 5
-  matterMultiplier: 20
-  baseEnergyPerSecond: 0
-  matterVsDensity:
+  energyVsDensity:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 3.2727273
-      outSlope: 3.2727273
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.054166667
-    - serializedVersion: 3
-      time: 0.01
-      value: 1
-      inSlope: 0.08273405
-      outSlope: 0
-      tangentMode: 65
-      weightedMode: 0
-      inWeight: 1
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0.0732155
-      outSlope: 0.0732155
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.62083334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  matterVsDepth:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  energyVsLight:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0.07727432
-      outSlope: 0.07727432
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.325
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2.739725
-      outSlope: 2.739725
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.054166675
-      outWeight: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -20874,7 +20820,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plane: {fileID: 6036350815579256821}
   repairPerSecond: 5
-  repairKey: 114
+  delayBeforeHeal: 10
 --- !u!114 &6036350815579256825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20918,7 +20864,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6036350815579256820}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab5255473ec848ea8b3302fd8b513cea, type: 3}
   m_Name: 
@@ -20946,9 +20892,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb8e466887dea549aa253f50919bf39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shiftSpeedMultiplier: 10
-  controlSpeedMultiplier: 100
-  baseSpeed: 60
   startPos: {x: 0, y: 0, z: 0}
   startRotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!114 &4563114451573421
@@ -20965,6 +20908,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resourceCalculator: {fileID: 0}
   baseThrust: 60
+  boostMultiplier: 4
+  boostEnergyPerSecond: 10
   densityVsThrust:
     serializedVersion: 2
     m_Curve:
