@@ -1487,23 +1487,20 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Mouse to control plane
 
+    Left Click to shoot
+
+    Press Shift to boost
+
+    Press
+    C to look around
+
     Press H to toggle this window
 
-    Hold R
-    to repair
 
+    Flying near clouds
+    is faster and recharges your boost
 
-    Clouds damage you
-
-    Sunlight recharges your energy
-
-    Skimming
-    clouds recharges matter
-
-    Lower clouds are more valuable
-
-    Accumulate enough
-    matter to escape'
+    Enemies can''t see you inside clouds'
 --- !u!222 &554278369
 CanvasRenderer:
   m_ObjectHideFlags: 0
