@@ -4,23 +4,31 @@ using UnityEngine;
 
 public class ResourceBar : MonoBehaviour
 {
-    public RectTransform indicator;
-    private float lastValue = 0;
+  public RectTransform indicator;
 
-    public void SetValue(float value)
-    {
-        float ratio = Mathf.Clamp01(value / 100);
-        RectTransform bar = GetComponent<RectTransform>();
+  [Range(0.1f, 0.99f)]
+  public float floatingAverageReactivity = 0.8f;
 
-        bar.sizeDelta = new Vector2(bar.sizeDelta.x, Mathf.Round(100 * ratio));
+  private float floatingAverage;
+  private float currentValue;
 
-        if (ratio > lastValue)
-            indicator.localScale = new Vector3(1f, 1f, 1f);
-        else if (ratio < lastValue)
-            indicator.localScale = new Vector3(1f, -1f, 1f);
-        else
-            indicator.localScale = new Vector3(0f, 0f, 1f);
+  public void SetValue(float value)
+  {
+    currentValue = Mathf.Clamp01(value / 100);
+    RectTransform bar = GetComponent<RectTransform>();
 
-        lastValue = ratio;
-    }
+    bar.sizeDelta = new Vector2(bar.sizeDelta.x, Mathf.Round(100 * currentValue));
+  }
+
+  void FixedUpdate()
+  {
+    floatingAverage = Mathf.Lerp(floatingAverage, currentValue, floatingAverageReactivity);
+
+    if (currentValue > floatingAverage + 0.00001f)
+      indicator.localScale = new Vector3(1f, 1f, 1f);
+    else if (currentValue < floatingAverage - 0.00001f)
+      indicator.localScale = new Vector3(1f, -1f, 1f);
+    else
+      indicator.localScale = new Vector3(0f, 0f, 1f);
+  }
 }
