@@ -11,6 +11,8 @@ public class FPSData : MonoBehaviour
   public float overheadScore = 2;
   public bool reset;
 
+  public GForceCalculator gForceCalculator;
+
   private bool firstFrame;
   SortedDictionary<int, int> frameTimes;
   int frameNum;
@@ -101,6 +103,10 @@ public class FPSData : MonoBehaviour
       if (r)
       {
         text += "\nvelocity: " + Mathf.Round(r.velocity.magnitude);
+      }
+      if (gForceCalculator)
+      {
+        text += "\ngforce: " + Mathf.Round(gForceCalculator.GetGForce() * 10) / 10;
       }
     }
 
