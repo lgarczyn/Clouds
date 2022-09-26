@@ -10,31 +10,26 @@ public class PlaneThrustController : MonoBehaviour
   public float baseThrust = 60;
 
   public AnimationCurve densityVsThrust;
+  public AnimationCurve thrustMultVsTrailWidth;
 
-  public float trailWidthMultiplier = 0.1f;
   public List<TrailRenderer> trails;
-
-  void Start()
-  {
-    PlayerPlane plane = GetComponent<PlayerPlane>();
-  }
 
   void Update()
   {
-    float multiplier = 1;
+    float density = -10;
 
     if (resourceCalculator)
     {
-      float density = resourceCalculator.GetDensity();
-      multiplier = densityVsThrust.Evaluate(density);
+      density = resourceCalculator.GetDensity();
     }
 
     PlayerPlane plane = GetComponent<PlayerPlane>();
+    float multiplier = densityVsThrust.Evaluate(density);
     plane.thrust = baseThrust * multiplier;
 
     foreach (TrailRenderer trail in trails)
     {
-      trail.widthMultiplier = multiplier * multiplier * trailWidthMultiplier;
+      trail.widthMultiplier = thrustMultVsTrailWidth.Evaluate(multiplier);
     }
   }
 }
