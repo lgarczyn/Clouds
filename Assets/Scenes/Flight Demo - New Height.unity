@@ -424,6 +424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indicator: {fileID: 454625384}
+  floatingAverageReactivity: 0.5
 --- !u!114 &60312806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3616,6 +3617,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indicator: {fileID: 1896379548}
+  floatingAverageReactivity: 0.5
 --- !u!114 &1097051209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8524,6 +8526,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indicator: {fileID: 996771641}
+  floatingAverageReactivity: 0.5
 --- !u!114 &1997337536
 MonoBehaviour:
   m_ObjectHideFlags: 0
