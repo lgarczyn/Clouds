@@ -14,6 +14,7 @@ public class BoundedCurveDrawer : PropertyDrawer
   {
     BoundedCurveAttribute boundedCurve = (BoundedCurveAttribute)attribute;
 
+    EditorGUI.BeginProperty(position, label, property);
     property.animationCurveValue = EditorGUI.CurveField(
       position,
       label,
@@ -21,5 +22,6 @@ public class BoundedCurveDrawer : PropertyDrawer
       Color.white,
       boundedCurve.bounds
      );
+    EditorGUI.EndProperty();
   }
 }
