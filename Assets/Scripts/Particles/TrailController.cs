@@ -9,7 +9,7 @@ public class TrailController : MonoBehaviour
 
   public bool forceMax = false;
 
-  public TrailRenderer trail
+  TrailRenderer trail
   {
     get
     {

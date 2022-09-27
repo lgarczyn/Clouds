@@ -876,6 +876,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6508967642857663146}
   - component: {fileID: 2007518821913681265}
+  - component: {fileID: 6221206421180750022}
   - component: {fileID: 991404009195948057}
   m_Layer: 0
   m_Name: DamageRight
@@ -935,8 +936,22 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  widthMultiplier: 3
+  widthMultiplier: 1
   forceMax: 0
+--- !u!114 &6221206421180750022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5337823435492670828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fb69023a4d52f24db72a7dfdc4a3e28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  desiredLength: 30
+  maxTime: 5
 --- !u!96 &991404009195948057
 TrailRenderer:
   serializedVersion: 3
@@ -988,13 +1003,13 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.0773903
-        inSlope: 1.2019159
-        outSlope: 1.2019159
+        value: 0.48974022
+        inSlope: 0.9519053
+        outSlope: 0.9519053
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.09312639
+        outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
         value: 1
@@ -1010,7 +1025,7 @@ TrailRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 1, g: 1, b: 1, a: 0.101960786}
-      key1: {r: 1, g: 0.5529412, b: 0.16862746, a: 0.44705883}
+      key1: {r: 1, g: 0.5529412, b: 0.16862746, a: 0.67058825}
       key2: {r: 0.48987234, g: 0.48987234, b: 0.48987234, a: 0.94361657}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1018,16 +1033,16 @@ TrailRenderer:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 964
-      ctime2: 2506
-      ctime3: 65535
+      ctime1: 2313
+      ctime2: 6939
+      ctime3: 39899
       ctime4: 0
       ctime5: 0
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 578
-      atime2: 4241
+      atime1: 1157
+      atime2: 5397
       atime3: 65535
       atime4: 65535
       atime5: 0
@@ -5884,6 +5899,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6035008020069223164}
   - component: {fileID: 524173971226608436}
+  - component: {fileID: 7072623844356161062}
   - component: {fileID: 1703607009082717966}
   m_Layer: 0
   m_Name: DamageLeft
@@ -5943,8 +5959,22 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  widthMultiplier: 3
+  widthMultiplier: 1
   forceMax: 0
+--- !u!114 &7072623844356161062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6035008020069223163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fb69023a4d52f24db72a7dfdc4a3e28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  desiredLength: 30
+  maxTime: 5
 --- !u!96 &1703607009082717966
 TrailRenderer:
   serializedVersion: 3
@@ -5996,13 +6026,13 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.0773903
-        inSlope: 1.2019159
-        outSlope: 1.2019159
+        value: 0.48974022
+        inSlope: 0.9519053
+        outSlope: 0.9519053
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.09312639
+        outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
         value: 1
@@ -6018,7 +6048,7 @@ TrailRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 1, g: 1, b: 1, a: 0.101960786}
-      key1: {r: 1, g: 0.5529412, b: 0.16862746, a: 0.44705883}
+      key1: {r: 1, g: 0.5529412, b: 0.16862746, a: 0.67058825}
       key2: {r: 0.48987234, g: 0.48987234, b: 0.48987234, a: 0.94361657}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -6026,16 +6056,16 @@ TrailRenderer:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 964
-      ctime2: 2506
-      ctime3: 65535
+      ctime1: 2313
+      ctime2: 6939
+      ctime3: 39899
       ctime4: 0
       ctime5: 0
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 578
-      atime2: 4241
+      atime1: 1157
+      atime2: 5397
       atime3: 65535
       atime4: 65535
       atime5: 0
@@ -6287,7 +6317,7 @@ Transform:
   - {fileID: 447381976}
   - {fileID: 2108937672}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: -2.214, y: -266.362, z: 16.094}
 --- !u!54 &5981469090452608560
 Rigidbody:
