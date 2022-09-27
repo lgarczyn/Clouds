@@ -220,14 +220,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   controller:
-    Kp: 300
-    Ki: 100
-    Kd: 600
+    Kp: 150
+    Ki: 50
+    Kd: 300
     N: 10
     TsMin: 0.01
     OutputUpperLimit: 400
   rotateSpeed: 10
-  parameterVariation: 3
+  parameterVariation: 2.28
   velocityLimitingFactor: 0.625
 --- !u!114 &1796061414
 MonoBehaviour:
@@ -242,7 +242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rps: 30
-  spread: 0.2
+  spread: 0
   bulletPrefab: {fileID: 6204923746252972408, guid: 4833ca5852f63ea419b4f260acc95aaa,
     type: 3}
   bulletSpeed: 1000
