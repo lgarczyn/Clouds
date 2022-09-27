@@ -6,7 +6,8 @@ public class BoundedCurveDrawer : PropertyDrawer
 {
   public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
   {
-    return EditorGUIUtility.singleLineHeight * 1;
+    BoundedCurveAttribute boundedCurve = (BoundedCurveAttribute)attribute;
+    return EditorGUIUtility.singleLineHeight * boundedCurve.height;
   }
 
   public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
