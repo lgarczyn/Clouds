@@ -242,7 +242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rps: 30
-  spread: 0
+  spread: 0.05
   bulletPrefab: {fileID: 6204923746252972408, guid: 4833ca5852f63ea419b4f260acc95aaa,
     type: 3}
   bulletSpeed: 1000
