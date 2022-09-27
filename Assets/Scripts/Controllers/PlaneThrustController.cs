@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(PlayerPlane))]
 [RequireComponent(typeof(Plane))]
@@ -13,9 +14,8 @@ public class PlaneThrustController : MonoBehaviour
   public float boostEnergyPerSecond = 10;
 
   public AnimationCurve densityVsThrust;
-  public AnimationCurve thrustMultVsTrailWidth;
 
-  public List<TrailRenderer> trails;
+  public UnityEvent<float> thrustChange;
 
   void Update()
   {
@@ -42,9 +42,6 @@ public class PlaneThrustController : MonoBehaviour
 
     plane.thrust = baseThrust * multiplier;
 
-    foreach (TrailRenderer trail in trails)
-    {
-      trail.widthMultiplier = thrustMultVsTrailWidth.Evaluate(multiplier);
-    }
+    thrustChange.Invoke(multiplier / boostMultiplier * 100f);
   }
 }

@@ -9456,7 +9456,7 @@ PrefabInstance:
       objectReference: {fileID: 60312805}
     - target: {fileID: 6036350815579256821, guid: 8580f51aba7053a4286c3ec8810a585e,
         type: 3}
-      propertyPath: healthChange.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      propertyPath: healthChange.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 1997337535}
     - target: {fileID: 6036350815579256821, guid: 8580f51aba7053a4286c3ec8810a585e,
