@@ -27,15 +27,15 @@ public class PlaneEntity : MonoBehaviour, IDamageReceiver
     this.matterFull.Invoke(matter == maxMatter);
   }
 
-  public float Damage(float damage, bool oneOff)
+  public float Damage(DamageInfo info)
   {
-    if (oneOff) this.damageTaken.Invoke(damage);
-    else repeatingDamageTaken.Invoke(damage);
+    if (info.oneOff) this.damageTaken.Invoke(info.damage);
+    else repeatingDamageTaken.Invoke(info.damage);
 
-    if (destroyed || damage <= 0f)
-      return damage;
+    if (destroyed || info.damage <= 0f)
+      return -info.damage;
 
-    this.health -= damage;
+    this.health -= info.damage;
     float returnValue = health;
 
     this.health = Mathf.Clamp(this.health, 0, maxHealth);

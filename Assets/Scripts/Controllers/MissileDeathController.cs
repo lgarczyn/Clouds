@@ -12,7 +12,7 @@ public class MissileDeathController : MonoBehaviour, IDamageReceiver
   public MonoBehaviour[] toDisable;
   public TrailRenderer trail;
 
-  public float Damage(float damage, bool onOff)
+  public float Damage(DamageInfo damageInfo)
   {
     enabled = false;
     deathParticles.gameObject.SetActive(true);
@@ -20,6 +20,12 @@ public class MissileDeathController : MonoBehaviour, IDamageReceiver
     trail.emitting = false;
     GetComponent<Rigidbody>().AddRelativeTorque(Random.insideUnitSphere * 30, ForceMode.VelocityChange);
     Destroy(gameObject, timeToDie);
-    return -damage;
+    return -damageInfo.damage;
+  }
+
+  public void Kill()
+  {
+    DamageInfo info = new DamageInfo();
+    Damage(info);
   }
 }
