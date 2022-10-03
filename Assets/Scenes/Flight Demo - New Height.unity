@@ -9435,8 +9435,9 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 414724919}
     m_Modifications:
-    - target: {fileID: 4563114451573421, guid: 8580f51aba7053a4286c3ec8810a585e, type: 3}
-      propertyPath: resourceCalculator
+    - target: {fileID: 1261814290255505339, guid: 8580f51aba7053a4286c3ec8810a585e,
+        type: 3}
+      propertyPath: source
       value: 
       objectReference: {fileID: 1567621671}
     - target: {fileID: 5933174257901130070, guid: 8580f51aba7053a4286c3ec8810a585e,
@@ -9464,11 +9465,6 @@ PrefabInstance:
       propertyPath: shieldChange.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1097051208}
-    - target: {fileID: 6036350815579256824, guid: 8580f51aba7053a4286c3ec8810a585e,
-        type: 3}
-      propertyPath: resourceCalculator
-      value: 
-      objectReference: {fileID: 1567621671}
     - target: {fileID: 6036350815579256825, guid: 8580f51aba7053a4286c3ec8810a585e,
         type: 3}
       propertyPath: toDisable.Array.data[0]

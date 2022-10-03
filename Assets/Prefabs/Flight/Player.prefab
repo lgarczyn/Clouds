@@ -6288,6 +6288,7 @@ GameObject:
   - component: {fileID: 4563114451573434}
   - component: {fileID: 8856165441093528577}
   - component: {fileID: 9122838697563822613}
+  - component: {fileID: 1261814290255505339}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -6506,7 +6507,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plane: {fileID: 6036350815579256821}
-  resourceCalculator: {fileID: 0}
+  resourceCalculator: {fileID: 1261814290255505339}
   deathController: {fileID: 6036350815579256825}
   energyVsDensity:
     serializedVersion: 2
@@ -6609,7 +6610,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee3998c1092e4cb468deb5b978e035d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourceCalculator: {fileID: 0}
+  resourceCalculator: {fileID: 1261814290255505339}
   baseThrust: 60
   boostMultiplier: 4
   boostEnergyPerSecond: 5
@@ -6730,6 +6731,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inertiaTensor: {x: 1.05, y: 2.75, z: 1.87}
+--- !u!114 &1261814290255505339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6036350815579256820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be27fad9fdc1d5847aafeb0832175f32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  source: {fileID: 0}
 --- !u!1 &6036508552637036764
 GameObject:
   m_ObjectHideFlags: 0
