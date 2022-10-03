@@ -18,11 +18,14 @@ public class Missile : MonoBehaviour
   [Range(0.1f, 1f)]
   public float velocityLimitingFactor = 0.9f;
 
-  public float pidPositionAccuracy = 100f;
+  public float pidPositionAccuracy = 10f;
+
+  public float searchPositionAccuracy = 100f;
+
   [Range(-1, 1)]
   public float aggressivity = 0f;
 
-  private Vector3 targetPosition;
+  private Vector3 lastTargetPosition;
 
   private float GetRandomVariation()
   {
@@ -39,12 +42,12 @@ public class Missile : MonoBehaviour
     transform.position += Random.insideUnitSphere * 100;
   }
 
-  private Vector3 GetPidTarget(Vector3 deltaPos)
+  private Vector3 GetPidTarget(Vector3 deltaPos, float accuracy)
   {
     if (deltaPos.magnitude < pidPositionAccuracy)
       return Vector3.zero;
 
-    return deltaPos - deltaPos.normalized * pidPositionAccuracy;
+    return deltaPos - deltaPos.normalized * accuracy;
   }
 
   private void FixedUpdate()
@@ -53,9 +56,10 @@ public class Missile : MonoBehaviour
 
     if (target.IsVisible(r.position))
     {
+      lastTargetPosition = target.position;
       Vector3 idealPos = target.position - target.velocity * aggressivity;
       Vector3 force = controller.Iterate(
-        GetPidTarget(idealPos - r.position),
+        GetPidTarget(idealPos - r.position, pidPositionAccuracy),
         Vector3.zero,
         Time.deltaTime
       );
@@ -65,7 +69,7 @@ public class Missile : MonoBehaviour
     else
     {
       Vector3 force = controller.Iterate(
-        Vector3.zero,
+        GetPidTarget(lastTargetPosition - r.position, searchPositionAccuracy),
         Vector3.zero,
         Time.deltaTime
       );

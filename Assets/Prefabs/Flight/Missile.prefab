@@ -230,6 +230,7 @@ MonoBehaviour:
   parameterVariation: 2.28
   velocityLimitingFactor: 0.625
   pidPositionAccuracy: 2
+  searchPositionAccuracy: 100
   aggressivity: 0.22
 --- !u!114 &1796061414
 MonoBehaviour:
