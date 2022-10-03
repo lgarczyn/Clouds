@@ -14,7 +14,7 @@ public class MissileFiringController : MonoBehaviour
   [HideInInspector]
   float reloadTime = 0;
 
-  public Rigidbody target;
+  public Target target;
 
   void Start()
   {
@@ -29,6 +29,9 @@ public class MissileFiringController : MonoBehaviour
     if (reloadTime > 0f) return;
 
     Rigidbody r = GetComponent<Rigidbody>();
+
+    if (target.IsVisible(r.position) == false) return;
+
     float distance = Vector3.Distance(target.position, r.position);
 
     if (distance > range) return;
