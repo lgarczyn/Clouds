@@ -6318,7 +6318,7 @@ Transform:
   - {fileID: 447381976}
   - {fileID: 2108937672}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: -2.214, y: -266.362, z: 16.094}
 --- !u!54 &5981469090452608560
 Rigidbody:
@@ -6822,7 +6822,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: ab4823c637ae30841b554f453f201abc, type: 3}
+  - {fileID: 2100000, guid: 0671f5d5957873f448ccafa358f11624, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7142,7 +7142,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: ab4823c637ae30841b554f453f201abc, type: 3}
+  - {fileID: 2100000, guid: 0671f5d5957873f448ccafa358f11624, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
