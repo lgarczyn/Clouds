@@ -925,11 +925,29 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
+      time: 39.999
+      value: 0.33049166
+      inSlope: -0.011449803
+      outSlope: -330.6733
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 40
+      value: 0
+      inSlope: -330.6733
+      outSlope: 0
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
       time: 100
       value: 0
       inSlope: -0
       outSlope: -0
-      tangentMode: 0
+      tangentMode: 5
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -5948,11 +5966,29 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
+      time: 39.999
+      value: 0.33049166
+      inSlope: -0.011449803
+      outSlope: -330.6733
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 40
+      value: 0
+      inSlope: -330.6733
+      outSlope: 0
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
       time: 100
       value: 0
       inSlope: -0
       outSlope: -0
-      tangentMode: 0
+      tangentMode: 5
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -6746,6 +6782,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resourceCalculator: {fileID: 1261814290255505339}
   invisibilityThreshold: 5
+  forceInvisibility: 0
 --- !u!114 &1261814290255505339
 MonoBehaviour:
   m_ObjectHideFlags: 0
