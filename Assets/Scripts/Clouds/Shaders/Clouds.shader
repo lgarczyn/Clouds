@@ -649,6 +649,19 @@ Shader "Clouds"
                 return (i);
             }
 
+            float cinematicGradient(float i, uniform float power, uniform float middle)
+            {
+                if (i > middle)
+                {
+                    i -= middle;
+                    i = pow(i / (1 - middle), 1 / power) * (1 - middle);
+                    i += middle;
+                }
+                else if (i)
+                    i = pow(i / middle, power) * middle;
+                return (i);
+            }
+
             float getDepth(float2 uv)
             {
                 float nonlin_depth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(uv));
