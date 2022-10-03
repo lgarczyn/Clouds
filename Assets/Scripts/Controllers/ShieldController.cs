@@ -49,14 +49,22 @@ public class ShieldController : MonoBehaviour, IDamageReceiver
     transform.rotation = Quaternion.LookRotation(relativePos, Vector3.up);
 
     // Spend a damage amount of shield
-    if (plane.TrySpendMatter(info.damage))
-      return plane.matter;
+    if (plane.TrySpendShield(info.damage))
+      return plane.shield;
 
     // If not enough shield, break the shield
-    plane.TrySpendMatter(plane.matter);
+    plane.TrySpendShield(plane.shield);
     collider.enabled = false;
     meshRenderer.enabled = false;
     return 0;
+  }
+
+  void FixedUpdate()
+  {
+    if (plane.shield > 0)
+    {
+      collider.enabled = true;
+    }
   }
 
   void Update()

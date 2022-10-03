@@ -1,30 +1,31 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class PlaneEntity : MonoBehaviour, IDamageReceiver
 {
   public bool destroyed = false;
   public float maxHealth = 100f;
   public float maxEnergy = 100f;
-  public float maxMatter = 100f;
+  public float maxShield = 100f;
   public float health = 30;
   public float energy = 30;
-  public float matter = 30;
+  public float shield = 30;
 
   public UnityEvent onDeath;
   public UnityEvent<float> healthChange;
   public UnityEvent<float> energyChange;
-  public UnityEvent<float> matterChange;
-  public UnityEvent<bool> matterFull;
+  [FormerlySerializedAs("matterChange")]
+  public UnityEvent<float> shieldChange;
   public UnityEvent<float> damageTaken;
   public UnityEvent<float> repeatingDamageTaken;
+  public UnityEvent<float> shieldDamageTaken;
 
   public void FixedUpdate()
   {
     this.healthChange.Invoke(this.health);
     this.energyChange.Invoke(this.energy);
-    this.matterChange.Invoke(matter);
-    this.matterFull.Invoke(matter == maxMatter);
+    this.shieldChange.Invoke(shield);
   }
 
   public float Damage(DamageInfo info)
@@ -75,22 +76,25 @@ public class PlaneEntity : MonoBehaviour, IDamageReceiver
     this.energy -= units;
     return true;
   }
-  public void RefuelMatter(float units)
+
+  public void RefuelShield(float units)
   {
     if (destroyed)
       return;
 
-    this.matter = Mathf.Min(matter + units, maxMatter);
+    this.shield = Mathf.Min(shield + units, maxShield);
   }
-  public bool TrySpendMatter(float units)
+
+  public bool TrySpendShield(float units)
   {
     if (destroyed)
       return false;
 
-    if (matter < units)
+    if (shield < units)
       return false;
 
-    this.matter -= units;
+    this.shield -= units;
+    this.shieldDamageTaken.Invoke(units);
     return true;
   }
 }

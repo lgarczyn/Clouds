@@ -6282,7 +6282,6 @@ GameObject:
   - component: {fileID: 6036350815579256823}
   - component: {fileID: 6036350815579256825}
   - component: {fileID: 6036350815579256827}
-  - component: {fileID: 6036350815579256826}
   - component: {fileID: 4563114451573420}
   - component: {fileID: 4563114451573421}
   - component: {fileID: 4563114451573411}
@@ -6319,7 +6318,7 @@ Transform:
   - {fileID: 447381976}
   - {fileID: 2108937672}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -2.214, y: -266.362, z: 16.094}
 --- !u!54 &5981469090452608560
 Rigidbody:
@@ -6373,10 +6372,10 @@ MonoBehaviour:
   destroyed: 0
   maxHealth: 100
   maxEnergy: 100
-  maxMatter: 100
+  maxShield: 100
   health: 100
   energy: 50
-  matter: 100
+  shield: 100
   onDeath:
     m_PersistentCalls:
       m_Calls:
@@ -6446,7 +6445,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  matterChange:
+  shieldChange:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
@@ -6461,36 +6460,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  matterFull:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6036350815579256826}
-        m_TargetAssemblyTypeName: PlaneWinController, Assembly-CSharp
-        m_MethodName: SetMatterFull
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   damageTaken:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2108937674}
-        m_TargetAssemblyTypeName: DamageSoundController, Assembly-CSharp
-        m_MethodName: PlayDamageSound
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 6036350815579256823}
         m_TargetAssemblyTypeName: PlaneRepairController, Assembly-CSharp
         m_MethodName: OnDamage
@@ -6504,6 +6476,9 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   repeatingDamageTaken:
+    m_PersistentCalls:
+      m_Calls: []
+  shieldDamageTaken:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6036350815579256823}
@@ -6608,29 +6583,6 @@ MonoBehaviour:
   zoomController: {fileID: 6036060620604136941}
   scrollInDuration: 2
   scrollInDistance: 4
---- !u!114 &6036350815579256826
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6036350815579256820}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab5255473ec848ea8b3302fd8b513cea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  matterFullUI: {fileID: 0}
-  canWinUI: {fileID: 0}
-  disableOnThruster:
-  - {fileID: 0}
-  activateOnThrusters:
-  - {fileID: 6035008019839825101}
-  plane: {fileID: 6036350815579256821}
-  flightController: {fileID: 5933081180824767606}
-  keyToWin: 32
-  minHeightToActivateThrust: 700
-  minHeightToWin: 3000
 --- !u!114 &4563114451573420
 MonoBehaviour:
   m_ObjectHideFlags: 0

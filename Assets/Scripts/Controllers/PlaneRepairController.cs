@@ -20,7 +20,7 @@ public class PlaneRepairController : MonoBehaviour
     if (timeSinceLastDamage > delayBeforeHeal)
     {
       float repairs = repairPerSecond * Time.fixedDeltaTime;
-      plane.Repair(repairs);
+      plane.RefuelShield(repairs);
     }
   }
 }

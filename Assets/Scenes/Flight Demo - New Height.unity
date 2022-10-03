@@ -408,7 +408,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 100}
+  m_AnchoredPosition: {x: 0, y: 200}
   m_SizeDelta: {x: 20, y: 100}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &60312805
@@ -438,7 +438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.27851376, g: 0.86727077, b: 0.899, a: 0.84313726}
+  m_Color: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 0.84313726}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3572,7 +3572,7 @@ GameObject:
   - component: {fileID: 1097051209}
   - component: {fileID: 1097051208}
   m_Layer: 5
-  m_Name: Carbon
+  m_Name: Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3598,7 +3598,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 200}
+  m_AnchoredPosition: {x: 0, y: 100}
   m_SizeDelta: {x: 20, y: 100}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1097051208
@@ -3628,7 +3628,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 0.79607844}
+  m_Color: {r: 0.40494838, g: 0.91705143, b: 0.9433962, a: 0.79607844}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9461,14 +9461,9 @@ PrefabInstance:
       objectReference: {fileID: 1997337535}
     - target: {fileID: 6036350815579256821, guid: 8580f51aba7053a4286c3ec8810a585e,
         type: 3}
-      propertyPath: matterChange.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      propertyPath: shieldChange.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1097051208}
-    - target: {fileID: 6036350815579256822, guid: 8580f51aba7053a4286c3ec8810a585e,
-        type: 3}
-      propertyPath: resourceCalculator
-      value: 
-      objectReference: {fileID: 1567621671}
     - target: {fileID: 6036350815579256824, guid: 8580f51aba7053a4286c3ec8810a585e,
         type: 3}
       propertyPath: resourceCalculator
@@ -9477,21 +9472,6 @@ PrefabInstance:
     - target: {fileID: 6036350815579256825, guid: 8580f51aba7053a4286c3ec8810a585e,
         type: 3}
       propertyPath: toDisable.Array.data[0]
-      value: 
-      objectReference: {fileID: 706094435}
-    - target: {fileID: 6036350815579256826, guid: 8580f51aba7053a4286c3ec8810a585e,
-        type: 3}
-      propertyPath: canWinUI
-      value: 
-      objectReference: {fileID: 123117464}
-    - target: {fileID: 6036350815579256826, guid: 8580f51aba7053a4286c3ec8810a585e,
-        type: 3}
-      propertyPath: matterFullUI
-      value: 
-      objectReference: {fileID: 717122727}
-    - target: {fileID: 6036350815579256826, guid: 8580f51aba7053a4286c3ec8810a585e,
-        type: 3}
-      propertyPath: disableOnThruster.Array.data[0]
       value: 
       objectReference: {fileID: 706094435}
     - target: {fileID: 6039487566610510866, guid: 8580f51aba7053a4286c3ec8810a585e,
