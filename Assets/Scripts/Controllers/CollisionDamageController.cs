@@ -1,17 +1,39 @@
 ﻿using UnityEngine;
 
+struct DefaultCollisionDealer : IDamageDealer
+{
+  float hit;
+  float frame;
+  public DefaultCollisionDealer(float hit, float frame)
+  {
+    this.hit = hit;
+    this.frame = frame;
+  }
+
+  public float GetDamageHit()
+  {
+    return hit;
+  }
+
+  public float GetDamageFrame()
+  {
+    return frame;
+  }
+}
+
 public class CollisionDamageController : MonoBehaviour
 {
-  public float bodyCollisionDamage = 50f;
+  public float collisionDamage = 10f;
   public float collisionDps = 10f;
 
   DamageInfo GetDamageInfo(float damage, Collision collisionInfo)
   {
     DamageInfo info = new DamageInfo();
+    var average = collisionInfo.GetAverageContact();
     info.damage = damage;
     info.relativeVelocity = collisionInfo.relativeVelocity;
-    info.position = collisionInfo.GetContact(0).point;
-    info.normal = collisionInfo.GetContact(0).normal;
+    info.position = average.point;
+    info.normal = average.normal;
 
     return info;
   }
@@ -31,9 +53,20 @@ public class CollisionDamageController : MonoBehaviour
     return null;
   }
 
+  IDamageDealer GetSource(Collision collision)
+  {
+    IDamageDealer dealer;
+
+    if (collision.gameObject.TryGetComponent<IDamageDealer>(out dealer))
+      return dealer;
+
+    return new DefaultCollisionDealer(collisionDamage, collisionDps);
+  }
+
   void OnCollisionStay(Collision collision)
   {
-    DamageInfo info = GetDamageInfo(collisionDps * Time.fixedDeltaTime, collision);
+    IDamageDealer dealer = GetSource(collision);
+    DamageInfo info = GetDamageInfo(dealer.GetDamageFrame() * Time.fixedDeltaTime, collision);
     info.oneOff = false;
     IDamageReceiver target = GetTarget(collision);
     if (target != null) target.Damage(info);
@@ -41,7 +74,8 @@ public class CollisionDamageController : MonoBehaviour
 
   void OnCollisionEnter(Collision collision)
   {
-    DamageInfo info = GetDamageInfo(bodyCollisionDamage, collision);
+    IDamageDealer dealer = GetSource(collision);
+    DamageInfo info = GetDamageInfo(dealer.GetDamageHit(), collision);
     info.oneOff = true;
     IDamageReceiver target = GetTarget(collision);
     if (target != null) target.Damage(info);

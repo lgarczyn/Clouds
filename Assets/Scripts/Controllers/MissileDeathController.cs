@@ -14,6 +14,8 @@ public class MissileDeathController : MonoBehaviour, IDamageReceiver
 
   public float Damage(DamageInfo damageInfo)
   {
+    if (damageInfo.damage <= 0f) return 0f;
+
     enabled = false;
     deathParticles.gameObject.SetActive(true);
     toDisable.Do((t) => t.enabled = false);
@@ -26,6 +28,7 @@ public class MissileDeathController : MonoBehaviour, IDamageReceiver
   public void Kill()
   {
     DamageInfo info = new DamageInfo();
+    info.damage = 1;
     Damage(info);
   }
 }

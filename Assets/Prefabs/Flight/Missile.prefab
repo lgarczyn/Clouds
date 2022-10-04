@@ -152,6 +152,7 @@ GameObject:
   - component: {fileID: 5848834044144880814}
   - component: {fileID: 1796061414}
   - component: {fileID: 672606877858906812}
+  - component: {fileID: 1116978085605933133}
   m_Layer: 0
   m_Name: Missile
   m_TagString: Untagged
@@ -270,6 +271,20 @@ MonoBehaviour:
   toDisable:
   - {fileID: 5848834044144880814}
   trail: {fileID: 7885217861617067682}
+--- !u!114 &1116978085605933133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5848834044144880812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ede3249d67ab53fbfba74c6bab6e7445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionDamage: 0
+  collisionDps: 0
 --- !u!1 &5848834044336837777
 GameObject:
   m_ObjectHideFlags: 0

@@ -197,8 +197,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseVelocity: 2000
-  marginOnSpawn: 2
+  marginOnSpawn: 3
   explosionForce: 200
   damage: 10
   lifetime: 10
   collisionEffect: {fileID: 0}
+  bounceDistance: 0
