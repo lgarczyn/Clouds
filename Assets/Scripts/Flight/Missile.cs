@@ -18,6 +18,8 @@ public class Missile : MonoBehaviour
   [Range(0.1f, 1f)]
   public float velocityLimitingFactor = 0.9f;
 
+  [Header("Behavior")]
+
   public float pidPositionAccuracy = 10f;
 
   public float searchPositionAccuracy = 100f;
@@ -26,6 +28,8 @@ public class Missile : MonoBehaviour
   public float aggressivity = 0f;
 
   private Vector3 lastTargetPosition;
+
+  private float angularVelocity = 0;
 
   private float GetRandomVariation()
   {
@@ -81,10 +85,14 @@ public class Missile : MonoBehaviour
 
     if (r.velocity.sqrMagnitude > 0f)
     {
-      r.rotation = Quaternion.Slerp(
-        r.rotation,
-        Quaternion.LookRotation(r.velocity),
-        Time.fixedDeltaTime * rotateSpeed);
+      Quaternion target = Quaternion.LookRotation(r.velocity);
+
+      r.rotation = r.rotation.SmoothDampSimple(
+        target,
+        ref angularVelocity,
+        rotateSpeed,
+        float.PositiveInfinity,
+        Time.fixedDeltaTime);
     }
   }
 }

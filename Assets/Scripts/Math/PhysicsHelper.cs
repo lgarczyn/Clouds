@@ -2,12 +2,9 @@ using System;
 using UnityEngine;
 using System.Linq;
 
-/// <summary>
-/// Vector helpers.
-/// </summary>
-public static class PhysicsHelper
+
+namespace UnityEngine
 {
-  static ContactPoint[] cache;
 
   public struct AverageContactPoint
   {
@@ -25,32 +22,42 @@ public static class PhysicsHelper
     public float separation;
   }
 
-  public static AverageContactPoint GetAverageContact(this Collision info)
+  /// <summary>
+  /// Vector helpers.
+  /// </summary>
+  public static class PhysicsHelper
   {
-    if (cache == null || info.contactCount > cache.Length)
-      cache = new ContactPoint[info.contactCount * 2];
+    static ContactPoint[] cache;
 
-    int count = info.GetContacts(cache);
+    public static AverageContactPoint GetAverageContact(this Collision info)
+    {
+      if (cache == null || info.contactCount > cache.Length)
+        cache = new ContactPoint[info.contactCount * 2];
 
-    AverageContactPoint returnValue;
+      int count = info.GetContacts(cache);
 
-    returnValue.impulse = cache.Take(count).Select(p => p.impulse).Average();
-    returnValue.point = cache.Take(count).Select(p => p.point).Average();
-    returnValue.normal = cache.Take(count).Select(p => p.normal).Average();
-    returnValue.separation = cache.Take(count).Select(p => p.separation).Average();
+      if (count <= 0) throw new Exception("Zero contact points on collision");
 
-    returnValue.thisCollider = cache.Take(count)
-        .Select(p => p.thisCollider)
-        .GroupBy(i => i)
-        .OrderByDescending(grp => grp.Count())
-        .Select(grp => grp.Key).First();
+      AverageContactPoint returnValue;
 
-    returnValue.otherCollider = cache.Take(count)
-        .Select(p => p.otherCollider)
-        .GroupBy(i => i)
-        .OrderByDescending(grp => grp.Count())
-        .Select(grp => grp.Key).First();
+      returnValue.impulse = cache.Take(count).Select(p => p.impulse).Average();
+      returnValue.point = cache.Take(count).Select(p => p.point).Average();
+      returnValue.normal = cache.Take(count).Select(p => p.normal).Average();
+      returnValue.separation = cache.Take(count).Select(p => p.separation).Average();
 
-    return returnValue;
+      returnValue.thisCollider = cache.Take(count)
+          .Select(p => p.thisCollider)
+          .GroupBy(i => i)
+          .OrderByDescending(grp => grp.Count())
+          .Select(grp => grp.Key).First();
+
+      returnValue.otherCollider = cache.Take(count)
+          .Select(p => p.otherCollider)
+          .GroupBy(i => i)
+          .OrderByDescending(grp => grp.Count())
+          .Select(grp => grp.Key).First();
+
+      return returnValue;
+    }
   }
 }
