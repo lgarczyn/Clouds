@@ -32,7 +32,15 @@ public class Missile : MonoBehaviour
 
   private Vector3 lastTargetPosition;
 
-  private float angularVelocity = 0;
+  private float temporaryTargetDuration = 0f;
+
+  private Vector3 temporaryTarget;
+
+  public void SetTempTarget(Vector3 target, float duration)
+  {
+    temporaryTargetDuration = duration;
+    temporaryTarget = target;
+  }
 
   private float GetRandomVariation()
   {
@@ -65,28 +73,35 @@ public class Missile : MonoBehaviour
   {
     Rigidbody r = GetComponent<Rigidbody>();
 
-    if (target.IsVisible(r.position))
+    float accuracy;
+    Vector3 targetPos;
+
+    if (temporaryTargetDuration > 0f)
+    {
+      temporaryTargetDuration -= Time.fixedDeltaTime;
+      targetPos = temporaryTarget;
+      accuracy = 10f;
+    }
+    else if (target.IsVisible(r.position))
     {
       lastTargetPosition = target.position;
-      Vector3 idealPos = target.position - target.velocity * aggressivity;
-      Vector3 force = controller.Iterate(
-        GetPidTarget(idealPos - r.position, pidPositionAccuracy),
-        Vector3.zero,
-        Time.deltaTime
-      );
 
-      r.AddForce(force, ForceMode.Acceleration);
+      targetPos = lastTargetPosition - target.velocity * aggressivity;
+      accuracy = pidPositionAccuracy;
     }
     else
     {
-      Vector3 force = controller.Iterate(
-        GetPidTarget(lastTargetPosition - r.position, searchPositionAccuracy),
-        Vector3.zero,
-        Time.deltaTime
-      );
-
-      r.AddForce(force, ForceMode.Acceleration);
+      targetPos = lastTargetPosition;
+      accuracy = searchPositionAccuracy;
     }
+
+    Vector3 force = controller.Iterate(
+      GetPidTarget(targetPos - r.position, accuracy),
+      Vector3.zero,
+      Time.deltaTime
+    );
+
+    r.AddForce(force, ForceMode.Acceleration);
 
     r.velocity *= Mathf.Pow(velocityLimitingFactor, Time.fixedDeltaTime);
 
