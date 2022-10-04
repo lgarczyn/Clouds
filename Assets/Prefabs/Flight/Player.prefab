@@ -6270,7 +6270,7 @@ MonoBehaviour:
   mouseAim: {fileID: 6038797109022958342}
   cameraRig: {fileID: 6039472198707684646}
   cam: {fileID: 0}
-  offset: {x: 0, y: 0, z: -3.5}
+  offset: {x: 0, y: 0.91, z: -3.5}
   camSmoothSpeed: 5
   mouseSensitivity: 1
   aimDistance: 300
