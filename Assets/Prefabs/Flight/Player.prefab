@@ -6356,7 +6356,7 @@ Transform:
   - {fileID: 447381976}
   - {fileID: 2108937672}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -2.214, y: -266.362, z: 16.094}
 --- !u!54 &5981469090452608560
 Rigidbody:
@@ -6601,11 +6601,10 @@ MonoBehaviour:
   planeScript: {fileID: 5933081180824767606}
   toDisable:
   - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 6036060620604136940}
   gravityMultiplier: 3
   isDying: 0
-  canDie: 0
+  canDie: 1
 --- !u!114 &6036350815579256827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6753,7 +6752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ede3249d67ab53fbfba74c6bab6e7445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bodyCollisionDamage: 5
+  collisionDamage: 10
   collisionDps: 1
 --- !u!114 &9122838697563822613
 MonoBehaviour:
@@ -7043,7 +7042,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ede3249d67ab53fbfba74c6bab6e7445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bodyCollisionDamage: 10
+  collisionDamage: 10
   collisionDps: 2
 --- !u!136 &5919589412527085772
 CapsuleCollider:
