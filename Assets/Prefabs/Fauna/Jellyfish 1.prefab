@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: cb9186398e1ad134ab925a8c37e9814b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb9186398e1ad134ab925a8c37e9814b,
         type: 3}
@@ -62,6 +62,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8304842386357364228, guid: cb9186398e1ad134ab925a8c37e9814b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: -8200871796898538591, guid: cb9186398e1ad134ab925a8c37e9814b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: -5708289275328440079, guid: cb9186398e1ad134ab925a8c37e9814b,
         type: 3}
@@ -123,10 +133,20 @@ PrefabInstance:
       propertyPath: m_AABB.m_Extent.z
       value: 4.428569
       objectReference: {fileID: 0}
+    - target: {fileID: -934194316359245969, guid: cb9186398e1ad134ab925a8c37e9814b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: cb9186398e1ad134ab925a8c37e9814b,
         type: 3}
       propertyPath: m_Name
       value: Jellyfish 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cb9186398e1ad134ab925a8c37e9814b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 1667939906093689843, guid: cb9186398e1ad134ab925a8c37e9814b,
         type: 3}

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1012293554007481791}
   - component: {fileID: 17678180223963330}
   - component: {fileID: 3234327436353005917}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseVelocity: 2000
-  marginOnSpawn: 3
+  marginOnSpawn: 0
   explosionForce: 200
   damage: 10
   lifetime: 10

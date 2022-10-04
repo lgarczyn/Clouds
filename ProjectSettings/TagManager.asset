@@ -16,16 +16,16 @@ TagManager:
   - ShadowCaster
   - 
   - 
+  - Player
+  - Enemy
+  - Fauna
+  - Structure
   - 
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - PlayerProjectile
+  - EnemyProjectile
   - 
   - 
   - 

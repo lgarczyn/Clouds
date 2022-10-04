@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5176058318825240299}
   - component: {fileID: 2741165610078263350}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Sound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 1796061414}
   - component: {fileID: 672606877858906812}
   - component: {fileID: 1116978085605933133}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Missile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,11 +237,12 @@ MonoBehaviour:
     TsMin: 0.01
     OutputUpperLimit: 400
   rotateSpeed: 0.2
-  parameterVariation: 2.28
+  parameterVariation: 2.386
   velocityLimitingFactor: 0.625
-  pidPositionAccuracy: 2
+  pidPositionAccuracy: 4
   searchPositionAccuracy: 100
-  aggressivity: 0.332
+  aggressivity: 0.12
+  aggressivityVariation: 0.1
 --- !u!114 &1796061414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,7 +307,7 @@ GameObject:
   - component: {fileID: 5848834044336837780}
   - component: {fileID: 5848834044336837779}
   - component: {fileID: 7885217861617067682}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -510,7 +511,7 @@ GameObject:
   - component: {fileID: 8004188008120832190}
   - component: {fileID: 3375466901747055346}
   - component: {fileID: 2319439471600211593}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: DeathParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}

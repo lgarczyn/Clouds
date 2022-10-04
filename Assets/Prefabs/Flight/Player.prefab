@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 447381979}
   - component: {fileID: 447381978}
   - component: {fileID: 447381977}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WeaponSound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 2108937672}
   - component: {fileID: 2108937674}
   - component: {fileID: 2108937673}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: DamageSound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -323,7 +323,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1896944552801642230}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Trails
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -361,7 +361,7 @@ GameObject:
   - component: {fileID: 7874525223426286455}
   - component: {fileID: 5484187841587137300}
   - component: {fileID: 4732933535814453037}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PlaneSound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -878,7 +878,7 @@ GameObject:
   - component: {fileID: 2007518821913681265}
   - component: {fileID: 6221206421180750022}
   - component: {fileID: 991404009195948057}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: DamageRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1092,7 +1092,7 @@ GameObject:
   - component: {fileID: 6035008019839825102}
   - component: {fileID: 6035008019839824945}
   - component: {fileID: 6035008019839824944}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Reactor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5919,7 +5919,7 @@ GameObject:
   - component: {fileID: 524173971226608436}
   - component: {fileID: 7072623844356161062}
   - component: {fileID: 1703607009082717966}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: DamageLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6092,16 +6092,16 @@ TrailRenderer:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 2313
-      ctime2: 6939
+      ctime1: 1542
+      ctime2: 8867
       ctime3: 39899
       ctime4: 0
       ctime5: 0
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 1157
-      atime2: 5397
+      atime1: 578
+      atime2: 1735
       atime3: 65535
       atime4: 65535
       atime5: 0
@@ -6131,7 +6131,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6035008020490059628}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ReactorParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6163,7 +6163,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6035008020827950591}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: DamageTrails
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6196,7 +6196,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6038797109022958342}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: MouseAim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6230,7 +6230,7 @@ GameObject:
   - component: {fileID: 5933174257901130070}
   - component: {fileID: 6036060620604136941}
   - component: {fileID: 6036060620604136942}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: MouseFlightRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6326,7 +6326,7 @@ GameObject:
   - component: {fileID: 9122838697563822613}
   - component: {fileID: 4050188235921111324}
   - component: {fileID: 1261814290255505339}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6356,7 +6356,7 @@ Transform:
   - {fileID: 447381976}
   - {fileID: 2108937672}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: -2.214, y: -266.362, z: 16.094}
 --- !u!54 &5981469090452608560
 Rigidbody:
@@ -6806,7 +6806,7 @@ GameObject:
   - component: {fileID: 6039020818791634246}
   - component: {fileID: 887867195546299768}
   - component: {fileID: 5951041666436364342}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: TrailLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7008,7 +7008,7 @@ GameObject:
   - component: {fileID: 5919589412527085772}
   - component: {fileID: 5992788081943953050}
   - component: {fileID: 5992107832830449188}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7093,7 +7093,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6039472198707684646}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CamRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7126,7 +7126,7 @@ GameObject:
   - component: {fileID: 6038784857001142148}
   - component: {fileID: 5855307350498054134}
   - component: {fileID: 5951091796808472838}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: TrailRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7328,7 +7328,7 @@ GameObject:
   - component: {fileID: 4270675310365789463}
   - component: {fileID: 1484660987007487167}
   - component: {fileID: 1130751915046151095}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7596,6 +7596,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5fc3212979c3f7044ad1740a8e81f2ed,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 2803197055367320633, guid: 5fc3212979c3f7044ad1740a8e81f2ed,
         type: 3}
       propertyPath: m_LocalRotation.w
@@ -7615,6 +7620,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4832492099466503464, guid: 5fc3212979c3f7044ad1740a8e81f2ed,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8196775832204846754, guid: 5fc3212979c3f7044ad1740a8e81f2ed,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

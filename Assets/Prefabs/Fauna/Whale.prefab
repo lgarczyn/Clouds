@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2474611383118147261}
   - component: {fileID: 7234426693523328220}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone008
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2194582759489689225}
   - component: {fileID: 6272554171285605616}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 279386668125217600}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,7 +136,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3585565657825474922}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone011_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -172,7 +172,7 @@ GameObject:
   - component: {fileID: 2244692077575515890}
   - component: {fileID: 1293406138709091914}
   - component: {fileID: 5235488024385258213}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone011
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -270,7 +270,7 @@ GameObject:
   m_Component:
   - component: {fileID: 818767640954660648}
   - component: {fileID: 1319538200972769759}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -317,7 +317,7 @@ GameObject:
   - component: {fileID: 6056319220243828919}
   - component: {fileID: 2519857945805297275}
   - component: {fileID: 6206137353858246611}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: LOD Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -400,7 +400,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1147437186867709857}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone015
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -433,7 +433,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6136965902292663993}
   - component: {fileID: 8754492758681553082}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone022
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -478,7 +478,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1887893067055707744}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone014_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -510,7 +510,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2448682561660557100}
   - component: {fileID: 2944937209413708121}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone012
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -556,7 +556,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6053907727771855032}
   - component: {fileID: 746407847468164843}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: humpback_whale_lod_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -665,7 +665,7 @@ GameObject:
   m_Component:
   - component: {fileID: 849196974883138775}
   - component: {fileID: 1305619932947890594}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone024
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -711,7 +711,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2756716555574244957}
   - component: {fileID: 1946479562582585157}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -757,7 +757,7 @@ GameObject:
   m_Component:
   - component: {fileID: 294582674349933612}
   - component: {fileID: 3731006240230145279}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone023
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -804,7 +804,7 @@ GameObject:
   - component: {fileID: 5003807127189959831}
   - component: {fileID: 8687987602259817755}
   - component: {fileID: 8352396954657840250}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone014
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -862,7 +862,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4743235515445516471}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone020
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -895,7 +895,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7391271259553232477}
   - component: {fileID: 7011018146858988310}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: humpback_whale_lod_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1004,7 +1004,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2634453484674039358}
   - component: {fileID: 4831483694346779670}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone019
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1049,7 +1049,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2049860887493272803}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone019_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1081,7 +1081,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2933119580803600550}
   - component: {fileID: 4851080966469542963}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1127,7 +1127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8823090476641080941}
   - component: {fileID: 1421072738595018400}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone018
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1173,7 +1173,7 @@ GameObject:
   m_Component:
   - component: {fileID: 362044087050918754}
   - component: {fileID: 8953418354854291502}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone017
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1219,7 +1219,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8458579417396824040}
   - component: {fileID: 5056394518086189237}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone016
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1264,7 +1264,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 111773082374510004}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone024_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1296,7 +1296,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8436365850574200589}
   - component: {fileID: 6097084674533715286}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone010
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1342,7 +1342,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5050699996789004917}
   - component: {fileID: 9158504758197380076}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1389,7 +1389,7 @@ GameObject:
   - component: {fileID: 7279520872201385020}
   - component: {fileID: 7279520872201385022}
   - component: {fileID: 7279520872201385023}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Whale
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1410,7 +1410,7 @@ Transform:
   m_Children:
   - {fileID: 6056319220243828919}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7279520872201385022
 MonoBehaviour:
@@ -1468,7 +1468,7 @@ GameObject:
   m_Component:
   - component: {fileID: 534827861317140877}
   - component: {fileID: 5947414431321796980}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone009
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1514,7 +1514,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6568803486966073349}
   - component: {fileID: 5166181770224760922}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone021
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1561,7 +1561,7 @@ GameObject:
   - component: {fileID: 7759145911380618678}
   - component: {fileID: 5274267220027231794}
   - component: {fileID: 3375640085062432648}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone013
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1620,7 +1620,7 @@ GameObject:
   m_Component:
   - component: {fileID: 465622059274280245}
   - component: {fileID: 2715531968784369096}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: humpback_whale_lod_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1730,7 +1730,7 @@ GameObject:
   - component: {fileID: 2980539714590328956}
   - component: {fileID: 531658941249962255}
   - component: {fileID: 5760547022207749841}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Bone005
   m_TagString: Untagged
   m_Icon: {fileID: 0}

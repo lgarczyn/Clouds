@@ -27,6 +27,9 @@ public class Missile : MonoBehaviour
   [Range(-1, 1)]
   public float aggressivity = 0f;
 
+  [Range(0, 1)]
+  public float aggressivityVariation = 0f;
+
   private Vector3 lastTargetPosition;
 
   private float angularVelocity = 0;
@@ -43,6 +46,10 @@ public class Missile : MonoBehaviour
     controller.Ki *= GetRandomVariation();
     controller.Kd *= GetRandomVariation();
     controller.N *= GetRandomVariation();
+    velocityLimitingFactor *= GetRandomVariation();
+
+    aggressivity += Random.Range(-aggressivityVariation, -aggressivityVariation);
+
     transform.position += Random.insideUnitSphere * 100;
   }
 
@@ -87,12 +94,7 @@ public class Missile : MonoBehaviour
     {
       Quaternion target = Quaternion.LookRotation(r.velocity);
 
-      r.rotation = r.rotation.SmoothDampSimple(
-        target,
-        ref angularVelocity,
-        rotateSpeed,
-        float.PositiveInfinity,
-        Time.fixedDeltaTime);
+      r.rotation = Quaternion.Slerp(r.rotation, target, rotateSpeed * Time.fixedDeltaTime);
     }
   }
 }
