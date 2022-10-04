@@ -47,7 +47,7 @@ public class CollisionDamageController : MonoBehaviour
     if (average.thisCollider.TryGetComponent<IDamageReceiver>(out receiver))
       return receiver;
 
-    if (collision.gameObject.TryGetComponent<IDamageReceiver>(out receiver))
+    if (TryGetComponent<IDamageReceiver>(out receiver))
       return receiver;
 
     return null;
