@@ -5608,6 +5608,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0811ac4badb823741ababcb74cddfe65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parent: {fileID: 0}
+  parent: {fileID: 5848834044144880814}
   distance: 1000
   duration: 5
