@@ -237,4 +237,9 @@ public class CloudMaster : MonoBehaviour
   {
     isMaterialDirty = true;
   }
+
+  public void ForceUpdate()
+  {
+    isMaterialDirty = true;
+  }
 }

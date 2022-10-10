@@ -2005,6 +2005,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1639703492624825203, guid: 21387b72cd40f334f87f61aded6dd53b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1643695957265506997, guid: 21387b72cd40f334f87f61aded6dd53b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1643762664099840543, guid: 21387b72cd40f334f87f61aded6dd53b,
         type: 3}
       propertyPath: mouseFlight
@@ -5158,6 +5168,7 @@ MonoBehaviour:
   outOfBoundMinLightAltitude: 2841
   outOfBoundMaxLightAltitude: 12698
   material: {fileID: 2100000, guid: feb5506ac90b28945a87d742b2d386f0, type: 2}
+  isMaterialDirty: 1
 --- !u!114 &1331973714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9484,6 +9495,11 @@ PrefabInstance:
       propertyPath: shieldChange.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1097051208}
+    - target: {fileID: 6036350815579256825, guid: 8580f51aba7053a4286c3ec8810a585e,
+        type: 3}
+      propertyPath: canDie
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6036350815579256825, guid: 8580f51aba7053a4286c3ec8810a585e,
         type: 3}
       propertyPath: toDisable.Array.size
