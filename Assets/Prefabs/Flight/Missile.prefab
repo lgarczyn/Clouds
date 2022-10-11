@@ -574,6 +574,7 @@ GameObject:
   - component: {fileID: 8004188008120832190}
   - component: {fileID: 3375466901747055346}
   - component: {fileID: 2319439471600211593}
+  - component: {fileID: 8660095809795766161}
   m_Layer: 12
   m_Name: DeathParticles
   m_TagString: Untagged
@@ -5550,6 +5551,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8660095809795766161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7196742549106047852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ff811a18802013409a800abcb705162, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: 10000
 --- !u!1 &8763727889787573699
 GameObject:
   m_ObjectHideFlags: 0
