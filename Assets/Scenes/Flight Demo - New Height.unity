@@ -2008,12 +2008,12 @@ PrefabInstance:
     - target: {fileID: 1639703492624825203, guid: 21387b72cd40f334f87f61aded6dd53b,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1643695957265506997, guid: 21387b72cd40f334f87f61aded6dd53b,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1643762664099840543, guid: 21387b72cd40f334f87f61aded6dd53b,
         type: 3}
@@ -5168,7 +5168,6 @@ MonoBehaviour:
   outOfBoundMinLightAltitude: 2841
   outOfBoundMaxLightAltitude: 12698
   material: {fileID: 2100000, guid: feb5506ac90b28945a87d742b2d386f0, type: 2}
-  isMaterialDirty: 1
 --- !u!114 &1331973714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5600,7 +5599,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1452681682}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
