@@ -56,6 +56,10 @@ ExportedObj/
 # Unity3D generated file on crash reports
 sysinfo.txt
 
+# Blender autosave files
+*.blend1
+*.blend1.meta
+
 # Builds
 *.apk
 *.unitypackage
