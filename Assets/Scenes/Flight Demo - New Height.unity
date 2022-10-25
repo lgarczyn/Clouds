@@ -5388,7 +5388,7 @@ MonoBehaviour:
   scale0: 0.19
   weight0: -4.57
   timeScale: 3
-  windDirection: {x: 1, y: 0.1, z: 0.3}
+  windDirection: {x: 1, y: -0.41, z: 0.3}
   speed3: 0.01
   speed2: 0.02
   speed1: 0.18
