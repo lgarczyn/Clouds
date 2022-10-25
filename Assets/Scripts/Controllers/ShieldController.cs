@@ -23,7 +23,7 @@ public class ShieldController : MonoBehaviour, IDamageReceiver
     }
   }
 
-  new public Collider collider
+  public Collider shieldCollider
   {
     get
     {
@@ -54,7 +54,7 @@ public class ShieldController : MonoBehaviour, IDamageReceiver
 
     // If not enough shield, break the shield
     plane.TrySpendShield(plane.shield);
-    collider.enabled = false;
+    shieldCollider.enabled = false;
     meshRenderer.enabled = false;
     return 0;
   }
@@ -63,7 +63,7 @@ public class ShieldController : MonoBehaviour, IDamageReceiver
   {
     if (plane.shield > 0)
     {
-      collider.enabled = true;
+      shieldCollider.enabled = true;
     }
   }
 
