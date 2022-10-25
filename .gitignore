@@ -66,3 +66,7 @@ crashlytics-build.properties
 # Unity Editor Packages
 ReferenceExplorer/
 ReferenceExplorer.meta
+
+# ECS Scene Cache
+/Assets/SceneDependencyCache
+/Assets/SceneDependencyCache.meta
