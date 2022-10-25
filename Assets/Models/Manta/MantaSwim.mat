@@ -40,13 +40,13 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _HorizontalStrength: 1.2
-    - _NoiseFrequency: 1
+    - _HorizontalStrength: 1
+    - _NoiseFrequency: 0.684
     - _Power: 1.35
     - _QueueControl: 0
     - _Scale: 0.23
-    - _SpeedX: -0.43
+    - _SpeedX: 10
     - _SpeedY: 0.32
-    - _Strength: 4.8
+    - _Strength: 5.55
     m_Colors: []
   m_BuildTextureStacks: []
