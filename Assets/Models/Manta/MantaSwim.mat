@@ -48,5 +48,6 @@ Material:
     - _SpeedX: 10
     - _SpeedY: 0.32
     - _Strength: 5.55
+    - _TimeFrequency: 2
     m_Colors: []
   m_BuildTextureStacks: []
