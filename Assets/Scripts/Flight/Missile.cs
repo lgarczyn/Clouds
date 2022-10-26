@@ -107,9 +107,7 @@ public class Missile : MonoBehaviour
 
     if (r.velocity.sqrMagnitude > 0f)
     {
-      Quaternion target = Quaternion.LookRotation(r.velocity);
-
-      r.rotation = Quaternion.Slerp(r.rotation, target, rotateSpeed * Time.fixedDeltaTime);
+      r.rotation = Quaternion.LookRotation(r.velocity, r.rotation * Vector3.up);
     }
   }
 }
