@@ -97,8 +97,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CellRadius: 1
-  SeparationWeight: 3
-  AlignmentWeight: 2
+  SeparationWeight: 8
+  AlignmentWeight: 3
   TargetWeight: 1
   ObstacleAversionDistance: 100
-  MoveSpeed: 76.1
+  MoveSpeed: 75
