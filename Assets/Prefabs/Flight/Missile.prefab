@@ -345,7 +345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 053b8bddedf6b924ea6c2fe4b9f83032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rps: 30
+  rps: 10
   spread: 0.05
   bulletPrefab: {fileID: 6204923746252972408, guid: 4833ca5852f63ea419b4f260acc95aaa,
     type: 3}
