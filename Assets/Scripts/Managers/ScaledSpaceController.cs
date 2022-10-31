@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Offers a transform from real-scale Jupiter space to Unity scaled space
 /// </summary>
-public class ScaledSpaceController : MonoBehaviour
+public class ScaledSpaceController : Manager<ScaledSpaceController>
 {
   public FrameOfReference frame;
 

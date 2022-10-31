@@ -2,11 +2,9 @@ using UnityEngine;
 using System.Linq;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(TargetManagerBridge))]
 public class Missile : MonoBehaviour
 {
-  [Header("Components")]
-  [SerializeField] private Target target = null;
-
   [Header("Physics")]
   [SerializeField] private PIDController3D controller;
 
@@ -72,6 +70,9 @@ public class Missile : MonoBehaviour
   private void FixedUpdate()
   {
     Rigidbody r = GetComponent<Rigidbody>();
+
+    // Get the plane target
+    Target target = GetComponent<TargetManagerBridge>().instance.GetTarget();
 
     float accuracy;
     Vector3 targetPos;

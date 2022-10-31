@@ -1,21 +1,16 @@
 ﻿using UnityEngine;
 
-public abstract class ResourceCalculator : MonoBehaviour
-{
-  public abstract float GetLight();
-  public abstract float GetDensity();
-}
-
+[RequireComponent(typeof(ResourceCalculatorBridge))]
 public class PlaneResourceController : MonoBehaviour
 {
   public PlaneEntity plane;
-  public ResourceCalculator resourceCalculator;
-
   public PlaneDeathController deathController;
   public AnimationCurve energyVsDensity;
 
   void FixedUpdate()
   {
+    var resourceCalculator = GetComponent<ResourceCalculatorBridge>().instance;
+
     float light = resourceCalculator.GetLight();
     float density = resourceCalculator.GetDensity();
 

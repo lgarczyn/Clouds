@@ -23,6 +23,10 @@ public class TogglePlayMode : MonoBehaviour
       bool playing = Time.timeScale != 0f;
       SetPlaying(!playing);
     }
+    if (Input.GetKeyDown(KeyCode.U))
+    {
+      Screen.fullScreen = !Screen.fullScreen;
+    }
     if (Input.GetKeyDown(KeyCode.O))
     {
       SetPlaying(true);

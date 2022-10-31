@@ -3,6 +3,7 @@
 public class ResourceBar : MonoBehaviour
 {
   public RectTransform indicator;
+  public RectTransform bar;
 
   [Range(0.1f, 0.99f)]
   public float floatingAverageReactivity = 0.8f;
@@ -13,9 +14,7 @@ public class ResourceBar : MonoBehaviour
   public void SetValue(float value)
   {
     currentValue = Mathf.Clamp01(value / 100);
-    RectTransform bar = GetComponent<RectTransform>();
-
-    bar.sizeDelta = new Vector2(bar.sizeDelta.x, Mathf.Round(100 * currentValue));
+    bar.anchorMax = new Vector2(1, currentValue);
   }
 
   void FixedUpdate()

@@ -1,12 +1,12 @@
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerManagerBridge))]
 public class CloudMaster : MonoBehaviour
 {
   const string headerDecoration = " --- ";
   [Header(headerDecoration + "Main" + headerDecoration)]
   public Shader shader;
   public Transform container;
-  public Transform player;
   public Vector4 testParams;
   public Color testColor;
 
@@ -129,6 +129,8 @@ public class CloudMaster : MonoBehaviour
     material.SetColor("testColor", testColor);
     Vector3 boundsMin = container.position - container.localScale / 2;
     Vector3 boundsMax = container.position + container.localScale / 2;
+
+    var player = GetComponent<PlayerManagerBridge>().instance.playerTransform;
 
     material.SetVector("boundsMin", boundsMin);
     material.SetVector("boundsMax", boundsMax);

@@ -1,10 +1,9 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(PlayerManagerBridge))]
 public class FaunaController : MonoBehaviour
 {
-  public Transform player;
-
   public Animation[] animations;
 
   public Transform model;
@@ -49,6 +48,8 @@ public class FaunaController : MonoBehaviour
 
   void SetRandomPos()
   {
+    Transform player = GetComponent<PlayerManagerBridge>().transform;
+
     Vector3 playerPos = player.position;
 
     Vector3 randomPos = Random.onUnitSphere;
@@ -80,6 +81,8 @@ public class FaunaController : MonoBehaviour
 
   bool ShouldRepop()
   {
+    Transform player = GetComponent<PlayerManagerBridge>().transform;
+
     Rigidbody rigidbody = GetComponent<Rigidbody>();
 
     Vector2 playerPos = new Vector2(player.position.x, player.position.z);

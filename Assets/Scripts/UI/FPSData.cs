@@ -4,13 +4,11 @@ using System.Linq;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Text))]
+[RequireComponent(typeof(GForceCalculatorBridge))]
 public class FPSData : MonoBehaviour
 {
-
   public float overheadScore = 2;
   public bool reset;
-
-  public GForceCalculator gForceCalculator;
 
   private bool firstFrame;
   SortedDictionary<int, int> frameTimes;
@@ -103,6 +101,7 @@ public class FPSData : MonoBehaviour
       {
         text += "\nvelocity: " + Mathf.Round(r.velocity.magnitude);
       }
+      var gForceCalculator = GetComponent<GForceCalculatorBridge>().instance;
       if (gForceCalculator)
       {
         text += "\ngforce: " + Mathf.Round(gForceCalculator.GetGForce() * 10) / 10;

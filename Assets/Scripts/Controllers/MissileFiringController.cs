@@ -14,8 +14,6 @@ public class MissileFiringController : MonoBehaviour
   [HideInInspector]
   float reloadTime = 0;
 
-  public Target target;
-
   void Start()
   {
     reloadTime = 0;
@@ -29,6 +27,9 @@ public class MissileFiringController : MonoBehaviour
     if (reloadTime > 0f) return;
 
     Rigidbody r = GetComponent<Rigidbody>();
+
+    // Get the plane target
+    Target target = GetComponent<TargetManagerBridge>().instance.GetTarget();
 
     if (target.IsVisible(r.position) == false) return;
 

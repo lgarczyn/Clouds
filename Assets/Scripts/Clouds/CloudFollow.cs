@@ -1,8 +1,8 @@
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerManagerBridge))]
 public class CloudFollow : MonoBehaviour
 {
-  public Transform player;
   public bool increaseOnPlay = true;
 
   void Start()
@@ -20,11 +20,10 @@ public class CloudFollow : MonoBehaviour
 
   void LateUpdate()
   {
-    if (player)
-    {
-      Vector3 playerPos = player.position;
-      playerPos.y = 0;
-      transform.position = playerPos;
-    }
+    var player = GetComponent<PlayerManagerBridge>().instance.transform;
+
+    Vector3 playerPos = player.position;
+    playerPos.y = 0;
+    transform.position = playerPos;
   }
 }

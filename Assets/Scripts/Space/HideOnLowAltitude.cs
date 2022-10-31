@@ -1,15 +1,15 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Renderer))]
+[RequireComponent(typeof(LocalSpaceControllerBridge))]
 public class HideOnLowAltitude : MonoBehaviour
 {
-  public LocalSpaceController localSpace;
   public double minHeight;
 
   // Update is called once per frame
   void Update()
   {
-    if (localSpace == null) return;
+    var localSpace = GetComponent<LocalSpaceControllerBridge>().instance;
     GetComponent<Renderer>().enabled = localSpace.altitude > minHeight;
   }
 }

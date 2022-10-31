@@ -5,13 +5,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 2
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: cb9186398e1ad134ab925a8c37e9814b,
         type: 3}
       propertyPath: m_RootOrder
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cb9186398e1ad134ab925a8c37e9814b,
         type: 3}
@@ -174,7 +174,29 @@ PrefabInstance:
       value: 4.4176226
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cb9186398e1ad134ab925a8c37e9814b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7231017899706440619}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cb9186398e1ad134ab925a8c37e9814b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4702286544907547972}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cb9186398e1ad134ab925a8c37e9814b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9156106109011105248}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cb9186398e1ad134ab925a8c37e9814b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5795045825599229421}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cb9186398e1ad134ab925a8c37e9814b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8922251555843113906}
   m_SourcePrefab: {fileID: 100100000, guid: cb9186398e1ad134ab925a8c37e9814b, type: 3}
 --- !u!137 &5820849756495170691 stripped
 SkinnedMeshRenderer:
@@ -207,10 +229,21 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7840394179535251747}
-  serializedVersion: 2
+  serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
@@ -272,7 +305,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3011eeb95c1af34687a52432a00ccd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   animations:
   - {fileID: 9156106109011105248}
   model: {fileID: 7459505091457676185}
@@ -282,6 +314,18 @@ MonoBehaviour:
   scaleRatioRange: 4
   scaleBase: 1
   animationSpeedBase: 1
+--- !u!114 &8922251555843113906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7840394179535251747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2c3ac4f52803eb41ab4c56cbae3ca28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!137 &8586802802231721857 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 1667939906093689843, guid: cb9186398e1ad134ab925a8c37e9814b,

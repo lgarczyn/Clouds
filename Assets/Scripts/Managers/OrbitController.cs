@@ -4,7 +4,7 @@ using UnityEngine;
 /// Provides and updates the transform allowing to move from solar system space to local space
 /// Has a timescale allowing changes in seasons
 /// </summary>
-public class OrbitController : MonoBehaviour
+public class OrbitController : Manager<OrbitController>
 {
   public JupiterSpace frame;
 

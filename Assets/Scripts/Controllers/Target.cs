@@ -1,9 +1,9 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(ResourceCalculatorBridge))]
 public class Target : MonoBehaviour
 {
-  public ResourceCalculator resourceCalculator;
   public float invisibilityThreshold = 5f;
 
   public bool forceInvisibility = false;
@@ -12,6 +12,7 @@ public class Target : MonoBehaviour
 
   void Update()
   {
+    var resourceCalculator = GetComponent<ResourceCalculatorBridge>().instance;
     isVisible = resourceCalculator.GetDensity() < invisibilityThreshold;
   }
 

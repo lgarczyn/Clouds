@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class GForceCalculator : MonoBehaviour
+public class GForceCalculator : Manager<GForceCalculator>
 {
   float gForce;
 
