@@ -50,12 +50,17 @@ public class ShieldController : MonoBehaviour, IDamageReceiver
 
     // Spend a damage amount of shield
     if (plane.TrySpendShield(info.damage))
-      return plane.shield;
+    {
+      if (plane.shield < 10f) WarningManager.instance.SendWarning(WarningType.LowShield);
 
+      return plane.shield;
+    }
     // If not enough shield, break the shield
     plane.TrySpendShield(plane.shield);
     shieldCollider.enabled = false;
     meshRenderer.enabled = false;
+
+    if (plane.shield < 10f) WarningManager.instance.SendWarning(WarningType.BrokenShield);
     return 0;
   }
 

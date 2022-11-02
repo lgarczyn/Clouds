@@ -17,10 +17,15 @@ public class PlaneRepairController : MonoBehaviour
   {
     timeSinceLastDamage += Time.fixedDeltaTime;
 
-    if (timeSinceLastDamage > delayBeforeHeal)
+    if (timeSinceLastDamage > delayBeforeHeal && !plane.shieldFull)
     {
       float repairs = repairPerSecond * Time.fixedDeltaTime;
       plane.RefuelShield(repairs);
+
+      if (plane.shieldFull)
+        WarningManager.instance.SendWarning(WarningType.FullShield);
+      else
+        WarningManager.instance.SendWarning(WarningType.RegeneratingShield);
     }
   }
 }

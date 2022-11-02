@@ -12,6 +12,14 @@ public class PlaneEntity : MonoBehaviour, IDamageReceiver
   public float energy = 30;
   public float shield = 30;
 
+  public bool shieldFull
+  {
+    get
+    {
+      return shield >= maxShield;
+    }
+  }
+
   public UnityEvent onDeath;
   public UnityEvent<float> healthChange;
   public UnityEvent<float> energyChange;

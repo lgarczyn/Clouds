@@ -36,6 +36,10 @@ public class PlaneThrustController : MonoBehaviour
       {
         multiplier = Mathf.Max(multiplier, boostMultiplier);
       }
+      else
+      {
+        WarningManager.instance.SendWarning(WarningType.LowBoost);
+      }
     }
 
     plane.thrust = baseThrust * multiplier;

@@ -42,6 +42,8 @@ public class MissileFiringController : MonoBehaviour
 
     if (Vector3.Angle(dir, r.rotation * Vector3.forward) > fireCone) return;
 
+    WarningManager.instance.SendWarning(WarningType.EnemyLock);
+
     Vector3 actualDir = (dir + Random.insideUnitSphere * spread).normalized;
 
     var bulletGO = GameObject.Instantiate(bulletPrefab.gameObject,

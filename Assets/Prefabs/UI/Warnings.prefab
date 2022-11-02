@@ -83,7 +83,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.1
-  m_Text: 
+  m_Text: TEST WARNING PLEASE IGNORE
 --- !u!114 &2169290647984943344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,24 +172,30 @@ MonoBehaviour:
       elementIcon: {fileID: 0}
     reqReferences: {fileID: 0}
     isExpanded: 1
-    _keyValues: 0000000001000000020000000300000004000000
-    _keys: 0000000001000000020000000300000004000000
+    _keyValues: 00000000010000000500000006000000020000000300000004000000
+    _keys: 00000000010000000500000006000000020000000300000004000000
     _values:
     - level: 2
-      timeout: 1
-      message: 'DANGER: ENEMY LOCK'
+      timeout: 0.5
+      message: 'DANGER: ENEMY LOCK. EVADE'
     - level: 1
       timeout: 1
-      message: 'WARNING: SHIELD CRITICAL'
-    - level: 2
+      message: 'WARNING: SHIELD CRITICAL. EVADE'
+    - level: 0
       timeout: 1
+      message: SHIELD REGENERATING
+    - level: 0
+      timeout: 3
+      message: SHIELD FULL
+    - level: 2
+      timeout: 3
       message: 'DANGER: SHIELD DOWN'
     - level: 2
-      timeout: 1
+      timeout: 10
       message: 'DANGER: HULL CRITICAL'
     - level: 0
       timeout: 1
-      message: LOW FUEL
+      message: LOW BOOSTER FUEL
 --- !u!114 &2169290647984943345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,7 +215,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2169290647984943356}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74a10759c7202ae4bbfedf68a4149d5d, type: 3}
   m_Name: 
@@ -228,6 +234,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 1, y: 1}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 0.5, y: 0}
   m_UseGraphicAlpha: 1

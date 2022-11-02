@@ -12,6 +12,8 @@ public enum WarningType
   BrokenShield,
   LowHealth,
   LowBoost,
+  RegeneratingShield,
+  FullShield,
 }
 
 [System.Serializable]

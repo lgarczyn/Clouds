@@ -6346,6 +6346,7 @@ GameObject:
   - component: {fileID: 3660404017334352442}
   - component: {fileID: 602097515254194114}
   - component: {fileID: 6161227608572021247}
+  - component: {fileID: 3644276042266068141}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -6490,6 +6491,18 @@ MonoBehaviour:
       - m_Target: {fileID: 6161227608572021247}
         m_TargetAssemblyTypeName: ResourceBarManagerBridge, Assembly-CSharp
         m_MethodName: SetHealth
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3644276042266068141}
+        m_TargetAssemblyTypeName: PlaneDamageWarning, Assembly-CSharp
+        m_MethodName: OnHealthChange
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6845,6 +6858,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92309072de87b1146b046d7199291956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3644276042266068141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6036350815579256820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dab2fef5af031ae43bec0c1f29986b1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6036508552637036764
