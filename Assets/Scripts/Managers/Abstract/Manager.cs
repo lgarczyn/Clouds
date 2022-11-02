@@ -26,7 +26,7 @@ where T : class, IManager<T>
     }
   }
 
-  void Awake()
+  protected virtual void Awake()
   {
     if (realInstance != null) Debug.LogError("Duplicate Manager: " + typeof(T));
     realInstance = this as IManager<T>;

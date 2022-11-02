@@ -9,8 +9,9 @@ public class ScaledSpaceController : Manager<ScaledSpaceController>
 
   public const double SPACE_SCALE = 50 / JupiterSpace.JUPITER_RADIUS;
 
-  void Awake()
+  protected override void Awake()
   {
+    base.Awake();
     frame = new FrameOfReference(new TransformD(
         Vector3D.zero,
         QuaternionD.identity,

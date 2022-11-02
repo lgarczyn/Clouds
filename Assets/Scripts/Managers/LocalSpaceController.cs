@@ -25,8 +25,9 @@ public class LocalSpaceController : Manager<LocalSpaceController>
     UpdatePos();
   }
 
-  void Awake()
+  protected override void Awake()
   {
+    base.Awake();
     UpdatePos();
   }
 

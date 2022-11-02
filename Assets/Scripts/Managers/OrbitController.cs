@@ -10,8 +10,9 @@ public class OrbitController : Manager<OrbitController>
 
   public double timeScale = 1;
 
-  void Awake()
+  protected override void Awake()
   {
+    base.Awake();
     frame = new JupiterSpace();
     frame.UpdatePos(0);
   }
