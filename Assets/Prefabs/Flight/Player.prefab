@@ -6487,7 +6487,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6161227608572021247}
         m_TargetAssemblyTypeName: ResourceBarManagerBridge, Assembly-CSharp
         m_MethodName: SetHealth
         m_Mode: 0
@@ -6502,7 +6502,7 @@ MonoBehaviour:
   energyChange:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6161227608572021247}
         m_TargetAssemblyTypeName: ResourceBarManagerBridge, Assembly-CSharp
         m_MethodName: SetEnergy
         m_Mode: 0
@@ -6517,7 +6517,7 @@ MonoBehaviour:
   shieldChange:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6161227608572021247}
         m_TargetAssemblyTypeName: ResourceBarManagerBridge, Assembly-CSharp
         m_MethodName: SetShield
         m_Mode: 0
