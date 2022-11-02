@@ -52,7 +52,6 @@ public class Missile : MonoBehaviour
     controller.Ki *= GetRandomVariation();
     controller.Kd *= GetRandomVariation();
     controller.N *= GetRandomVariation();
-    velocityLimitingFactor *= GetRandomVariation();
 
     aggressivity += Random.Range(-aggressivityVariation, -aggressivityVariation);
 
