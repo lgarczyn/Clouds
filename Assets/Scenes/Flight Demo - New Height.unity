@@ -7650,54 +7650,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 706094439}
     m_Modifications:
-    - target: {fileID: 80757372217164043, guid: 06a8f8ea7c721fa46b6fb597ad1dc4a6,
-        type: 3}
-      propertyPath: m_text
-      value: 'Aim with mouse to control plane
-
-        Left Click to shoot at enemies
-
-        Press
-        Shift to boost
-
-        Press C to look around
-
-        Press H to toggle
-        this window
-
-
-        Flying near clouds is faster and recharges your boost
-
-        Enemies
-        can''t see you inside clouds'
-      objectReference: {fileID: 0}
-    - target: {fileID: 80757372217164043, guid: 06a8f8ea7c721fa46b6fb597ad1dc4a6,
-        type: 3}
-      propertyPath: m_fontSize
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 80757372217164043, guid: 06a8f8ea7c721fa46b6fb597ad1dc4a6,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: b348209ded008914daacfea5ef42f5d4,
-        type: 2}
-    - target: {fileID: 80757372217164043, guid: 06a8f8ea7c721fa46b6fb597ad1dc4a6,
-        type: 3}
-      propertyPath: m_fontStyle
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 80757372217164043, guid: 06a8f8ea7c721fa46b6fb597ad1dc4a6,
-        type: 3}
-      propertyPath: m_fontSizeBase
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 80757372217164043, guid: 06a8f8ea7c721fa46b6fb597ad1dc4a6,
-        type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 8984051719782638551, guid: b348209ded008914daacfea5ef42f5d4,
-        type: 2}
     - target: {fileID: 3745256318339078645, guid: 06a8f8ea7c721fa46b6fb597ad1dc4a6,
         type: 3}
       propertyPath: m_Pivot.x
