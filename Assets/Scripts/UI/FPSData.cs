@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using UnityEngine.UI;
+using Text = TMPro.TextMeshProUGUI;
 
 [RequireComponent(typeof(Text))]
 [RequireComponent(typeof(GForceCalculatorBridge))]

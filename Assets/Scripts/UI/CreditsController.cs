@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Text = TMPro.TextMeshProUGUI;
 
 [RequireComponent(typeof(Text))]
 public class CreditsController : MonoBehaviour

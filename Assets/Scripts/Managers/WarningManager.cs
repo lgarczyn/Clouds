@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using RotaryHeart.Lib.SerializableDictionary;
 using System.Linq;
+using Text = TMPro.TextMeshProUGUI;
 
 [System.Serializable]
 public enum WarningType
