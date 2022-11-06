@@ -10,7 +10,7 @@ MonoImporter:
   - mouseAim: {instanceID: 0}
   - cameraRig: {instanceID: 0}
   - cam: {instanceID: 0}
-  executionOrder: 0
+  executionOrder: -120
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 
