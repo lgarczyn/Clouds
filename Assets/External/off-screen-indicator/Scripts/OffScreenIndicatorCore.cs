@@ -82,5 +82,34 @@ namespace PixelPlay.OffScreenIndicator
             // Bring the ScreenPosition back to its original reference.
             screenPosition += screenCentre;
         }
+
+        /// <summary>
+        /// Gets the screen position and angle for the arrow indicator. 
+        /// </summary>
+        /// <param name="screenPosition">Position of the target mapped to screen cordinates</param>
+        /// <param name="angle">Angle of the arrow</param>
+        /// <param name="screenCentre">The screen  centre</param>
+        /// <param name="screenBounds">The screen bounds</param>
+        public static void GetCenteredIndicatorPositionAndAngle(ref Vector3 screenPosition, ref float angle, Vector3 screenCentre, float distanceFromCentre)
+        {
+            // Our screenPosition's origin is screen's bottom-left corner.
+            // But we have to get the arrow's screenPosition and rotation with respect to screenCentre.
+            screenPosition -= screenCentre;
+
+            // When the targets are behind the camera their projections on the screen (WorldToScreenPoint) are inverted,
+            // so just invert them.
+            if(screenPosition.z < 0)
+            {
+                screenPosition *= -1;
+            }
+
+            // Angle between the x-axis (bottom of screen) and a vector starting at zero(bottom-left corner of screen) and terminating at screenPosition.
+            angle = Mathf.Atan2(screenPosition.y, screenPosition.x);
+
+            screenPosition = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0) * distanceFromCentre;
+
+            // Bring the ScreenPosition back to its original reference.
+            screenPosition += screenCentre;
+        }
     }
 }

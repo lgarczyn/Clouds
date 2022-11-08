@@ -18,6 +18,9 @@ public class Target : MonoBehaviour
     [Tooltip("Select if arrow indicator is required for this target")]
     [SerializeField] private bool needArrowIndicator = true;
 
+    [Tooltip("Select if arrows should be replaced by a centered reticule")]
+    [SerializeField] private bool useCenteredIndicator = false;
+
     [Tooltip("Select if distance text is required for this target")]
     [SerializeField] private bool needDistanceText = true;
     
@@ -85,6 +88,17 @@ public class Target : MonoBehaviour
         get
         {
             return needArrowIndicator;
+        }
+    }
+
+    /// <summary>
+    /// Gets if arrows should be replaced by a centered reticule
+    /// </summary>
+    public bool UseCenteredIndicator
+    {
+        get
+        {
+            return useCenteredIndicator;
         }
     }
 

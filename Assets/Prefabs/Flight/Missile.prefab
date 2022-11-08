@@ -47,6 +47,7 @@ MonoBehaviour:
   targetColor: {r: 0, g: 0, b: 0, a: 1}
   needBoxIndicator: 1
   needArrowIndicator: 1
+  useCenteredIndicator: 0
   needDistanceText: 1
   maxDistance: 1000
   minDistance: 1
@@ -55,7 +56,7 @@ MonoBehaviour:
   hideTextOutsideRange: 1
   scaleIndicatorWithDistance: 1
   scaleTextWithDistance: 1
-  closeScale: 12
+  closeScale: 2
   farScale: 0.2
   indicator: {fileID: 0}
 --- !u!1 &2478968816531492529
@@ -205,6 +206,65 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &3693635015490087849
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8589851271945448261}
+  - component: {fileID: 4158386488925470410}
+  m_Layer: 12
+  m_Name: WarningTargetIndicator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8589851271945448261
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693635015490087849}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.303}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5848834044144880813}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4158386488925470410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693635015490087849}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5dd462da48ed9b49a885f1a9cf94fe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 1, g: 0, b: 0, a: 1}
+  needBoxIndicator: 0
+  needArrowIndicator: 1
+  useCenteredIndicator: 1
+  needDistanceText: 1
+  maxDistance: 100
+  minDistance: 0.01
+  hideArrowOutsideRange: 1
+  hideBoxOutsideRange: 1
+  hideTextOutsideRange: 1
+  scaleIndicatorWithDistance: 0
+  scaleTextWithDistance: 0
+  closeScale: 2
+  farScale: 1
+  indicator: {fileID: 0}
 --- !u!1 &4837423325513179163
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,6 +350,7 @@ GameObject:
   - component: {fileID: 672606877858906812}
   - component: {fileID: 1116978085605933133}
   - component: {fileID: 7023741625907279531}
+  - component: {fileID: 3013303937769433968}
   m_Layer: 12
   m_Name: Missile
   m_TagString: Untagged
@@ -315,6 +376,7 @@ Transform:
   - {fileID: 1249791488271300029}
   - {fileID: 7360135499762178468}
   - {fileID: 805775969911030770}
+  - {fileID: 8589851271945448261}
   m_Father: {fileID: 0}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -411,7 +473,36 @@ MonoBehaviour:
   bulletSpeed: 1000
   fireCone: 10
   range: 100
-  reloadTime: 0
+  onLockChange:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4158386488925470410}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onLock:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3013303937769433968}
+        m_TargetAssemblyTypeName: WarningManagerBridge, Assembly-CSharp
+        m_MethodName: WarnEnemyLock
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &672606877858906812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -452,7 +543,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 5655265553023631805}
+      - m_Target: {fileID: 5848834044144880814}
         m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
         m_MethodName: set_enabled
         m_Mode: 6
@@ -464,7 +555,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 5848834044144880814}
+      - m_Target: {fileID: 5655265553023631805}
         m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
         m_MethodName: set_enabled
         m_Mode: 6
@@ -500,6 +591,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f03919e90a584e47956c66185ee4a5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3013303937769433968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5848834044144880812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9a99ab619ecf4b4aab646ac1fcbbfb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5848834044336837777

@@ -1,6 +1,8 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(TargetManagerBridge))]
 public class MissileFiringController : MonoBehaviour
 {
   public float rps = 10;
@@ -10,9 +12,11 @@ public class MissileFiringController : MonoBehaviour
   public float fireCone = 90f;
   public float range = 100f;
 
-  [SerializeField]
-  [HideInInspector]
   float reloadTime = 0;
+  bool lockedLastFrame = false;
+
+  public UnityEvent<bool> onLockChange;
+  public UnityEvent onLock;
 
   void Start()
   {
@@ -21,28 +25,37 @@ public class MissileFiringController : MonoBehaviour
 
   void FixedUpdate()
   {
+    bool lockSuccessful = TryLock();
+
+    if (lockedLastFrame != lockSuccessful ) {
+      onLockChange.Invoke(lockSuccessful);
+      if (lockSuccessful) onLock.Invoke();
+    }
+    lockedLastFrame = lockSuccessful;
+  }
+
+  bool TryLock() {
+    
     reloadTime -= Time.fixedTime;
     reloadTime = Mathf.Max(reloadTime, 0f);
 
-    if (reloadTime > 0f) return;
+    if (reloadTime > 0f) return false;
 
     Rigidbody r = GetComponent<Rigidbody>();
 
     // Get the plane target
     Target target = GetComponent<TargetManagerBridge>().instance.GetTarget();
 
-    if (target.IsVisible(r.position) == false) return;
+    if (target.IsVisible(r.position) == false) return false;
 
     float distance = Vector3.Distance(target.position, r.position);
 
-    if (distance > range) return;
+    if (distance > range) return false;
 
     Vector3 assumedPos = target.position;
     Vector3 dir = (assumedPos - r.position).normalized;
 
-    if (Vector3.Angle(dir, r.rotation * Vector3.forward) > fireCone) return;
-
-    WarningManager.instance.SendWarning(WarningType.EnemyLock);
+    if (Vector3.Angle(dir, r.rotation * Vector3.forward) > fireCone) return false;
 
     Vector3 actualDir = (dir + Random.insideUnitSphere * spread).normalized;
 
@@ -53,5 +66,7 @@ public class MissileFiringController : MonoBehaviour
     bulletGO.GetComponent<BulletController>().Init(r, actualDir);
 
     reloadTime = 1 / rps * Random.Range(0.9f, 1.1f);
+
+    return true;
   }
 }
