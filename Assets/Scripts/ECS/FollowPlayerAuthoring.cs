@@ -14,8 +14,8 @@ public partial class FollowPlayerSystem : SystemBase
 {
   override protected void OnUpdate()
   {
-    float4x4 target = GameObject.FindGameObjectWithTag("Player").transform.localToWorldMatrix;
-    float3 velocity = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>().velocity;
+    float4x4 target = PlayerManager.instance.playerTransform.localToWorldMatrix;
+    float3 velocity = PlayerManager.instance.playerRigidbody.velocity;
 
     Entities.ForEach((ref LocalToWorld transform, in FollowPlayer f) =>
     {
