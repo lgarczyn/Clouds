@@ -4285,7 +4285,7 @@ MonoBehaviour:
   shadowCamera: {fileID: 1166806715}
   cloudsCamera: {fileID: 1306023373}
   cloudRendererIndex: 2
-  cloudsEnabled: 0
+  cloudsEnabled: 1
 --- !u!114 &1331973716
 MonoBehaviour:
   m_ObjectHideFlags: 0
