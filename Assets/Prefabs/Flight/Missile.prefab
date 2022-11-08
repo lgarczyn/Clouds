@@ -260,8 +260,8 @@ MonoBehaviour:
   hideArrowOutsideRange: 1
   hideBoxOutsideRange: 1
   hideTextOutsideRange: 1
-  scaleIndicatorWithDistance: 0
-  scaleTextWithDistance: 0
+  scaleIndicatorWithDistance: 1
+  scaleTextWithDistance: 1
   closeScale: 2
   farScale: 1
   indicator: {fileID: 0}
