@@ -12,7 +12,12 @@ public class MissileFiringController : MonoBehaviour
   public float fireCone = 90f;
   public float range = 100f;
 
+  public float lockingTimeForWarning = 0.1f;
+  public float lockingTimeForShooting = 0.2f;
+
   float reloadTime = 0;
+  float lockTime = 0;
+
   bool lockedLastFrame = false;
 
   public UnityEvent<bool> onLockChange;
@@ -27,9 +32,18 @@ public class MissileFiringController : MonoBehaviour
   {
     bool lockSuccessful = TryLock();
 
+    if (lockSuccessful) {
+      lockTime += Time.fixedDeltaTime;
+    } else {
+      lockTime = 0f;
+    }
+
+    if (lockTime > lockingTimeForWarning) {
+      onLock.Invoke();
+    }
+
     if (lockedLastFrame != lockSuccessful ) {
       onLockChange.Invoke(lockSuccessful);
-      if (lockSuccessful) onLock.Invoke();
     }
     lockedLastFrame = lockSuccessful;
   }
@@ -56,6 +70,9 @@ public class MissileFiringController : MonoBehaviour
     Vector3 dir = (assumedPos - r.position).normalized;
 
     if (Vector3.Angle(dir, r.rotation * Vector3.forward) > fireCone) return false;
+
+    // Skip this frame until firing possible, but still lock
+    if (lockTime < lockingTimeForShooting) return true;
 
     Vector3 actualDir = (dir + Random.insideUnitSphere * spread).normalized;
 
