@@ -448,7 +448,7 @@ MonoBehaviour:
     TsMin: 0.01
     OutputUpperLimit: 400
   rotateSpeed: 0.2
-  parameterVariation: 2.386
+  parameterVariation: 1.584
   velocityLimitingFactor: 0.625
   pidPositionAccuracy: 4
   searchPositionAccuracy: 100
@@ -473,6 +473,8 @@ MonoBehaviour:
   bulletSpeed: 1000
   fireCone: 10
   range: 100
+  lockingTimeForWarning: 0.1
+  lockingTimeForShooting: 0.2
   onLockChange:
     m_PersistentCalls:
       m_Calls:
