@@ -57,6 +57,9 @@ public class Indicator : MonoBehaviour
     /// <param name="value"></param>
     public void SetDistanceText(float value)
     {
+        // TODO: move this calculation elsewhere
+        // scales the distances by 10 to match world scale
+        value *= 10f;
         if (value > 10000) distanceText.text = Mathf.Floor(value / 1000) + "km";
         else if (value > 100) distanceText.text =  Mathf.Floor(value / 100) / 10 + "km";
         else if (value > 0) distanceText.text = Mathf.Floor(value) + "m";
