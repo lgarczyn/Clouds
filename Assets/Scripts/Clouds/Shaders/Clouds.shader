@@ -336,7 +336,7 @@ Shader "Clouds"
                     return returnDensity(density, prevDensity, optiInterpolation, haze);
 
                 {
-                    float3 samplePos = uvw / scale0 + time * wind * speed0;
+                    float3 samplePos = uvw / scale0 + wind * speed0;
                     float value = ShapeTex.SampleLevel(samplerShapeTex, samplePos, 0);
 
                     prevDensity = density;
