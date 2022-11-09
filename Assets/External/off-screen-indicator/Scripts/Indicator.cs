@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using Image = UnityEngine.UI.Image;
+using Image = UnityEngine.UI.RawImage;
 using Text = TMPro.TextMeshProUGUI;
 
 namespace PixelPlay.OffScreenIndicator
