@@ -62,6 +62,7 @@ namespace PixelPlay.OffScreenIndicator
         /// <returns></returns>
         public static float GetScale(IndicatorInfo info, float distance)
         {
+            if (!info.enabled) return 0f;
             if (distance > info.maxDistance && info.hideTooFar) return 0f;
             if (distance < info.minDistance && info.hideTooClose) return 0f;
 
