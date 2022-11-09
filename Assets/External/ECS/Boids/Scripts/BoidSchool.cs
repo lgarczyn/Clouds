@@ -42,7 +42,7 @@ namespace Samples.Boids
                 var random = new Random(((uint)(entity.Index + i + 1) * 0x9F6ABC1));
                 var dir = math.normalizesafe(random.NextFloat3() - new float3(0.5f, 0.5f, 0.5f));
                 var scale = BaseScale + random.NextFloat() * ScaleVariation;
-                var pos = Center + (dir * Radius);
+                var pos = Center + random.NextFloat3() * Radius;
                 var localToWorld = new LocalToWorld
                 {
                     Value = float4x4.TRS(
