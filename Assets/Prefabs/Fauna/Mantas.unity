@@ -228,8 +228,8 @@ MonoBehaviour:
   Prefab: {fileID: 1501737747371270, guid: 069e8329a7cbce64d950336a7bbb9e82, type: 3}
   InitialRadius: 1000
   Count: 1000
-  BaseScale: 3
-  ScaleVariation: 15
+  BaseScale: 1
+  ScaleVariation: 5
 --- !u!4 &675244200
 Transform:
   m_ObjectHideFlags: 0
