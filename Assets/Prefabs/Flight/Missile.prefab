@@ -53,7 +53,7 @@ MonoBehaviour:
     hideTooFar: 0
     baseScale: 2
     distanceScaling: 1
-    farScale: 0.2
+    farScale: 0.4
   arrow:
     enabled: 1
     color: {r: 0, g: 0, b: 0, a: 1}
@@ -63,15 +63,15 @@ MonoBehaviour:
     hideTooFar: 0
     baseScale: 2
     distanceScaling: 1
-    farScale: 0.2
+    farScale: 0.4
   text:
     enabled: 1
     color: {r: 0, g: 0, b: 0, a: 1}
-    minDistance: 1
+    minDistance: 10
     maxDistance: 200
     hideTooClose: 1
     hideTooFar: 1
-    baseScale: 2
+    baseScale: 1.3
     distanceScaling: 1
     farScale: 1
   useCenteredIndicator: 0
