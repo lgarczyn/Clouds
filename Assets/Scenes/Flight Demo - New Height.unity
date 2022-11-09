@@ -8412,29 +8412,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Carrier
       objectReference: {fileID: 0}
-    - target: {fileID: 8649545503373247862, guid: 4cacd675ceb36a540af87d965f2eee3f,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 8649545503373247862, guid: 4cacd675ceb36a540af87d965f2eee3f,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 8649545503373247862, guid: 4cacd675ceb36a540af87d965f2eee3f,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 100
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5743019576810345221, guid: 4cacd675ceb36a540af87d965f2eee3f,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cacd675ceb36a540af87d965f2eee3f, type: 3}
 --- !u!4 &6684047732034586550 stripped
 Transform:
