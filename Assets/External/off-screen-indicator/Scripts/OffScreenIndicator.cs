@@ -13,9 +13,13 @@ namespace PixelPlay.OffScreenIndicator
 [DefaultExecutionOrder(-1)]
 public class OffScreenIndicator : MonoBehaviour
 {
-    [Range(0.5f, 0.9f)]
+    [Range(0.5f, 1f)]
     [Tooltip("Distance offset of the indicators from the centre of the screen")]
     [SerializeField] private float screenBoundOffset = 0.9f;
+
+    [Range(0, 400f)]
+    [Tooltip("Distance of the centered indicators from the centre of the screen")]
+    [SerializeField] private float centeredDistance = 100f;
 
     private Camera mainCamera;
     private Vector3 screenCentre;
@@ -38,16 +42,6 @@ public class OffScreenIndicator : MonoBehaviour
         DrawIndicators();
     }
 
-    float GetScale(Target target, float distance) {
-        float ratio = Mathf.InverseLerp(
-            Mathf.Log(target.MinDistance),
-            Mathf.Log(target.MaxDistance),
-            Mathf.Log(distance)
-        );
-
-        return Mathf.Lerp(target.CloseScale, target.FarScale, ratio);
-    }
-
     /// <summary>
     /// Draw the indicators on the screen and set thier position and rotation and other properties.
     /// </summary>
@@ -60,19 +54,19 @@ public class OffScreenIndicator : MonoBehaviour
             float distanceFromCamera = target.GetDistanceFromCamera(mainCamera.transform.position);// Gets the target distance from the camera.
             Indicator indicator = null;
 
-            if(target.NeedBoxIndicator && isTargetVisible)
+            if(target.BoxIndicator.enabled && isTargetVisible)
             {
                 screenPosition.z = 0;
                 indicator = GetIndicator(ref target.indicator, IndicatorType.BOX); // Gets the box indicator from the pool.
             }
-            else if(target.NeedArrowIndicator && !isTargetVisible && target.UseCenteredIndicator)
+            else if(target.ArrowIndicator.enabled && !isTargetVisible && target.UseCenteredIndicator)
             {
                 float angle = float.MinValue;
-                OffScreenIndicatorCore.GetCenteredIndicatorPositionAndAngle(ref screenPosition, ref angle, screenCentre, 100f);
+                OffScreenIndicatorCore.GetCenteredIndicatorPositionAndAngle(ref screenPosition, ref angle, screenCentre, centeredDistance);
                 indicator = GetIndicator(ref target.indicator, IndicatorType.CENTERED); // Gets the arrow indicator from the pool.
                 indicator.transform.rotation = Quaternion.Euler(0, 0, angle * Mathf.Rad2Deg); // Sets the rotation for the arrow indicator.
             }
-            else if(target.NeedArrowIndicator && !isTargetVisible)
+            else if(target.ArrowIndicator.enabled && !isTargetVisible)
             {
                 float angle = float.MinValue;
                 OffScreenIndicatorCore.GetArrowIndicatorPositionAndAngle(ref screenPosition, ref angle, screenCentre, screenBounds);
@@ -86,33 +80,16 @@ public class OffScreenIndicator : MonoBehaviour
             }
             if(indicator)
             {
-                indicator.SetImageColor(target.TargetColor);// Sets the image color of the indicator.
-
-                // Is the target outside of range
-                bool isOutsideRange = distanceFromCamera < target.MinDistance || distanceFromCamera > target.MaxDistance;
-                // Calculate the scale of any scalable component
-                float logScale = GetScale(target, distanceFromCamera);
-
-                // Should the text be shown
-                bool hideText = (target.HideTextOutsideRange && isOutsideRange) || !target.NeedDistanceText;
-                // What scale to use for the text
-                float textScale = target.ScaleTextWithDistance ? logScale : target.CloseScale;
-                // 
-                indicator.SetTextScale(hideText ? 0f : textScale);
-                if (!hideText) indicator.SetDistanceText(distanceFromCamera); //Set the distance text for the indicator.
-
                 bool isBox = indicator.Type == IndicatorType.BOX;
-
-                // Should the indicator be shown
-                bool hideIndicator = isOutsideRange && (
-                    (target.HideArrowOutsideRange && !isBox) ||
-                    (target.HideBoxOutsideRange && isBox));
-                // What scale to use for the indicator
-                float indicatorScale = target.ScaleIndicatorWithDistance ? logScale : target.CloseScale;
-                indicator.SetIndicatorScale(hideIndicator ? 0f : indicatorScale);
+                IndicatorInfo indicatorInfo = isBox ? target.BoxIndicator : target.ArrowIndicator;
+                IndicatorInfo textInfo = target.TextIndicator;
 
                 indicator.transform.position = screenPosition; //Sets the position of the indicator on the screen.
-                if (!hideText) indicator.SetTextRotation(Quaternion.identity); // Sets the rotation of the distance text of the indicator.
+                indicator.SetImageColor(indicatorInfo.color);// Sets the image color of the indicator.
+                indicator.SetIndicatorScale(OffScreenIndicatorCore.GetScale(indicatorInfo, distanceFromCamera));
+                indicator.SetDistanceText(distanceFromCamera);
+                indicator.SetTextScale(OffScreenIndicatorCore.GetScale(textInfo, distanceFromCamera));
+                indicator.SetTextRotation(Quaternion.identity); // Sets the rotation of the distance text of the indicator.
             }
         }
     }

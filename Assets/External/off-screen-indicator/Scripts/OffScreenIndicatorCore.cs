@@ -2,8 +2,93 @@
 
 namespace PixelPlay.OffScreenIndicator
 {
+    /// 
+    [System.Serializable]
+    public enum ScalingType {
+        None,
+        Log,
+        Linear,
+    }
+
+    [System.Serializable]
+    public struct IndicatorInfo {
+
+        public IndicatorInfo(Color indicatorColor) {
+            enabled = true;
+            color = indicatorColor;
+            minDistance = 1f;
+            maxDistance = 100f;
+            hideTooClose = true;
+            hideTooFar = false;
+            baseScale = 1f;
+            distanceScaling = ScalingType.None;
+            farScale = 0f;
+        }
+        
+        [Tooltip("Select if type of indicator is required for this target")]
+        public bool enabled;
+        [Tooltip("Change this color to change the indicators color for this target")]
+        public Color color;
+        
+        [Tooltip("The minimum distance, for hiding and/or scaling")]
+        public float minDistance;
+        
+        [Tooltip("The maximum distance, for hiding and/or scaling")]
+        public float maxDistance;
+        
+        [Tooltip("Select if indicator should be hidden when closer than min range")]
+        public bool hideTooClose;
+
+        [Tooltip("Select if indicator should be hidden when further than max range")]
+        public bool hideTooFar;
+
+        [Tooltip("The scale of the indicator. When distanceScaling, the scale at the min distance.")]
+        public float baseScale;
+
+        [Tooltip("The type of distance scaling, if any")]
+        public ScalingType distanceScaling;
+
+        [Tooltip("The scale at the max distance, if using distance scaling")]
+        public float farScale;
+    }
+
     public class OffScreenIndicatorCore
     {
+        /// <summary>
+        /// Get the scale of the indicator depending on the given info and distance
+        /// </summary>
+        /// <param name="info">The display data for this type of indicator</param>
+        /// <param name="distance">Target distance</param>
+        /// <returns></returns>
+        public static float GetScale(IndicatorInfo info, float distance)
+        {
+            if (distance > info.maxDistance && info.hideTooFar) return 0f;
+            if (distance < info.minDistance && info.hideTooClose) return 0f;
+
+            float ratio;
+
+            if (info.distanceScaling == ScalingType.Log)
+            {
+                ratio = Mathf.InverseLerp(
+                    Mathf.Log(info.minDistance),
+                    Mathf.Log(info.maxDistance),
+                    Mathf.Log(distance)
+                );
+            } else if (info.distanceScaling == ScalingType.Linear)
+            {
+                ratio = Mathf.InverseLerp(
+                    info.minDistance,
+                    info.maxDistance,
+                    distance
+                );
+            } else {
+                ratio = 0f;
+            }
+
+            return Mathf.Lerp(info.baseScale, info.farScale, ratio);
+        }
+
+
         /// <summary>
         /// Gets the position of the target mapped to screen cordinates.
         /// </summary>
