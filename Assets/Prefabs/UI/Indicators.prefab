@@ -52,7 +52,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff511462938e26c499636c590ec5ec2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  screenBoundOffset: 0.9
+  screenBoundOffset: 0.979
+  centeredDistance: 100
 --- !u!114 &1570969737417517474
 MonoBehaviour:
   m_ObjectHideFlags: 0
