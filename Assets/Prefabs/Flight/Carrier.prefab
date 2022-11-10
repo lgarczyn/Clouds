@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   box:
     enabled: 1
-    color: {r: 0, g: 0.025996443, b: 0.4528302, a: 1}
+    color: {r: 0, g: 0.288177, b: 1, a: 1}
     minDistance: 100
     maxDistance: 10000
     hideTooClose: 1
@@ -110,7 +110,7 @@ MonoBehaviour:
     farScale: 0
   arrow:
     enabled: 1
-    color: {r: 0, g: 0.025996443, b: 0.4528302, a: 1}
+    color: {r: 0, g: 0.28627452, b: 1, a: 1}
     minDistance: 100
     maxDistance: 10000
     hideTooClose: 1
@@ -120,7 +120,7 @@ MonoBehaviour:
     farScale: 0
   text:
     enabled: 1
-    color: {r: 0, g: 0.025996443, b: 0.4528302, a: 1}
+    color: {r: 0, g: 0.28627452, b: 1, a: 1}
     minDistance: 100
     maxDistance: 10000
     hideTooClose: 1
