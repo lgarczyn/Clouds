@@ -1593,16 +1593,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1639703492624825203, guid: 21387b72cd40f334f87f61aded6dd53b,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1643695957265506997, guid: 21387b72cd40f334f87f61aded6dd53b,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1643762664099840543, guid: 21387b72cd40f334f87f61aded6dd53b,
         type: 3}
       propertyPath: mouseFlight
