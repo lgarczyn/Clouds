@@ -21,13 +21,24 @@ Shader "Sprites/SDFDisplay" {
 
         [Header(Other)]
         _GradientScale("Gradient Scale", float) = 20
+        [Toggle(TEXCOLOR_ON)] _UseTextureColor("Use Texture Color", Float) = 0
     }
     SubShader {
-        Tags { "RenderType"="Transparent" "Queue"="Transparent" }
+        Tags
+        {
+            "Queue"="Transparent"
+            "IgnoreProjector"="True"
+            "RenderType"="Transparent"
+            "PreviewType"="Plane"
+            "CanUseSpriteAtlas"="True"
+        }
 
         Pass {
 
-            Blend SrcAlpha OneMinusSrcAlpha
+            Cull Off
+            Lighting Off
+            ZWrite Off
+            Blend One OneMinusSrcAlpha
 
             CGPROGRAM
             #pragma vertex vert
@@ -36,6 +47,7 @@ Shader "Sprites/SDFDisplay" {
             #include "UnityCG.cginc"
 
             #pragma shader_feature __ OUTLINE_ON
+            #pragma shader_feature __ TEXCOLOR_ON
             #pragma shader_feature UNDERLAY_OFF UNDERLAY_ON
 
             struct appdata {
@@ -84,10 +96,15 @@ Shader "Sprites/SDFDisplay" {
                 half bias = 0.5 - _FaceDilate / 2;
 
                 // Compute density value
-                fixed d = tex2D(_MainTex, i.uv).a;
+                fixed4 smp = tex2D(_MainTex, i.uv);
+                float d = smp.a;
 
                 // Compute result color
                 half4 c = _FaceColor * saturate((d - bias) * scale + 0.5);
+                
+#ifdef TEXCOLOR_ON
+                c *= half4(smp.rgb, 1);
+#endif
 
                 // Append outline
 #ifdef OUTLINE_ON
@@ -120,3 +137,4 @@ Shader "Sprites/SDFDisplay" {
         }
     }
 }
+
