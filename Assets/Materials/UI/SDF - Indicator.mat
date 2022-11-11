@@ -33,7 +33,7 @@ Material:
     - _EnableOutline: 1
     - _FaceDilate: 0.59
     - _OutlineSoftness: 0
-    - _OutlineWidth: 0.249
+    - _OutlineWidth: 0.112
     m_Colors:
-    - _OutlineColor: {r: 0, g: 0, b: 0, a: 0.6509804}
+    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
