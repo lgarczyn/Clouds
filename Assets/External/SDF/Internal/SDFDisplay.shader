@@ -3,13 +3,13 @@ Shader "Sprites/SDFDisplay" {
         _MainTex ("Texture", 2D) = "white" {}
 
         [HDR]_FaceColor("Face Color", Color) = (1,1,1,1)
-        _FaceDilate("Face Dilate", Range(-1,1)) = 0
+        _FaceDilate("Face Dilate", Range(0,1)) = 0.5
 
         [Header(Outline)]
         [Toggle(OUTLINE_ON)] _EnableOutline("Enable Outline", Float) = 0
         [HDR]_OutlineColor("Outline Color", Color) = (0,0,0,1)
         _OutlineWidth("Outline Thickness", Range(0,1)) = 0
-        _OutlineSoftness("Outline Softness", Range(0,1)) = 0
+        [Toggle(DYNAMIC_OUTLINE)] _DynamicOutline("Dynamic Outline", Float) = 0
 
         [Header(Underlay)]
         [Toggle(UNDERLAY_ON)]  _EnableUnderlay("Enable Underlay", Float) = 0
@@ -47,6 +47,7 @@ Shader "Sprites/SDFDisplay" {
             #include "UnityCG.cginc"
 
             #pragma shader_feature __ OUTLINE_ON
+            #pragma shader_feature __ DYNAMIC_OUTLINE
             #pragma shader_feature __ TEXCOLOR_ON
             #pragma shader_feature __ UNDERLAY_ON
 
@@ -69,7 +70,6 @@ Shader "Sprites/SDFDisplay" {
             half4 _FaceColor;
             fixed _FaceDilate;
             half _GradientScale;
-
 #if defined(OUTLINE_ON)
             fixed _OutlineSoftness;
             fixed _OutlineWidth;
@@ -92,28 +92,39 @@ Shader "Sprites/SDFDisplay" {
             }
 
             fixed4 frag(v2f i) : SV_Target{
-                half scale = 1.0 / (_GradientScale * fwidth(i.uv));
-                half bias = 0.5 - _FaceDilate / 2;
+                half bias = _FaceDilate;
 
-                // Compute density value
+                // Compute density value and color, using texture if needed
+#ifdef TEXCOLOR_ON
                 fixed4 smp = tex2D(_MainTex, i.uv);
                 float d = smp.a;
-
-                // Compute result color
-                half4 c = _FaceColor * saturate((d - bias) * scale + 0.5);
-                
-#ifdef TEXCOLOR_ON
-                c *= half4(smp.rgb, 1);
+                fixed4 color = _FaceColor * half4(smp.rgb, 1);
+#else
+                fixed4 d = tex2D(_MainTex, i.uv).a;
+                fixed4 color = _FaceColor;
 #endif
+                // Compute result color
+                half4 output;
+                
 
-                // Append outline
+                // Calculate color with outline
 #ifdef OUTLINE_ON
-                if (_OutlineWidth > 0) {
-                    half outlineFade = max(_OutlineSoftness, fwidth(i.uv * _GradientScale));
-                    half ol_from = min(1, bias + _OutlineWidth / 2 + outlineFade / 2);
-                    half ol_to = max(0, bias - _OutlineWidth / 2 - outlineFade / 2);
-                    c = lerp(_FaceColor, _OutlineColor, saturate((ol_from - d) / outlineFade));
-                    c *= saturate((d - ol_to) / outlineFade);
+                {
+                    half outlineFade = fwidth(i.uv * _GradientScale);
+                    half realWidth = _OutlineWidth;
+#ifdef DYNAMIC_OUTLINE
+                    realWidth *= outlineFade * 10;
+#endif
+                    half ol_from = min(1, bias + (realWidth + outlineFade) / 2);
+                    half ol_to = max(0, bias - (realWidth + outlineFade) / 2);
+                    output = lerp(color, _OutlineColor, saturate((ol_from - d) / outlineFade));
+                    output *= saturate((d - ol_to) / outlineFade);
+                }
+#else
+                // calculate normal color
+                {
+                    half scale = 1.0 / (_GradientScale * fwidth(i.uv));
+                    output = _FaceColor * saturate((d - bias) * scale + 0.5);
                 }
 #endif
 
@@ -124,12 +135,12 @@ Shader "Sprites/SDFDisplay" {
                     half ul_to = min(1, bias - _UnderlayDilate + _UnderlaySoftness / 2);
                     float2 underlayUV = i.uv - float2(_UnderlayOffsetX, _UnderlayOffsetY);
                     d = tex2D(_MainTex, underlayUV).a;
-                    c += float4(_UnderlayColor.rgb, 1) * (_UnderlayColor.a * (1 - c.a)) *
+                    output += float4(_UnderlayColor.rgb, 1) * (_UnderlayColor.a * (1 - c.a)) *
                         saturate((d - ul_from) / (ul_to - ul_from));
                 }
 #endif
 
-                return c * i.color;
+                return output * i.color;
             }
             ENDCG
         }
