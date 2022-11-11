@@ -112,9 +112,9 @@ Shader "Sprites/SDFDisplay" {
                 {
                     half outlineFade = fwidth(i.uv * _GradientScale);
                     half realWidth = _OutlineWidth;
-#ifdef DYNAMIC_OUTLINE
+    #ifdef DYNAMIC_OUTLINE
                     realWidth *= outlineFade * 10;
-#endif
+    #endif
                     half ol_from = min(1, bias + (realWidth + outlineFade) / 2);
                     half ol_to = max(0, bias - (realWidth + outlineFade) / 2);
                     output = lerp(color, _OutlineColor, saturate((ol_from - d) / outlineFade));
@@ -124,7 +124,7 @@ Shader "Sprites/SDFDisplay" {
                 // calculate normal color
                 {
                     half scale = 1.0 / (_GradientScale * fwidth(i.uv));
-                    output = _FaceColor * saturate((d - bias) * scale + 0.5);
+                    output = color * saturate((d - bias) * scale + 0.5);
                 }
 #endif
 
@@ -135,7 +135,7 @@ Shader "Sprites/SDFDisplay" {
                     half ul_to = min(1, bias - _UnderlayDilate + _UnderlaySoftness / 2);
                     float2 underlayUV = i.uv - float2(_UnderlayOffsetX, _UnderlayOffsetY);
                     d = tex2D(_MainTex, underlayUV).a;
-                    output += float4(_UnderlayColor.rgb, 1) * (_UnderlayColor.a * (1 - c.a)) *
+                    output += float4(_UnderlayColor.rgb, 1) * (_UnderlayColor.a * (1 - output.a)) *
                         saturate((d - ul_from) / (ul_to - ul_from));
                 }
 #endif
