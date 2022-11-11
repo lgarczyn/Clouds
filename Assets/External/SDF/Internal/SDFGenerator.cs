@@ -159,12 +159,7 @@ public class SDFGenerator : ScriptableObject {
         }
 
         var resultFormat = new RenderTextureDescriptor(texture.width, texture.height, GraphicsFormat.R8G8B8A8_UNorm, 0, 0);
-        {
-            // TODO: Fix this hack, ideally should work for ALL textures, not just imported ones
-            var sourcepath = AssetDatabase.GetAssetPath(texture);
-            var sourceimporter = string.IsNullOrEmpty(sourcepath) ? default : AssetImporter.GetAtPath(sourcepath) as TextureImporter;
-            if (sourceimporter != null) resultFormat.sRGB = sourceimporter.sRGBTexture;
-        }
+        resultFormat.sRGB = texture.isDataSRGB;
         var resultTarget = RenderTexture.GetTemporary(resultFormat);
         resultTarget.wrapMode = TextureWrapMode.Clamp;
 
