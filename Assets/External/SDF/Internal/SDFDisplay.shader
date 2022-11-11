@@ -12,7 +12,7 @@ Shader "Sprites/SDFDisplay" {
         _OutlineSoftness("Outline Softness", Range(0,1)) = 0
 
         [Header(Underlay)]
-        [KeywordEnum(Off, On)] UNDERLAY("Underlay", Float) = 0
+        [Toggle(UNDERLAY_ON)]  _EnableUnderlay("Enable Underlay", Float) = 0
         [HDR]_UnderlayColor("Border Color", Color) = (0,0,0,.5)
         _UnderlayOffsetX("Border OffsetX", Range(-1,1)) = 0
         _UnderlayOffsetY("Border OffsetY", Range(-1,1)) = 0
@@ -48,7 +48,7 @@ Shader "Sprites/SDFDisplay" {
 
             #pragma shader_feature __ OUTLINE_ON
             #pragma shader_feature __ TEXCOLOR_ON
-            #pragma shader_feature UNDERLAY_OFF UNDERLAY_ON
+            #pragma shader_feature __ UNDERLAY_ON
 
             struct appdata {
                 float4 vertex : POSITION;
@@ -75,7 +75,7 @@ Shader "Sprites/SDFDisplay" {
             fixed _OutlineWidth;
             half4 _OutlineColor;
 #endif
-#if !defined(UNDERLAY_OFF)
+#if defined(UNDERLAY_ON)
             fixed _UnderlayOffsetX;
             fixed _UnderlayOffsetY;
             fixed _UnderlayDilate;
@@ -124,10 +124,8 @@ Shader "Sprites/SDFDisplay" {
                     half ul_to = min(1, bias - _UnderlayDilate + _UnderlaySoftness / 2);
                     float2 underlayUV = i.uv - float2(_UnderlayOffsetX, _UnderlayOffsetY);
                     d = tex2D(_MainTex, underlayUV).a;
-#if defined(UNDERLAY_ON)
                     c += float4(_UnderlayColor.rgb, 1) * (_UnderlayColor.a * (1 - c.a)) *
                         saturate((d - ul_from) / (ul_to - ul_from));
-#endif
                 }
 #endif
 
