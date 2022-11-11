@@ -13,7 +13,6 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - OUTLINE_ON
-  - UNDERLAY_ON
   m_InvalidKeywords:
   - ETC1_EXTERNAL_ALPHA
   - UNDERLAY_INNER
@@ -119,7 +118,9 @@ Material:
     - _DetailNormalMapScale: 1
     - _Diffuse: 0.5
     - _DstBlend: 0
+    - _DynamicOutline: 0
     - _EnableOutline: 1
+    - _EnableUnderlay: 0
     - _EnvironmentReflections: 1
     - _FaceDilate: 0.5
     - _FaceUVSpeedX: 0
