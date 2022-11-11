@@ -7,14 +7,14 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SDF - UI Color
+  m_Name: SDF - Underlay
   m_Shader: {fileID: 4800000, guid: 40f05191c7b51174ca4dd905c1617e5b, type: 3}
   m_Parent: {fileID: 2100000, guid: dec5ea5e48163854883572a05b92bb2a, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - TEXCOLOR_ON
+  - UNDERLAY_ON
+  m_InvalidKeywords:
   - UNDERLAY_OFF
-  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -29,6 +29,11 @@ Material:
     m_Floats:
     - UNDERLAY: 0
     - _EnableOutline: 0
-    - _UseTextureColor: 1
-    m_Colors: []
+    - _EnableUnderlay: 1
+    - _UnderlayDilate: 0
+    - _UnderlayOffsetX: 0.041
+    - _UnderlayOffsetY: -0.041
+    - _UnderlaySoftness: 0
+    m_Colors:
+    - _UnderlayColor: {r: 0, g: 0.05535583, b: 0.2924528, a: 1}
   m_BuildTextureStacks: []
