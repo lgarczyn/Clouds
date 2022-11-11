@@ -32,7 +32,7 @@ RectTransform:
   m_Children:
   - {fileID: 364399902702361140}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -156,10 +156,12 @@ MonoBehaviour:
 
 
     Flying
-    near clouds is faster and recharges your boost
+    near clouds is faster
 
-    Enemies can''t see you inside
-    clouds'
+    Flying near clouds recharges boost
+
+    Enemies can''t
+    see you inside clouds'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b348209ded008914daacfea5ef42f5d4, type: 2}
   m_sharedMaterial: {fileID: 8984051719782638551, guid: b348209ded008914daacfea5ef42f5d4,
