@@ -32,7 +32,7 @@ MonoBehaviour:
   m_UpscalingFilter: 0
   m_FsrOverrideSharpness: 0
   m_FsrSharpness: 0.92
-  m_EnableLODCrossFade: 1
+  m_EnableLODCrossFade: 0
   m_LODCrossFadeDitheringType: 1
   m_MainLightRenderingMode: 1
   m_MainLightShadowsSupported: 1
@@ -46,15 +46,15 @@ MonoBehaviour:
   m_AdditionalLightsShadowResolutionTierHigh: 1024
   m_ReflectionProbeBlending: 0
   m_ReflectionProbeBoxProjection: 0
-  m_ShadowDistance: 40
-  m_ShadowCascadeCount: 1
+  m_ShadowDistance: 600
+  m_ShadowCascadeCount: 4
   m_Cascade2Split: 0.25
   m_Cascade3Split: {x: 0.1, y: 0.3}
-  m_Cascade4Split: {x: 0.067, y: 0.2, z: 0.467}
+  m_Cascade4Split: {x: 0.018333334, y: 0.2, z: 0.46700004}
   m_CascadeBorder: 0.2
   m_ShadowDepthBias: 1
-  m_ShadowNormalBias: 1
-  m_SoftShadowsSupported: 1
+  m_ShadowNormalBias: 0
+  m_SoftShadowsSupported: 0
   m_ConservativeEnclosingSphere: 1
   m_NumIterationsEnclosingSphere: 64
   m_AdditionalLightsCookieResolution: 2048
