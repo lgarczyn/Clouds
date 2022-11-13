@@ -7,10 +7,10 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MissileGlowEffect
-  m_Shader: {fileID: -6465566751694194690, guid: c833efa2891190a4cb14c9779c981201,
+  m_Name: CarrierGlow
+  m_Shader: {fileID: -6465566751694194690, guid: d09c932a63f02684e96d8eafa768f679,
     type: 3}
-  m_Parent: {fileID: -876546973899608171, guid: c833efa2891190a4cb14c9779c981201,
+  m_Parent: {fileID: -876546973899608171, guid: d09c932a63f02684e96d8eafa768f679,
     type: 3}
   m_ModifiedSerializedProperties: 2
   m_ValidKeywords: []
@@ -29,9 +29,9 @@ Material:
     m_Floats:
     - _QueueControl: 0
     m_Colors:
-    - _MinMaxZ: {r: 0.12, g: 1.47, b: 0, a: 0}
+    - _MinMaxZ: {r: -0.59, g: -3.89, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &5909376465081296181
+--- !u!114 &2076660572065613153
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
