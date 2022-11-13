@@ -484,7 +484,7 @@ MonoBehaviour:
   rotateSpeed: 0.2
   parameterVariation: 1.584
   velocityLimitingFactor: 0.625
-  pidPositionAccuracy: 4
+  pidPositionAccuracy: 10
   searchPositionAccuracy: 100
   aggressivity: 0.12
   aggressivityVariation: 0.1
