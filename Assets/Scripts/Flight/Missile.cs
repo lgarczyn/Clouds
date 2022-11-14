@@ -54,8 +54,6 @@ public class Missile : MonoBehaviour
     controller.N *= GetRandomVariation();
 
     aggressivity += Random.Range(-aggressivityVariation, -aggressivityVariation);
-
-    transform.position += Random.insideUnitSphere * 100;
   }
 
   private Vector3 GetPidTarget(Vector3 deltaPos, float accuracy)
