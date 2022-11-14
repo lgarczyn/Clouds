@@ -12,7 +12,9 @@ Material:
   m_Parent: {fileID: 8984051719782638551, guid: b348209ded008914daacfea5ef42f5d4,
     type: 2}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - GLOW_ON
+  - UNDERLAY_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -26,6 +28,15 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _OutlineWidth: 0.19
-    m_Colors: []
+    - _FaceDilate: -0.278
+    - _OutlineWidth: 0
+    - _ScaleRatioA: 0.9
+    - _ScaleRatioB: 0.98144996
+    - _ScaleRatioC: 0.5859403
+    - _UnderlayDilate: 1
+    - _UnderlayOffsetX: 0.518
+    - _UnderlayOffsetY: -0.675
+    - _UnderlaySoftness: 0
+    m_Colors:
+    - _UnderlayColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
