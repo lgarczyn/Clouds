@@ -48,7 +48,7 @@ public class FaunaController : MonoBehaviour
 
   void SetRandomPos()
   {
-    Transform player = GetComponent<PlayerManagerBridge>().transform;
+    Transform player = GetComponent<PlayerManagerBridge>().playerTransform;
 
     Vector3 playerPos = player.position;
 
