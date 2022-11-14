@@ -30,6 +30,8 @@ public class MissileFiringController : MonoBehaviour
 
   void FixedUpdate()
   {
+    reloadTime = Mathf.Max(reloadTime - Time.fixedDeltaTime, 0f);
+
     bool lockSuccessful = TryLock();
 
     if (lockSuccessful) {
@@ -49,11 +51,6 @@ public class MissileFiringController : MonoBehaviour
   }
 
   bool TryLock() {
-    
-    reloadTime -= Time.fixedTime;
-    reloadTime = Mathf.Max(reloadTime, 0f);
-
-    if (reloadTime > 0f) return false;
 
     Rigidbody r = GetComponent<Rigidbody>();
 
@@ -74,6 +71,8 @@ public class MissileFiringController : MonoBehaviour
     // Skip this frame until firing possible, but still lock
     if (lockTime < lockingTimeForShooting) return true;
 
+    if (reloadTime > 0f) return true;
+
     Vector3 actualDir = (dir + Random.insideUnitSphere * spread).normalized;
 
     var bulletGO = GameObject.Instantiate(bulletPrefab.gameObject,
@@ -82,7 +81,7 @@ public class MissileFiringController : MonoBehaviour
         );
     bulletGO.GetComponent<BulletController>().Init(r, actualDir);
 
-    reloadTime = 1 / rps * Random.Range(0.9f, 1.1f);
+    reloadTime = 1 / rps;
 
     return true;
   }
