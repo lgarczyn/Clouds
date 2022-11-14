@@ -17,7 +17,11 @@ public class PlayerManager : Manager<PlayerManager>
   {
     get
     {
-      return GetComponent<Transform>();
+      return transform;
     }
+  }
+
+  public float Distance(Vector3 position) {
+    return Vector3.Distance(position, transform.position);
   }
 }
