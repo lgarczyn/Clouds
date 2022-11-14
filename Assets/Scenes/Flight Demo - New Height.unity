@@ -3010,7 +3010,7 @@ MonoBehaviour:
       _scale: 0
   timeScale: 1
   latitude: 13.5
-  longitude: 0
+  longitude: -37
   bearing: 0
   altitude: 69911000
 --- !u!114 &1608915524
