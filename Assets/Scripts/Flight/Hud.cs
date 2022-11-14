@@ -45,7 +45,7 @@ public class Hud : MonoBehaviour
 
     if (mousePos != null)
     {
-      mousePos.position = playerCam.WorldToScreenPoint(controller.MouseAimPos);
+      mousePos.position = playerCam.WorldToScreenPoint(controller.RealMouseAimPos);
       mousePos.gameObject.SetActive(mousePos.position.z > 1f);
     }
   }

@@ -87,6 +87,25 @@ public class MouseFlightController : MonoBehaviour
     }
   }
 
+  /// <summary>
+  /// Get the position that the mouse is indicating the aircraft should fly, projected
+  /// out to aimDistance meters. Also meant to be used to draw a mouse cursor.
+  /// </summary>
+  public Vector3 RealMouseAimPos
+  {
+    get
+    {
+      if (mouseAim != null)
+      {
+        return mouseAim.position + (mouseAim.forward * aimDistance);
+      }
+      else
+      {
+        return transform.forward * aimDistance;
+      }
+    }
+  }
+
   private void Awake()
   {
     if (aircraft == null)
