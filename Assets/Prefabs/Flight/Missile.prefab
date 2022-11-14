@@ -476,18 +476,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller:
     Kp: 150
-    Ki: 20
+    Ki: 50
     Kd: 300
     N: 10
     TsMin: 0.01
     OutputUpperLimit: 400
   rotateSpeed: 0.2
-  parameterVariation: 0
-  velocityLimitingFactor: 0.199
-  pidPositionAccuracy: 10
+  parameterVariation: 0.08
+  velocityLimitingFactor: 0.476
+  pidPositionAccuracy: 4
   searchPositionAccuracy: 100
-  aggressivity: 0.12
-  aggressivityVariation: 0.1
+  aggressivity: 0.23
+  aggressivityVariation: 0
 --- !u!114 &1796061414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -505,7 +505,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 6204923746252972408, guid: 4833ca5852f63ea419b4f260acc95aaa,
     type: 3}
   bulletSpeed: 1000
-  fireCone: 10
+  fireCone: 18
   range: 100
   lockingTimeForWarning: 0.1
   lockingTimeForShooting: 0.2
