@@ -7,6 +7,7 @@ public class WarningManagerBridge : ManagerBridge<WarningManager>
   // Warning functions for use in UnityEvent editor window
 
   public void WarnEnemyLock() { instance.SendWarning(WarningType.EnemyLock); }
+  public void WarnEnemySpawn() { instance.SendWarning(WarningType.EnemySpawn); }
   public void WarnLowShield() { instance.SendWarning(WarningType.LowShield); }
   public void WarnBrokenShield() { instance.SendWarning(WarningType.BrokenShield); }
   public void WarnLowHealth() { instance.SendWarning(WarningType.LowHealth); }

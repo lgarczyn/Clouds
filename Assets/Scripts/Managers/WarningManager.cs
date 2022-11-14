@@ -14,6 +14,7 @@ public enum WarningType
   LowBoost,
   RegeneratingShield,
   FullShield,
+  EnemySpawn,
 }
 
 [System.Serializable]

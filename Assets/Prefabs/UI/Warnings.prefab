@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 2169290647984943359}
   - component: {fileID: 2169290647984943346}
   - component: {fileID: 2169290647984943344}
-  - component: {fileID: 2169290647984943345}
-  - component: {fileID: 2169290647984943358}
   - component: {fileID: 5422106558606854981}
   m_Layer: 5
   m_Name: Warnings
@@ -67,18 +65,45 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -1
-      outSlope: -1
-      tangentMode: 34
+      inSlope: -0.9999998
+      outSlope: -1.0844978
+      tangentMode: 69
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
+      time: 0.038824987
+      value: 0.9578944
+      inSlope: -1.0844978
+      outSlope: 1.147521
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.07551766
+      value: 1
+      inSlope: 1.147521
+      outSlope: 0
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.77760464
+      value: 1
+      inSlope: -0
+      outSlope: -4.4964967
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: -1
-      outSlope: -1
-      tangentMode: 34
+      inSlope: -4.4964967
+      outSlope: -1.9841588
+      tangentMode: 69
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0
@@ -137,8 +162,8 @@ MonoBehaviour:
       elementIcon: {fileID: 0}
     reqReferences: {fileID: 0}
     isExpanded: 1
-    _keyValues: 00000000010000000500000006000000020000000300000004000000
-    _keys: 00000000010000000500000006000000020000000300000004000000
+    _keyValues: 0000000001000000050000000600000002000000030000000400000007000000
+    _keys: 0000000001000000050000000600000002000000030000000400000007000000
     _values:
     - level: 2
       timeout: 0.5
@@ -161,32 +186,9 @@ MonoBehaviour:
     - level: 0
       timeout: 1
       message: LOW BOOSTER FUEL
---- !u!114 &2169290647984943345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2169290647984943356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9a99ab619ecf4b4aab646ac1fcbbfb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2169290647984943358
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2169290647984943356}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74a10759c7202ae4bbfedf68a4149d5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chance: 0.234
-  warnings: 0000000001000000020000000300000004000000
+    - level: 1
+      timeout: 3
+      message: 'WARNING: ENEMY REINFORCEMENT'
 --- !u!114 &5422106558606854981
 MonoBehaviour:
   m_ObjectHideFlags: 0
