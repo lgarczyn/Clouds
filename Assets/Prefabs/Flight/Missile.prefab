@@ -51,19 +51,19 @@ MonoBehaviour:
     maxDistance: 1000
     hideTooClose: 1
     hideTooFar: 0
-    baseScale: 2
+    baseScale: 3
     distanceScaling: 1
-    farScale: 0.4
+    farScale: 1.2
   arrow:
     enabled: 1
     color: {r: 1, g: 0.37254903, b: 0, a: 1}
     minDistance: 30
-    maxDistance: 1000
+    maxDistance: 500
     hideTooClose: 0
     hideTooFar: 0
-    baseScale: 2
+    baseScale: 3
     distanceScaling: 1
-    farScale: 0.4
+    farScale: 1.2
   text:
     enabled: 0
     color: {r: 1, g: 0.37254903, b: 0, a: 1}
