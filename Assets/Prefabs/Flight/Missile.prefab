@@ -476,14 +476,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller:
     Kp: 150
-    Ki: 50
+    Ki: 20
     Kd: 300
     N: 10
     TsMin: 0.01
     OutputUpperLimit: 400
   rotateSpeed: 0.2
-  parameterVariation: 1.584
-  velocityLimitingFactor: 0.625
+  parameterVariation: 0
+  velocityLimitingFactor: 0.199
   pidPositionAccuracy: 10
   searchPositionAccuracy: 100
   aggressivity: 0.12
