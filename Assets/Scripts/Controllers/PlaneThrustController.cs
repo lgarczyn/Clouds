@@ -4,6 +4,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(PlayerPlane))]
 [RequireComponent(typeof(Plane))]
 [RequireComponent(typeof(PlaneResourceController))]
+[RequireComponent(typeof(WarningManagerBridge))]
 public class PlaneThrustController : MonoBehaviour
 {
   public ResourceCalculator resourceCalculator;
@@ -38,7 +39,7 @@ public class PlaneThrustController : MonoBehaviour
       }
       else
       {
-        WarningManager.instance.SendWarning(WarningType.LowBoost);
+        GetComponent<WarningManagerBridge>().WarnLowBoost();
       }
     }
 

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(WarningManagerBridge))]
 public class PlaneRepairController : MonoBehaviour
 {
   public PlaneEntity plane;
@@ -23,9 +24,9 @@ public class PlaneRepairController : MonoBehaviour
       plane.RefuelShield(repairs);
 
       if (plane.shieldFull)
-        WarningManager.instance.SendWarning(WarningType.FullShield);
+        GetComponent<WarningManagerBridge>().WarnFullShield();
       else
-        WarningManager.instance.SendWarning(WarningType.RegeneratingShield);
+        GetComponent<WarningManagerBridge>().WarnRegeneratingShield();
     }
   }
 }

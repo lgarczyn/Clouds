@@ -3,6 +3,7 @@ using System.Linq;
 
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(MeshRenderer))]
+[RequireComponent(typeof(WarningManagerBridge))]
 public class ShieldController : MonoBehaviour, IDamageReceiver
 {
   public PlaneEntity plane;
@@ -51,7 +52,7 @@ public class ShieldController : MonoBehaviour, IDamageReceiver
     // Spend a damage amount of shield
     if (plane.TrySpendShield(info.damage))
     {
-      if (plane.shield < 10f) WarningManager.instance.SendWarning(WarningType.LowShield);
+      if (plane.shield < 10f) GetComponent<WarningManagerBridge>().WarnLowShield();
 
       return plane.shield;
     }
@@ -60,7 +61,7 @@ public class ShieldController : MonoBehaviour, IDamageReceiver
     shieldCollider.enabled = false;
     meshRenderer.enabled = false;
 
-    if (plane.shield < 10f) WarningManager.instance.SendWarning(WarningType.BrokenShield);
+    if (plane.shield < 10f) GetComponent<WarningManagerBridge>().WarnBrokenShield();
     return 0;
   }
 
