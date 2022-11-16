@@ -15,19 +15,18 @@ public class RequiredComponentDrawer : PropertyDrawer
     if (typeof(Component).IsAssignableFrom(fieldInfo.FieldType))
     {
       Component comp = mono.GetComponent(fieldInfo.FieldType);
-
-      if (property.objectReferenceValue == null)
+      if (comp == null)
       {
-        if (comp == null)
-        {
-          comp = mono.gameObject.AddComponent(fieldInfo.FieldType);
-        }
+        comp = mono.gameObject.AddComponent(fieldInfo.FieldType);
+        Debug.Log("Missing required component " + mono.GetType() + ". Adding.", mono);
+      }
 
-        property.objectReferenceValue = comp;
-        //property.serializedObject.ApplyModifiedProperties(); // not sure if this is really needed
-      } else {
-        if (comp != property.objectReferenceValue) {
-          Debug.LogError("Field <b>" + fieldInfo.Name + "</b> of " + mono.GetType() + " had the wrong component stored!", mono);
+      if (property.objectReferenceValue != comp)
+      {
+        if (property.objectReferenceValue != null) {
+          Debug.LogError("Field <b>" + fieldInfo.Name + "</b> of " + mono.GetType() + " had the wrong component stored! Fixing", mono);
+          property.objectReferenceValue = comp;
+          property.serializedObject.ApplyModifiedProperties(); // not sure if this is really needed
         }
       }
     }
