@@ -242,7 +242,7 @@ namespace UnityEngine
     ///<summary>
     /// Multiplies two vectors component-wise.
     ///</summary>
-    public static Vector3D Scale(Vector3D a, Vector3D b) { return new Vector3D(a.x * b.x, a.y * b.y, a.z * b.z); }
+    public static Vector3D Scale(Vector3D a, Vector3D b) => new Vector3D(a.x * b.x, a.y * b.y, a.z * b.z);
 
     ///<summary>
     /// Multiplies every component of this vector by the same component of /scale/.
@@ -336,7 +336,7 @@ namespace UnityEngine
     ///<summary>
     /// Dot Product of two vectors.
     ///</summary>
-    public static double Dot(Vector3D lhs, Vector3D rhs) { return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z; }
+    public static double Dot(Vector3D lhs, Vector3D rhs) => lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
 
     ///<summary>
     /// Projects a vector onto another vector.
@@ -436,15 +436,12 @@ namespace UnityEngine
     ///<summary>
     /// Returns the length of this vector (RO).
     ///</summary>
-    public double magnitude
-    {
-      get { return (double)Math.Sqrt(x * x + y * y + z * z); }
-    }
+    public double magnitude => Math.Sqrt(x * x + y * y + z * z);
 
     ///<summary>
     /// Returns the squared length of this vector (RO).
     ///</summary>
-    public double sqrMagnitude { get { return x * x + y * y + z * z; } }
+    public double sqrMagnitude => x * x + y * y + z * z;
 
     ///<summary>
     /// Returns a vector that is made from the smallest components of two vectors.
@@ -476,59 +473,59 @@ namespace UnityEngine
     ///<summary>
     /// Shorthand for writing `Vector3D(0, 0, 0)`
     ///</summary>
-    public static Vector3D zero { get { return zeroVector; } }
+    public static Vector3D zero => zeroVector;
     ///<summary>
     /// Shorthand for writing `Vector3D(1, 1, 1)`
     ///</summary>
-    public static Vector3D one { get { return oneVector; } }
+    public static Vector3D one => oneVector;
     ///<summary>
     /// Shorthand for writing `Vector3D(0, 0, 1)`
     ///</summary>
-    public static Vector3D forward { get { return forwardVector; } }
-    public static Vector3D back { get { return backVector; } }
+    public static Vector3D forward => forwardVector;
+    public static Vector3D back => backVector;
     ///<summary>
     /// Shorthand for writing `Vector3D(0, 1, 0)`
     ///</summary>
-    public static Vector3D up { get { return upVector; } }
-    public static Vector3D down { get { return downVector; } }
-    public static Vector3D left { get { return leftVector; } }
+    public static Vector3D up => upVector;
+    public static Vector3D down => downVector;
+    public static Vector3D left => leftVector;
     ///<summary>
     /// Shorthand for writing `Vector3D(1, 0, 0)`
     ///</summary>
-    public static Vector3D right { get { return rightVector; } }
+    public static Vector3D right => rightVector;
     ///<summary>
     /// Shorthand for writing `Vector3D(double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity)`
     ///</summary>
-    public static Vector3D positiveInfinity { get { return positiveInfinityVector; } }
+    public static Vector3D positiveInfinity => positiveInfinityVector;
     ///<summary>
     /// Shorthand for writing `Vector3D(double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity)`
     ///</summary>
-    public static Vector3D negativeInfinity { get { return negativeInfinityVector; } }
+    public static Vector3D negativeInfinity => negativeInfinityVector;
 
     ///<summary>
     /// Adds two vectors.
     ///</summary>
-    public static Vector3D operator +(Vector3D a, Vector3D b) { return new Vector3D(a.x + b.x, a.y + b.y, a.z + b.z); }
+    public static Vector3D operator +(Vector3D a, Vector3D b) => new Vector3D(a.x + b.x, a.y + b.y, a.z + b.z);
     ///<summary>
     /// Subtracts one vector from another.
     ///</summary>
-    public static Vector3D operator -(Vector3D a, Vector3D b) { return new Vector3D(a.x - b.x, a.y - b.y, a.z - b.z); }
+    public static Vector3D operator -(Vector3D a, Vector3D b) => new Vector3D(a.x - b.x, a.y - b.y, a.z - b.z);
     ///<summary>
     /// Negates a vector.
     ///</summary>
-    public static Vector3D operator -(Vector3D a) { return new Vector3D(-a.x, -a.y, -a.z); }
+    public static Vector3D operator -(Vector3D a) => new Vector3D(-a.x, -a.y, -a.z);
     ///<summary>
     /// Multiplies a vector by a number.
     ///</summary>
-    public static Vector3D operator *(Vector3D a, double d) { return new Vector3D(a.x * d, a.y * d, a.z * d); }
+    public static Vector3D operator *(Vector3D a, double d) => new Vector3D(a.x * d, a.y * d, a.z * d);
     ///<summary>
     /// Multiplies a vector by a number.
     ///</summary>
-    public static Vector3D operator *(double d, Vector3D a) { return new Vector3D(a.x * d, a.y * d, a.z * d); }
+    public static Vector3D operator *(double d, Vector3D a) => new Vector3D(a.x * d, a.y * d, a.z * d);
     ///<summary>
     /// Divides a vector by a number.
     ///</summary>
-    public static Vector3D operator /(Vector3D a, double d) { return new Vector3D(a.x / d, a.y / d, a.z / d); }
+    public static Vector3D operator /(Vector3D a, double d) => new Vector3D(a.x / d, a.y / d, a.z / d);
 
     ///<summary>
     /// Returns true if the vectors are equal.

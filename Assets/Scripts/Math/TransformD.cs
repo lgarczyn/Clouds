@@ -4,9 +4,9 @@ using System;
 [Serializable]
 public struct TransformD : IEquatable<TransformD>
 {
-  public Vector3D position { get { return this._position; } }
-  public QuaternionD rotation { get { return this._rotation; } }
-  public double scale { get { return this._scale; } }
+  public Vector3D position => _position;
+  public QuaternionD rotation => _rotation;
+  public double scale => _scale;
 
   [SerializeField]
   Vector3D _position;
