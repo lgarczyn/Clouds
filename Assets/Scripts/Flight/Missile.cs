@@ -65,6 +65,9 @@ public class Missile : MonoBehaviour
     controller.N *= GetRandomVariation();
 
     aggressivity += Random.Range(-aggressivityVariation, -aggressivityVariation);
+
+    // Initialize last target to avoid missiles going to 0.0.0 if player is hidden
+    lastTargetPosition = transform.position + Vector3.up * 300;
   }
 
   private Vector3 GetPidTarget(Vector3 deltaPos, float accuracy)
