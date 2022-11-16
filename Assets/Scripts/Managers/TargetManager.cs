@@ -1,10 +1,14 @@
 using UnityEngine;
 
-public class TargetManager : Manager<TargetManager>
-{
-  public Target plane;
+public interface ITargetManager: IManager<ITargetManager> {
+  public ITarget GetTarget();
+}
 
-  public Target GetTarget()
+public class TargetManager : Manager<ITargetManager>, ITargetManager
+{
+  [SerializeField] Target plane;
+
+  public ITarget GetTarget()
   {
     return plane;
   }

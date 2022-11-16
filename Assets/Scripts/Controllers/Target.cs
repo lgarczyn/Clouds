@@ -1,8 +1,14 @@
 using UnityEngine;
 
+public interface ITarget {
+  public bool IsVisible(Vector3 position);
+  public Vector3 position { get; }
+  public Vector3 velocity { get; }
+}
+
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(ResourceCalculatorBridge))]
-public class Target : MonoBehaviour
+public class Target : MonoBehaviour, ITarget
 {
   public float invisibilityThreshold = 5f;
 
