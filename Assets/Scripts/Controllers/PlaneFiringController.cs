@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class PlaneFiringController : MonoBehaviour
 {
   public float rps = 10;
@@ -13,6 +12,8 @@ public class PlaneFiringController : MonoBehaviour
   double lastShotTimestamp = 0;
   bool firing = false;
 
+  [SerializeField][RequiredComponent] Rigidbody reqRigidbody;
+
   void FixedUpdate()
   {
 
@@ -24,16 +25,14 @@ public class PlaneFiringController : MonoBehaviour
 
         firing = true;
 
-        Rigidbody rigidbody = GetComponent<Rigidbody>();
-
         Vector3 dir = (Camera.main.transform.forward
           + Random.insideUnitSphere * spread).normalized;
 
         var bulletGO = GameObject.Instantiate(bulletPrefab.gameObject,
-          rigidbody.position, Quaternion.identity,
+          reqRigidbody.position, Quaternion.identity,
           transform.parent
           );
-        bulletGO.GetComponent<BulletController>().Init(rigidbody, dir);
+        bulletGO.GetComponent<BulletController>().Init(reqRigidbody, dir);
         lastShotTimestamp = Time.fixedTimeAsDouble;
       }
       else

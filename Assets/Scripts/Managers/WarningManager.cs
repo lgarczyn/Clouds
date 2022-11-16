@@ -39,7 +39,6 @@ public class WarningLevelColorMap : SerializableDictionaryBase<WarningLevel, Col
 [System.Serializable]
 public class WarningInfoMap : SerializableDictionaryBase<WarningType, WarningInfo> { };
 
-[RequireComponent(typeof(Text))]
 public class WarningManager : Manager<WarningManager>
 {
   [BoundedCurve]
@@ -50,6 +49,8 @@ public class WarningManager : Manager<WarningManager>
   [SerializeField] WarningInfoMap warningInfo;
 
   Dictionary<WarningType, float> timers = new Dictionary<WarningType, float>();
+
+  [SerializeField][RequiredComponent] Text reqText;
 
   public void SendWarning(WarningType type)
   {
@@ -84,6 +85,6 @@ public class WarningManager : Manager<WarningManager>
         return $"<color=#{colorText}>{info.message}</color>";
       }).Aggregate("", (i, j) => i + "\n" + j);
 
-    GetComponent<Text>().text = message;
+    reqText.text = message;
   }
 }

@@ -1,9 +1,10 @@
 using UnityEngine;
 
-[RequireComponent(typeof(ParticleSystemRenderer))]
 public class ParticleSystemMaxDistance : MonoBehaviour
 {
   public float maxDistance = 10000;
+
+  [SerializeField][RequiredComponent] ParticleSystemRenderer reqParticleSystemRenderer;
 
   void Update()
   {
@@ -13,7 +14,7 @@ public class ParticleSystemMaxDistance : MonoBehaviour
 
     if (sqrDistance > sqrMaxDistance)
     {
-      GetComponent<ParticleSystemRenderer>().enabled = false;
+      reqParticleSystemRenderer.enabled = false;
       this.enabled = false;
     }
   }

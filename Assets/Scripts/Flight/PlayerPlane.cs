@@ -12,7 +12,6 @@ using UnityEngine;
 /// keyboard overrides for flight control. It's not perfect, but it works well enough
 /// for an example.
 /// </summary>
-[RequireComponent(typeof(Rigidbody))]
 public class PlayerPlane : MonoBehaviour
 {
   [Header("Components")]
@@ -32,19 +31,17 @@ public class PlayerPlane : MonoBehaviour
   [SerializeField][Range(-1f, 1f)] private float yaw = 0f;
   [SerializeField][Range(-1f, 1f)] private float roll = 0f;
 
+  [SerializeField][RequiredComponent] Rigidbody reqRigidbody;
+
   public float Pitch { set { pitch = Mathf.Clamp(value, -1f, 1f); } get { return pitch; } }
   public float Yaw { set { yaw = Mathf.Clamp(value, -1f, 1f); } get { return yaw; } }
   public float Roll { set { roll = Mathf.Clamp(value, -1f, 1f); } get { return roll; } }
-
-  private Rigidbody rigid;
 
   private bool rollOverride = false;
   private bool pitchOverride = false;
 
   private void Awake()
   {
-    rigid = GetComponent<Rigidbody>();
-
     if (controller == null)
       Debug.LogError(name + ": Plane - Missing reference to MouseFlightController!");
   }
@@ -131,8 +128,8 @@ public class PlayerPlane : MonoBehaviour
   {
     // Ultra simple flight where the plane just gets pushed forward and manipulated
     // with torques to turn.
-    rigid.AddRelativeForce(Vector3.forward * thrust * forceMult, ForceMode.Force);
-    rigid.AddRelativeTorque(new Vector3(turnTorque.x * pitch,
+    reqRigidbody.AddRelativeForce(Vector3.forward * thrust * forceMult, ForceMode.Force);
+    reqRigidbody.AddRelativeTorque(new Vector3(turnTorque.x * pitch,
                                         turnTorque.y * yaw,
                                         -turnTorque.z * roll) * forceMult,
                             ForceMode.Force);

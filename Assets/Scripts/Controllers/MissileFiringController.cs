@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(TargetManagerBridge))]
 public class MissileFiringController : MonoBehaviour
 {
   public float rps = 10;
@@ -23,6 +21,10 @@ public class MissileFiringController : MonoBehaviour
   public UnityEvent<bool> onLockChange;
   public UnityEvent onLock;
 
+  [SerializeField][RequiredComponent] Missile reqMissile;
+  [SerializeField][RequiredComponent] Rigidbody reqRigidbody;
+  [SerializeField][RequiredComponent] TargetManagerBridge reqTargetManagerBridge;
+
   void Start()
   {
     reloadTime = 0;
@@ -34,28 +36,34 @@ public class MissileFiringController : MonoBehaviour
 
     bool lockSuccessful = TryLock();
 
-    if (lockSuccessful) {
+    if (lockSuccessful)
+    {
       lockTime += Time.fixedDeltaTime;
-    } else {
+    }
+    else
+    {
       lockTime = 0f;
     }
 
-    if (lockTime > lockingTimeForWarning) {
+    if (lockTime > lockingTimeForWarning)
+    {
       onLock.Invoke();
     }
 
-    if (lockedLastFrame != lockSuccessful ) {
+    if (lockedLastFrame != lockSuccessful)
+    {
       onLockChange.Invoke(lockSuccessful);
     }
     lockedLastFrame = lockSuccessful;
   }
 
-  bool TryLock() {
+  bool TryLock()
+  {
 
-    Rigidbody r = GetComponent<Rigidbody>();
+    Rigidbody r = reqRigidbody;
 
     // Get the plane target
-    ITarget target = GetComponent<TargetManagerBridge>().instance.GetTarget();
+    ITarget target = reqTargetManagerBridge.instance.GetTarget();
 
     if (target.IsVisible(r.position) == false) return false;
 

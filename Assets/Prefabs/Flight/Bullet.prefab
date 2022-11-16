@@ -224,3 +224,5 @@ MonoBehaviour:
   lifetime: 1
   collisionEffect: {fileID: 0}
   bounceDistance: 0
+  reqRigidbody: {fileID: 1012293554007481791}
+  reqTrailRenderer: {fileID: 17678180223963330}

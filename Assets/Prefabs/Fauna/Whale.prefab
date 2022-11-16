@@ -1610,6 +1610,8 @@ MonoBehaviour:
   scaleRatioRange: 2
   scaleBase: 10
   animationSpeedBase: 3
+  reqRigidbody: {fileID: 7279520872201385023}
+  reqPlayerManagerBridge: {fileID: 6752804410466189259}
   diveCounter: 0
   dirChangeSpeed: 1
   speed: 20

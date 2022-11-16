@@ -5,10 +5,12 @@ public class WeaponAudio : MonoBehaviour
   bool isPlaying;
   [SerializeField] WeaponAudioProvider provider;
 
+  [SerializeField][RequiredComponent] AudioSource reqAudioSource;
+
   public void StartFire(float rps)
   {
     //uniDebug.Log("Starting fire fps:" + rps);
-    AudioSource source = GetComponent<AudioSource>();
+    AudioSource source = reqAudioSource;
 
     Range range = provider.GetClip(rps);
     float pitch = rps * range.clip.length / range.shotCount;
@@ -42,6 +44,6 @@ public class WeaponAudio : MonoBehaviour
   public void EndFire()
   {
     isPlaying = false;
-    GetComponent<AudioSource>().Stop();
+    reqAudioSource.Stop();
   }
 }

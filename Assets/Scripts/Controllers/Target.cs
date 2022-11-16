@@ -1,24 +1,27 @@
 using UnityEngine;
 
-public interface ITarget {
+public interface ITarget
+{
   public bool IsVisible(Vector3 position);
   public Vector3 position { get; }
   public Vector3 velocity { get; }
 }
 
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(ResourceCalculatorBridge))]
 public class Target : MonoBehaviour, ITarget
 {
   public float invisibilityThreshold = 5f;
 
   public bool forceInvisibility = false;
 
+  [SerializeField][RequiredComponent] Rigidbody reqRigidbody;
+
+  [SerializeField][RequiredComponent] ResourceCalculatorBridge reqResourceCalculatorBridge;
+
   private bool isVisible = false;
 
   void Update()
   {
-    var resourceCalculator = GetComponent<ResourceCalculatorBridge>().instance;
+    var resourceCalculator = reqResourceCalculatorBridge.instance;
     isVisible = resourceCalculator.GetDensity() < invisibilityThreshold;
   }
 
@@ -31,7 +34,7 @@ public class Target : MonoBehaviour, ITarget
   {
     get
     {
-      return GetComponent<Rigidbody>().position;
+      return reqRigidbody.position;
     }
   }
 
@@ -39,7 +42,7 @@ public class Target : MonoBehaviour, ITarget
   {
     get
     {
-      return GetComponent<Rigidbody>().velocity;
+      return reqRigidbody.velocity;
     }
   }
 }

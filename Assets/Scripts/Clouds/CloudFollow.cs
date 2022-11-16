@@ -1,9 +1,10 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerManagerBridge))]
 public class CloudFollow : MonoBehaviour
 {
   public bool increaseOnPlay = true;
+
+  [SerializeField][RequiredComponent] PlayerManagerBridge reqPlayerManagerBridge;
 
   void Start()
   {
@@ -20,7 +21,7 @@ public class CloudFollow : MonoBehaviour
 
   void LateUpdate()
   {
-    var player = GetComponent<PlayerManagerBridge>().instance.transform;
+    var player = reqPlayerManagerBridge.instance.transform;
 
     Vector3 playerPos = player.position;
     playerPos.y = 0;

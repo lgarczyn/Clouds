@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerManagerBridge))]
 public class CloudMaster : MonoBehaviour
 {
   const string headerDecoration = " --- ";
@@ -95,6 +94,8 @@ public class CloudMaster : MonoBehaviour
   private AltitudeAtlas altitudeAtlasGen;
   private NoiseGenerator noiseGen;
 
+  [SerializeField][RequiredComponent] PlayerManagerBridge reqPlayerManagerBridge;
+
   void UpdateMaps()
   {
     altitudeAtlasGen = FindObjectOfType<AltitudeAtlas>();
@@ -130,7 +131,7 @@ public class CloudMaster : MonoBehaviour
     Vector3 boundsMin = container.position - container.localScale / 2;
     Vector3 boundsMax = container.position + container.localScale / 2;
 
-    var player = GetComponent<PlayerManagerBridge>().instance.playerTransform;
+    var player = reqPlayerManagerBridge.instance.playerTransform;
 
     material.SetVector("boundsMin", boundsMin);
     material.SetVector("boundsMax", boundsMax);

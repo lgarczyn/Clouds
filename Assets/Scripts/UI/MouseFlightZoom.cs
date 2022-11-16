@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(MouseFlightController))]
 public class MouseFlightZoom : MonoBehaviour
 {
   public float scrollPower = 1f;
@@ -11,9 +10,11 @@ public class MouseFlightZoom : MonoBehaviour
   float _currentZoom = 0;
   float _temporaryZoom = 0f;
 
+  [SerializeField][RequiredComponent] MouseFlightController reqMouseFlightController;
+
   private void Start()
   {
-    _zoomOrigin = GetComponent<MouseFlightController>().offset;
+    _zoomOrigin = reqMouseFlightController.offset;
   }
 
   private void Update()
@@ -21,7 +22,7 @@ public class MouseFlightZoom : MonoBehaviour
     _currentZoom -= MouseScroll * scrollPower / 10;
     _currentZoom = Mathf.Clamp(_currentZoom, minScroll, maxScroll);
     Vector3 zoomOffset = _zoomOrigin * Mathf.Pow(2, _currentZoom + _temporaryZoom);
-    GetComponent<MouseFlightController>().offset = zoomOffset;
+    reqMouseFlightController.offset = zoomOffset;
   }
 
   float MouseScroll

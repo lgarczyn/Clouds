@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(WarningManagerBridge))]
 public class PlaneRepairController : MonoBehaviour
 {
   public PlaneEntity plane;
   public float repairPerSecond = 1f;
   public float delayBeforeHeal = 10f;
+
+  [SerializeField][RequiredComponent] WarningManagerBridge reqWarningManagerBridge;
 
   private float timeSinceLastDamage = float.PositiveInfinity;
 
@@ -24,9 +25,9 @@ public class PlaneRepairController : MonoBehaviour
       plane.RefuelShield(repairs);
 
       if (plane.shieldFull)
-        GetComponent<WarningManagerBridge>().WarnFullShield();
+        reqWarningManagerBridge.WarnFullShield();
       else
-        GetComponent<WarningManagerBridge>().WarnRegeneratingShield();
+        reqWarningManagerBridge.WarnRegeneratingShield();
     }
   }
 }

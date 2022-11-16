@@ -127,6 +127,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5794696309002890579}
   m_SourcePrefab: {fileID: 100100000, guid: 1de2d24ca45aa444d94b580c6c1208ab, type: 3}
+--- !u!23 &2991371202344424157 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 1de2d24ca45aa444d94b580c6c1208ab,
+    type: 3}
+  m_PrefabInstance: {fileID: 4486405342693953113}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3639893877252240136 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1de2d24ca45aa444d94b580c6c1208ab,
@@ -146,6 +152,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minHeight: 0
+  reqRenderer: {fileID: 2991371202344424157}
+  reqLocalSpaceControllerBridge: {fileID: 5794696309002890579}
 --- !u!114 &5794696309002890579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,6 +301,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5626020725139391454}
   m_SourcePrefab: {fileID: 100100000, guid: 5ea8d71d09071ff43a6e0e8d85c0115f, type: 3}
+--- !u!23 &2991371200528943578 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 5ea8d71d09071ff43a6e0e8d85c0115f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4486405343546316126}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3639893876895066127 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 5ea8d71d09071ff43a6e0e8d85c0115f,
@@ -312,6 +326,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minHeight: 0
+  reqRenderer: {fileID: 2991371200528943578}
+  reqLocalSpaceControllerBridge: {fileID: 5626020725139391454}
 --- !u!114 &5626020725139391454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -462,6 +478,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6202635994582083360}
   m_SourcePrefab: {fileID: 100100000, guid: 1de2d24ca45aa444d94b580c6c1208ab, type: 3}
+--- !u!23 &2991371201260118587 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 1de2d24ca45aa444d94b580c6c1208ab,
+    type: 3}
+  m_PrefabInstance: {fileID: 4486405343753273023}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3639893876163920878 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1de2d24ca45aa444d94b580c6c1208ab,
@@ -481,6 +503,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minHeight: 0
+  reqRenderer: {fileID: 2991371201260118587}
+  reqLocalSpaceControllerBridge: {fileID: 6202635994582083360}
 --- !u!114 &6202635994582083360
 MonoBehaviour:
   m_ObjectHideFlags: 0

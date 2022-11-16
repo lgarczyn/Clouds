@@ -28,9 +28,9 @@ public class RequiredComponentDrawer : PropertyDrawer
       {
         if (property.objectReferenceValue != null) {
           Debug.LogError("Field <b>" + fieldInfo.Name + "</b> of " + mono.GetType() + " had the wrong component stored! Fixing", mono);
-          property.objectReferenceValue = comp;
-          property.serializedObject.ApplyModifiedProperties(); // not sure if this is really needed
         }
+        property.objectReferenceValue = comp;
+        property.serializedObject.ApplyModifiedProperties(); // not sure if this is really needed
       }
     }
     else

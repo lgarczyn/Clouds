@@ -35,7 +35,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &4438346421358672984
 Camera:
@@ -174,3 +174,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c53bb711d9b81045ab99585ccb1b0bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reqFakeTarget: {fileID: 1871801592}

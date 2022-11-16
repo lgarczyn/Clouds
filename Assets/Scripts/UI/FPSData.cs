@@ -3,12 +3,14 @@ using UnityEngine;
 using System.Linq;
 using Text = TMPro.TextMeshProUGUI;
 
-[RequireComponent(typeof(Text))]
-[RequireComponent(typeof(GForceCalculatorBridge))]
 public class FPSData : MonoBehaviour
 {
   public float overheadScore = 2;
   public bool reset;
+
+  [SerializeField][RequiredComponent] Text reqText;
+
+  [SerializeField][RequiredComponent] GForceCalculatorBridge reqGForceCalculatorBridge;
 
   private bool firstFrame;
   SortedDictionary<int, int> frameTimes;
@@ -101,7 +103,7 @@ public class FPSData : MonoBehaviour
       {
         text += "\nvelocity: " + Mathf.Round(r.velocity.magnitude);
       }
-      var gForceCalculator = GetComponent<GForceCalculatorBridge>().instance;
+      var gForceCalculator = reqGForceCalculatorBridge.instance;
       if (gForceCalculator)
       {
         text += "\ngforce: " + Mathf.Round(gForceCalculator.GetGForce() * 10) / 10;
@@ -109,10 +111,8 @@ public class FPSData : MonoBehaviour
     }
 
 
-    Text textComp = GetComponent<Text>();
+    reqText.text = text;
 
-    textComp.text = text;
-
-    if (Input.GetKeyDown(KeyCode.F)) textComp.enabled = !textComp.enabled;
+    if (Input.GetKeyDown(KeyCode.F)) reqText.enabled = !reqText.enabled;
   }
 }

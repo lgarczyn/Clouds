@@ -1,8 +1,5 @@
 using UnityEngine;
-using System.Linq;
 
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(TargetManagerBridge))]
 public class Missile : MonoBehaviour
 {
   [Header("Physics")]
@@ -44,6 +41,10 @@ public class Missile : MonoBehaviour
   [Range(0.00001f, 1)]
   private float thrustMagnitudeAdjustmentDelay = 0.5f;
 
+  [SerializeField][RequiredComponent] Rigidbody reqRigidbody;
+
+  [SerializeField][RequiredComponent] TargetManagerBridge reqTargetManagerBridge;
+
 
   public void SetTempTarget(Vector3 target, float duration)
   {
@@ -80,10 +81,10 @@ public class Missile : MonoBehaviour
 
   private void FixedUpdate()
   {
-    Rigidbody r = GetComponent<Rigidbody>();
+    Rigidbody r = reqRigidbody;
 
     // Get the plane target
-    ITarget target = GetComponent<TargetManagerBridge>().instance.GetTarget();
+    ITarget target = reqTargetManagerBridge.instance.GetTarget();
 
     float accuracy;
     Vector3 targetPos;

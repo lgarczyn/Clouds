@@ -1,9 +1,6 @@
 using UnityEngine;
 using System.Linq;
 
-[RequireComponent(typeof(Collider))]
-[RequireComponent(typeof(MeshRenderer))]
-[RequireComponent(typeof(WarningManagerBridge))]
 public class ShieldController : MonoBehaviour, IDamageReceiver
 {
   public PlaneEntity plane;
@@ -14,29 +11,19 @@ public class ShieldController : MonoBehaviour, IDamageReceiver
 
   public bool alwaysTest;
 
+  [SerializeField][RequiredComponent] Collider reqCollider;
+
+  [SerializeField][RequiredComponent] MeshRenderer reqMeshRenderer;
+
+  [SerializeField][RequiredComponent] WarningManagerBridge reqWarningManagerBridge;
+
   Material material;
-
-  public MeshRenderer meshRenderer
-  {
-    get
-    {
-      return GetComponent<MeshRenderer>();
-    }
-  }
-
-  public Collider shieldCollider
-  {
-    get
-    {
-      return GetComponent<Collider>();
-    }
-  }
 
   void Start()
   {
-    meshRenderer.enabled = false;
-    material = meshRenderer.material;
-    meshRenderer.material = material;
+    reqMeshRenderer.enabled = false;
+    material = reqMeshRenderer.material;
+    reqMeshRenderer.material = material;
   }
 
   public float Damage(DamageInfo info)
@@ -52,16 +39,16 @@ public class ShieldController : MonoBehaviour, IDamageReceiver
     // Spend a damage amount of shield
     if (plane.TrySpendShield(info.damage))
     {
-      if (plane.shield < 10f) GetComponent<WarningManagerBridge>().WarnLowShield();
+      if (plane.shield < 10f) reqWarningManagerBridge.WarnLowShield();
 
       return plane.shield;
     }
     // If not enough shield, break the shield
     plane.TrySpendShield(plane.shield);
-    shieldCollider.enabled = false;
-    meshRenderer.enabled = false;
+    reqCollider.enabled = false;
+    reqMeshRenderer.enabled = false;
 
-    if (plane.shield < 10f) GetComponent<WarningManagerBridge>().WarnBrokenShield();
+    if (plane.shield < 10f) reqWarningManagerBridge.WarnBrokenShield();
     return 0;
   }
 
@@ -69,7 +56,7 @@ public class ShieldController : MonoBehaviour, IDamageReceiver
   {
     if (plane.shield > 0)
     {
-      shieldCollider.enabled = true;
+      reqCollider.enabled = true;
     }
   }
 
@@ -82,7 +69,7 @@ public class ShieldController : MonoBehaviour, IDamageReceiver
     // If testing, start animation again
     if (timeSinceImpact > lastAnimationValue)
     {
-      meshRenderer.enabled = false;
+      reqMeshRenderer.enabled = false;
 
       if (alwaysTest)
       {
@@ -94,7 +81,7 @@ public class ShieldController : MonoBehaviour, IDamageReceiver
     else
     {
       // Display shield and set animated values
-      meshRenderer.enabled = true;
+      reqMeshRenderer.enabled = true;
 
       material.SetFloat("_Coverage", shieldCoverageVsTime.Evaluate(timeSinceImpact));
       material.SetFloat("_Contrast", shieldContrastVsTime.Evaluate(timeSinceImpact));

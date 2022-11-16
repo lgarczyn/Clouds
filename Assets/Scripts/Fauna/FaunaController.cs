@@ -1,7 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(PlayerManagerBridge))]
 public class FaunaController : MonoBehaviour
 {
   public Animation[] animations;
@@ -13,6 +11,10 @@ public class FaunaController : MonoBehaviour
   public float scaleRatioRange = 1.2f;
   public float scaleBase = 1f;
   public float animationSpeedBase = 1f;
+
+  [SerializeField][RequiredComponent] protected Rigidbody reqRigidbody;
+
+  [SerializeField][RequiredComponent] PlayerManagerBridge reqPlayerManagerBridge;
 
   private float scale;
   private float lastRepop;
@@ -48,7 +50,7 @@ public class FaunaController : MonoBehaviour
 
   void SetRandomPos()
   {
-    Transform player = GetComponent<PlayerManagerBridge>().playerTransform;
+    Transform player = reqPlayerManagerBridge.playerTransform;
 
     Vector3 playerPos = player.position;
 
@@ -58,7 +60,7 @@ public class FaunaController : MonoBehaviour
 
     Vector3 newPos = playerPos + randomPos;
 
-    GetComponent<Rigidbody>().position = newPos;
+    reqRigidbody.position = newPos;
 
   }
 
@@ -81,12 +83,10 @@ public class FaunaController : MonoBehaviour
 
   bool ShouldRepop()
   {
-    Transform player = GetComponent<PlayerManagerBridge>().transform;
-
-    Rigidbody rigidbody = GetComponent<Rigidbody>();
+    Transform player = reqPlayerManagerBridge.transform;
 
     Vector2 playerPos = new Vector2(player.position.x, player.position.z);
-    Vector2 whalePos = new Vector2(rigidbody.position.x, rigidbody.position.z);
+    Vector2 whalePos = new Vector2(reqRigidbody.position.x, reqRigidbody.position.z);
 
     return Vector2.Distance(playerPos, whalePos) > depopDistance;
   }

@@ -4,7 +4,6 @@ using UnityEngine;
 /// Provides an inertial frame for the current game space
 /// Handles the jupiter space coordinates of the current game space
 /// </summary>
-[RequireComponent(typeof(OrbitControllerBridge))]
 public class LocalSpaceController : Manager<LocalSpaceController>
 {
   public InertialFrame frame;
@@ -18,6 +17,8 @@ public class LocalSpaceController : Manager<LocalSpaceController>
   [Range(-180, +180)]
   public double bearing;
   public double altitude;
+
+  [SerializeField][RequiredComponent] OrbitControllerBridge reqOrbitControllerBridge;
 
   void Update()
   {
@@ -33,7 +34,7 @@ public class LocalSpaceController : Manager<LocalSpaceController>
 
   void UpdatePos()
   {
-    var jupiterSpace = GetComponent<OrbitControllerBridge>().instance;
+    var jupiterSpace = reqOrbitControllerBridge.instance;
     TransformD transform = jupiterSpace.frame.GetSurfaceTransform(
       latitude,
       longitude,

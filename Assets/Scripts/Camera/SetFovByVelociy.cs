@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Camera))]
 public class SetFovByVelociy : MonoBehaviour
 {
   public AnimationCurve fovByVelocity;
@@ -9,15 +8,16 @@ public class SetFovByVelociy : MonoBehaviour
 
   private float adjustSpeed = 0f;
 
+  [SerializeField][RequiredComponent] Camera reqCamera;
+
   void Update()
   {
     float velocity = target.velocity.magnitude;
     float value = fovByVelocity.Evaluate(velocity);
-    Camera camera = GetComponent<Camera>();
-    float current = camera.fieldOfView;
+    float current = reqCamera.fieldOfView;
 
     float dampedValue = Mathf.SmoothDamp(current, value, ref adjustSpeed, adjustTime);
 
-    camera.fieldOfView = dampedValue;
+    reqCamera.fieldOfView = dampedValue;
   }
 }

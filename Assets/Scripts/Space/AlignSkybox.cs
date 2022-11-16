@@ -1,10 +1,11 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Skybox))]
 public class AlignSkybox : MonoBehaviour
 {
   public OrbitController orbitController;
   public LocalSpaceController localSpaceController;
+
+  [SerializeField][RequiredComponent] Skybox reqSkybox;
 
   private Material material;
 

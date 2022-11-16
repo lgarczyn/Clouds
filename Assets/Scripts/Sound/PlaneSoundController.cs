@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
 public class PlaneSoundController : MonoBehaviour
 {
   public float volume = 1f;
@@ -8,6 +7,8 @@ public class PlaneSoundController : MonoBehaviour
   [SerializeField] AnimationCurve pitchVsSpeed;
   [SerializeField] AnimationCurve volumeVsAltitude;
   [SerializeField] Rigidbody plane;
+
+  [SerializeField][RequiredComponent] AudioSource reqAudioSource;
 
   // Update is called once per frame
   void Update()

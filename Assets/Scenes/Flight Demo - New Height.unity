@@ -901,11 +901,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 414724919}
     m_Modifications:
-    - target: {fileID: 1459837580804021123, guid: 21387b72cd40f334f87f61aded6dd53b,
-        type: 3}
-      propertyPath: m_PixelPerfect
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1460849902489364775, guid: 21387b72cd40f334f87f61aded6dd53b,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1537,6 +1532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55bb4f737244ce04ca440632e8eeef78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reqLocalSpaceControllerBridge: {fileID: 982884559}
 --- !u!114 &982884558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1650,6 +1646,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   resources: {fileID: 1567621671}
+  reqAudioLowPassFilter: {fileID: 1101370464}
 --- !u!81 &1101370463
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1711,7 +1708,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1166806714}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 4
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -1762,7 +1759,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1166806714}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7487aa9ab3766d246835bce4a404008d, type: 3}
   m_Name: 
@@ -1772,6 +1769,7 @@ MonoBehaviour:
   active: 1
   debug: 1
   roundFact: 3
+  reqCamera: {fileID: 1166806715}
 --- !u!4 &1166806718
 Transform:
   m_ObjectHideFlags: 0
@@ -1800,6 +1798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   depthTextureMode: 1
+  reqCamera: {fileID: 1166806715}
 --- !u!114 &1166806720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1848,6 +1847,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec704b02dd2ccd745a303af0cdaa4cf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reqCamera: {fileID: 1166806715}
 --- !u!1 &1199267597 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3745256318339078646, guid: 06a8f8ea7c721fa46b6fb597ad1dc4a6,
@@ -1921,6 +1921,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   increaseOnPlay: 1
+  reqPlayerManagerBridge: {fileID: 1230604925}
 --- !u!114 &1230604925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2112,6 +2113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   depthTextureMode: 1
+  reqCamera: {fileID: 1306023373}
 --- !u!114 &1306023376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2186,6 +2188,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   adjustTime: 1
   target: {fileID: 4563114451573422}
+  reqCamera: {fileID: 1306023373}
 --- !u!1 &1311455497
 GameObject:
   m_ObjectHideFlags: 0
@@ -2472,6 +2475,7 @@ MonoBehaviour:
   outOfBoundMinLightAltitude: 2841
   outOfBoundMaxLightAltitude: 12698
   material: {fileID: 2100000, guid: feb5506ac90b28945a87d742b2d386f0, type: 2}
+  reqPlayerManagerBridge: {fileID: 1331973716}
 --- !u!114 &1331973714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2501,6 +2505,7 @@ MonoBehaviour:
   cloudsCamera: {fileID: 1306023373}
   cloudRendererIndex: 2
   cloudsEnabled: 1
+  reqCloudMaster: {fileID: 1331973713}
 --- !u!114 &1331973716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3013,6 +3018,7 @@ MonoBehaviour:
   longitude: -37
   bearing: 0
   altitude: 69911000
+  reqOrbitControllerBridge: {fileID: 1608915525}
 --- !u!114 &1608915524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3598,6 +3604,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1306023373}
   LocalSpaceController: {fileID: 1608915523}
+  reqScaledSpaceControllerBridge: {fileID: 1951955580}
 --- !u!114 &1951955578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3612,6 +3619,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orbitController: {fileID: 385219343}
   localSpaceController: {fileID: 1608915523}
+  reqSkybox: {fileID: 1951955575}
 --- !u!114 &1951955579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3625,6 +3633,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1306023373}
+  reqCamera: {fileID: 1951955573}
 --- !u!114 &1951955580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4290,25 +4299,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 982884555}
     m_Modifications:
-    - target: {fileID: 3639893876163920878, guid: 732e31a3870c5b44c8f11a887a158a65,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3639893876895066127, guid: 732e31a3870c5b44c8f11a887a158a65,
         type: 3}
       propertyPath: m_Name
       value: Jupiter
-      objectReference: {fileID: 0}
-    - target: {fileID: 3639893876895066127, guid: 732e31a3870c5b44c8f11a887a158a65,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3639893877252240136, guid: 732e31a3870c5b44c8f11a887a158a65,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4163666497904014005, guid: 732e31a3870c5b44c8f11a887a158a65,
         type: 3}
@@ -4466,16 +4460,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6036350815579256820, guid: 8580f51aba7053a4286c3ec8810a585e,
-        type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6036350815579256825, guid: 8580f51aba7053a4286c3ec8810a585e,
-        type: 3}
-      propertyPath: toDisable.Array.size
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6036350815579256825, guid: 8580f51aba7053a4286c3ec8810a585e,
         type: 3}

@@ -6,7 +6,7 @@ using UnityEngine;
 /// Overrides the Rigidbody inertiaTensor value on Start
 /// Prevents automatic calculation from colliders
 /// </summary>
-[RequireComponent(typeof(Rigidbody))]
+
 public class SetInertiaTensor : MonoBehaviour
 {
   /// <summary>
@@ -16,8 +16,10 @@ public class SetInertiaTensor : MonoBehaviour
   /// </summary>
   public Vector3 inertiaTensor = new Vector3(1, 1, 1);
 
+  [SerializeField][RequiredComponent] Rigidbody reqRigidbody;
+
   void Start()
   {
-    GetComponent<Rigidbody>().inertiaTensor = inertiaTensor;
+    reqRigidbody.inertiaTensor = inertiaTensor;
   }
 }

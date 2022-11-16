@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(Camera))]
 [ExecuteAlways]
 public class ShadowCameraMatrix : MonoBehaviour
 {
@@ -9,6 +8,8 @@ public class ShadowCameraMatrix : MonoBehaviour
   public bool active = true;
   public bool debug = false;
   public float roundFact = 1f;
+
+  [SerializeField][RequiredComponent] Camera reqCamera;
 
   private static Vector3 CalculatePos(Vector3 targetPos, Vector3 sunlightDir)
   {
@@ -61,9 +62,6 @@ public class ShadowCameraMatrix : MonoBehaviour
 
   private void LateUpdate()
   {
-    // Get the camera component
-    Camera shadowCamera = GetComponent<Camera>();
-
     if (active)
     {
       // Get the direction of sunlight or a placeholder
@@ -78,10 +76,10 @@ public class ShadowCameraMatrix : MonoBehaviour
 
       // Update position and matrix
       transform.position = Round(CalculatePos(targetPos, sunlightDir), roundFact);
-      shadowCamera.worldToCameraMatrix = CalculateMatrix(sunlightDir, transform);
+      reqCamera.worldToCameraMatrix = CalculateMatrix(sunlightDir, transform);
     }
     else
-      shadowCamera.ResetWorldToCameraMatrix();
+      reqCamera.ResetWorldToCameraMatrix();
 
     if (debug == false)
       return;
@@ -105,17 +103,17 @@ public class ShadowCameraMatrix : MonoBehaviour
     // Only position rotation and shear
     // We do the inverse projection and scaling ourselves to display the result
 
-    float fovMultiplier = Mathf.Tan(shadowCamera.fieldOfView * Mathf.Deg2Rad / 2);
+    float fovMultiplier = Mathf.Tan(reqCamera.fieldOfView * Mathf.Deg2Rad / 2);
     for (int i = 0; i < 8; i++)
     {
       if (i < 4)
-        frustumCorners[i].z *= shadowCamera.nearClipPlane;
+        frustumCorners[i].z *= reqCamera.nearClipPlane;
       else
-        frustumCorners[i].z *= shadowCamera.farClipPlane;
+        frustumCorners[i].z *= reqCamera.farClipPlane;
 
       float multiplier;
-      if (shadowCamera.orthographic)
-        multiplier = shadowCamera.orthographicSize;
+      if (reqCamera.orthographic)
+        multiplier = reqCamera.orthographicSize;
       else
         multiplier = frustumCorners[i].z * fovMultiplier;
 
@@ -125,7 +123,7 @@ public class ShadowCameraMatrix : MonoBehaviour
       // Z inversion because OpenGL norm
       frustumCorners[i].z *= -1;
 
-      frustumCorners[i] = shadowCamera.cameraToWorldMatrix * frustumCorners[i];
+      frustumCorners[i] = reqCamera.cameraToWorldMatrix * frustumCorners[i];
     }
 
     // Frustum

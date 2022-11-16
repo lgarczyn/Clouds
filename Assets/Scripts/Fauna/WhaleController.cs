@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class WhaleController : FaunaController
 {
   Vector3 velocity = Vector3.forward;
@@ -16,9 +15,8 @@ public class WhaleController : FaunaController
 
   protected override void OnRepop()
   {
-    Rigidbody rigidbody = GetComponent<Rigidbody>();
     velocity = Random.insideUnitSphere * speed;
-    rigidbody.rotation = Quaternion.LookRotation(velocity, Vector3.up);
+    reqRigidbody.rotation = Quaternion.LookRotation(velocity, Vector3.up);
   }
 
   void FixedUpdate()
@@ -30,12 +28,14 @@ public class WhaleController : FaunaController
     // Calculate new velocity plus the dive bias
     velocity += (velocityChange + GetDiveVelocity()) * Time.fixedDeltaTime;
 
+    Rigidbody r = reqRigidbody;
+
     // Move forward
-    GetComponent<Rigidbody>().MovePosition(GetComponent<Rigidbody>().position + velocity * Time.fixedDeltaTime * speed);
+    r.MovePosition(r.position + velocity * Time.fixedDeltaTime * speed);
     // Rotate forward
-    GetComponent<Rigidbody>().MoveRotation(
+    r.MoveRotation(
         Quaternion.Slerp(
-            GetComponent<Rigidbody>().rotation,
+            r.rotation,
             Quaternion.LookRotation(velocity, Vector3.up),
             Time.fixedDeltaTime * rotationSpeed));
   }
@@ -43,10 +43,12 @@ public class WhaleController : FaunaController
   // Calculate velocity bias to stay in container
   Vector3 GetDiveVelocity()
   {
+    Rigidbody r = reqRigidbody;
+
     // If outside of bounds, set a pool of velocity to be spread over diveDuration
     float newCounter =
-        GetComponent<Rigidbody>().position.y > maxHeight ? -1f :
-        GetComponent<Rigidbody>().position.y < minHeight ? 1f :
+        r.position.y > maxHeight ? -1f :
+        r.position.y < minHeight ? 1f :
         0f;
 
     newCounter *= diveDuration / Time.fixedDeltaTime;

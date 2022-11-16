@@ -2,11 +2,13 @@
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 
-[RequireComponent(typeof(WarningManagerBridge))]
 public class PlaneDamageWarning : MonoBehaviour
 {
+
+  [SerializeField][RequiredComponent] WarningManagerBridge reqWarningManagerBridge;
+
   public void OnHealthChange(float health)
   {
-    if (health < 0.2f) GetComponent<WarningManagerBridge>().WarnLowHealth();
+    if (health < 0.2f) reqWarningManagerBridge.WarnLowHealth();
   }
 }

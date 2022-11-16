@@ -490,6 +490,8 @@ MonoBehaviour:
   aggressivityVariation: 0
   thrustAngleAdjustmentDelay: 0.24
   thrustMagnitudeAdjustmentDelay: 0.363
+  reqRigidbody: {fileID: 5848834044144880815}
+  reqTargetManagerBridge: {fileID: 7023741625907279531}
 --- !u!114 &1796061414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -541,6 +543,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  reqMissile: {fileID: 5848834044144880814}
+  reqRigidbody: {fileID: 5848834044144880815}
+  reqTargetManagerBridge: {fileID: 7023741625907279531}
 --- !u!114 &672606877858906812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -605,6 +610,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  reqMissile: {fileID: 5848834044144880814}
+  reqRigidbody: {fileID: 5848834044144880815}
 --- !u!114 &1116978085605933133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5856,6 +5863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDistance: 10000
+  reqParticleSystemRenderer: {fileID: 3375466901747055346}
 --- !u!1 &8763727889787573699
 GameObject:
   m_ObjectHideFlags: 0

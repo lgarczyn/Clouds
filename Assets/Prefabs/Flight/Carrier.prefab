@@ -18596,6 +18596,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
+  reqEnemyManagerBridge: {fileID: 4031228495672856027}
+  reqPlayerManagerBridge: {fileID: 2950683691997437955}
 --- !u!114 &4031228495672856027
 MonoBehaviour:
   m_ObjectHideFlags: 0

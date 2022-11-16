@@ -11,9 +11,6 @@ public struct WaveInfo
   public float waveTimer;
   public float killAtLeast;
 }
-
-[RequireComponent(typeof(EnemyManagerBridge))]
-[RequireComponent(typeof(PlayerManagerBridge))]
 public class CarrierSpawner : MonoBehaviour
 {
   [SerializeField] Missile prefab;
@@ -29,6 +26,11 @@ public class CarrierSpawner : MonoBehaviour
 
   [SerializeField] UnityEvent<bool> onSpawningChange;
   [SerializeField] UnityEvent<int> onSpawn;
+
+  [SerializeField][RequiredComponent] EnemyManagerBridge reqEnemyManagerBridge;
+
+  [SerializeField][RequiredComponent] PlayerManagerBridge reqPlayerManagerBridge;
+
 
   public void Start()
   {
@@ -51,9 +53,10 @@ public class CarrierSpawner : MonoBehaviour
   IEnumerator WaitStartSpawnCoroutine(WaveInfo wave)
   {
     float distance;
-    do {
-        distance = GetComponent<PlayerManagerBridge>().Distance(transform.position);
-        yield return new WaitForSeconds(1f);
+    do
+    {
+      distance = reqPlayerManagerBridge.Distance(transform.position);
+      yield return new WaitForSeconds(1f);
     } while (
         distance < minDistance ||
         distance > maxDistance
@@ -63,16 +66,17 @@ public class CarrierSpawner : MonoBehaviour
   IEnumerator WaitEndSpawnCoroutine(WaveInfo wave)
   {
     float duration = 0f;
-    while (true) {
-        int enemyCount = FindObjectsOfType<Missile>().Count((m) => m.enabled);
+    while (true)
+    {
+      int enemyCount = FindObjectsOfType<Missile>().Count((m) => m.enabled);
 
-        if (enemyCount == 0) yield break;
+      if (enemyCount == 0) yield break;
 
-        if (duration > wave.waveTimer && enemyCount < (wave.count - wave.killAtLeast)) yield break;
+      if (duration > wave.waveTimer && enemyCount < (wave.count - wave.killAtLeast)) yield break;
 
-        yield return new WaitForSeconds(1f);
+      yield return new WaitForSeconds(1f);
 
-        duration += 1f;
+      duration += 1f;
     }
   }
 
@@ -85,7 +89,7 @@ public class CarrierSpawner : MonoBehaviour
       Missile missile = GameObject.Instantiate(prefab, transform.position, transform.rotation);
 
 
-      Transform parent = GetComponent<EnemyManagerBridge>().instance.transform;
+      Transform parent = reqEnemyManagerBridge.instance.transform;
       missile.transform.SetParent(parent, true);
 
       Rigidbody rb = missile.GetComponent<Rigidbody>();

@@ -7,15 +7,14 @@ public class EmissionController : MonoBehaviour
 
     public bool testEmitter = false;
 
+    [SerializeField][RequiredComponent] ParticleSystem reqParticleSystem;
+
     public void Start() {
-        var system = GetComponent<ParticleSystem>();
-
         // Clean scene values used for editing
-
-        var main = system.main;
+        var main = reqParticleSystem.main;
         main.gravityModifier = 0f;
 
-        var emission = system.emission;        
+        var emission = reqParticleSystem.emission;        
         emission.rateOverTime = 0f;
     }
 
@@ -30,7 +29,7 @@ public class EmissionController : MonoBehaviour
 
         float scaledValue = Mathf.Max(value, 0) * intensity;
 
-        var emission = GetComponent<ParticleSystem>().emission;
+        var emission = reqParticleSystem.emission;
 
         emission.rateOverTime = scaledValue;
     }

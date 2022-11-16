@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
 public class DamageSoundController : MonoBehaviour
 {
   [Range(0.2f, 4)]
@@ -12,14 +11,14 @@ public class DamageSoundController : MonoBehaviour
   [Range(0.2f, 4)]
   [SerializeField] float maxVolume;
 
+  [SerializeField][RequiredComponent] AudioSource reqAudioSource;
+
   public void PlayDamageSound()
   {
-    AudioSource source = GetComponent<AudioSource>();
+    if (reqAudioSource.isPlaying) return;
 
-    if (source.isPlaying) return;
-
-    source.pitch = Random.Range(minPitch, maxPitch);
-    source.volume = Random.Range(minVolume, maxVolume);
-    source.Play();
+    reqAudioSource.pitch = Random.Range(minPitch, maxPitch);
+    reqAudioSource.volume = Random.Range(minVolume, maxVolume);
+    reqAudioSource.Play();
   }
 }

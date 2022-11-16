@@ -1,8 +1,10 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class GForceCalculator : Manager<GForceCalculator>
 {
+
+  [SerializeField][RequiredComponent] Rigidbody reqRigidbody;
+
   float gForce;
 
   Vector3 lastVelocity;
@@ -14,7 +16,7 @@ public class GForceCalculator : Manager<GForceCalculator>
 
   void FixedUpdate()
   {
-    Vector3 velocity = GetComponent<Rigidbody>().velocity;
+    Vector3 velocity = reqRigidbody.velocity;
 
     Vector3 diff = velocity - lastVelocity;
     Vector3 scaledDiff = diff / Time.fixedDeltaTime;

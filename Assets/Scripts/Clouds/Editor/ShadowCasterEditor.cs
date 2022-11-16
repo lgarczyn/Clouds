@@ -4,7 +4,6 @@ using UnityEngine;
 [CustomEditor(typeof(ShadowCameraMatrix))]
 public class ShadowCameraMatrixEditor : UnityEditor.Editor
 {
-
   ShadowCameraMatrix shadowCaster;
 
   bool folded = true;

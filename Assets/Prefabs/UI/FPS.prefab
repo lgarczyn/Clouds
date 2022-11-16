@@ -74,6 +74,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   overheadScore: 200
   reset: 0
+  reqText: {fileID: 5371402075187865777}
+  reqGForceCalculatorBridge: {fileID: 7105538725236529038}
 --- !u!114 &5371402075187865777
 MonoBehaviour:
   m_ObjectHideFlags: 0

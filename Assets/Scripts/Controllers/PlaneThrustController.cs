@@ -1,10 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(PlayerPlane))]
-[RequireComponent(typeof(Plane))]
-[RequireComponent(typeof(PlaneResourceController))]
-[RequireComponent(typeof(WarningManagerBridge))]
 public class PlaneThrustController : MonoBehaviour
 {
   public ResourceCalculator resourceCalculator;
@@ -16,6 +12,11 @@ public class PlaneThrustController : MonoBehaviour
 
   public UnityEvent<float> thrustChange;
 
+  [SerializeField][RequiredComponent] PlayerPlane reqPlayerPlane;
+  [SerializeField][RequiredComponent] PlaneEntity reqPlaneEntity;
+  [SerializeField][RequiredComponent] PlaneResourceController reqPlaneResourceController;
+  [SerializeField][RequiredComponent] WarningManagerBridge reqWarningManagerBridge;
+
   void Update()
   {
     float density = -10;
@@ -25,25 +26,22 @@ public class PlaneThrustController : MonoBehaviour
       density = resourceCalculator.GetDensity();
     }
 
-    PlayerPlane plane = GetComponent<PlayerPlane>();
-    PlaneEntity planeEntity = GetComponent<PlaneEntity>();
-
     float multiplier = densityVsThrust.Evaluate(density);
 
     if (Input.GetKey(KeyCode.LeftShift))
     {
       float multDiff = Mathf.Abs(boostMultiplier - multiplier) / boostMultiplier;
-      if (planeEntity.TrySpendEnergy(multDiff * boostEnergyPerSecond * Time.deltaTime))
+      if (reqPlaneEntity.TrySpendEnergy(multDiff * boostEnergyPerSecond * Time.deltaTime))
       {
         multiplier = Mathf.Max(multiplier, boostMultiplier);
       }
       else
       {
-        GetComponent<WarningManagerBridge>().WarnLowBoost();
+        reqWarningManagerBridge.WarnLowBoost();
       }
     }
 
-    plane.thrust = baseThrust * multiplier;
+    reqPlayerPlane.thrust = baseThrust * multiplier;
 
     thrustChange.Invoke(multiplier / boostMultiplier * 100f);
   }

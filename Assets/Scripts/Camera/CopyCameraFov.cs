@@ -1,14 +1,13 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Camera))]
 public class CopyCameraFov : MonoBehaviour
 {
   public Camera target;
 
+  [RequiredComponent][SerializeField] Camera reqCamera;
+
   void LateUpdate()
   {
-    Camera camera = GetComponent<Camera>();
-
-    camera.fieldOfView = target.fieldOfView;
+    reqCamera.fieldOfView = target.fieldOfView;
   }
 }

@@ -9,6 +9,8 @@ public class ToggleClouds : MonoBehaviour
 
   public bool cloudsEnabled;
 
+  [SerializeField][RequiredComponent] CloudMaster reqCloudMaster;
+
   public void SetEnabled(bool value)
   {
     cloudsEnabled = value;
@@ -30,8 +32,6 @@ public class ToggleClouds : MonoBehaviour
 
   void Update()
   {
-    var clouds = GetComponent<CloudMaster>();
-
     if (Input.GetKeyDown(KeyCode.M))
     {
       cloudsEnabled = !cloudsEnabled;

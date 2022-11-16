@@ -1,30 +1,23 @@
 using UnityEngine;
 using System.Linq;
 
-[RequireComponent(typeof(TrailRenderer))]
 public class TrailConstantLength : MonoBehaviour
 {
   public float desiredLength = 100;
   public float maxTime = 10;
 
-  Vector3[] cache;
+  [SerializeField][RequiredComponent] TrailRenderer reqTrailRenderer;
 
-  TrailRenderer trail
-  {
-    get
-    {
-      return GetComponent<TrailRenderer>();
-    }
-  }
+  Vector3[] cache;
 
   public float GetLength()
   {
-    if (cache == null || cache.Length < trail.positionCount)
+    if (cache == null || cache.Length < reqTrailRenderer.positionCount)
     {
-      cache = new Vector3[trail.positionCount * 2];
+      cache = new Vector3[reqTrailRenderer.positionCount * 2];
     }
 
-    int writtenCount = trail.GetPositions(cache);
+    int writtenCount = reqTrailRenderer.GetPositions(cache);
 
     return cache
       .Take(writtenCount)
@@ -40,8 +33,8 @@ public class TrailConstantLength : MonoBehaviour
 
     if (length < 1f) return;
 
-    float newTime = trail.time * desiredLength / length;
+    float newTime = reqTrailRenderer.time * desiredLength / length;
 
-    trail.time = Mathf.Min(newTime, maxTime);
+    reqTrailRenderer.time = Mathf.Min(newTime, maxTime);
   }
 }

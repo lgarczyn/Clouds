@@ -1,7 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(TrailRenderer))]
 public class BulletController : MonoBehaviour, IDamageDealer
 {
   [SerializeField] float baseVelocity = 100;
@@ -12,16 +10,16 @@ public class BulletController : MonoBehaviour, IDamageDealer
   [SerializeField] GameObject collisionEffect;
   [SerializeField] float bounceDistance;
 
+  [SerializeField][RequiredComponent] Rigidbody reqRigidbody;
+  [SerializeField][RequiredComponent] TrailRenderer reqTrailRenderer;
+
   bool destroyed = false;
 
   public void Init(Rigidbody parent, Vector3 normalizedDir)
   {
-    Rigidbody r = GetComponent<Rigidbody>();
-    r.position = parent.position + normalizedDir * marginOnSpawn;
-    r.velocity = baseVelocity * normalizedDir;
-    r.rotation = Quaternion.LookRotation(normalizedDir, Vector3.forward);
-
-    TrailRenderer trail = GetComponent<TrailRenderer>();
+    reqRigidbody.position = parent.position + normalizedDir * marginOnSpawn;
+    reqRigidbody.velocity = baseVelocity * normalizedDir;
+    reqRigidbody.rotation = Quaternion.LookRotation(normalizedDir, Vector3.forward);
   }
 
   void FixedUpdate()
@@ -79,7 +77,7 @@ public class BulletController : MonoBehaviour, IDamageDealer
       ForceMode.Impulse);
 
     // Handle the trail
-    TrailRenderer trail = GetComponent<TrailRenderer>();
+    TrailRenderer trail = reqTrailRenderer;
     // If at least one position, move the last one to the point of contact so that it doesn't bounce
     if (trail.positionCount > 1)
     {

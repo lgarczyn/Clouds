@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(TrailRenderer))]
 public class TrailController : MonoBehaviour
 {
   [PercentCurve(4)]
@@ -9,17 +8,11 @@ public class TrailController : MonoBehaviour
 
   public bool forceMax = false;
 
-  TrailRenderer trail
-  {
-    get
-    {
-      return GetComponent<TrailRenderer>();
-    }
-  }
+  [SerializeField][RequiredComponent] TrailRenderer reqTrailRenderer;
 
   public void Start()
   {
-    trail.widthMultiplier = 0f;//forceMax ? widthMultiplier : 0f;
+    reqTrailRenderer.widthMultiplier = 0f;//forceMax ? widthMultiplier : 0f;
   }
 
   public void SetValue(float percent)
@@ -30,16 +23,16 @@ public class TrailController : MonoBehaviour
 
     if (forceMax) width = widthMultiplier;
 
-    trail.widthMultiplier = width;
+    reqTrailRenderer.widthMultiplier = width;
   }
 
   public void SetEmitting(bool value)
   {
-    trail.emitting = value;
+    reqTrailRenderer.emitting = value;
   }
 
   public void Clear()
   {
-    trail.Clear();
+    reqTrailRenderer.Clear();
   }
 }

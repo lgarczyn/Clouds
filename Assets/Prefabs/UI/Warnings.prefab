@@ -189,6 +189,7 @@ MonoBehaviour:
     - level: 1
       timeout: 3
       message: 'WARNING: ENEMY REINFORCEMENT'
+  reqText: {fileID: 5422106558606854981}
 --- !u!114 &5422106558606854981
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,7 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlaneThrustController))]
-[RequireComponent(typeof(Rigidbody))]
 public class PlaneCheatController : MonoBehaviour
 {
   [HideInInspector]
@@ -9,28 +7,27 @@ public class PlaneCheatController : MonoBehaviour
   [HideInInspector]
   public Quaternion startRotation = Quaternion.identity;
 
+  [SerializeField][RequiredComponent] PlaneThrustController reqPlaneThrustController;
+
+  [SerializeField][RequiredComponent] Rigidbody reqRigidbody;
+
   void Start()
   {
-    Rigidbody rigidbody = GetComponent<Rigidbody>();
-
-    startPos = rigidbody.position;
-    startRotation = rigidbody.rotation;
+    startPos = reqRigidbody.position;
+    startRotation = reqRigidbody.rotation;
   }
 
   void Update()
   {
-    PlaneThrustController thrustController = GetComponent<PlaneThrustController>();
-    Rigidbody rigidbody = GetComponent<Rigidbody>();
-
-    if (Input.GetKeyDown(KeyCode.L)) rigidbody.isKinematic = !rigidbody.isKinematic;
+    if (Input.GetKeyDown(KeyCode.L)) reqRigidbody.isKinematic = !reqRigidbody.isKinematic;
     if (Input.GetKeyDown(KeyCode.K))
     {
-      rigidbody.position = startPos;
-      rigidbody.rotation = startRotation;
-      if (!rigidbody.isKinematic)
+      reqRigidbody.position = startPos;
+      reqRigidbody.rotation = startRotation;
+      if (!reqRigidbody.isKinematic)
       {
-        rigidbody.velocity = Vector3.zero;
-        rigidbody.angularVelocity = Vector3.zero;
+        reqRigidbody.velocity = Vector3.zero;
+        reqRigidbody.angularVelocity = Vector3.zero;
       }
     }
     if (Input.GetKeyDown(KeyCode.I))

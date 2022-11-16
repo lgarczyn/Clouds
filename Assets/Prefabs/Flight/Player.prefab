@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   provider: {fileID: 447381978}
+  reqAudioSource: {fileID: 447381977}
 --- !u!114 &447381978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,6 +219,7 @@ MonoBehaviour:
   maxPitch: 1.2
   minVolume: 0.2
   maxVolume: 0.3
+  reqAudioSource: {fileID: 2108937673}
 --- !u!82 &2108937673
 AudioSource:
   m_ObjectHideFlags: 0
@@ -478,6 +480,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   plane: {fileID: 5981469090452608560}
+  reqAudioSource: {fileID: 8755654793615671953}
 --- !u!82 &8755654793615671953
 AudioSource:
   m_ObjectHideFlags: 0
@@ -956,6 +959,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   widthMultiplier: 1
   forceMax: 0
+  reqTrailRenderer: {fileID: 991404009195948057}
 --- !u!114 &6221206421180750022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -970,6 +974,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   desiredLength: 30
   maxTime: 5
+  reqTrailRenderer: {fileID: 991404009195948057}
 --- !u!96 &991404009195948057
 TrailRenderer:
   serializedVersion: 3
@@ -6013,6 +6018,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   widthMultiplier: 1
   forceMax: 0
+  reqTrailRenderer: {fileID: 1703607009082717966}
 --- !u!114 &7072623844356161062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6027,6 +6033,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   desiredLength: 30
   maxTime: 5
+  reqTrailRenderer: {fileID: 1703607009082717966}
 --- !u!96 &1703607009082717966
 TrailRenderer:
   serializedVersion: 3
@@ -6308,6 +6315,7 @@ MonoBehaviour:
   scrollPower: 3
   maxScroll: 4
   minScroll: -1.8
+  reqMouseFlightController: {fileID: 5933174257901130070}
 --- !u!114 &6036060620604136942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6347,6 +6355,7 @@ GameObject:
   - component: {fileID: 602097515254194114}
   - component: {fileID: 6161227608572021247}
   - component: {fileID: 3644276042266068141}
+  - component: {fileID: 4916721293426998453}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -6377,7 +6386,7 @@ Transform:
   - {fileID: 447381976}
   - {fileID: 2108937672}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -2.214, y: -266.362, z: 16.094}
 --- !u!54 &5981469090452608560
 Rigidbody:
@@ -6427,6 +6436,7 @@ MonoBehaviour:
   pitch: 0
   yaw: 0
   roll: 0
+  reqRigidbody: {fileID: 5981469090452608560}
 --- !u!114 &6036350815579256821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6613,6 +6623,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  reqResourceCalculatorBridge: {fileID: 3660404017334352442}
 --- !u!114 &6036350815579256823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6628,6 +6639,7 @@ MonoBehaviour:
   plane: {fileID: 6036350815579256821}
   repairPerSecond: 5
   delayBeforeHeal: 10
+  reqWarningManagerBridge: {fileID: 4916721293426998453}
 --- !u!114 &6036350815579256825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6677,6 +6689,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startPos: {x: 0, y: 0, z: 0}
   startRotation: {x: 0, y: 0, z: 0, w: 1}
+  reqPlaneThrustController: {fileID: 4563114451573421}
+  reqRigidbody: {fileID: 5981469090452608560}
 --- !u!114 &4563114451573421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6753,6 +6767,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  reqPlayerPlane: {fileID: 5933081180824767606}
+  reqPlaneEntity: {fileID: 6036350815579256821}
+  reqPlaneResourceController: {fileID: 6036350815579256824}
+  reqWarningManagerBridge: {fileID: 4916721293426998453}
 --- !u!114 &4563114451573411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6771,6 +6789,7 @@ MonoBehaviour:
     type: 3}
   audioPlayer: {fileID: 447381979}
   lastShotTimestamp: 0
+  reqRigidbody: {fileID: 5981469090452608560}
 --- !u!114 &4563114451573434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6783,6 +6802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bfe7534c23f8dd4fbec43633c79806e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reqRigidbody: {fileID: 5981469090452608560}
 --- !u!114 &8856165441093528577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6810,6 +6830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inertiaTensor: {x: 1.05, y: 2.75, z: 1.87}
+  reqRigidbody: {fileID: 5981469090452608560}
 --- !u!114 &4050188235921111324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6824,6 +6845,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invisibilityThreshold: 5
   forceInvisibility: 0
+  reqRigidbody: {fileID: 5981469090452608560}
+  reqResourceCalculatorBridge: {fileID: 3660404017334352442}
 --- !u!114 &3660404017334352442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6848,6 +6871,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b981c4d9f9ac67f4dba99b851cd344aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reqRigidbody: {fileID: 5981469090452608560}
 --- !u!114 &6161227608572021247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6870,6 +6894,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dab2fef5af031ae43bec0c1f29986b1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reqWarningManagerBridge: {fileID: 4916721293426998453}
+--- !u!114 &4916721293426998453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6036350815579256820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9a99ab619ecf4b4aab646ac1fcbbfb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6036508552637036764
@@ -6943,6 +6980,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   widthMultiplier: 7
   forceMax: 0
+  reqTrailRenderer: {fileID: 5951041666436364342}
 --- !u!96 &5951041666436364342
 TrailRenderer:
   serializedVersion: 3
@@ -7290,6 +7328,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   widthMultiplier: 7
   forceMax: 0
+  reqTrailRenderer: {fileID: 5951091796808472838}
 --- !u!96 &5951091796808472838
 TrailRenderer:
   serializedVersion: 3
@@ -7434,6 +7473,7 @@ GameObject:
   - component: {fileID: 4270675310365789463}
   - component: {fileID: 1484660987007487167}
   - component: {fileID: 1130751915046151095}
+  - component: {fileID: 7895724357852488457}
   m_Layer: 11
   m_Name: Shield
   m_TagString: Untagged
@@ -7607,6 +7647,21 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   alwaysTest: 0
+  reqCollider: {fileID: 62677410868070320}
+  reqMeshRenderer: {fileID: 4270675310365789463}
+  reqWarningManagerBridge: {fileID: 7895724357852488457}
+--- !u!114 &7895724357852488457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8535455083031158391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9a99ab619ecf4b4aab646ac1fcbbfb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7771839989734762986
 PrefabInstance:
   m_ObjectHideFlags: 0

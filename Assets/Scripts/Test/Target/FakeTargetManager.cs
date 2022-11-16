@@ -2,15 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameplayTests {
-
-  [RequireComponent(typeof(FakeTarget))]
+namespace GameplayTests
+{
   public class FakeTargetManager : Manager<ITargetManager>, ITargetManager
   {
-    public ITarget GetTarget()
-    {
-      return GetComponent<FakeTarget>();
-    }
+    [SerializeField][RequiredComponent] FakeTarget reqFakeTarget;
+
+    public ITarget GetTarget() => reqFakeTarget;
   }
 
 }
