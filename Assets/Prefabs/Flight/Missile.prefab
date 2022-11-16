@@ -484,10 +484,12 @@ MonoBehaviour:
   rotateSpeed: 0.2
   parameterVariation: 0.08
   velocityLimitingFactor: 0.476
-  pidPositionAccuracy: 4
+  pidPositionAccuracy: 6
   searchPositionAccuracy: 100
   aggressivity: 0.23
   aggressivityVariation: 0
+  thrustAngleAdjustmentDelay: 0.24
+  thrustMagnitudeAdjustmentDelay: 0.363
 --- !u!114 &1796061414
 MonoBehaviour:
   m_ObjectHideFlags: 0

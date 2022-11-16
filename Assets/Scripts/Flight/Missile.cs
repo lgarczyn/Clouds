@@ -34,6 +34,17 @@ public class Missile : MonoBehaviour
 
   private Vector3 temporaryTarget;
 
+  private Vector3 realThrust = Vector3.zero;
+
+  [SerializeField]
+  [Range(0.00001f, 1)]
+  private float thrustAngleAdjustmentDelay = 0.5f;
+
+  [SerializeField]
+  [Range(0.00001f, 1)]
+  private float thrustMagnitudeAdjustmentDelay = 0.5f;
+
+
   public void SetTempTarget(Vector3 target, float duration)
   {
     temporaryTargetDuration = duration;
@@ -99,13 +110,26 @@ public class Missile : MonoBehaviour
       Time.deltaTime
     );
 
-    r.AddForce(force, ForceMode.Acceleration);
+    realThrust = Vector3.RotateTowards(realThrust, force,
+      thrustAngleAdjustmentDelay * 2f * Mathf.PI,
+      thrustMagnitudeAdjustmentDelay * controller.OutputUpperLimit
+    );
+
+    r.AddForce(realThrust, ForceMode.Acceleration);
 
     r.velocity *= Mathf.Pow(velocityLimitingFactor, Time.fixedDeltaTime);
 
-    if (r.velocity.sqrMagnitude > 0f)
-    {
-      r.MoveRotation(Quaternion.LookRotation(r.velocity, r.rotation * Vector3.up));
-    }
+
+    Quaternion forwardRotation = r.velocity.sqrMagnitude > 1f ?
+      Quaternion.LookRotation(r.velocity, r.rotation * Vector3.up) :
+      Quaternion.identity;
+
+    Quaternion targetRotation = Quaternion.LookRotation(targetPos - r.position);
+
+    float rotationRatio = Mathf.InverseLerp(r.velocity.magnitude, 0, 100);
+
+    Quaternion rotation = Quaternion.Slerp(targetRotation, forwardRotation, rotationRatio);
+
+    r.MoveRotation(rotation);
   }
 }

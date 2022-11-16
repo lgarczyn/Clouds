@@ -14679,7 +14679,7 @@ Transform:
   - {fileID: 803496599710622371}
   - {fileID: 2588187064629923916}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5827545651796592031
 GameObject:
@@ -18564,7 +18564,7 @@ MonoBehaviour:
     killAtLeast: 20
   minDistance: 10
   maxDistance: 3000
-  startingSpeed: 3000
+  startingSpeed: 2000
   spawnTimer: 0.2
   onSpawningChange:
     m_PersistentCalls:
