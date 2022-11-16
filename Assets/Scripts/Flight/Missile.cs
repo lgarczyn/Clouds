@@ -120,13 +120,16 @@ public class Missile : MonoBehaviour
     r.velocity *= Mathf.Pow(velocityLimitingFactor, Time.fixedDeltaTime);
 
 
+    // The rotation to keep looking forward
     Quaternion forwardRotation = r.velocity.sqrMagnitude > 1f ?
       Quaternion.LookRotation(r.velocity, r.rotation * Vector3.up) :
-      Quaternion.identity;
+      r.rotation;
 
-    Quaternion targetRotation = Quaternion.LookRotation(targetPos - r.position);
+    // The rotation to keep looking at the target
+    Quaternion targetRotation = Quaternion.LookRotation(lastTargetPosition - r.position);
 
-    float rotationRatio = Mathf.InverseLerp(r.velocity.magnitude, 0, 100);
+    // How much should the missile look at the target (0.5f at exact distance, 0 at range)
+    float rotationRatio = Mathf.InverseLerp(r.velocity.magnitude, -100, 100);
 
     Quaternion rotation = Quaternion.Slerp(targetRotation, forwardRotation, rotationRatio);
 
