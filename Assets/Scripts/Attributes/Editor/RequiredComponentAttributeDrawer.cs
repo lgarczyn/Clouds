@@ -2,6 +2,9 @@
 using UnityEngine;
 using UnityEditor;
 
+// TODO: hide property ?
+// TODO: handle interfaces
+// https://github.com/TheDudeFromCI/Unity-Interface-Support
 [CustomPropertyDrawer(typeof(RequiredComponentAttribute))]
 public class RequiredComponentDrawer : PropertyDrawer
 {
