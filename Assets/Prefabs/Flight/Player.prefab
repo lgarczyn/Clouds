@@ -6766,7 +6766,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rps: 60
-  spread: 0.08
+  spread: 0.04
   bulletPrefab: {fileID: 3234327436353005917, guid: a0e949b45c86f4c478ecda1ba44198f5,
     type: 3}
   audioPlayer: {fileID: 447381979}
