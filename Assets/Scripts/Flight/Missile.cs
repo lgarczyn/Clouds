@@ -69,7 +69,7 @@ public class Missile : MonoBehaviour
     Rigidbody r = GetComponent<Rigidbody>();
 
     // Get the plane target
-    Target target = GetComponent<TargetManagerBridge>().instance.GetTarget();
+    ITarget target = GetComponent<TargetManagerBridge>().instance.GetTarget();
 
     float accuracy;
     Vector3 targetPos;

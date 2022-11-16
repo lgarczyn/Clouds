@@ -55,7 +55,7 @@ public class MissileFiringController : MonoBehaviour
     Rigidbody r = GetComponent<Rigidbody>();
 
     // Get the plane target
-    Target target = GetComponent<TargetManagerBridge>().instance.GetTarget();
+    ITarget target = GetComponent<TargetManagerBridge>().instance.GetTarget();
 
     if (target.IsVisible(r.position) == false) return false;
 
