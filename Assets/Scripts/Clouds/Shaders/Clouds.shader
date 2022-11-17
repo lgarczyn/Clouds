@@ -305,7 +305,7 @@ Shader "Clouds"
                 float3 wind = windDirection * (_Time.x * timeScale);
 
                 {
-                    float3 samplePos = uvw.zxy / scale3 + wind * speed3;
+                    float3 samplePos = (uvw.zxy + wind * speed3) / scale3;
                     float value = ShapeTex.SampleLevel(samplerShapeTex, samplePos, 0);
                     prevDensity = density;
                     density += (value - 0.5) * scale3 * (weight3 * weightGlobal);
@@ -315,7 +315,7 @@ Shader "Clouds"
                     return returnDensity(density, prevDensity, optiInterpolation, haze);
 
                 {
-                    float3 samplePos = uvw / scale2 + wind * speed2;
+                    float3 samplePos = (uvw + wind * speed2) / scale2;
                     float value = ShapeTex.SampleLevel(samplerShapeTex, samplePos, 0);
                     prevDensity = density;
                     density += (value - 0.5) * scale2 * (weight2 * weightGlobal);
@@ -325,7 +325,7 @@ Shader "Clouds"
                     return returnDensity(density, prevDensity, optiInterpolation, haze);
 
                 {
-                    float3 samplePos = uvw / scale1 + wind * speed1;
+                    float3 samplePos = (uvw + wind * speed1) / scale1;
                     float value = ShapeTex.SampleLevel(samplerShapeTex, samplePos, 0);
 
                     prevDensity = density;
@@ -336,7 +336,7 @@ Shader "Clouds"
                     return returnDensity(density, prevDensity, optiInterpolation, haze);
 
                 {
-                    float3 samplePos = uvw / scale0 + wind * speed0;
+                    float3 samplePos = (uvw + wind * speed0) / scale0;
                     float value = ShapeTex.SampleLevel(samplerShapeTex, samplePos, 0);
 
                     prevDensity = density;
