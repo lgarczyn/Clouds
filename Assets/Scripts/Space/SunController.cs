@@ -5,9 +5,10 @@ using UnityEngine;
 /// Controls the position of the sun
 /// Do note that the parent scaled space is also rotated
 /// </summary>
+[DefaultExecutionOrder(-1)]
 public class SunController : MonoBehaviour
 {
-  public OrbitController orbitController;
+  [SerializeField] OrbitController orbitController;
 
   void Update()
   {
