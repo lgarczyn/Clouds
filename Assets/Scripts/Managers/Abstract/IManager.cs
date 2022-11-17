@@ -7,4 +7,5 @@
 public interface IManager<T>
 where T : class, IManager<T>
 {
+  public bool isActiveAndEnabled { get; }
 }

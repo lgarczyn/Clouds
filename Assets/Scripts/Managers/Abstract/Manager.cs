@@ -34,17 +34,26 @@ where T : class, IManager<T>
 
   void OnDestroy()
   {
-    if (Object.ReferenceEquals(realInstance, this)) realInstance = null;
-    else Debug.LogError("Manager instance was changed during lifetime: " + typeof(T));
+    if (!Object.ReferenceEquals(realInstance, this))
+    {
+      Debug.LogError("Manager instance was changed during lifetime: " + typeof(T));
+    }
+    realInstance = null;
   }
 
   public static T instance
   {
     get
     {
-      if (realInstance != null)
-      {
-        return realInstance as T;
+      try {
+        if (realInstance != null && realInstance.isActiveAndEnabled)
+        {
+          return realInstance as T;
+        }
+      } catch (System.Exception e) {
+        // Storing instance in interface prevents me from checking for destruction
+        // This is an attempt at ensuring that I don't crash if object is destroyed
+        Debug.Log(e, realInstance as UnityEngine.Object);
       }
 
       Manager<T> newInstance = FindObjectOfType<Manager<T>>();

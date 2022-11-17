@@ -28,7 +28,17 @@ where T : class, IManager<T>
 
   // Hide some calls on the bridge that may be mistaken for implementation
   public new IDoNotUse transform => throw new System.NotImplementedException();
-  public new IDoNotUse rigidbody => throw new System.NotImplementedException();
-  public new IDoNotUse camera => throw new System.NotImplementedException();
   public new IDoNotUse GetComponent<U>() => throw new System.NotImplementedException();
+
+  // absence of new errors on editor
+  // presence of new errors on build
+  // so I have to check for that
+  #if UNITY_EDITOR
+  new
+#endif
+  public IDoNotUse rigidbody => throw new System.NotImplementedException();
+#if UNITY_EDITOR
+  new
+#endif
+  public IDoNotUse camera => throw new System.NotImplementedException();
 }
