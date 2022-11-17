@@ -7,14 +7,14 @@ using System.Linq;
 [System.Serializable]
 public struct WaveInfo
 {
+  public bool disabled;
   public int count;
   public float waveTimer;
   public float killAtLeast;
+  public Rigidbody prefab;
 }
 public class CarrierSpawner : MonoBehaviour
 {
-  [SerializeField] Missile prefab;
-
   [SerializeField] float startDelay;
   [SerializeField] List<WaveInfo> waves;
 
@@ -82,18 +82,17 @@ public class CarrierSpawner : MonoBehaviour
 
   IEnumerator SpawnWaveCoroutine(WaveInfo wave)
   {
+    if (wave.disabled) yield break;
+
     onSpawningChange.Invoke(true);
     onSpawn.Invoke(wave.count);
     for (int i = 0; i < wave.count; i++)
     {
-      Missile missile = GameObject.Instantiate(prefab, transform.position, transform.rotation);
-
+      Rigidbody missile = GameObject.Instantiate(wave.prefab, transform.position, transform.rotation);
 
       Transform parent = reqEnemyManagerBridge.instance.transform;
       missile.transform.SetParent(parent, true);
-
-      Rigidbody rb = missile.GetComponent<Rigidbody>();
-      rb.velocity = startingSpeed * transform.forward;
+      missile.velocity = startingSpeed * transform.forward;
 
       yield return new WaitForSeconds(spawnTimer);
     }

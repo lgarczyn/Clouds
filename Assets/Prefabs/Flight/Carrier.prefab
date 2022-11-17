@@ -14679,7 +14679,7 @@ Transform:
   - {fileID: 803496599710622371}
   - {fileID: 2588187064629923916}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5827545651796592031
 GameObject:
@@ -18544,24 +18544,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 384d1e517a21f5a4fa6079404e9b42fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 5848834044144880814, guid: 802aaba54aad6bb498ab13e1e6f477c5, type: 3}
   startDelay: 0
   waves:
-  - count: 1
+  - disabled: 1
+    count: 1
     waveTimer: 0
     killAtLeast: 1
-  - count: 4
+    prefab: {fileID: 5848834044144880815, guid: 802aaba54aad6bb498ab13e1e6f477c5,
+      type: 3}
+  - disabled: 1
+    count: 4
     waveTimer: 30
     killAtLeast: 3
-  - count: 10
+    prefab: {fileID: 5848834044144880815, guid: 802aaba54aad6bb498ab13e1e6f477c5,
+      type: 3}
+  - disabled: 1
+    count: 10
     waveTimer: 60
     killAtLeast: 8
-  - count: 20
+    prefab: {fileID: 5848834044144880815, guid: 802aaba54aad6bb498ab13e1e6f477c5,
+      type: 3}
+  - disabled: 1
+    count: 20
     waveTimer: 60
     killAtLeast: 15
-  - count: 30
+    prefab: {fileID: 5848834044144880815, guid: 802aaba54aad6bb498ab13e1e6f477c5,
+      type: 3}
+  - disabled: 0
+    count: 30
     waveTimer: 60
     killAtLeast: 20
+    prefab: {fileID: 5848834044144880815, guid: 802aaba54aad6bb498ab13e1e6f477c5,
+      type: 3}
+  - disabled: 0
+    count: 1
+    waveTimer: 60
+    killAtLeast: 1
+    prefab: {fileID: 5238151195102450209, guid: 33627ddcba333784882c8bd413e03500,
+      type: 3}
+  - disabled: 0
+    count: 2
+    waveTimer: 60
+    killAtLeast: 2
+    prefab: {fileID: 5238151195102450209, guid: 33627ddcba333784882c8bd413e03500,
+      type: 3}
+  - disabled: 0
+    count: 1
+    waveTimer: 0
+    killAtLeast: 0
+    prefab: {fileID: 5238151195102450209, guid: 33627ddcba333784882c8bd413e03500,
+      type: 3}
+  - disabled: 0
+    count: 20
+    waveTimer: 60
+    killAtLeast: 50
+    prefab: {fileID: 5848834044144880815, guid: 802aaba54aad6bb498ab13e1e6f477c5,
+      type: 3}
   minDistance: 10
   maxDistance: 3000
   startingSpeed: 2000
