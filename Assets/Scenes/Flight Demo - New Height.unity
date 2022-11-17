@@ -1708,7 +1708,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1166806714}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 4
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -1759,7 +1759,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1166806714}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7487aa9ab3766d246835bce4a404008d, type: 3}
   m_Name: 
@@ -2429,7 +2429,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: 7e5c642fc5a7742a1b257a0e6f60352b, type: 3}
   container: {fileID: 1230604923}
-  testParams: {x: 1, y: 0.5, z: 1, w: 0.5}
+  testParams: {x: 0, y: 0, z: 0, w: 0.17}
   testColor: {r: 0.043137252, g: 0.3074294, b: 1, a: 1}
   stepSizeRender: 9.73
   firstStepNoiseMultiplier: 2
@@ -2451,10 +2451,10 @@ MonoBehaviour:
   weight0: -4.57
   timeScale: 3
   windDirection: {x: 1, y: -0.41, z: 0.3}
-  speed3: 0.01
-  speed2: 0.02
-  speed1: 0.18
-  speed0: -0.1
+  speed3: 0.0025
+  speed2: 0.03521127
+  speed1: 0.4
+  speed0: 5.263158
   numStepsLight: 1810
   lightAbsorptionThroughCloud: 0.186
   hazeColorFactor: 500
@@ -2467,7 +2467,7 @@ MonoBehaviour:
   psychedelicEffect: 0
   colA: {r: 0.85800004, g: 0.39013878, b: 0.163878, a: 1}
   colB: {r: 0.575, g: 0, b: 0.03179736, a: 1}
-  colC: {r: 0.2901961, g: 0.44705883, b: 0.50980395, a: 0}
+  colC: {r: 0.2901961, g: 0.36311853, b: 0.50980395, a: 0}
   shadowMap: {fileID: 8400000, guid: 470f7ae1a1b7ec349a5e9559bc869ec0, type: 2}
   shadowCamera: {fileID: 1166806715}
   lightAbsorptionTowardSun: 0.0073
