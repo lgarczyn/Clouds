@@ -2451,10 +2451,10 @@ MonoBehaviour:
   weight0: 2
   timeScale: 3
   windDirection: {x: 1, y: 0, z: 0.3}
-  speed3: 0.0025
-  speed2: 0.03521127
-  speed1: 0.4
-  speed0: 5.263158
+  speed3: 0.1
+  speed2: 1
+  speed1: 0.9
+  speed0: 1
   numStepsLight: 1810
   lightAbsorptionThroughCloud: 0.01
   hazeColorFactor: 122
