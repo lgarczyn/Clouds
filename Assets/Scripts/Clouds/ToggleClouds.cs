@@ -8,7 +8,7 @@ public class ToggleClouds : MonoBehaviour
   public bool cloudsEnabled;
 
   [SerializeField][RequiredComponent] CloudMaster reqCloudMaster;
-  [SerializeField][RequiredComponent] MainCameraBridge reqShadowCameraBridge;
+  [SerializeField][RequiredComponent] ShadowCameraBridge reqShadowCameraBridge;
   [SerializeField][RequiredComponent] MainCameraBridge reqMainCameraBridge;
 
   public void SetEnabled(bool value)
@@ -19,8 +19,8 @@ public class ToggleClouds : MonoBehaviour
 
   void UpdateEnabled()
   {
-    reqShadowCameraBridge.instance.camera.enabled = cloudsEnabled;
-    reqMainCameraBridge.instance.camera.GetUniversalAdditionalCameraData().SetRenderer(
+    reqShadowCameraBridge.instance.shadowCamera.enabled = cloudsEnabled;
+    reqMainCameraBridge.instance.mainCamera.GetUniversalAdditionalCameraData().SetRenderer(
       cloudsEnabled ? cloudRendererIndex : 0
     );
   }

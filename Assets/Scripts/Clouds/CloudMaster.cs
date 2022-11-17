@@ -138,7 +138,7 @@ public class CloudMaster : MonoBehaviour
 
     var player = reqPlayerManagerBridge.instance.playerTransform;
 
-    Camera shadowCamera = reqShadowCameraBridge.instance.camera;
+    Camera shadowCamera = reqShadowCameraBridge.instance.shadowCamera;
 
     material.SetVector("boundsMin", boundsMin);
     material.SetVector("boundsMax", boundsMax);
@@ -177,7 +177,7 @@ public class CloudMaster : MonoBehaviour
     UpdateMaps();
     material.SetTexture("ShadowMap", shadowMap);
 
-    Camera shadowCamera = reqShadowCameraBridge.instance.camera;
+    Camera shadowCamera = reqShadowCameraBridge.instance.shadowCamera;
     material.SetFloat("shadowMapHalfSize", shadowCamera.orthographicSize);
 
 
