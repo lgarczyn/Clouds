@@ -14679,7 +14679,7 @@ Transform:
   - {fileID: 803496599710622371}
   - {fileID: 2588187064629923916}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5827545651796592031
 GameObject:
@@ -18546,25 +18546,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startDelay: 0
   waves:
-  - disabled: 1
+  - disabled: 0
     count: 1
     waveTimer: 0
     killAtLeast: 1
     prefab: {fileID: 5848834044144880815, guid: 802aaba54aad6bb498ab13e1e6f477c5,
       type: 3}
-  - disabled: 1
+  - disabled: 0
     count: 4
     waveTimer: 30
     killAtLeast: 3
     prefab: {fileID: 5848834044144880815, guid: 802aaba54aad6bb498ab13e1e6f477c5,
       type: 3}
-  - disabled: 1
+  - disabled: 0
     count: 10
     waveTimer: 60
     killAtLeast: 8
     prefab: {fileID: 5848834044144880815, guid: 802aaba54aad6bb498ab13e1e6f477c5,
       type: 3}
-  - disabled: 1
+  - disabled: 0
     count: 20
     waveTimer: 60
     killAtLeast: 15
