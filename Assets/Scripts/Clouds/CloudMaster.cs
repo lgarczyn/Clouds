@@ -48,8 +48,12 @@ public class CloudMaster : MonoBehaviour
   public float lightAbsorptionThroughCloud = 0.1f;
   [Range(0.01f, 500f)]
   public float hazeColorFactor = 10f;
+  [Range(0.01f, 500f)]
+  public float hazeColorFactorLinear = 10f;
   [Range(0.01f, 2f)]
   public float hazeTransmittanceFactor = 0.1f;
+  [Range(0.01f, 10f)]
+  public float atmosphereTransmittancePower = 1f;
   [Range(0f, 5f)]
   public float lightPower = 2.5f;
   [Header(headerDecoration + "Sun halo" + headerDecoration)]
@@ -69,6 +73,7 @@ public class CloudMaster : MonoBehaviour
   public Color colA;
   public Color colB;
   public Color colC;
+  public Color colD;
 
   [Header(headerDecoration + "Shadow Mapping" + headerDecoration)]
   public RenderTexture shadowMap;
@@ -206,7 +211,9 @@ public class CloudMaster : MonoBehaviour
 
     material.SetFloat("lightAbsorptionThroughCloud", lightAbsorptionThroughCloud);
     material.SetFloat("hazeColorFactor", hazeColorFactor);
+    material.SetFloat("hazeColorFactorLinear", hazeColorFactorLinear * hazeColorFactorLinear);
     material.SetFloat("hazeTransmittanceFactor", hazeTransmittanceFactor);
+    material.SetFloat("atmosphereTransmittancePower", atmosphereTransmittancePower);
     material.SetFloat("lightPower", lightPower);
     material.SetFloat("lightAbsorptionTowardSun", lightAbsorptionTowardSun);
     material.SetFloat("darknessThreshold", darknessThreshold);
@@ -232,6 +239,7 @@ public class CloudMaster : MonoBehaviour
     material.SetColor("colA", colA);
     material.SetColor("colB", colB);
     material.SetColor("colC", colC);
+    material.SetColor("colD", colD);
 
     material.SetInt("isClean", 1);
   }

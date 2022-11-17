@@ -164,13 +164,16 @@ Shader "Clouds"
             float lightAbsorptionTowardSun;
             float lightAbsorptionThroughCloud;
             float hazeColorFactor;
+            float hazeColorFactorLinear;
             float hazeTransmittanceFactor;
+            float atmosphereTransmittancePower;
             float lightPower;
             float darknessThreshold;
             float4 _LightColor0;
             float4 colA;
             float4 colB;
             float4 colC;
+            float4 colD;
 
             // Animation settings
             float timeScale;
@@ -695,7 +698,7 @@ Shader "Clouds"
                 return lerp(color * phaseVal, normalize(_LightColor0) * 4, sun);
             }
 
-            fixed3 getCloudColor(float lightEnergy, float hazeRatio)
+            fixed3 getCloudColor(float lightEnergy, float hazeRatio, float depthRatio)
             {
                 // Apply to both cloud colors
                 // fixed3 colAf = lerp(colA, colC, hazeRatio);
@@ -707,6 +710,7 @@ Shader "Clouds"
                     cloud = lerp(colB, colA, lightEnergy * 2);
                 else
                     cloud = lerp(colA, _LightColor0, (lightEnergy - 0.5) * 2);
+                cloud = lerp(cloud, colD, saturate(depthRatio));
                 return lerp(cloud, colC, saturate(hazeRatio));
             }
 
@@ -782,6 +786,7 @@ Shader "Clouds"
                 // float dstTravelled = max(400 - dstToBox, 0);
                 float dstTravelled = 0;
                 float dstLimit = min(depth-dstToBox, dstInsideBox);
+                float averageDst = dstToBox;
 
                 // March through volume:
                 float transmittance = 1;
@@ -831,6 +836,7 @@ Shader "Clouds"
 
                         // Move forward
                         dstTravelled += realStepSize;
+                        averageDst += realStepSize * transmittance;
 
                         // Exit early if T is close to zero as further samples won't affect the result much
                         if (transmittance < minTransmittance) {
@@ -850,6 +856,8 @@ Shader "Clouds"
                 hazeRatio *= hazeTransmittanceFactor / hazeColorFactor / lightAbsorptionThroughCloud;
                 // Correct transmittance calculations for full range
                 transmittance = saturate(remap01(transmittance, minTransmittance, 1));
+                // Control how much light reaches skybox
+                transmittance = pow(transmittance, atmosphereTransmittancePower);
                 // Correct light energy calculations
                 // Allows independent change lightPower and light absorption
                 lightEnergy *= lightPower * lightAbsorptionThroughCloud;
@@ -865,6 +873,9 @@ Shader "Clouds"
                 else
                     currentDepth = depth;
 
+                // Pull colors towards haze color by linear distance                
+                float depthRatio = saturate(averageDst / hazeColorFactorLinear);
+
 
                 // Add shading to non-cloud objects
                 // Could be done better by decoding normals
@@ -874,7 +885,7 @@ Shader "Clouds"
 
                 // Add clouds
                 // Get the cloud color depending on hazeAmount and adjusted light energy
-                fixed3 col = getCloudColor(lightEnergy, hazeRatio);
+                fixed3 col = getCloudColor(lightEnergy, hazeRatio, depthRatio);
 
                 // Add background or plane/objects
                 col = lerp(col, backgroundCol, transmittance);
