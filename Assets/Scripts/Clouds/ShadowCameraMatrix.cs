@@ -3,13 +3,13 @@
 [ExecuteAlways]
 public class ShadowCameraMatrix : MonoBehaviour
 {
-  public Transform directionalLight;
-  public Transform target;
   public bool active = true;
   public bool debug = false;
   public float roundFact = 1f;
 
   [SerializeField][RequiredComponent] Camera reqCamera;
+  [SerializeField][RequiredComponent] LocalSpaceControllerBridge reqLocalSpaceController;
+  [SerializeField][RequiredComponent] PlayerManagerBridge reqPlayerManager;
 
   private static Vector3 CalculatePos(Vector3 targetPos, Vector3 sunlightDir)
   {
@@ -64,15 +64,11 @@ public class ShadowCameraMatrix : MonoBehaviour
   {
     if (active)
     {
-      // Get the direction of sunlight or a placeholder
-      Vector3 sunlightDir = directionalLight ?
-          directionalLight.transform.forward :
-          new Vector3(0, -1, 0);
+      // Get the direction of sunlight
+      Vector3 sunlightDir = (Vector3)reqLocalSpaceController.instance.GetSunDirection();
 
-      // Get the target follow position or a placeholder
-      Vector3 targetPos = target ?
-        target.position :
-        new Vector3(0, 0, 0);
+      // Get the target follow position
+      Vector3 targetPos = reqPlayerManager.playerTransform.position;
 
       // Update position and matrix
       transform.position = Round(CalculatePos(targetPos, sunlightDir), roundFact);

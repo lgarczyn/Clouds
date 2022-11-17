@@ -44,4 +44,16 @@ public class LocalSpaceController : Manager<LocalSpaceController>
 
     frame = new InertialFrame(transform);
   }
+
+  public QuaternionD GetSunRotation() {
+    UpdatePos();
+    QuaternionD inJupiterSpace = reqOrbitControllerBridge.instance.frame.GetSunRotation();
+    QuaternionD inLocalSpace = frame.toLocalRot(inJupiterSpace);
+
+    return inLocalSpace;
+  }
+
+  public Vector3D GetSunDirection() {
+    return GetSunRotation() * Vector3D.forward;
+  }
 }

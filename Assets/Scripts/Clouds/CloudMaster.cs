@@ -77,7 +77,6 @@ public class CloudMaster : MonoBehaviour
 
   [Header(headerDecoration + "Shadow Mapping" + headerDecoration)]
   public RenderTexture shadowMap;
-  public Camera shadowCamera;
   [Range(0.001f, 0.1f)]
   public float lightAbsorptionTowardSun = 1;
   [Range(0, 1)]
@@ -85,6 +84,7 @@ public class CloudMaster : MonoBehaviour
   public float outOfBoundMinLightAltitude = -403;
 
   public float outOfBoundMaxLightAltitude = 15322;
+  [SerializeField][RequiredComponent] ShadowCameraBridge reqShadowCameraBridge;
 
   [Header(headerDecoration + "Output Material" + headerDecoration)]
   public Material material;
@@ -138,6 +138,8 @@ public class CloudMaster : MonoBehaviour
 
     var player = reqPlayerManagerBridge.instance.playerTransform;
 
+    Camera shadowCamera = reqShadowCameraBridge.instance.camera;
+
     material.SetVector("boundsMin", boundsMin);
     material.SetVector("boundsMax", boundsMax);
     material.SetVector("playerPosition", player.position);
@@ -174,6 +176,8 @@ public class CloudMaster : MonoBehaviour
     // WeatherMap and AltitudeAtlas
     UpdateMaps();
     material.SetTexture("ShadowMap", shadowMap);
+
+    Camera shadowCamera = reqShadowCameraBridge.instance.camera;
     material.SetFloat("shadowMapHalfSize", shadowCamera.orthographicSize);
 
 
