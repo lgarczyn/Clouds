@@ -797,7 +797,10 @@ Shader "Clouds"
                 // but container limits the raycasting anyway
                 for (int i = 1; i < 7; i++)
                 {
-                    float lodMaxDistance = lodMinDistance + pow(lodLevelMagnitude, i);
+                    float lodDst = pow(lodLevelMagnitude, i);
+                    if (i == 5) lodDst += testParams.x;
+                    if (i == 6) lodDst += testParams.y;
+                    float lodMaxDistance = lodMinDistance + lodDst;
                     float localMax = min(dstToBox + dstLimit, lodMaxDistance) - dstToBox;
                     float start = dstTravelled;
                     while (dstTravelled < localMax) {
