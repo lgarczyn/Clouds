@@ -72,7 +72,7 @@ public class CarrierSpawner : MonoBehaviour
 
       if (enemyCount == 0) yield break;
 
-      if (duration > wave.waveTimer && enemyCount < (wave.count - wave.killAtLeast)) yield break;
+      if (duration >= wave.waveTimer && enemyCount <= (wave.count - wave.killAtLeast)) yield break;
 
       yield return new WaitForSeconds(1f);
 
