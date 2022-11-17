@@ -47,7 +47,6 @@ where T : class, IManager<T>
         return realInstance as T;
       }
 
-      Debug.Log("Manager was not found, attempting search: " + typeof(T));
       Manager<T> newInstance = FindObjectOfType<Manager<T>>();
       if (newInstance != null)
       {
