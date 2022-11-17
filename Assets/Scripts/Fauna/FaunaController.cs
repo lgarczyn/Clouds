@@ -83,7 +83,7 @@ public class FaunaController : MonoBehaviour
 
   bool ShouldRepop()
   {
-    Transform player = reqPlayerManagerBridge.transform;
+    Transform player = reqPlayerManagerBridge.playerTransform;
 
     Vector2 playerPos = new Vector2(player.position.x, player.position.z);
     Vector2 whalePos = new Vector2(reqRigidbody.position.x, reqRigidbody.position.z);

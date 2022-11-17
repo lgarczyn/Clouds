@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 /// <typeparam name="T"></typeparam>
 [DefaultExecutionOrder(-2000)]
-public class Manager<T> : ManagerBridge<T>, IManager<T>
+public class Manager<T> : MonoBehaviour, IManager<T>
 where T : class, IManager<T>
 {
   static IManager<T> managerInstance;
@@ -38,7 +38,7 @@ where T : class, IManager<T>
     else Debug.LogError("Manager instance was changed during lifetime: " + typeof(T));
   }
 
-  public new static T instance
+  public static T instance
   {
     get
     {
@@ -60,7 +60,7 @@ where T : class, IManager<T>
     }
   }
 
-  public new static T tryInstance
+  public static T tryInstance
   {
     get
     {
