@@ -14217,7 +14217,7 @@ MonoBehaviour:
     baseScale: 1
     distanceScaling: 0
     farScale: 0
-  useCenteredIndicator: 0
+  useCenteredIndicator: 1
   indicator: {fileID: 0}
 --- !u!1 &5619370169964553016
 GameObject:
@@ -14679,7 +14679,7 @@ Transform:
   - {fileID: 803496599710622371}
   - {fileID: 2588187064629923916}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5827545651796592031
 GameObject:
