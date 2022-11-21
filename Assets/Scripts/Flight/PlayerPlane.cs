@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) Brian Hernandez. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 //
@@ -142,5 +142,17 @@ public class PlayerPlane : MonoBehaviour
                                         turnTorque.y * yaw,
                                         -turnTorque.z * roll) * forceMult,
                             ForceMode.Force);
+
+    // Very Bad Lift calculations
+    // Allows level flight through cheap trick:
+    // Apply reverse gravity depending on angle to horizon
+
+    // Angle between plane vertical and world vertical
+    float angleToVertical = Vector3.Angle(Vector3.up, reqRigidbody.rotation * Vector3.forward);
+    // Normalized to -1,1
+    float angleNormalized = (angleToVertical / 90 - 1f);
+    // Turn into "horizontality" ratio
+    float horizontality = 1f - Mathf.Abs(angleNormalized);
+    reqRigidbody.AddForce(horizontality * -Physics.gravity , ForceMode.Acceleration);
   }
 }
