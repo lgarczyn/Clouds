@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using System.Linq;
 
 public class TogglePlayMode : MonoBehaviour
 {
@@ -27,6 +28,8 @@ public class TogglePlayMode : MonoBehaviour
     if (Keyboard.current.uKey.wasPressedThisFrame)
     {
       Screen.fullScreen = !Screen.fullScreen;
+      var res = Screen.resolutions.Last();
+      if (Screen.fullScreen) Screen.SetResolution(res.width, res.height, FullScreenMode.ExclusiveFullScreen);
     }
     if (Keyboard.current.oKey.wasPressedThisFrame)
     {
