@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ToggleTutorial : MonoBehaviour
 {
-    public KeyCode key;
     public GameObject target;
 
     void Update() {
-        if (Input.GetKeyDown(key))
+        if (Keyboard.current.hKey.wasPressedThisFrame)
             target.SetActive(!target.activeSelf);
     }
 }

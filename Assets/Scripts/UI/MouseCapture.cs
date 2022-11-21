@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MouseCapture : MonoBehaviour
 {
@@ -6,9 +7,9 @@ public class MouseCapture : MonoBehaviour
   {
     // if (Application.platform == RuntimePlatform.LinuxEditor || Application.isEditor == false)
     // {
-    if (Input.GetMouseButtonDown(0))
+    if (Mouse.current.leftButton.wasPressedThisFrame)
       Cursor.lockState = CursorLockMode.Locked;
-    if (Input.GetKeyDown(KeyCode.Escape))
+    if (Keyboard.current.escapeKey.wasPressedThisFrame)
       Cursor.lockState = CursorLockMode.None;
     // }
   }

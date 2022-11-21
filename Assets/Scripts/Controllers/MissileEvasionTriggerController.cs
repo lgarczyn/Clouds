@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MissileEvasionTriggerController : MonoBehaviour
@@ -9,14 +7,6 @@ public class MissileEvasionTriggerController : MonoBehaviour
   public float distance;
 
   public float duration;
-
-  void Update()
-  {
-    if (Input.GetKeyDown(KeyCode.U))
-    {
-      parent.SetTempTarget(transform.position + Random.onUnitSphere * distance, duration);
-    }
-  }
 
   private void CheckCollider(Collider other)
   {

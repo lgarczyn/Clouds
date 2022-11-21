@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ExtendedFlycam : MonoBehaviour
 {
@@ -28,36 +29,49 @@ public class ExtendedFlycam : MonoBehaviour
 
     void Update()
     {
-        rotationX += Input.GetAxis("Mouse X") * cameraSensitivity * Time.deltaTime;
-        rotationY += Input.GetAxis("Mouse Y") * cameraSensitivity * Time.deltaTime;
+        var delta = Mouse.current.delta.ReadValue();
+        rotationX += delta.x * cameraSensitivity;
+        rotationY += delta.y * cameraSensitivity;
         rotationY = Mathf.Clamp(rotationY, -90, 90);
 
         transform.localRotation = Quaternion.AngleAxis(rotationX, Vector3.up);
         transform.localRotation *= Quaternion.AngleAxis(rotationY, Vector3.left);
 
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        float horizontal = 0f
+          + (Keyboard.current.qKey.isPressed ? -1f : 0f)
+          + (Keyboard.current.dKey.isPressed ? -1f : 0f);
+
+        float vertical = 0f
+          + (Keyboard.current.wKey.isPressed ? -1f : 0f)
+          + (Keyboard.current.sKey.isPressed ? -1f : 0f);
+
+        if (Keyboard.current.shiftKey.isPressed)
         {
-            transform.position += transform.forward * (normalMoveSpeed * fastMoveFactor) * Input.GetAxis("Vertical") * Time.deltaTime;
-            transform.position += transform.right * (normalMoveSpeed * fastMoveFactor) * Input.GetAxis("Horizontal") * Time.deltaTime;
+            transform.position += transform.forward * (normalMoveSpeed * fastMoveFactor) * vertical * Time.deltaTime;
+            transform.position += transform.right * (normalMoveSpeed * fastMoveFactor) * horizontal * Time.deltaTime;
         }
-        else if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+        else if (Keyboard.current.ctrlKey.isPressed)
         {
-            transform.position += transform.forward * (normalMoveSpeed * slowMoveFactor) * Input.GetAxis("Vertical") * Time.deltaTime;
-            transform.position += transform.right * (normalMoveSpeed * slowMoveFactor) * Input.GetAxis("Horizontal") * Time.deltaTime;
+            transform.position += transform.forward * (normalMoveSpeed * slowMoveFactor) * vertical * Time.deltaTime;
+            transform.position += transform.right * (normalMoveSpeed * slowMoveFactor) * horizontal * Time.deltaTime;
         }
         else
         {
-            transform.position += transform.forward * normalMoveSpeed * Input.GetAxis("Vertical") * Time.deltaTime;
-            transform.position += transform.right * normalMoveSpeed * Input.GetAxis("Horizontal") * Time.deltaTime;
+            transform.position += transform.forward * normalMoveSpeed * vertical * Time.deltaTime;
+            transform.position += transform.right * normalMoveSpeed * horizontal * Time.deltaTime;
         }
 
 
-        if (Input.GetKey(KeyCode.Q)) { transform.position += transform.up * climbSpeed * Time.deltaTime; }
-        if (Input.GetKey(KeyCode.E)) { transform.position -= transform.up * climbSpeed * Time.deltaTime; }
+        if (Keyboard.current.qKey.isPressed) { transform.position += transform.up * climbSpeed * Time.deltaTime; }
+        if (Keyboard.current.eKey.isPressed) { transform.position -= transform.up * climbSpeed * Time.deltaTime; }
 
-        if (Input.GetKeyDown(KeyCode.End))
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
-            Cursor.lockState = Cursor.lockState == CursorLockMode.Locked ? CursorLockMode.None : CursorLockMode.Locked;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 }

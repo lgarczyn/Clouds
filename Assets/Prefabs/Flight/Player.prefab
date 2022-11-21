@@ -6297,7 +6297,7 @@ MonoBehaviour:
   cam: {fileID: 0}
   offset: {x: 0, y: 0.91, z: -3.5}
   camSmoothSpeed: 5
-  mouseSensitivity: 1
+  mouseSensitivity: 0.15
   aimDistance: 300
   showDebugInfo: 0
 --- !u!114 &6036060620604136941

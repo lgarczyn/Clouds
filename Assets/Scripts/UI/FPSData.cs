@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Linq;
 using Text = TMPro.TextMeshProUGUI;
+using UnityEngine.InputSystem;
 
 public class FPSData : MonoBehaviour
 {
@@ -113,6 +114,6 @@ public class FPSData : MonoBehaviour
 
     reqText.text = text;
 
-    if (Input.GetKeyDown(KeyCode.F)) reqText.enabled = !reqText.enabled;
+    if (Keyboard.current.fKey.wasPressedThisFrame) reqText.enabled = !reqText.enabled;
   }
 }

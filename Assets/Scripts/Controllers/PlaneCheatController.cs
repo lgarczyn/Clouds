@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlaneCheatController : MonoBehaviour
 {
@@ -19,8 +20,8 @@ public class PlaneCheatController : MonoBehaviour
 
   void Update()
   {
-    if (Input.GetKeyDown(KeyCode.L)) reqRigidbody.isKinematic = !reqRigidbody.isKinematic;
-    if (Input.GetKeyDown(KeyCode.K))
+    if (Keyboard.current.lKey.wasPressedThisFrame) reqRigidbody.isKinematic = !reqRigidbody.isKinematic;
+    if (Keyboard.current.kKey.wasPressedThisFrame)
     {
       reqRigidbody.position = startPos;
       reqRigidbody.rotation = startRotation;
@@ -30,7 +31,7 @@ public class PlaneCheatController : MonoBehaviour
         reqRigidbody.angularVelocity = Vector3.zero;
       }
     }
-    if (Input.GetKeyDown(KeyCode.I))
+    if (Keyboard.current.iKey.wasPressedThisFrame)
     {
       FindObjectsOfType<MissileDeathController>().Do((m) => m.Kill());
     }

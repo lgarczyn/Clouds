@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class RandomizeCloudColors : MonoBehaviour
 {
@@ -8,12 +9,12 @@ public class RandomizeCloudColors : MonoBehaviour
 
   void Update()
   {
-    if (Input.GetKeyDown(KeyCode.Alpha1)) sun.color = Random.ColorHSV();
-    if (Input.GetKeyDown(KeyCode.Alpha2)) reqCloudMaster.colA = Random.ColorHSV();
-    if (Input.GetKeyDown(KeyCode.Alpha3)) reqCloudMaster.colB = Random.ColorHSV();
-    if (Input.GetKeyDown(KeyCode.Alpha4)) reqCloudMaster.colC = Random.ColorHSV();
+    if (Keyboard.current.numpad1Key.wasPressedThisFrame) sun.color = Random.ColorHSV();
+    if (Keyboard.current.numpad2Key.wasPressedThisFrame) reqCloudMaster.colA = Random.ColorHSV();
+    if (Keyboard.current.numpad3Key.wasPressedThisFrame) reqCloudMaster.colB = Random.ColorHSV();
+    if (Keyboard.current.numpad4Key.wasPressedThisFrame) reqCloudMaster.colC = Random.ColorHSV();
 
-    if (Input.GetKeyDown(KeyCode.Alpha0))
+    if (Keyboard.current.numpad0Key.wasPressedThisFrame)
     {
       sun.color = Random.ColorHSV();
       reqCloudMaster.colA = Random.ColorHSV();

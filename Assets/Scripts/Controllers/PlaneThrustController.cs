@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class PlaneThrustController : MonoBehaviour
 {
@@ -28,7 +29,7 @@ public class PlaneThrustController : MonoBehaviour
 
     float multiplier = densityVsThrust.Evaluate(density);
 
-    if (Input.GetKey(KeyCode.LeftShift))
+    if (Keyboard.current.shiftKey.isPressed)
     {
       float multDiff = Mathf.Abs(boostMultiplier - multiplier) / boostMultiplier;
       if (reqPlaneEntity.TrySpendEnergy(multDiff * boostEnergyPerSecond * Time.deltaTime))

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlaneFiringController : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class PlaneFiringController : MonoBehaviour
 
     if (lastShotTimestamp + 1f / rps < Time.fixedTimeAsDouble)
     {
-      if (Input.GetMouseButton(0))
+      if (Mouse.current.leftButton.isPressed)
       {
         if (firing == false && audioPlayer) audioPlayer.StartFire(rps);
 

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class TogglePlayMode : MonoBehaviour
 {
@@ -17,17 +18,17 @@ public class TogglePlayMode : MonoBehaviour
 
   void Update()
   {
-    if (Input.GetKeyDown(KeyCode.P))
+    if (Keyboard.current.pKey.wasPressedThisFrame)
     {
       // Get the current state paused state
       bool playing = Time.timeScale != 0f;
       SetPlaying(!playing);
     }
-    if (Input.GetKeyDown(KeyCode.U))
+    if (Keyboard.current.uKey.wasPressedThisFrame)
     {
       Screen.fullScreen = !Screen.fullScreen;
     }
-    if (Input.GetKeyDown(KeyCode.O))
+    if (Keyboard.current.oKey.wasPressedThisFrame)
     {
       SetPlaying(true);
       SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

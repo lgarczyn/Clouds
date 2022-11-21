@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 using Visualisation;
 
 [ExecuteInEditMode]
@@ -201,7 +202,7 @@ public class TileWorleyTest : MonoBehaviour {
             return;
         }
 
-        if (Input.GetKey (KeyCode.Space)) {
+        if (Keyboard.current.spaceKey.wasPressedThisFrame) {
             tile = Mathf.MoveTowards (tile, 3, Time.deltaTime * .2f);
         } else {
             tile = Mathf.MoveTowards (tile, 1, Time.deltaTime * .2f);

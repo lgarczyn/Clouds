@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using Text = TMPro.TextMeshProUGUI;
+using UnityEngine.InputSystem;
 
 public class CreditsController : MonoBehaviour
 {
@@ -24,8 +25,8 @@ public class CreditsController : MonoBehaviour
 
   void Update()
   {
-    if (Input.GetKeyDown(KeyCode.Space) ||
-        Input.GetKeyDown(KeyCode.Escape))
+    if (Keyboard.current.spaceKey.wasPressedThisFrame ||
+        Keyboard.current.escapeKey.wasPressedThisFrame)
     {
       SceneManager.LoadScene(0);
     }

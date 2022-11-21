@@ -4,6 +4,7 @@
 //
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Combination of camera rig and controller for aircraft. Requires a properly set
@@ -131,7 +132,7 @@ public class MouseFlightController : MonoBehaviour
 
   private void Update()
   {
-    if (Input.GetKeyDown(KeyCode.Escape))
+    if (Keyboard.current.escapeKey.wasPressedThisFrame)
     {
       Cursor.lockState = CursorLockMode.None;
       Cursor.visible = true;
@@ -148,7 +149,7 @@ public class MouseFlightController : MonoBehaviour
 
   void LateUpdate()
   {
-    if (Input.GetKey(KeyCode.V)) return;
+    if (Keyboard.current.vKey.isPressed) return;
 
     cam.position = cameraRig.position;
     cam.rotation = cameraRig.rotation;
@@ -163,25 +164,24 @@ public class MouseFlightController : MonoBehaviour
       return;
 
     // Freeze the mouse aim direction when the free look key is pressed.
-    if (Input.GetKeyDown(KeyCode.C))
+    if (Keyboard.current.cKey.wasPressedThisFrame)
     {
       isMouseAimFrozen = true;
       frozenDirection = mouseAim.forward;
     }
-    else if (Input.GetKeyUp(KeyCode.C))
+    else if (Keyboard.current.cKey.wasReleasedThisFrame)
     {
       isMouseAimFrozen = false;
       mouseAim.forward = frozenDirection;
     }
 
-    // Mouse input.
-    float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
-    float mouseY = -Input.GetAxis("Mouse Y") * mouseSensitivity;
+    // Mouse input
+    var mouseDelta = Mouse.current.delta.ReadValue() * mouseSensitivity;
 
     // Rotate the aim target that the plane is meant to fly towards.
     // Use the camera's axes in world space so that mouse motion is intuitive.
-    mouseAim.Rotate(cam.right, mouseY, Space.World);
-    mouseAim.Rotate(cam.up, mouseX, Space.World);
+    mouseAim.Rotate(cam.right, -mouseDelta.y, Space.World);
+    mouseAim.Rotate(cam.up, mouseDelta.x, Space.World);
 
     // The up vector of the camera normally is aligned to the horizon. However, when
     // looking straight up/down this can feel a bit weird. At those extremes, the camera

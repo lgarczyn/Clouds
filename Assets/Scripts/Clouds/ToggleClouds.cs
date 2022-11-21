@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.InputSystem;
 
 public class ToggleClouds : MonoBehaviour
 {
@@ -32,7 +33,7 @@ public class ToggleClouds : MonoBehaviour
 
   void Update()
   {
-    if (Input.GetKeyDown(KeyCode.M))
+    if (Keyboard.current.mKey.wasPressedThisFrame)
     {
       cloudsEnabled = !cloudsEnabled;
       UpdateEnabled();
