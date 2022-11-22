@@ -26,19 +26,48 @@ where T : class, IManager<T>
     }
   }
 
-  protected virtual void Awake()
+  // Update the instance with this manager
+  // If another active instance existed, send a warning
+  protected void ReplaceInstance()
   {
-    if (realInstance != null) Debug.LogError("Duplicate Manager: " + typeof(T));
+    if (realInstance != null
+      && !realInstance.isActiveAndEnabled
+      && !Object.ReferenceEquals(realInstance, this)
+    ) Debug.LogError("Duplicate Manager: " + typeof(T));
+
     realInstance = this as IManager<T>;
   }
 
-  void OnDestroy()
+  // Remove this manager from the instance static var
+  // This ensures that no reference is kept in and out of play mode
+  // Resets to null in any case, to ensure that Find is used if required
+  protected void CleanInstance()
   {
-    if (!Object.ReferenceEquals(realInstance, this))
+    if (realInstance != null && !Object.ReferenceEquals(realInstance, this))
     {
       Debug.LogError("Manager instance was changed during lifetime: " + typeof(T));
     }
     realInstance = null;
+  }
+
+  protected virtual void Awake()
+  {
+    ReplaceInstance();
+  }
+
+  protected virtual void OnEnable()
+  {
+    ReplaceInstance();
+  }
+
+  void OnDisable()
+  {
+    CleanInstance();  
+  }
+
+  void OnDestroy()
+  {
+    CleanInstance();
   }
 
   public static T instance
