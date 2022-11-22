@@ -10,7 +10,7 @@ public class CreditsController : MonoBehaviour
 
   void Start()
   {
-    PlaythroughData data = GameObject.FindObjectOfType<PlaythroughData>();
+    PlaythroughData data = PlaythroughData.instance ?? GameObject.FindObjectOfType<PlaythroughData>();
 
     if (data)
     {
