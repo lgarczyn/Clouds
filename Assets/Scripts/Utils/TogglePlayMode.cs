@@ -25,12 +25,6 @@ public class TogglePlayMode : MonoBehaviour
       bool playing = Time.timeScale != 0f;
       SetPlaying(!playing);
     }
-    if (Keyboard.current.uKey.wasPressedThisFrame)
-    {
-      Screen.fullScreen = !Screen.fullScreen;
-      var res = Screen.resolutions.Last();
-      if (Screen.fullScreen) Screen.SetResolution(res.width, res.height, FullScreenMode.ExclusiveFullScreen);
-    }
     if (Keyboard.current.oKey.wasPressedThisFrame)
     {
       SetPlaying(true);

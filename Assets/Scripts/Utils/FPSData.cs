@@ -94,6 +94,10 @@ public class FPSData : MonoBehaviour
       text += "\ncpu: " + System.Math.Round(timingInfos[0].cpuFrameTime) + "ms";
     }
 
+    text += "\nWindow: " + Screen.width + "x" + Screen.height;
+    text += "\nRes: " + Screen.currentResolution;
+    text += "\nFullScreen: " + Screen.fullScreen + " @ " + System.Enum.GetName(typeof(FullScreenMode), Screen.fullScreenMode);
+
     PlayerPlane plane = FindObjectOfType<PlayerPlane>();
     if (plane)
     {
