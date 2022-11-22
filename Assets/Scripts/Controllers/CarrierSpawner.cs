@@ -27,6 +27,8 @@ public class CarrierSpawner : MonoBehaviour
   [SerializeField] UnityEvent<bool> onSpawningChange;
   [SerializeField] UnityEvent<int> onSpawn;
 
+  [SerializeField] UnityEvent onFinalWaveEnd;
+
   [SerializeField][RequiredComponent] EnemyManagerBridge reqEnemyManagerBridge;
 
   [SerializeField][RequiredComponent] PlayerManagerBridge reqPlayerManagerBridge;
@@ -46,8 +48,8 @@ public class CarrierSpawner : MonoBehaviour
       yield return StartCoroutine(WaitStartSpawnCoroutine(wave));
       yield return StartCoroutine(SpawnWaveCoroutine(wave));
       yield return StartCoroutine(WaitEndSpawnCoroutine(wave));
-
     }
+    onFinalWaveEnd.Invoke();
   }
 
   IEnumerator WaitStartSpawnCoroutine(WaveInfo wave)
