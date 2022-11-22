@@ -439,7 +439,7 @@ MonoBehaviour:
   hazeColorFactor: 122
   hazeColorFactorLinear: 84
   hazeTransmittanceFactor: 0.094
-  atmosphereTransmittancePower: 6.34
+  atmosphereTransmittancePower: 8.05
   lightPower: 2.5
   forwardScattering: 0.859
   backScattering: 0.33
