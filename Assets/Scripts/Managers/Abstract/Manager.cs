@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -11,6 +12,7 @@ using UnityEngine;
 public class Manager<T> : MonoBehaviour, IManager<T>
 where T : class, IManager<T>
 {
+  // The instance of the manager, do not use this directly
   static IManager<T> managerInstance;
 
   // This fixes the issue of Manager<T> and Manager<IT> not using the same instance
@@ -25,6 +27,20 @@ where T : class, IManager<T>
       Manager<T>.managerInstance = value;
     }
   }
+
+  #if UNITY_EDITOR
+
+  // Ensure that no static manager from editor can be referenced in play mode
+  [InitializeOnEnterPlayMode]
+  static void OnEnterPlaymodeInEditor(EnterPlayModeOptions options)
+  {
+      Debug.Log("Entering PlayMode");
+
+      if (options.HasFlag(EnterPlayModeOptions.DisableDomainReload))
+          managerInstance = null;
+  }
+
+  #endif
 
   protected virtual void Awake()
   {
