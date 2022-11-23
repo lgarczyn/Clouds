@@ -18510,6 +18510,7 @@ GameObject:
   - component: {fileID: 4031228495672856027}
   - component: {fileID: 3855999649093477398}
   - component: {fileID: 2950683691997437955}
+  - component: {fileID: 9092472205413006343}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -18546,55 +18547,55 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startDelay: 0
   waves:
-  - disabled: 0
+  - disabled: 1
     count: 1
     waveTimer: 0
     killAtLeast: 1
     prefab: {fileID: 5848834044144880815, guid: 802aaba54aad6bb498ab13e1e6f477c5,
       type: 3}
-  - disabled: 0
+  - disabled: 1
     count: 4
     waveTimer: 30
     killAtLeast: 3
     prefab: {fileID: 5848834044144880815, guid: 802aaba54aad6bb498ab13e1e6f477c5,
       type: 3}
-  - disabled: 0
+  - disabled: 1
     count: 10
     waveTimer: 60
     killAtLeast: 8
     prefab: {fileID: 5848834044144880815, guid: 802aaba54aad6bb498ab13e1e6f477c5,
       type: 3}
-  - disabled: 0
+  - disabled: 1
     count: 20
     waveTimer: 60
     killAtLeast: 15
     prefab: {fileID: 5848834044144880815, guid: 802aaba54aad6bb498ab13e1e6f477c5,
       type: 3}
-  - disabled: 0
+  - disabled: 1
     count: 30
     waveTimer: 60
     killAtLeast: 20
     prefab: {fileID: 5848834044144880815, guid: 802aaba54aad6bb498ab13e1e6f477c5,
       type: 3}
-  - disabled: 0
+  - disabled: 1
     count: 1
     waveTimer: 60
     killAtLeast: 1
     prefab: {fileID: 5238151195102450209, guid: 33627ddcba333784882c8bd413e03500,
       type: 3}
-  - disabled: 0
+  - disabled: 1
     count: 2
     waveTimer: 60
     killAtLeast: 2
     prefab: {fileID: 5238151195102450209, guid: 33627ddcba333784882c8bd413e03500,
       type: 3}
-  - disabled: 0
+  - disabled: 1
     count: 1
     waveTimer: 0
     killAtLeast: 0
     prefab: {fileID: 5238151195102450209, guid: 33627ddcba333784882c8bd413e03500,
       type: 3}
-  - disabled: 0
+  - disabled: 1
     count: 20
     waveTimer: 60
     killAtLeast: 50
@@ -18618,7 +18619,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
+        m_CallState: 2
   onSpawn:
     m_PersistentCalls:
       m_Calls:
@@ -18633,7 +18634,22 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
+        m_CallState: 2
+  onFinalWaveEnd:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9092472205413006343}
+        m_TargetAssemblyTypeName: WinManagerBridge, Assembly-CSharp
+        m_MethodName: SetWinnable
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   reqEnemyManagerBridge: {fileID: 4031228495672856027}
   reqPlayerManagerBridge: {fileID: 2950683691997437955}
 --- !u!114 &4031228495672856027
@@ -18670,6 +18686,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2c3ac4f52803eb41ab4c56cbae3ca28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9092472205413006343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7989871375388078721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3a04fa44057718429164408c848522c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8100176249788692329
