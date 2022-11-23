@@ -2,16 +2,16 @@ public class ResourceBarManagerBridge : ManagerBridge<ResourceBarManager>
 {
   public void SetHealth(float value)
   {
-    this.instance.SetHealth(value);
+    this.tryInstance?.SetHealth(value);
   }
 
   public void SetShield(float value)
   {
-    this.instance.SetShield(value);
+    this.tryInstance?.SetShield(value);
   }
 
   public void SetEnergy(float value)
   {
-    this.instance.SetEnergy(value);
+    this.tryInstance?.SetEnergy(value);
   }
 }
