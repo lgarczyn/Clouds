@@ -15,7 +15,6 @@ public struct WaveInfo
 }
 public class CarrierSpawner : MonoBehaviour
 {
-  [SerializeField] float startDelay;
   [SerializeField] List<WaveInfo> waves;
 
   [SerializeField] float minDistance = 10;
@@ -41,10 +40,10 @@ public class CarrierSpawner : MonoBehaviour
 
   IEnumerator SpawnCoroutine(IEnumerable<WaveInfo> waves)
   {
-    yield return new WaitForSeconds(startDelay);
-
     foreach (WaveInfo wave in waves)
     {
+      if (wave.disabled) continue;
+
       yield return StartCoroutine(WaitStartSpawnCoroutine(wave));
       yield return StartCoroutine(SpawnWaveCoroutine(wave));
       yield return StartCoroutine(WaitEndSpawnCoroutine(wave));
