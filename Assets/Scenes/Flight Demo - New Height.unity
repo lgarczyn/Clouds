@@ -637,12 +637,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plane: {fileID: 4563114451573425}
---- !u!1 &436695243 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4092916258695145922, guid: 8580f51aba7053a4286c3ec8810a585e,
-    type: 3}
-  m_PrefabInstance: {fileID: 6035008019564179120}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &448107264
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1308,6 +1302,12 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2169290647984943359, guid: 305afb406607db34699a4e7d8ab8d051,
     type: 3}
   m_PrefabInstance: {fileID: 2169290648347449865}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1069422597 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6035008020490059627, guid: 8580f51aba7053a4286c3ec8810a585e,
+    type: 3}
+  m_PrefabInstance: {fileID: 6035008019564179120}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1079494856 stripped
 GameObject:
@@ -2153,7 +2153,7 @@ MonoBehaviour:
   - {fileID: 354178483}
   - {fileID: 1079494856}
   activateOnThrusters:
-  - {fileID: 436695243}
+  - {fileID: 1069422597}
   plane: {fileID: 6035008019564179122}
   mouseFlightController: {fileID: 0}
   thrustController: {fileID: 6035008019564179121}
