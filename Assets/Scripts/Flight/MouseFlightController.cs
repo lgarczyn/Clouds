@@ -124,8 +124,10 @@ public class MouseFlightController : Manager<MouseFlightController>
     }
   }
 
-  private void Start()
+  protected override void OnEnable()
   {
+    base.OnEnable();
+
     if (mouseAim == null)
       Debug.LogError(name + "MouseFlightController - No mouse aim transform assigned!");
     if (cameraRig == null)
@@ -144,7 +146,7 @@ public class MouseFlightController : Manager<MouseFlightController>
       Cursor.visible = false;
     }
 
-    UpdateCameraPos();
+    cameraRig.rotation = Quaternion.LookRotation(mouseAim.forward, cameraRig.up);
   }
 
   private void Update()
