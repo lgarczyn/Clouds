@@ -54,6 +54,8 @@ public class CloudMaster : MonoBehaviour
   public float hazeTransmittanceFactor = 0.1f;
   [Range(0.01f, 10f)]
   public float atmosphereTransmittancePower = 1f;
+  [Range(0.01f, 10f)]
+  public float cloudTransmittancePower = 1f;
   [Range(0f, 5f)]
   public float lightPower = 2.5f;
   [Header(headerDecoration + "Sun halo" + headerDecoration)]
@@ -218,6 +220,7 @@ public class CloudMaster : MonoBehaviour
     material.SetFloat("hazeColorFactorLinear", hazeColorFactorLinear * hazeColorFactorLinear);
     material.SetFloat("hazeTransmittanceFactor", hazeTransmittanceFactor);
     material.SetFloat("atmosphereTransmittancePower", atmosphereTransmittancePower);
+    material.SetFloat("cloudTransmittancePower", cloudTransmittancePower);
     material.SetFloat("lightPower", lightPower);
     material.SetFloat("lightAbsorptionTowardSun", lightAbsorptionTowardSun);
     material.SetFloat("darknessThreshold", darknessThreshold);

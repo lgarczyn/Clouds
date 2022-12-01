@@ -167,6 +167,7 @@ Shader "Clouds"
             float hazeColorFactorLinear;
             float hazeTransmittanceFactor;
             float atmosphereTransmittancePower;
+            float cloudTransmittancePower;
             float lightPower;
             float darknessThreshold;
             float4 _LightColor0;
@@ -859,8 +860,10 @@ Shader "Clouds"
                 hazeRatio *= hazeTransmittanceFactor / hazeColorFactor / lightAbsorptionThroughCloud;
                 // Correct transmittance calculations for full range
                 transmittance = saturate(remap01(transmittance, minTransmittance, 1));
-                // Control how much light reaches skybox
-                transmittance = pow(transmittance, atmosphereTransmittancePower);
+                // Control how much light reaches skybox or object
+                // Basically make entire shader less transparent
+                transmittance = pow(transmittance,
+                    hiddenByObject ? cloudTransmittancePower : atmosphereTransmittancePower);
                 // Correct light energy calculations
                 // Allows independent change lightPower and light absorption
                 lightEnergy *= lightPower * lightAbsorptionThroughCloud;
