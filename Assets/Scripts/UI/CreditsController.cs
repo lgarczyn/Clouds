@@ -23,13 +23,8 @@ public class CreditsController : MonoBehaviour
     }
   }
 
-  void Update()
+  public void OnNext(InputAction.CallbackContext context)
   {
-    if (Keyboard.current.spaceKey.wasPressedThisFrame ||
-        Keyboard.current.escapeKey.wasPressedThisFrame)
-    {
-      SceneManager.LoadScene(0);
-    }
-
+    SceneManager.LoadScene(0);
   }
 }

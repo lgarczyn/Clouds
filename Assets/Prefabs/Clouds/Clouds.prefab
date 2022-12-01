@@ -483,7 +483,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc293729e76a8f74d9799e5e1a546657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cloudRendererIndex: 2
+  cloudFeature: {fileID: -3727297349946062584, guid: 4f2f4d8bd48de0742bbdd7e2a26f25d2,
+    type: 2}
   cloudsEnabled: 1
   reqCloudMaster: {fileID: 472882610911925409}
   reqShadowCameraBridge: {fileID: 7312568325388348361}

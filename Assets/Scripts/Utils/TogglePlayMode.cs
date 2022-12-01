@@ -3,32 +3,41 @@ using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using System.Linq;
 
+[RequireComponent(typeof(MouseCapture))]
 public class TogglePlayMode : MonoBehaviour
 {
-  void SetPlaying(bool playing)
+  [SerializeField][RequiredComponent] MouseCapture reqMouseCapture;
+
+  bool playing
   {
-    Time.timeScale = playing ? 1f : 0f;
-    AudioListener.pause = !playing;
+    get => Time.timeScale != 0f;
+    set
+    {
+      Time.timeScale = value ? 1f : 0f;
+      AudioListener.pause = !value;
+    }
   }
 
   // Check just in case scene was reloaded while paused
   void Start()
   {
-    SetPlaying(true);
+    playing = true;
+    reqMouseCapture.ShouldCapture = true;
   }
 
-  void Update()
+  public void OnPlayPause(InputAction.CallbackContext context)
   {
-    if (Keyboard.current.pKey.wasPressedThisFrame)
-    {
-      // Get the current state paused state
-      bool playing = Time.timeScale != 0f;
-      SetPlaying(!playing);
-    }
-    if (Keyboard.current.oKey.wasPressedThisFrame)
-    {
-      SetPlaying(true);
-      SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
+    if (context.phase != InputActionPhase.Performed) return;
+
+    playing = !playing;
+    reqMouseCapture.ShouldCapture = playing;
+  }
+
+  public void OnReload(InputAction.CallbackContext context)
+  {
+    if (context.phase != InputActionPhase.Performed) return;
+
+    playing = true;
+    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
   }
 }

@@ -3,10 +3,10 @@ using UnityEngine.InputSystem;
 
 public class ToggleTutorial : MonoBehaviour
 {
-    public GameObject target;
+  public GameObject target;
 
-    void Update() {
-        if (Keyboard.current.hKey.wasPressedThisFrame)
-            target.SetActive(!target.activeSelf);
-    }
+  public void OnToggleTutorial(InputAction.CallbackContext context)
+  {
+    target.SetActive(context.ReadValueAsButton());
+  }
 }

@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class ToggleClouds : MonoBehaviour
 {
-  public int cloudRendererIndex;
+  public ScriptableRendererFeature cloudFeature;
 
   public bool cloudsEnabled;
 
@@ -12,31 +12,32 @@ public class ToggleClouds : MonoBehaviour
   [SerializeField][RequiredComponent] ShadowCameraBridge reqShadowCameraBridge;
   [SerializeField][RequiredComponent] MainCameraBridge reqMainCameraBridge;
 
-  public void SetEnabled(bool value)
-  {
-    cloudsEnabled = value;
-    UpdateEnabled();
-  }
-
-  void UpdateEnabled()
-  {
-    reqShadowCameraBridge.instance.shadowCamera.enabled = cloudsEnabled;
-    reqMainCameraBridge.instance.mainCamera.GetUniversalAdditionalCameraData().SetRenderer(
-      cloudsEnabled ? cloudRendererIndex : 0
-    );
-  }
 
   void Start()
   {
     SetEnabled(cloudsEnabled);
   }
 
-  void Update()
+  public void OnToggleClouds(InputAction.CallbackContext context)
   {
-    if (Keyboard.current.mKey.wasPressedThisFrame)
-    {
-      cloudsEnabled = !cloudsEnabled;
-      UpdateEnabled();
-    }
+    Debug.Log("please" + context);
+    if (context.phase != InputActionPhase.Performed) return;
+    Toggle();
+  }
+
+  public void SetEnabled(bool value)
+  {
+    cloudsEnabled = value;
+    UpdateEnabled();
+  }
+
+  public void Toggle() {
+    SetEnabled(!cloudsEnabled);
+  }
+
+  void UpdateEnabled()
+  {
+    reqShadowCameraBridge.instance.shadowCamera.enabled = cloudsEnabled;
+    cloudFeature.SetActive(cloudsEnabled);
   }
 }

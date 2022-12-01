@@ -22,6 +22,8 @@ public class WinManager : Manager<WinManager>
 
   public float minHeightToWin = 3000;
 
+  bool pressedWinKey = false;
+
   bool winning = false;
 
   public void SetWinnable(bool value)
@@ -33,6 +35,11 @@ public class WinManager : Manager<WinManager>
     StartCoroutine(WinCoroutine());
   }
 
+  public void OnPressWinKey(InputAction.CallbackContext context)
+  {
+    pressedWinKey = context.ReadValueAsButton();
+  }
+
   IEnumerator WinCoroutine()
   {
     reachHigherUI.SetActive(true);
@@ -42,7 +49,9 @@ public class WinManager : Manager<WinManager>
     reachHigherUI.SetActive(false);
     canWinUI.SetActive(true);
 
-    yield return new WaitWhile(() => !Keyboard.current[keyToWin].wasPressedThisFrame);
+    //TODO: find elegant way to do this
+    pressedWinKey = false;
+    yield return new WaitWhile(() => !pressedWinKey);
 
     canWinUI.SetActive(false);
 
@@ -57,13 +66,13 @@ public class WinManager : Manager<WinManager>
     }
     thrustController.boostMultiplier = 1f;
     planeController.turnTorque = Vector3.zero;
-    
+
     while (plane.transform.position.magnitude < minHeightToWin)
     {
       thrustController.baseThrust *= Mathf.Pow(2, Time.deltaTime);
       yield return null;
     }
-    
+
     PlaythroughData.instance.timeSinceGameStart = Time.timeSinceLevelLoad;
     SceneManager.LoadScene("Credits");
   }

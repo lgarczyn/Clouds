@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class PlaneDeathController : MonoBehaviour
+public class DeathController : Manager<DeathController>
 {
   public Rigidbody planeRigidbody;
   public PlayerPlane planeScript;
 
-  public GameObject[] toDisable;
+  public UnityEvent onDeath;
 
   public float gravityMultiplier = 3f;
 
@@ -16,6 +17,8 @@ public class PlaneDeathController : MonoBehaviour
   public bool isDying = false;
 
   public bool canDie = false;
+
+  public bool kill = false;
 
   public void FixedUpdate()
   {
@@ -26,6 +29,11 @@ public class PlaneDeathController : MonoBehaviour
       // Add more gravity during death anim
       planeRigidbody.AddForce(Physics.gravity * gravityMultiplier, ForceMode.Acceleration);
     }
+    if (kill)
+    {
+      kill = false;
+      KillPlane();
+    }
   }
 
   public void KillPlane()
@@ -34,10 +42,7 @@ public class PlaneDeathController : MonoBehaviour
 
     isDying = true;
 
-    foreach (var go in toDisable)
-    {
-      go.SetActive(false);
-    }
+    onDeath.Invoke();
 
     planeRigidbody.drag = 0f;
     planeRigidbody.detectCollisions = false;

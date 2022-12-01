@@ -18,22 +18,30 @@ public class PlaneCheatController : MonoBehaviour
     startRotation = reqRigidbody.rotation;
   }
 
-  void Update()
+  public void OnLockPlane(InputAction.CallbackContext context)
   {
-    if (Keyboard.current.lKey.wasPressedThisFrame) reqRigidbody.isKinematic = !reqRigidbody.isKinematic;
-    if (Keyboard.current.kKey.wasPressedThisFrame)
+    if (context.phase != InputActionPhase.Performed) return;
+
+    reqRigidbody.isKinematic = !reqRigidbody.isKinematic;
+  }
+
+  public void OnResetPlane(InputAction.CallbackContext context)
+  {
+    if (context.phase != InputActionPhase.Performed) return;
+
+    reqRigidbody.position = startPos;
+    reqRigidbody.rotation = startRotation;
+    if (!reqRigidbody.isKinematic)
     {
-      reqRigidbody.position = startPos;
-      reqRigidbody.rotation = startRotation;
-      if (!reqRigidbody.isKinematic)
-      {
-        reqRigidbody.velocity = Vector3.zero;
-        reqRigidbody.angularVelocity = Vector3.zero;
-      }
+      reqRigidbody.velocity = Vector3.zero;
+      reqRigidbody.angularVelocity = Vector3.zero;
     }
-    if (Keyboard.current.iKey.wasPressedThisFrame)
-    {
-      FindObjectsOfType<MissileDeathController>().Do((m) => m.Kill());
-    }
+  }
+
+  public void OnKillEnemies(InputAction.CallbackContext context)
+  {
+    if (context.phase != InputActionPhase.Performed) return;
+
+    FindObjectsOfType<MissileDeathController>().Do((m) => m.Kill());
   }
 }

@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 
-public class PlaneStartController : MonoBehaviour
+[RequireComponent(typeof(MouseFlightZoom))]
+public class IntroZoomController : MonoBehaviour
 {
-    public MouseFlightZoom zoomController;
     public float scrollInDuration = 2f;
     public float scrollInDistance = 10f;
     float scrollInTimer;
+
+    [RequiredComponent][SerializeField] MouseFlightZoom reqMouseFlightZoom;
 
     void Start()
     {
@@ -18,7 +20,7 @@ public class PlaneStartController : MonoBehaviour
 
         float ratio = scrollInTimer / scrollInDuration;
 
-        zoomController.SetTemporaryZoom(Mathf.Lerp(scrollInDistance, 0, ratio));
+        reqMouseFlightZoom.SetTemporaryZoom(Mathf.Lerp(scrollInDistance, 0, ratio));
 
         if (scrollInTimer >= scrollInDuration)
             enabled = false;

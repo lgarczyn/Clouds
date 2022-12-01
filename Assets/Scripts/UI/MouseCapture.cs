@@ -3,14 +3,26 @@ using UnityEngine.InputSystem;
 
 public class MouseCapture : MonoBehaviour
 {
-  void Update()
-  {
-    // if (Application.platform == RuntimePlatform.LinuxEditor || Application.isEditor == false)
-    // {
-    if (Mouse.current.leftButton.wasPressedThisFrame)
-      Cursor.lockState = CursorLockMode.Locked;
-    if (Keyboard.current.escapeKey.wasPressedThisFrame)
-      Cursor.lockState = CursorLockMode.None;
-    // }
+  bool isCaptured {
+    get => Cursor.lockState != CursorLockMode.None;
+    set {
+      Cursor.lockState = value ? CursorLockMode.Locked : CursorLockMode.None;
+      Cursor.visible = !value;
+    }
+  }
+
+  [SerializeField] bool shouldCapture = true;
+
+  public bool ShouldCapture {
+    set { shouldCapture = true; isCaptured = true; }
+  }
+
+  public void OnClickIn() {
+    
+    if (shouldCapture) isCaptured = true;
+  }
+
+  public void OnEscape() {
+    isCaptured = false;
   }
 }

@@ -17,26 +17,22 @@ public class MouseFlightZoom : MonoBehaviour
     _zoomOrigin = reqMouseFlightController.offset;
   }
 
-  private void Update()
+  public void OnZoom(InputAction.CallbackContext context)
   {
-    _currentZoom -= MouseScroll * scrollPower / 10;
+    _currentZoom -= context.ReadValue<float>() * scrollPower / 10;
+    UpdateZoom();
+  }
+
+  void UpdateZoom()
+  {
     _currentZoom = Mathf.Clamp(_currentZoom, minScroll, maxScroll);
     Vector3 zoomOffset = _zoomOrigin * Mathf.Pow(2, _currentZoom + _temporaryZoom);
     reqMouseFlightController.offset = zoomOffset;
   }
 
-  float MouseScroll
-  {
-    get
-    {
-      float mouseScroll = Mouse.current.scroll.ReadValue().y;
-
-      return Mathf.Clamp(mouseScroll, -1, 1);
-    }
-  }
-
   public void SetTemporaryZoom(float value)
   {
     _temporaryZoom = value;
+    UpdateZoom();
   }
 }

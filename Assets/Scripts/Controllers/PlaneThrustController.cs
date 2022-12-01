@@ -18,6 +18,13 @@ public class PlaneThrustController : MonoBehaviour
   [SerializeField][RequiredComponent] PlaneResourceController reqPlaneResourceController;
   [SerializeField][RequiredComponent] WarningManagerBridge reqWarningManagerBridge;
 
+  public void OnThrust(InputAction.CallbackContext context)
+  {
+    thrustActivated = context.ReadValueAsButton();
+  }
+
+  bool thrustActivated = false;
+
   void Update()
   {
     float density = -10;
@@ -29,7 +36,7 @@ public class PlaneThrustController : MonoBehaviour
 
     float multiplier = densityVsThrust.Evaluate(density);
 
-    if (Keyboard.current.shiftKey.isPressed)
+    if (thrustActivated)
     {
       float multDiff = Mathf.Abs(boostMultiplier - multiplier) / boostMultiplier;
       if (reqPlaneEntity.TrySpendEnergy(multDiff * boostEnergyPerSecond * Time.deltaTime))

@@ -15,13 +15,10 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class PlayerPlane : MonoBehaviour
 {
-  [Header("Components")]
-  [SerializeField] private MouseFlightController controller = null;
-
   [Header("Physics")]
   [Tooltip("Force to push plane forwards with")] public float thrust = 100f;
   [Tooltip("Pitch, Yaw, Roll")] public Vector3 turnTorque = new Vector3(90f, 25f, 45f);
-  [Tooltip("Multiplier for all forces")] public float forceMult = 1000f;
+  [Tooltip("Multiplier for all forces")] public float torqueMult = 1000f;
 
   [Header("Autopilot")]
   [Tooltip("Sensitivity for autopilot flight.")] public float sensitivity = 5f;
@@ -41,10 +38,11 @@ public class PlayerPlane : MonoBehaviour
   private bool rollOverride = false;
   private bool pitchOverride = false;
 
-  private void Awake()
+  Vector3 target;
+
+  public void SetTarget(Vector3 flyTarget)
   {
-    if (controller == null)
-      Debug.LogError(name + ": Plane - Missing reference to MouseFlightController!");
+    this.target = flyTarget;
   }
 
   private void Update()
@@ -79,8 +77,10 @@ public class PlayerPlane : MonoBehaviour
     float autoYaw = 0f;
     float autoPitch = 0f;
     float autoRoll = 0f;
-    if (controller != null)
-      RunAutopilot(controller.MouseAimPos, out autoYaw, out autoPitch, out autoRoll);
+
+    RunAutopilot(target, out autoYaw, out autoPitch, out autoRoll);
+
+    target = Vector3.zero;
 
     // Use either keyboard or autopilot input.
     yaw = autoYaw;
@@ -137,11 +137,11 @@ public class PlayerPlane : MonoBehaviour
   {
     // Ultra simple flight where the plane just gets pushed forward and manipulated
     // with torques to turn.
-    reqRigidbody.AddRelativeForce(Vector3.forward * thrust * forceMult, ForceMode.Force);
+    reqRigidbody.AddRelativeForce(Vector3.forward * thrust, ForceMode.Acceleration);
     reqRigidbody.AddRelativeTorque(new Vector3(turnTorque.x * pitch,
                                         turnTorque.y * yaw,
-                                        -turnTorque.z * roll) * forceMult,
-                            ForceMode.Force);
+                                        -turnTorque.z * roll) * torqueMult,
+                            ForceMode.Acceleration);
 
     // Very Bad Lift calculations
     // Allows level flight through cheap trick:
@@ -153,6 +153,6 @@ public class PlayerPlane : MonoBehaviour
     float angleNormalized = (angleToVertical / 90 - 1f);
     // Turn into "horizontality" ratio
     float horizontality = 1f - Mathf.Abs(angleNormalized);
-    reqRigidbody.AddForce(horizontality * -Physics.gravity , ForceMode.Acceleration);
+    reqRigidbody.AddForce(horizontality * -Physics.gravity, ForceMode.Acceleration);
   }
 }

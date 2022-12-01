@@ -4,10 +4,25 @@ using UnityEngine.InputSystem;
 
 public class ForceReload : MonoBehaviour
 {
-  void Update()
+  [SerializeField] InputActionReference action;
+
+  public void Reload()
   {
-    if (Keyboard.current.oKey.wasPressedThisFrame && Keyboard.current.shiftKey.isPressed) {
-      SceneManager.LoadScene(0);
-    }
+    SceneManager.LoadScene(0);
+  }
+
+  public void OnReload(InputAction.CallbackContext context)
+  {
+    Reload();
+  }
+
+  void OnEnable()
+  {
+    action.action.performed += OnReload;
+  }
+
+  void OnDisable()
+  {
+    action.action.performed -= OnReload;
   }
 }

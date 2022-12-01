@@ -8,5 +8,7 @@ public class PlayerManagerBridge : ManagerBridge<PlayerManager>
 
   public Transform playerTransform => instance.playerTransform;
 
+  public PlayerPlane playerPlane => instance.playerPlane;
+
   public float Distance(Vector3 position) { return instance.Distance(position); }
 }

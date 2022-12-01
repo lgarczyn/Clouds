@@ -10,21 +10,20 @@ using UnityEngine.InputSystem;
 /// Combination of camera rig and controller for aircraft. Requires a properly set
 /// up rig. I highly recommend either using or referencing the included prefab.
 /// </summary>
-public class MouseFlightController : MonoBehaviour
+[RequireComponent(typeof(MainCameraBridge))]
+[RequireComponent(typeof(PlayerManagerBridge))]
+public class MouseFlightController : Manager<MouseFlightController>
 {
   [Header("Components")]
-  [SerializeField]
-  [Tooltip("Transform of the aircraft the rig follows and references")]
-  private Transform aircraft = null;
   [SerializeField]
   [Tooltip("Transform of the object the mouse rotates to generate MouseAim position")]
   private Transform mouseAim = null;
   [SerializeField]
   [Tooltip("Transform of the object on the rig which the camera is attached to")]
   private Transform cameraRig = null;
-  [SerializeField]
-  [Tooltip("Transform of the camera itself")]
-  private Transform cam = null;
+
+  [SerializeField][RequiredComponent] MainCameraBridge reqMainCameraBridge;
+  [SerializeField][RequiredComponent] PlayerManagerBridge reqPlayerManagerBridge;
 
   [Header("Options")]
   // TODO clean this
@@ -50,7 +49,26 @@ public class MouseFlightController : MonoBehaviour
   private bool showDebugInfo = false;
 
   private Vector3 frozenDirection = Vector3.forward;
+  private Vector2 input = Vector2.zero;
   private bool isMouseAimFrozen = false;
+  private bool isCameraFrozen = false;
+
+  public void OnFreezeCamera(InputAction.CallbackContext context)
+  {
+    isCameraFrozen = context.ReadValueAsButton();
+  }
+
+  public void OnFreezeMouseAim(InputAction.CallbackContext context)
+  {
+    isMouseAimFrozen = context.ReadValueAsButton();
+    if (isMouseAimFrozen) frozenDirection = mouseAim.forward;
+    else mouseAim.forward = frozenDirection;
+  }
+
+  public void OnAim(InputAction.CallbackContext context)
+  {
+    input = context.ReadValue<Vector2>() * mouseSensitivity;
+  }
 
   /// <summary>
   /// Get a point along the aircraft's boresight projected out to aimDistance meters.
@@ -61,9 +79,8 @@ public class MouseFlightController : MonoBehaviour
   {
     get
     {
-      return aircraft == null
-           ? transform.forward * aimDistance
-           : (aircraft.transform.forward * aimDistance) + aircraft.transform.position;
+      Transform aircraft = reqPlayerManagerBridge.instance.transform;
+      return (aircraft.transform.forward * aimDistance) + aircraft.transform.position;
     }
   }
 
@@ -107,16 +124,14 @@ public class MouseFlightController : MonoBehaviour
     }
   }
 
-  private void Awake()
+  private void Start()
   {
-    if (aircraft == null)
-      Debug.LogError(name + "MouseFlightController - No aircraft transform assigned!");
     if (mouseAim == null)
       Debug.LogError(name + "MouseFlightController - No mouse aim transform assigned!");
     if (cameraRig == null)
       Debug.LogError(name + "MouseFlightController - No camera rig transform assigned!");
-    if (cam == null)
-      Debug.LogError(name + "MouseFlightController - No camera transform assigned!");
+
+    mouseAim.forward = reqPlayerManagerBridge.playerTransform.forward;
 
     // To work correctly, the entire rig must not be parented to anything.
     // When parented to something (such as an aircraft) it will inherit those
@@ -128,28 +143,31 @@ public class MouseFlightController : MonoBehaviour
       Cursor.lockState = CursorLockMode.Confined;
       Cursor.visible = false;
     }
+
+    UpdateCameraPos();
   }
 
   private void Update()
   {
-    if (Keyboard.current.escapeKey.wasPressedThisFrame)
-    {
-      Cursor.lockState = CursorLockMode.None;
-      Cursor.visible = true;
-    }
     UpdateCameraPos();
 
     RotateRig();
+
+    reqPlayerManagerBridge.playerPlane.SetTarget(MouseAimPos);
   }
 
   private void FixedUpdate()
   {
     UpdateCameraPos();
+
+    reqPlayerManagerBridge.playerPlane.SetTarget(MouseAimPos);
   }
 
   void LateUpdate()
   {
-    if (Keyboard.current.vKey.isPressed) return;
+    if (isCameraFrozen) return;
+
+    Transform cam = reqMainCameraBridge.instance.mainCamera.transform;
 
     cam.position = cameraRig.position;
     cam.rotation = cameraRig.rotation;
@@ -160,23 +178,14 @@ public class MouseFlightController : MonoBehaviour
 
   private void RotateRig()
   {
-    if (mouseAim == null || cam == null || cameraRig == null)
+    if (mouseAim == null || cameraRig == null)
       return;
 
-    // Freeze the mouse aim direction when the free look key is pressed.
-    if (Keyboard.current.cKey.wasPressedThisFrame)
-    {
-      isMouseAimFrozen = true;
-      frozenDirection = mouseAim.forward;
-    }
-    else if (Keyboard.current.cKey.wasReleasedThisFrame)
-    {
-      isMouseAimFrozen = false;
-      mouseAim.forward = frozenDirection;
-    }
-
     // Mouse input
-    var mouseDelta = Mouse.current.delta.ReadValue() * mouseSensitivity;
+    var mouseDelta = input;
+    input = Vector2.zero;
+
+    Transform cam = reqMainCameraBridge.instance.mainCamera.transform;
 
     // Rotate the aim target that the plane is meant to fly towards.
     // Use the camera's axes in world space so that mouse motion is intuitive.
@@ -193,6 +202,8 @@ public class MouseFlightController : MonoBehaviour
                               Quaternion.LookRotation(mouseAim.forward, upVec),
                               camSmoothSpeed,
                               Time.deltaTime);
+
+    reqPlayerManagerBridge.playerPlane.SetTarget(mouseAim.localPosition);
   }
 
   private Vector3 GetFrozenMouseAimPos()
@@ -205,11 +216,9 @@ public class MouseFlightController : MonoBehaviour
 
   private void UpdateCameraPos()
   {
-    if (aircraft != null)
-    {
-      // Move the whole rig to follow the aircraft.
-      transform.position = aircraft.position;
-    }
+    Transform aircraft = reqPlayerManagerBridge.instance.transform;
+    // Move the whole rig to follow the aircraft.
+    transform.position = aircraft.position;
   }
 
   // Thanks to Rory Driscoll
@@ -234,11 +243,9 @@ public class MouseFlightController : MonoBehaviour
       Color oldColor = Gizmos.color;
 
       // Draw the boresight position.
-      if (aircraft != null)
-      {
-        Gizmos.color = Color.white;
-        Gizmos.DrawWireSphere(BoresightPos, 10f);
-      }
+      Transform aircraft = reqPlayerManagerBridge.instance.transform;
+      Gizmos.color = Color.white;
+      Gizmos.DrawWireSphere(BoresightPos, 10f);
 
       if (mouseAim != null)
       {

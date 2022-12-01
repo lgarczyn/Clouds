@@ -1375,122 +1375,6 @@ Transform:
   m_Father: {fileID: 6039487566610510866}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6035740083892850972
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6038797109022958342}
-  m_Layer: 11
-  m_Name: MouseAim
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6038797109022958342
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6035740083892850972}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6039541436702939156}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6036060620604136940
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6039541436702939156}
-  - component: {fileID: 5933174257901130070}
-  - component: {fileID: 6036060620604136941}
-  - component: {fileID: 6036060620604136942}
-  m_Layer: 11
-  m_Name: MouseFlightRig
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6039541436702939156
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6036060620604136940}
-  m_LocalRotation: {x: 0.0000000037252899, y: -0, z: -0.0000000074505797, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.099999994, y: 0.10000001, z: 0.099999994}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6038797109022958342}
-  - {fileID: 6039472198707684646}
-  m_Father: {fileID: 6039487566610510866}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5933174257901130070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6036060620604136940}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9396f98894f2da47b58c709d5591ad8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aircraft: {fileID: 6039487566610510866}
-  mouseAim: {fileID: 6038797109022958342}
-  cameraRig: {fileID: 6039472198707684646}
-  cam: {fileID: 0}
-  offset: {x: 0, y: 0.91, z: -3.5}
-  camSmoothSpeed: 5
-  mouseSensitivity: 0.15
-  aimDistance: 300
-  showDebugInfo: 0
---- !u!114 &6036060620604136941
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6036060620604136940}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b2ff873c3ac7e542a3d5799eb3fb939, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scrollPower: 3
-  maxScroll: 4
-  minScroll: -1.8
-  reqMouseFlightController: {fileID: 5933174257901130070}
---- !u!114 &6036060620604136942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6036060620604136940}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c30b286289f22d47a2f7654573be573, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6036350815579256820
 GameObject:
   m_ObjectHideFlags: 0
@@ -1501,12 +1385,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6039487566610510866}
   - component: {fileID: 5981469090452608560}
-  - component: {fileID: 5933081180824767606}
   - component: {fileID: 6036350815579256821}
+  - component: {fileID: 3024059321188055124}
   - component: {fileID: 6036350815579256824}
   - component: {fileID: 6036350815579256823}
-  - component: {fileID: 6036350815579256825}
-  - component: {fileID: 6036350815579256827}
   - component: {fileID: 4563114451573420}
   - component: {fileID: 4563114451573421}
   - component: {fileID: 4563114451573411}
@@ -1519,6 +1401,7 @@ GameObject:
   - component: {fileID: 6161227608572021247}
   - component: {fileID: 3644276042266068141}
   - component: {fileID: 4916721293426998453}
+  - component: {fileID: 9133401001252639935}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -1542,7 +1425,6 @@ Transform:
   - {fileID: 6039769333814602614}
   - {fileID: 7217767844910810433}
   - {fileID: 1896944552801642230}
-  - {fileID: 6039541436702939156}
   - {fileID: 6035008020827950591}
   - {fileID: 9091896614193566159}
   - {fileID: 6035008020490059628}
@@ -1561,7 +1443,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 30
   m_Drag: 1
-  m_AngularDrag: 42
+  m_AngularDrag: 10
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1578,28 +1460,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &5933081180824767606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6036350815579256820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e59c5387dadf66844ae1eed2cbe1e654, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 5933174257901130070}
-  thrust: 60
-  turnTorque: {x: 25, y: 20, z: 50}
-  forceMult: 30
-  sensitivity: 8
-  aggressiveTurnAngle: 8
-  pitch: 0
-  yaw: 0
-  roll: 0
-  reqRigidbody: {fileID: 5981469090452608560}
 --- !u!114 &6036350815579256821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1622,8 +1482,8 @@ MonoBehaviour:
   onDeath:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6036350815579256825}
-        m_TargetAssemblyTypeName: PlaneDeathController, Assembly-CSharp
+      - m_Target: {fileID: 9133401001252639935}
+        m_TargetAssemblyTypeName: DeathControllerBridge, Assembly-CSharp
         m_MethodName: KillPlane
         m_Mode: 1
         m_Arguments:
@@ -1748,6 +1608,27 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3024059321188055124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6036350815579256820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e59c5387dadf66844ae1eed2cbe1e654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thrust: 100
+  turnTorque: {x: 1, y: 0.5, z: 2}
+  torqueMult: 20
+  sensitivity: 10
+  aggressiveTurnAngle: 90
+  pitch: 0
+  yaw: 0
+  roll: 0
+  reqRigidbody: {fileID: 5981469090452608560}
 --- !u!114 &6036350815579256824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1761,7 +1642,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plane: {fileID: 6036350815579256821}
-  deathController: {fileID: 6036350815579256825}
   energyVsDensity:
     serializedVersion: 2
     m_Curve:
@@ -1803,41 +1683,6 @@ MonoBehaviour:
   repairPerSecond: 5
   delayBeforeHeal: 10
   reqWarningManagerBridge: {fileID: 4916721293426998453}
---- !u!114 &6036350815579256825
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6036350815579256820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bbf2f2e93717b354881961b9c8b153d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  planeRigidbody: {fileID: 5981469090452608560}
-  planeScript: {fileID: 5933081180824767606}
-  toDisable:
-  - {fileID: 0}
-  - {fileID: 6036060620604136940}
-  gravityMultiplier: 3
-  isDying: 0
-  canDie: 1
---- !u!114 &6036350815579256827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6036350815579256820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbff0fbeb69c1006d80140ce4c8e6b6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  zoomController: {fileID: 6036060620604136941}
-  scrollInDuration: 2
-  scrollInDistance: 4
 --- !u!114 &4563114451573420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1930,7 +1775,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  reqPlayerPlane: {fileID: 5933081180824767606}
+  reqPlayerPlane: {fileID: 3024059321188055124}
   reqPlaneEntity: {fileID: 6036350815579256821}
   reqPlaneResourceController: {fileID: 6036350815579256824}
   reqWarningManagerBridge: {fileID: 4916721293426998453}
@@ -1992,7 +1837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab3b7d1729049f04cad96ba997d69ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inertiaTensor: {x: 1.05, y: 2.75, z: 1.87}
+  inertiaTensor: {x: 1, y: 1, z: 1}
   reqRigidbody: {fileID: 5981469090452608560}
 --- !u!114 &4050188235921111324
 MonoBehaviour:
@@ -2035,6 +1880,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reqRigidbody: {fileID: 5981469090452608560}
+  reqPlayerPlane: {fileID: 3024059321188055124}
 --- !u!114 &6161227608572021247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2070,6 +1916,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9a99ab619ecf4b4aab646ac1fcbbfb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9133401001252639935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6036350815579256820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18ee563bab7281b4a84e9aca51323913, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6036508552637036764
@@ -2389,37 +2247,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.48, y: 3.315, z: 2.355}
   m_Center: {x: 0, y: 0.23, z: -2.285}
---- !u!1 &6036759260497832316
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6039472198707684646}
-  m_Layer: 11
-  m_Name: CamRig
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6039472198707684646
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6036759260497832316}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6039541436702939156}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6036793155786064694
 GameObject:
   m_ObjectHideFlags: 0
@@ -2651,14 +2478,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8535455083031158391}
-  m_LocalRotation: {x: 0.0000000037252899, y: -0, z: -0.0000000074505797, w: 1}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5999999, y: 1.6000001, z: 1.5999999}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6039487566610510866}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!135 &62677410868070320
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2810,6 +2637,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   alwaysTest: 0
+  modelDir: {x: 1, y: 0, z: 0}
   reqCollider: {fileID: 62677410868070320}
   reqMeshRenderer: {fileID: 4270675310365789463}
   reqWarningManagerBridge: {fileID: 7895724357852488457}

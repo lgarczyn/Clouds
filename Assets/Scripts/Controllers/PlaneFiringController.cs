@@ -15,32 +15,29 @@ public class PlaneFiringController : MonoBehaviour
 
   [SerializeField][RequiredComponent] Rigidbody reqRigidbody;
 
+  public void OnFire(InputAction.CallbackContext context)
+  {
+    firing = context.ReadValueAsButton();
+
+    if (!audioPlayer) return;
+
+    if (firing && context.performed) audioPlayer.StartFire(rps);
+    if (!firing) audioPlayer.EndFire();
+  }
+
   void FixedUpdate()
   {
-
-    if (lastShotTimestamp + 1f / rps < Time.fixedTimeAsDouble)
+    if (firing && lastShotTimestamp + 1f / rps < Time.fixedTimeAsDouble)
     {
-      if (Mouse.current.leftButton.isPressed)
-      {
-        if (firing == false && audioPlayer) audioPlayer.StartFire(rps);
+      Vector3 dir = (Camera.main.transform.forward
+        + Random.insideUnitSphere * spread).normalized;
 
-        firing = true;
-
-        Vector3 dir = (Camera.main.transform.forward
-          + Random.insideUnitSphere * spread).normalized;
-
-        var bulletGO = GameObject.Instantiate(bulletPrefab.gameObject,
-          reqRigidbody.position, Quaternion.identity,
-          transform.parent
-          );
-        bulletGO.GetComponent<BulletController>().Init(reqRigidbody, dir);
-        lastShotTimestamp = Time.fixedTimeAsDouble;
-      }
-      else
-      {
-        if (firing == true && audioPlayer) audioPlayer.EndFire();
-        firing = false;
-      }
+      var bulletGO = GameObject.Instantiate(bulletPrefab.gameObject,
+        reqRigidbody.position, Quaternion.identity,
+        transform.parent
+        );
+      bulletGO.GetComponent<BulletController>().Init(reqRigidbody, dir);
+      lastShotTimestamp = Time.fixedTimeAsDouble;
     }
   }
 }

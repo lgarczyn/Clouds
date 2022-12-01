@@ -19,31 +19,32 @@ public class ToggleResolutions : MonoBehaviour
   {
     resolutions = Screen.resolutions.ToList();
     currentResolution = resolutions[0];
+    Screen.fullScreen = true;
     Screen.fullScreenMode = currentMode;
+    Screen.SetResolution(1280, 720, currentMode);
+  }
+
+  public void OnSelectResolution(InputAction.CallbackContext context)
+  {
+    int index = resolutions.FindIndex((v) => v.ToString() == currentResolution.ToString());
+    index = (index + 1) % resolutions.Count;
+
+    currentResolution = resolutions[index];
+
     Screen.SetResolution(currentResolution?.width ?? 1080, currentResolution?.height ?? 1000, currentMode);
   }
 
-  void Update()
+  public void OnSelectFullScreenMode(InputAction.CallbackContext context)
   {
-    if (Keyboard.current.uKey.wasPressedThisFrame)
-    {
-      int index = modes.FindIndex((v) => v == currentMode);
-      index = (index + 1) % modes.Count;
 
-      Screen.fullScreenMode = currentMode = modes[index];
-    }
-    if (Keyboard.current.yKey.wasPressedThisFrame)
-    {
-      Screen.fullScreen = !Screen.fullScreen;
-    }
-    if (Keyboard.current.tKey.wasPressedThisFrame)
-    {
-      int index = resolutions.FindIndex((v) => v.ToString() == currentResolution.ToString());
-      index = (index + 1) % resolutions.Count;
+    int index = modes.FindIndex((v) => v == currentMode);
+    index = (index + 1) % modes.Count;
 
-      currentResolution = resolutions[index];
+    Screen.fullScreenMode = currentMode = modes[index];
+  }
 
-      Screen.SetResolution(currentResolution?.width ?? 1080, currentResolution?.height ?? 1000, currentMode);
-    }
+  public void OnToggleFullScreen(InputAction.CallbackContext context)
+  {
+    Screen.fullScreen = !Screen.fullScreen;
   }
 }

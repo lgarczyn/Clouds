@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(PlaneEntity))]
 public class PlaneResourceController : MonoBehaviour
 {
-  public PlaneEntity plane;
-  public PlaneDeathController deathController;
+  [RequiredComponent][SerializeField] PlaneEntity plane;
   public AnimationCurve energyVsDensity;
 
   [SerializeField][RequiredComponent] ResourceCalculatorBridge reqResourceCalculatorBridge;
