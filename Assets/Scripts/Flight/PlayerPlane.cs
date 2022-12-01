@@ -55,12 +55,12 @@ public class PlayerPlane : MonoBehaviour
     pitchOverride = false;
 
     float horizontal = 0f
-      + (Keyboard.current.qKey.isPressed ? -1f : 0f)
-      + (Keyboard.current.dKey.isPressed ? -1f : 0f);
+      + (Keyboard.current.aKey.isPressed ? -1f : 0f)
+      + (Keyboard.current.dKey.isPressed ? 1f : 0f);
 
     float vertical = 0f
       + (Keyboard.current.wKey.isPressed ? -1f : 0f)
-      + (Keyboard.current.sKey.isPressed ? -1f : 0f);
+      + (Keyboard.current.sKey.isPressed ? 1f : 0f);
 
     float keyboardRoll = horizontal;
     if (Mathf.Abs(keyboardRoll) > .25f)

@@ -3,13 +3,13 @@ using System.Linq;
 
 public class ShieldController : MonoBehaviour, IDamageReceiver
 {
-  public PlaneEntity plane;
-  public AnimationCurve shieldCoverageVsTime;
-  public AnimationCurve shieldContrastVsTime;
+  [SerializeField] PlaneEntity plane;
+  [SerializeField] AnimationCurve shieldCoverageVsTime;
+  [SerializeField] AnimationCurve shieldContrastVsTime;
 
-  float timeSinceImpact = float.PositiveInfinity;
+  [SerializeField] bool alwaysTest;
 
-  public bool alwaysTest;
+  [SerializeField] Vector3 modelDir = Vector3.right;
 
   [SerializeField][RequiredComponent] Collider reqCollider;
 
@@ -17,12 +17,15 @@ public class ShieldController : MonoBehaviour, IDamageReceiver
 
   [SerializeField][RequiredComponent] WarningManagerBridge reqWarningManagerBridge;
 
+  float timeSinceImpact = float.PositiveInfinity;
+
   Material material;
 
   void Start()
   {
     reqMeshRenderer.enabled = false;
     material = reqMeshRenderer.material;
+    material.SetVector("_ModelDir", modelDir);
     reqMeshRenderer.material = material;
   }
 
@@ -34,7 +37,9 @@ public class ShieldController : MonoBehaviour, IDamageReceiver
     // Calculate the relative position of the hit
     Vector3 relativePos = info.position - transform.position;
     // Rotate the shield animation towards the impact point
-    transform.rotation = Quaternion.LookRotation(relativePos, Vector3.up);
+    transform.rotation =
+      Quaternion.LookRotation(relativePos, Vector3.forward)
+      * Quaternion.FromToRotation(modelDir, Vector3.forward);
 
     // Spend a damage amount of shield
     if (plane.TrySpendShield(info.damage))
@@ -75,6 +80,7 @@ public class ShieldController : MonoBehaviour, IDamageReceiver
       {
         DamageInfo info = new DamageInfo();
         info.position = transform.position + Random.onUnitSphere;
+        Debug.DrawLine(reqCollider.transform.position, info.position, Color.white, lastAnimationValue);
         Damage(info);
       }
     }
@@ -88,5 +94,9 @@ public class ShieldController : MonoBehaviour, IDamageReceiver
     }
     // Update animation value
     timeSinceImpact += Time.deltaTime;
+  }
+
+  void OnValidate() {
+    modelDir.Normalize();  
   }
 }
