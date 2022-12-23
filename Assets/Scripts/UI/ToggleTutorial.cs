@@ -7,6 +7,6 @@ public class ToggleTutorial : MonoBehaviour
 
   public void OnToggleTutorial(InputAction.CallbackContext context)
   {
-    target.SetActive(context.ReadValueAsButton());
+    if (context.performed) target.SetActive(!target.activeSelf);
   }
 }

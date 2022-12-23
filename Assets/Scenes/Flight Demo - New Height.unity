@@ -924,7 +924,9 @@ GameObject:
   - component: {fileID: 706094438}
   - component: {fileID: 706094437}
   - component: {fileID: 706094436}
+  - component: {fileID: 706094442}
   - component: {fileID: 706094440}
+  - component: {fileID: 706094441}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -1035,6 +1037,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1199267597}
+--- !u!114 &706094441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706094435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dee123fb45812dc46b0d436574e23bcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 706094442}
+--- !u!225 &706094442
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706094435}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &717122727
 GameObject:
   m_ObjectHideFlags: 0
@@ -2242,6 +2269,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: b58d2e4d-9b87-406a-9235-629ef21264cc
     m_ActionName: Game/Force Reload[/Keyboard/o]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 706094441}
+        m_TargetAssemblyTypeName: ToggleUI, Assembly-CSharp
+        m_MethodName: OnToggleUI
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 6ec9cadc-c3a0-44e3-934a-d583cdd435ad
+    m_ActionName: Game/Toggle Clouds1[/Keyboard/m]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Game

@@ -11,7 +11,7 @@
                     "id": "9a65a05d-9b4b-4e8a-ad2d-7dfd71c5866e",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
                 },
                 {
@@ -20,7 +20,7 @@
                     "id": "c4439d90-b1b4-4d54-8033-0bc78d2b5677",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
                 },
                 {
@@ -47,7 +47,7 @@
                     "id": "7ec5d3a5-9051-4b18-a6ff-54aa7c334348",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold",
                     "initialStateCheck": true
                 },
                 {
@@ -56,7 +56,7 @@
                     "id": "b6307742-2d9f-4ce7-9348-d5ccf6eb7a79",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -65,7 +65,7 @@
                     "id": "98c6bcd6-3e63-4977-bfcc-0fa115a5c0c7",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
                 },
                 {
@@ -74,7 +74,7 @@
                     "id": "5d646968-4baa-4cf8-beda-7a8252fd66ce",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -83,7 +83,7 @@
                     "id": "c46bc061-67b2-4b2c-9a62-f24d19a32a39",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -92,7 +92,7 @@
                     "id": "5f29e96a-0636-4f44-a5bd-0ddbc5be7c00",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -101,7 +101,7 @@
                     "id": "fe2bec46-50cf-4153-a76b-59de24617a22",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -110,7 +110,7 @@
                     "id": "f60151aa-4137-4a76-8a6e-117c7147aae7",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -119,7 +119,7 @@
                     "id": "b940b71a-b214-444f-8d0a-3a8769f65faa",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -128,7 +128,7 @@
                     "id": "8c1ca339-b148-402f-9acb-1188e6d47599",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -137,7 +137,7 @@
                     "id": "d43d680c-2a19-421b-8460-108fe0ca7919",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -146,7 +146,7 @@
                     "id": "f0cc5259-2d0c-40e5-832e-00187c50358c",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -155,7 +155,16 @@
                     "id": "08e231d3-01f2-495d-8067-aad062368d62",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Toggle UI",
+                    "type": "Button",
+                    "id": "6ec9cadc-c3a0-44e3-934a-d583cdd435ad",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -164,7 +173,7 @@
                     "id": "794751ea-32b2-4528-80c1-f3c20507b74b",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
                 },
                 {
@@ -173,7 +182,7 @@
                     "id": "b58d2e4d-9b87-406a-9235-629ef21264cc",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 }
             ],
@@ -659,6 +668,17 @@
                     "processors": "",
                     "groups": "Keyboard+Mouse",
                     "action": "Skip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "836b0031-a73c-4ecd-b0b3-f4c37fe5d006",
+                    "path": "<Keyboard>/comma",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard+Mouse;Gamepad;Joystick",
+                    "action": "Toggle UI",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
