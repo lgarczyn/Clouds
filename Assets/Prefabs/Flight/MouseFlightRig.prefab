@@ -120,6 +120,7 @@ MonoBehaviour:
   offset: {x: 0, y: 0.91, z: -3.5}
   camSmoothSpeed: 5
   mouseSensitivity: 0.1
+  controllerSensitivity: 5
   aimDistance: 300
   showDebugInfo: 0
 --- !u!114 &1852813374085120815

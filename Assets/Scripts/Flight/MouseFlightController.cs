@@ -40,6 +40,10 @@ public class MouseFlightController : Manager<MouseFlightController>
   private float mouseSensitivity = 3f;
 
   [SerializeField]
+  [Tooltip("Controller sensitivity for the mouse flight target")]
+  private float controllerSensitivity = 3f;
+
+  [SerializeField]
   [Tooltip("How far the boresight and mouse flight are from the aircraft")]
   private float aimDistance = 500f;
 
@@ -68,6 +72,16 @@ public class MouseFlightController : Manager<MouseFlightController>
   public void OnAim(InputAction.CallbackContext context)
   {
     input = context.ReadValue<Vector2>() * mouseSensitivity;
+  }
+
+  public void OnAimController(InputAction.CallbackContext context)
+  {
+    input = context.ReadValue<Vector2>() * controllerSensitivity;
+  }
+
+  public void OnOverrideControls(InputAction.CallbackContext context)
+  {
+    reqPlayerManagerBridge.playerPlane.SetOverride(context.ReadValue<Vector2>());
   }
 
   /// <summary>
