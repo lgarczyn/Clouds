@@ -1966,7 +1966,19 @@ MonoBehaviour:
     m_ActionId: c4439d90-b1b4-4d54-8033-0bc78d2b5677
     m_ActionName: Game/Thrust[/Keyboard/shift,/Mouse/rightButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1887746273}
+        m_TargetAssemblyTypeName: MouseFlightController, Assembly-CSharp
+        m_MethodName: OnOverrideControls
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 7ec5d3a5-9051-4b18-a6ff-54aa7c334348
     m_ActionName: Game/Mouvement 3D[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/e,/Keyboard/q]
   - m_PersistentCalls:
@@ -2285,6 +2297,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 6ec9cadc-c3a0-44e3-934a-d583cdd435ad
     m_ActionName: Game/Toggle Clouds1[/Keyboard/m]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1887746273}
+        m_TargetAssemblyTypeName: MouseFlightController, Assembly-CSharp
+        m_MethodName: OnAimController
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d0e5afd8-3678-4459-8f44-bb8db0fcbe05
+    m_ActionName: Game/AimController[/XInputControllerWindows/rightStick]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Game

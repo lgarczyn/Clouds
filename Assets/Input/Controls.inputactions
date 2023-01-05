@@ -27,8 +27,17 @@
                     "name": "Aim",
                     "type": "Value",
                     "id": "7ea0175d-5a29-472e-98fd-477cda8d07ad",
-                    "expectedControlType": "",
-                    "processors": "Scale(factor=0)",
+                    "expectedControlType": "Analog",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "AimController",
+                    "type": "Value",
+                    "id": "d0e5afd8-3678-4459-8f44-bb8db0fcbe05",
+                    "expectedControlType": "Analog",
+                    "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
                 },
@@ -45,9 +54,9 @@
                     "name": "Mouvement 3D",
                     "type": "Value",
                     "id": "7ec5d3a5-9051-4b18-a6ff-54aa7c334348",
-                    "expectedControlType": "",
+                    "expectedControlType": "Analog",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "initialStateCheck": true
                 },
                 {
@@ -432,7 +441,7 @@
                 {
                     "name": "WASDQE",
                     "id": "cc40bfc1-65fe-4cd8-9b9a-9c0c390b0013",
-                    "path": "3DVector(mode=2)",
+                    "path": "2DVector(mode=2)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -441,7 +450,7 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "up",
+                    "name": "Up",
                     "id": "45db65d2-0bb8-4a10-a142-e5889c43f073",
                     "path": "<Keyboard>/w",
                     "interactions": "",
@@ -452,7 +461,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "down",
+                    "name": "Down",
                     "id": "e8e86211-2f23-4362-b57a-75ef93ba85ab",
                     "path": "<Keyboard>/s",
                     "interactions": "",
@@ -463,7 +472,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "left",
+                    "name": "Left",
                     "id": "c483b248-4802-4715-acae-f0399301b2dd",
                     "path": "<Keyboard>/a",
                     "interactions": "",
@@ -474,7 +483,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "right",
+                    "name": "Right",
                     "id": "ae44bc3d-1be8-4bfe-80dc-03bcaac1c414",
                     "path": "<Keyboard>/d",
                     "interactions": "",
@@ -485,56 +494,12 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "forward",
-                    "id": "33c3660e-8902-4bcb-9398-22eda5154345",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard+Mouse",
-                    "action": "Mouvement 3D",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "backward",
-                    "id": "c20147a4-b046-47c0-b27d-6c8960766c49",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard+Mouse",
-                    "action": "Mouvement 3D",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "5755766a-2e1e-4a99-8a61-538e601d2c75",
-                    "path": "<Gamepad>/rightStick",
-                    "interactions": "",
-                    "processors": "Scale",
-                    "groups": "Gamepad",
-                    "action": "Aim",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
                     "name": "",
                     "id": "69109296-63b9-4328-9856-601f409cc597",
                     "path": "<Mouse>/delta",
                     "interactions": "",
-                    "processors": "Scale(factor=0)",
-                    "groups": "",
-                    "action": "Aim",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "be746838-91d9-431c-b1a9-a861a666c449",
-                    "path": "<Joystick>/stick",
-                    "interactions": "",
                     "processors": "",
-                    "groups": "Joystick",
+                    "groups": "",
                     "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -679,6 +644,39 @@
                     "processors": "",
                     "groups": "Keyboard+Mouse;Gamepad;Joystick",
                     "action": "Toggle UI",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5a7424b4-3c76-4931-84e2-ba70da69f066",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "AimController",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b41385c5-60ed-4dfb-ad4a-7efb0457bf4c",
+                    "path": "<Joystick>/stick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick",
+                    "action": "AimController",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b2c6300f-0b9e-4dc1-8b0f-ca4cd409ad9b",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Mouvement 3D",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
