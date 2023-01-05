@@ -411,8 +411,8 @@ MonoBehaviour:
   testParams: {x: 1000, y: 0, z: 0, w: 2.49}
   testColor: {r: 0.043137252, g: 0.3074294, b: 1, a: 1}
   stepSizeRender: 9.73
-  firstStepNoiseMultiplier: 2
-  stepSizeNoiseRatio: 0.5
+  firstStepNoiseMultiplier: 0
+  stepSizeNoiseRatio: 0.3
   rayOffsetStrength: 9.19
   minTransmittance: 0.1
   maxDensity: 57.38
