@@ -13,6 +13,9 @@ GameObject:
   - component: {fileID: 1570969737417517474}
   - component: {fileID: 1570969737417517501}
   - component: {fileID: 7288963659376140574}
+  - component: {fileID: 1570969737518273017}
+  - component: {fileID: 1570969737518273016}
+  - component: {fileID: 1570969737518273018}
   m_Layer: 5
   m_Name: Indicators
   m_TagString: Untagged
@@ -54,6 +57,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   screenBoundOffset: 0.979
   centeredDistance: 100
+  IsVisible: 1
 --- !u!114 &1570969737417517474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,3 +103,43 @@ MonoBehaviour:
   pooledObject: {fileID: 11434930, guid: a5fada475b36609408c4e8405928e4a3, type: 3}
   pooledAmount: 1
   willGrow: 1
+--- !u!114 &1570969737518273017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570969737417517503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e13b2c8b05c43b4eb6760153c95aeb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reqOffscreenIndicator: {fileID: 5178457111327729171}
+  reqResourceCalculatorBridge: {fileID: 1570969737518273016}
+  maxDensity: 1
+  maxTimeWithoutVisibility: 1
+--- !u!114 &1570969737518273016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570969737417517503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcb9313d380caa94f90cfc85b09a7c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1570969737518273018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570969737417517503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92309072de87b1146b046d7199291956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

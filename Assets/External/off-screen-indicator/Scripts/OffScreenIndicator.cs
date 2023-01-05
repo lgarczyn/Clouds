@@ -29,6 +29,8 @@ public class OffScreenIndicator : MonoBehaviour
 
     public static Action<Target, bool> TargetStateChanged;
 
+    public bool IsVisible = true;
+
     void Awake()
     {
         mainCamera = Camera.main;
@@ -84,6 +86,7 @@ public class OffScreenIndicator : MonoBehaviour
                 IndicatorInfo indicatorInfo = isBox ? target.BoxIndicator : target.ArrowIndicator;
                 IndicatorInfo textInfo = target.TextIndicator;
 
+                indicator.Activate(IsVisible);
                 indicator.transform.position = screenPosition; //Sets the position of the indicator on the screen.
                 indicator.SetImageColor(indicatorInfo.color);// Sets the image color of the indicator.
                 indicator.SetIndicatorScale(OffScreenIndicatorCore.GetScale(indicatorInfo, distanceFromCamera));
