@@ -185,7 +185,6 @@ public class MouseFlightController : Manager<MouseFlightController>
 
     // Mouse input
     var mouseDelta = input;
-    input = Vector2.zero;
 
     Transform cam = reqMainCameraBridge.instance.mainCamera.transform;
 
