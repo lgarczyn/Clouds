@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Skybox))]
 public class AlignSkybox : MonoBehaviour
 {
   public OrbitController orbitController;
@@ -12,8 +13,8 @@ public class AlignSkybox : MonoBehaviour
   void Start()
   {
     // Clone the original material, so that modifications are not stored
-    this.material = new Material(this.GetComponent<Skybox>().material);
-    this.GetComponent<Skybox>().material = this.material;
+    this.material = new Material(reqSkybox.material);
+    reqSkybox.material = this.material;
   }
 
   void Update()
