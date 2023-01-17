@@ -98,10 +98,10 @@ Shader "Sprites/SDFDisplay" {
 #ifdef TEXCOLOR_ON
                 fixed4 smp = tex2D(_MainTex, i.uv);
                 float d = smp.a;
-                fixed4 color = _FaceColor * half4(smp.rgb, 1);
+                fixed4 color = _FaceColor * half4(smp.rgb, 1) * i.color;
 #else
                 fixed4 d = tex2D(_MainTex, i.uv).a;
-                fixed4 color = _FaceColor;
+                fixed4 color = _FaceColor * i.color;
 #endif
                 // Compute result color
                 half4 output;
@@ -115,8 +115,8 @@ Shader "Sprites/SDFDisplay" {
     #ifdef DYNAMIC_OUTLINE
                     realWidth *= outlineFade * 10;
     #endif
-                    half ol_from = min(1, bias + (realWidth + outlineFade) / 2);
-                    half ol_to = max(0, bias - (realWidth + outlineFade) / 2);
+                    half ol_from = bias;
+                    half ol_to = max(0, bias - (realWidth + outlineFade));
                     output = lerp(color, _OutlineColor, saturate((ol_from - d) / outlineFade));
                     output *= saturate((d - ol_to) / outlineFade);
                 }
@@ -140,7 +140,7 @@ Shader "Sprites/SDFDisplay" {
                 }
 #endif
 
-                return output * i.color;
+                return output;
             }
             ENDCG
         }
