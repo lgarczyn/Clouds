@@ -11,23 +11,41 @@
                     "id": "9a65a05d-9b4b-4e8a-ad2d-7dfd71c5866e",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press(behavior=2)",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Alt Shoot",
+                    "type": "Button",
+                    "id": "8f0753d6-72ec-432f-a8f3-01dd75af891d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
                     "name": "Thrust",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "c4439d90-b1b4-4d54-8033-0bc78d2b5677",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Air Brake",
+                    "type": "Button",
+                    "id": "4d621e99-3141-4284-8b38-6730f2427288",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press(behavior=2)",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
                     "name": "Aim",
                     "type": "Value",
                     "id": "7ea0175d-5a29-472e-98fd-477cda8d07ad",
-                    "expectedControlType": "Analog",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -36,7 +54,7 @@
                     "name": "AimController",
                     "type": "Value",
                     "id": "d0e5afd8-3678-4459-8f44-bb8db0fcbe05",
-                    "expectedControlType": "Analog",
+                    "expectedControlType": "Stick",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -54,7 +72,7 @@
                     "name": "Mouvement 3D",
                     "type": "Value",
                     "id": "7ec5d3a5-9051-4b18-a6ff-54aa7c334348",
-                    "expectedControlType": "Analog",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -69,7 +87,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Look Around",
+                    "name": "Drift",
                     "type": "Button",
                     "id": "98c6bcd6-3e63-4977-bfcc-0fa115a5c0c7",
                     "expectedControlType": "Button",
@@ -363,56 +381,23 @@
                 },
                 {
                     "name": "",
-                    "id": "168952ac-2fb5-4a1a-b63f-ed965926b74c",
-                    "path": "<Gamepad>/buttonNorth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "NextScene",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "f03bf7b1-ffdd-46a4-85b1-dc97335891c5",
-                    "path": "<Keyboard>/c",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard+Mouse",
-                    "action": "Look Around",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6a545a58-1c64-4c90-86c7-ae592687210d",
-                    "path": "<Mouse>/backButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard+Mouse",
-                    "action": "Look Around",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "858a6a1d-8a96-45f8-b5cc-fcea3b79e8e0",
-                    "path": "<Mouse>/middleButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard+Mouse",
-                    "action": "Look Around",
+                    "action": "Drift",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "449a6acc-a268-4121-9fe7-da4fef716f72",
-                    "path": "<Gamepad>/leftStickPress",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Look Around",
+                    "action": "Drift",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -516,64 +501,20 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "ShoulderScroll",
-                    "id": "6ea6f3f6-8619-4008-9904-d61b00522ab8",
-                    "path": "1DAxis",
+                    "name": "",
+                    "id": "2816b0ae-78f3-4fe0-874d-f939cae28df3",
+                    "path": "<Gamepad>/dpad/y",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Zoom",
-                    "isComposite": true,
+                    "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "dbb35728-ae90-4d31-ab0c-370511501df3",
-                    "path": "<Gamepad>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Zoom",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "dd4d465e-6c67-4c35-b8ee-bd0526bab06e",
-                    "path": "<Gamepad>/rightShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Zoom",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
                     "id": "a6a65837-ddcd-48f4-bed9-c86acaab8936",
                     "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard+Mouse",
-                    "action": "Thrust",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b5a1aa78-c5d6-4587-b6a4-0b0b8bf3e786",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Thrust",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "67b294f5-a6e5-4e60-8e6d-bb8d188e9acf",
-                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard+Mouse",
@@ -650,7 +591,7 @@
                 {
                     "name": "",
                     "id": "5a7424b4-3c76-4931-84e2-ba70da69f066",
-                    "path": "<Gamepad>/rightStick",
+                    "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -672,11 +613,66 @@
                 {
                     "name": "",
                     "id": "b2c6300f-0b9e-4dc1-8b0f-ca4cd409ad9b",
-                    "path": "<Gamepad>/leftStick",
+                    "path": "<Gamepad>/rightStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Mouvement 3D",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f7e497a5-b3b5-4346-9eb4-1da99901b238",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Alt Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7a5deda8-5f90-485c-bd20-cc5f8b5eb4b5",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard+Mouse",
+                    "action": "Alt Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3700ce54-4d0f-4bdb-8406-1f5735df4373",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard+Mouse",
+                    "action": "Air Brake",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1e60deea-6c0f-42db-90f1-dd1c9a1714c6",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Air Brake",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c294ac0c-caac-41b9-8de6-08b567f338e5",
+                    "path": "*/{Forward}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard+Mouse;Gamepad;Joystick",
+                    "action": "NextScene",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
