@@ -12,7 +12,6 @@ Material:
   m_Parent: {fileID: 2100000, guid: dec5ea5e48163854883572a05b92bb2a, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - DYNAMIC_OUTLINE
   - OUTLINE_ON
   m_InvalidKeywords:
   - UNDERLAY_OFF
@@ -29,11 +28,12 @@ Material:
     m_Ints: []
     m_Floats:
     - UNDERLAY: 0
-    - _DynamicOutline: 1
+    - _DynamicOutline: 0
     - _EnableOutline: 1
+    - _EnableUnderlay: 0
     - _FaceDilate: 0.59
     - _OutlineSoftness: 0
-    - _OutlineWidth: 0.112
+    - _OutlineWidth: 0.092
     m_Colors:
-    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
+    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

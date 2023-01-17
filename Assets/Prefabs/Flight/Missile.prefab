@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   box:
     enabled: 1
-    color: {r: 1, g: 0.37272805, b: 0, a: 1}
+    color: {r: 0.735849, g: 0, b: 0.0646802, a: 1}
     minDistance: 30
     maxDistance: 1000
     hideTooClose: 1
@@ -54,9 +54,10 @@ MonoBehaviour:
     baseScale: 3
     distanceScaling: 1
     farScale: 1.2
+    spriteOverride: {fileID: 0}
   arrow:
     enabled: 1
-    color: {r: 1, g: 0.37254903, b: 0, a: 1}
+    color: {r: 0.7372549, g: 0, b: 0.0627451, a: 1}
     minDistance: 30
     maxDistance: 500
     hideTooClose: 0
@@ -64,9 +65,10 @@ MonoBehaviour:
     baseScale: 3
     distanceScaling: 1
     farScale: 1.2
+    spriteOverride: {fileID: 0}
   text:
     enabled: 0
-    color: {r: 1, g: 0.37254903, b: 0, a: 1}
+    color: {r: 0.7372549, g: 0, b: 0.0627451, a: 1}
     minDistance: 10
     maxDistance: 200
     hideTooClose: 1
@@ -74,6 +76,7 @@ MonoBehaviour:
     baseScale: 1.3
     distanceScaling: 1
     farScale: 1
+    spriteOverride: {fileID: 0}
   useCenteredIndicator: 0
   indicator: {fileID: 0}
 --- !u!1 &2478968816531492529
@@ -269,7 +272,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   box:
     enabled: 0
-    color: {r: 1, g: 0, b: 0, a: 1}
+    color: {r: 0.6792453, g: 0, b: 0, a: 1}
     minDistance: 1
     maxDistance: 100
     hideTooClose: 1
@@ -277,6 +280,7 @@ MonoBehaviour:
     baseScale: 1
     distanceScaling: 0
     farScale: 0
+    spriteOverride: {fileID: 0}
   arrow:
     enabled: 1
     color: {r: 1, g: 0, b: 0, a: 1}
@@ -287,6 +291,7 @@ MonoBehaviour:
     baseScale: 5
     distanceScaling: 0
     farScale: 0
+    spriteOverride: {fileID: 0}
   text:
     enabled: 0
     color: {r: 0, g: 0, b: 0, a: 1}
@@ -297,6 +302,7 @@ MonoBehaviour:
     baseScale: 1
     distanceScaling: 0
     farScale: 0
+    spriteOverride: {fileID: 0}
   useCenteredIndicator: 1
   indicator: {fileID: 0}
 --- !u!1 &4837423325513179163
@@ -368,6 +374,85 @@ MonoBehaviour:
   parent: {fileID: 5848834044144880814}
   distance: 100
   duration: 0.5
+--- !u!1 &4984127711981018356
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6560554529725452397}
+  - component: {fileID: 9045232722358604996}
+  m_Layer: 12
+  m_Name: DeadTargetIndicator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6560554529725452397
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4984127711981018356}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.303}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5848834044144880813}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9045232722358604996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4984127711981018356}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5dd462da48ed9b49a885f1a9cf94fe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  box:
+    enabled: 1
+    color: {r: 0.3962264, g: 0.38688144, b: 0.38688144, a: 1}
+    minDistance: 30
+    maxDistance: 300
+    hideTooClose: 1
+    hideTooFar: 0
+    baseScale: 1
+    distanceScaling: 0
+    farScale: 1
+    spriteOverride: {fileID: 21300000, guid: eb7b4106b446977438e283dac4e2b44a, type: 3}
+  arrow:
+    enabled: 0
+    color: {r: 1, g: 0, b: 0, a: 1}
+    minDistance: 0.1
+    maxDistance: 100
+    hideTooClose: 1
+    hideTooFar: 0
+    baseScale: 5
+    distanceScaling: 0
+    farScale: 0
+    spriteOverride: {fileID: 0}
+  text:
+    enabled: 0
+    color: {r: 0, g: 0, b: 0, a: 1}
+    minDistance: 1
+    maxDistance: 100
+    hideTooClose: 1
+    hideTooFar: 0
+    baseScale: 1
+    distanceScaling: 0
+    farScale: 0
+    spriteOverride: {fileID: 0}
+  useCenteredIndicator: 0
+  indicator: {fileID: 0}
 --- !u!1 &5848834044144880812
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,6 +496,7 @@ Transform:
   - {fileID: 7360135499762178468}
   - {fileID: 805775969911030770}
   - {fileID: 8589851271945448261}
+  - {fileID: 6560554529725452397}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -609,6 +695,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 9045232722358604996}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
   reqMissile: {fileID: 5848834044144880814}
   reqRigidbody: {fileID: 5848834044144880815}

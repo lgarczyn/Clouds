@@ -12,8 +12,9 @@ Material:
   m_Parent: {fileID: 2100000, guid: dec5ea5e48163854883572a05b92bb2a, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - UNDERLAY_ON
+  m_InvalidKeywords:
   - UNDERLAY_OFF
-  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -28,5 +29,6 @@ Material:
     m_Floats:
     - UNDERLAY: 0
     - _EnableOutline: 0
+    - _EnableUnderlay: 1
     m_Colors: []
   m_BuildTextureStacks: []
