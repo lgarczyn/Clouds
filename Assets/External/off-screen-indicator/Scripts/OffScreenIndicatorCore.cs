@@ -23,6 +23,7 @@ namespace PixelPlay.OffScreenIndicator
             baseScale = 1f;
             distanceScaling = ScalingType.None;
             farScale = 0f;
+            spriteOverride = null;
         }
         
         [Tooltip("Select if type of indicator is required for this target")]
@@ -50,6 +51,8 @@ namespace PixelPlay.OffScreenIndicator
 
         [Tooltip("The scale at the max distance, if using distance scaling")]
         public float farScale;
+
+        public Sprite spriteOverride;
     }
 
     public class OffScreenIndicatorCore

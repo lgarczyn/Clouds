@@ -12,6 +12,7 @@ public class Indicator : MonoBehaviour
 {
     [SerializeField] private IndicatorType indicatorType;
     private Image indicatorImage;
+    private Sprite originalSprite;
     private Text distanceText;
 
     /// <summary>
@@ -39,6 +40,7 @@ public class Indicator : MonoBehaviour
     void Awake()
     {
         indicatorImage = transform.GetComponent<Image>();
+        originalSprite = indicatorImage.sprite;
         distanceText = transform.GetComponentInChildren<Text>();
     }
 
@@ -49,6 +51,13 @@ public class Indicator : MonoBehaviour
     public void SetImageColor(Color color)
     {
         indicatorImage.color = color;
+    }
+
+    /// <summary>
+    /// Sets a sprite override, or reset the sprite by sending null
+    public void SetSpriteOverride(Sprite sprite)
+    {
+        indicatorImage.sprite = sprite != null ? sprite : this.originalSprite;
     }
 
     /// <summary>

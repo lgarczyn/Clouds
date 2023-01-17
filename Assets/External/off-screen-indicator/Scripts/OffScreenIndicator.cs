@@ -1,7 +1,5 @@
-﻿using PixelPlay.OffScreenIndicator;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace PixelPlay.OffScreenIndicator
@@ -11,6 +9,7 @@ namespace PixelPlay.OffScreenIndicator
 /// Attach the script to the off screen indicator panel.
 /// </summary>
 [DefaultExecutionOrder(-1)]
+[RequireComponent(typeof(RectTransform))]
 public class OffScreenIndicator : MonoBehaviour
 {
     [Range(0.5f, 1f)]
@@ -21,9 +20,14 @@ public class OffScreenIndicator : MonoBehaviour
     [Tooltip("Distance of the centered indicators from the centre of the screen")]
     [SerializeField] private float centeredDistance = 100f;
 
+    RectTransform reqRectTransform {
+        get { 
+            return GetComponent<RectTransform>();
+        }
+    }
+
     private Camera mainCamera;
-    private Vector3 screenCentre;
-    private Vector3 screenBounds;
+
 
     private List<Target> targets = new List<Target>();
 
@@ -34,8 +38,6 @@ public class OffScreenIndicator : MonoBehaviour
     void Awake()
     {
         mainCamera = Camera.main;
-        screenCentre = new Vector3(Screen.width, Screen.height, 0) / 2;
-        screenBounds = screenCentre * screenBoundOffset;
         TargetStateChanged += HandleTargetStateChanged;
     }
 
@@ -49,6 +51,8 @@ public class OffScreenIndicator : MonoBehaviour
     /// </summary>
     void DrawIndicators()
     {
+        Vector3 screenCentre = new Vector3(Screen.width, Screen.height, 0) / 2;
+        Vector3 screenBounds = screenCentre * screenBoundOffset;
         foreach(Target target in targets)
         {
             Vector3 screenPosition = OffScreenIndicatorCore.GetScreenPosition(mainCamera, target.transform.position);
@@ -79,15 +83,19 @@ public class OffScreenIndicator : MonoBehaviour
             {
                 target.indicator?.Activate(false);
                 target.indicator = null;
+                indicator = null;
             }
-            if(indicator)
+            if (indicator) {
+                indicator.Activate(IsVisible);
+            }
+            if(indicator && IsVisible)
             {
                 bool isBox = indicator.Type == IndicatorType.BOX;
                 IndicatorInfo indicatorInfo = isBox ? target.BoxIndicator : target.ArrowIndicator;
                 IndicatorInfo textInfo = target.TextIndicator;
 
-                indicator.Activate(IsVisible);
                 indicator.transform.position = screenPosition; //Sets the position of the indicator on the screen.
+                indicator.SetSpriteOverride(indicatorInfo.spriteOverride);
                 indicator.SetImageColor(indicatorInfo.color);// Sets the image color of the indicator.
                 indicator.SetIndicatorScale(OffScreenIndicatorCore.GetScale(indicatorInfo, distanceFromCamera));
                 indicator.SetDistanceText(distanceFromCamera);
