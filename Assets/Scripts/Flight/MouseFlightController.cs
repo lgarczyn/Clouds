@@ -210,7 +210,7 @@ public class MouseFlightController : Manager<MouseFlightController>
     // The up vector of the camera normally is aligned to the horizon. However, when
     // looking straight up/down this can feel a bit weird. At those extremes, the camera
     // stops aligning to the horizon and instead aligns to itself.
-    Vector3 upVec = (Mathf.Abs(mouseAim.forward.y) > 0.9f) ? cameraRig.up : Vector3.up;
+    Vector3 upVec = (Mathf.Abs(mouseAim.forward.y) > 0.6f) ? cameraRig.up : Vector3.up;
 
     // Smoothly rotate the camera to face the mouse aim.
     cameraRig.rotation = Damp(cameraRig.rotation,
