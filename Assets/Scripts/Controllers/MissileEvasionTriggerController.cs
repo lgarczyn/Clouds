@@ -11,7 +11,11 @@ public class MissileEvasionTriggerController : MonoBehaviour
   private void CheckCollider(Collider other)
   {
     if (other.GetComponent<IDamageDealer>() == null) return;
+    TriggerEvasion();
+  }
 
+  public void TriggerEvasion() {
+    Debug.Log("Triggered");
     parent.SetTempTarget(transform.position + Random.onUnitSphere * distance, duration);
   }
 
