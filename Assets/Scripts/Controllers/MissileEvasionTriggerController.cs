@@ -1,6 +1,10 @@
 using UnityEngine;
 
-public class MissileEvasionTriggerController : MonoBehaviour
+public interface IEvasionTrigger {
+  void TriggerEvasion();
+}
+
+public class MissileEvasionTriggerController : MonoBehaviour, IEvasionTrigger
 {
   public Missile parent;
 
@@ -14,8 +18,8 @@ public class MissileEvasionTriggerController : MonoBehaviour
     TriggerEvasion();
   }
 
+  // TODO: consider sending relative target, so missile can do averages/sum of temp targets and avoid confusion
   public void TriggerEvasion() {
-    Debug.Log("Triggered");
     parent.SetTempTarget(transform.position + Random.onUnitSphere * distance, duration);
   }
 
