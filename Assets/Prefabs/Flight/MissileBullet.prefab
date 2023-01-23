@@ -123,6 +123,11 @@ PrefabInstance:
       propertyPath: baseVelocity
       value: 300
       objectReference: {fileID: 0}
+    - target: {fileID: 3234327436353005917, guid: a0e949b45c86f4c478ecda1ba44198f5,
+        type: 3}
+      propertyPath: explosionForce
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 6507275291411003199, guid: a0e949b45c86f4c478ecda1ba44198f5,
         type: 3}
       propertyPath: m_Name
