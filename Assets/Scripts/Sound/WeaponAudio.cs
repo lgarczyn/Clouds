@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class WeaponAudio : MonoBehaviour
+public class WeaponAudio : MonoBehaviour, IWeaponAudio
 {
   bool isPlaying;
   [SerializeField] WeaponAudioProvider provider;
