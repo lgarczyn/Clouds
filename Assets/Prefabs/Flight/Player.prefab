@@ -1687,8 +1687,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddef92544966b1441a70fab8bcaa8f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noiseScale: 1
-  noiseRate: 1
+  noiseScale: 20
+  noiseRate: 3
+  skippedVertices: 2
   reqTrailRenderer: {fileID: 991404009195948057}
 --- !u!1 &6035008020069223163
 GameObject:
@@ -1922,8 +1923,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddef92544966b1441a70fab8bcaa8f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noiseScale: 1
-  noiseRate: 1
+  noiseScale: 20
+  noiseRate: 3
+  skippedVertices: 2
   reqTrailRenderer: {fileID: 1703607009082717966}
 --- !u!1 &6035008020490059627
 GameObject:
@@ -2045,7 +2047,7 @@ Transform:
   - {fileID: 6160929690220982518}
   - {fileID: 2396164103969341852}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: -2.214, y: -266.362, z: 16.094}
 --- !u!54 &5981469090452608560
 Rigidbody:
@@ -2450,6 +2452,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invisibilityThreshold: 5
+  alwaysVisibleRange: 60
   forceInvisibility: 0
   reqRigidbody: {fileID: 5981469090452608560}
   reqResourceCalculatorBridge: {fileID: 3660404017334352442}
@@ -2540,6 +2543,7 @@ GameObject:
   - component: {fileID: 887867195546299768}
   - component: {fileID: 5951041666436364342}
   - component: {fileID: 1586346916062511652}
+  - component: {fileID: 9186390016093487973}
   m_Layer: 11
   m_Name: TrailLeft
   m_TagString: Untagged
@@ -2744,8 +2748,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddef92544966b1441a70fab8bcaa8f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noiseScale: 1
-  noiseRate: 1
+  noiseScale: 20
+  noiseRate: 4
+  skippedVertices: 2
+  reqTrailRenderer: {fileID: 5951041666436364342}
+--- !u!114 &9186390016093487973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6036508552637036764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fb69023a4d52f24db72a7dfdc4a3e28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  desiredLength: 400
+  maxTime: 3
   reqTrailRenderer: {fileID: 5951041666436364342}
 --- !u!1 &6036593767179507306
 GameObject:
@@ -2873,6 +2893,7 @@ GameObject:
   - component: {fileID: 5855307350498054134}
   - component: {fileID: 5951091796808472838}
   - component: {fileID: 6937883356457683983}
+  - component: {fileID: 6930149892189833146}
   m_Layer: 11
   m_Name: TrailRight
   m_TagString: Untagged
@@ -3077,9 +3098,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddef92544966b1441a70fab8bcaa8f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noiseScale: 1
-  noiseRate: 1
+  noiseScale: 20
+  noiseRate: 4
+  skippedVertices: 2
   reqTrailRenderer: {fileID: 5951091796808472838}
+--- !u!114 &6930149892189833146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6036793155786064694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fb69023a4d52f24db72a7dfdc4a3e28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  desiredLength: 400
+  maxTime: 3
+  reqTrailRenderer: {fileID: 5951041666436364342}
 --- !u!1 &7905329744375741554
 GameObject:
   m_ObjectHideFlags: 0
