@@ -182,13 +182,19 @@ Shader "Clouds"
             // Player settings
             float3 playerPosition;
 
+            float remap01(float v, float low, float high) {
+                return (v-low)/(high-low);
+            }
+
             // Maps a float from an interval to another, without bound checking
             float remap(float v, float minOld, float maxOld, float minNew, float maxNew) {
                 return minNew + (v-minOld) * (maxNew - minNew) / (maxOld-minOld);
             }
             // Maps a float from an interval to another, with bound checking
             float remapClamped(float v, float minOld, float maxOld, float minNew, float maxNew) {
-                return clamp(remap(v, minOld, maxOld, minNew, maxNew), minNew, maxNew);
+                // return clamp(remap(clamp(v, minOld, maxOld), minOld, maxOld, minNew, maxNew), minNew, maxNew);
+                float f = saturate(remap01(v, minOld, maxOld));
+                return minNew + f * (maxNew - minNew);
             }
 
             float2 squareUV(float2 uv) {
@@ -259,10 +265,6 @@ Shader "Clouds"
 
             float reverse_beer(float d) {
                 return -log(d);
-            }
-
-            float remap01(float v, float low, float high) {
-                return (v-low)/(high-low);
             }
 
             float4 altitudeDensity(float height)
