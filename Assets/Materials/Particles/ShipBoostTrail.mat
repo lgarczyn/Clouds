@@ -46,5 +46,6 @@ Material:
     - _TimeScale: 0.1
     m_Colors:
     - _FadeCameraStartEnd: {r: 1, g: 0, b: 0, a: 0}
+    - _FadeDistanceStartEnd: {r: 100, g: 200, b: 0, a: 0}
     - _FadeStartEnd: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

@@ -2047,7 +2047,7 @@ Transform:
   - {fileID: 6160929690220982518}
   - {fileID: 2396164103969341852}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -2.214, y: -266.362, z: 16.094}
 --- !u!54 &5981469090452608560
 Rigidbody:
@@ -2698,8 +2698,8 @@ TrailRenderer:
       serializedVersion: 2
       key0: {r: 1, g: 1, b: 1, a: 0}
       key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0.36078432}
-      key3: {r: 0, g: 0, b: 0, a: 0}
+      key2: {r: 0, g: 0, b: 0, a: 0.81462145}
+      key3: {r: 0, g: 0, b: 0, a: 0.36078432}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
@@ -2714,16 +2714,16 @@ TrailRenderer:
       ctime7: 0
       atime0: 0
       atime1: 393
-      atime2: 32189
-      atime3: 65535
-      atime4: 0
+      atime2: 10987
+      atime3: 56861
+      atime4: 65535
       atime5: 0
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_ColorSpace: -1
+      m_ColorSpace: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 4
+      m_NumAlphaKeys: 5
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
@@ -2765,7 +2765,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   desiredLength: 400
-  maxTime: 3
+  maxTime: 20
   reqTrailRenderer: {fileID: 5951041666436364342}
 --- !u!1 &6036593767179507306
 GameObject:
@@ -3048,8 +3048,8 @@ TrailRenderer:
       serializedVersion: 2
       key0: {r: 1, g: 1, b: 1, a: 0}
       key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0.36078432}
-      key3: {r: 0, g: 0, b: 0, a: 0}
+      key2: {r: 0, g: 0, b: 0, a: 0.81462145}
+      key3: {r: 0, g: 0, b: 0, a: 0.36078432}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
@@ -3064,16 +3064,16 @@ TrailRenderer:
       ctime7: 0
       atime0: 0
       atime1: 393
-      atime2: 32189
-      atime3: 65535
-      atime4: 0
+      atime2: 10987
+      atime3: 56861
+      atime4: 65535
       atime5: 0
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_ColorSpace: -1
+      m_ColorSpace: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 4
+      m_NumAlphaKeys: 5
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
@@ -3115,8 +3115,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   desiredLength: 400
-  maxTime: 3
-  reqTrailRenderer: {fileID: 5951041666436364342}
+  maxTime: 20
+  reqTrailRenderer: {fileID: 5951091796808472838}
 --- !u!1 &7905329744375741554
 GameObject:
   m_ObjectHideFlags: 0
