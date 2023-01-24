@@ -11,6 +11,8 @@ public class Target : MonoBehaviour, ITarget
 {
   public float invisibilityThreshold = 5f;
 
+  public float alwaysVisibleRange = 60f;
+
   public bool forceInvisibility = false;
 
   [SerializeField][RequiredComponent] Rigidbody reqRigidbody;
@@ -27,7 +29,8 @@ public class Target : MonoBehaviour, ITarget
 
   public bool IsVisible(Vector3 position)
   {
-    return isVisible && forceInvisibility == false;
+    bool forceVisible = Vector3.Distance(position, transform.position) < alwaysVisibleRange;
+    return (isVisible || forceVisible) && forceInvisibility == false;
   }
 
   public Vector3 position
