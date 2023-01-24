@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(PlayerManagerBridge))]
 public class PlaneFiringController : MonoBehaviour
 {
   public float rps = 10;
@@ -13,7 +14,7 @@ public class PlaneFiringController : MonoBehaviour
   double lastShotTimestamp = 0;
   bool firing = false;
 
-  [SerializeField][RequiredComponent] Rigidbody reqRigidbody;
+  [SerializeField][RequiredComponent] PlayerManagerBridge reqPlayerManagerBridge;
 
   public void OnFire(InputAction.CallbackContext context)
   {
@@ -32,11 +33,13 @@ public class PlaneFiringController : MonoBehaviour
       Vector3 dir = (Camera.main.transform.forward
         + Random.insideUnitSphere * spread).normalized;
 
+      Rigidbody rb = reqPlayerManagerBridge.playerRigidbody;
+
       var bulletGO = GameObject.Instantiate(bulletPrefab.gameObject,
-        reqRigidbody.position, Quaternion.identity,
+        rb.position, Quaternion.identity,
         transform.parent
         );
-      bulletGO.GetComponent<BulletController>().Init(reqRigidbody, dir);
+      bulletGO.GetComponent<BulletController>().Init(rb, dir);
       lastShotTimestamp = Time.fixedTimeAsDouble;
     }
   }
