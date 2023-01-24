@@ -8,7 +8,8 @@ public struct Range
   public AudioClip clip;
 }
 
-public class WeaponAudioProvider : MonoBehaviour
+[CreateAssetMenu]
+public class WeaponAudioProvider : ScriptableObject
 {
   public Range[] ranges;
 
