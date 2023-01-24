@@ -414,7 +414,7 @@ MonoBehaviour:
   firstStepNoiseMultiplier: 0
   stepSizeNoiseRatio: 0.3
   rayOffsetStrength: 9.19
-  minTransmittance: 0.1
+  minTransmittance: 0.01
   maxDensity: 57.38
   lodLevelMagnitude: 7.8
   lodMinDistance: 300
