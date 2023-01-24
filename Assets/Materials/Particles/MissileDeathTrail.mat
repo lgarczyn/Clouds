@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MissileBoostTrail
+  m_Name: MissileDeathTrail
   m_Shader: {fileID: -6465566751694194690, guid: ab4823c637ae30841b554f453f201abc,
     type: 3}
   m_Parent: {fileID: -876546973899608171, guid: ab4823c637ae30841b554f453f201abc,
@@ -40,8 +40,12 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
+    - _HDRMultiplier: 10
+    - _NoiseHorizontalScale: 10
+    - _NoiseScale: 10
+    - _Noisyness: 0.169
     - _QueueControl: 0
-    - _TimeScale: 0.1
+    - _TimeScale: 0.408
     m_Colors:
-    - _FadeDistanceStartEnd: {r: 50, g: 300, b: 0, a: 0}
+    - _FadeDistanceStartEnd: {r: 200, g: 800, b: 0, a: 0}
   m_BuildTextureStacks: []

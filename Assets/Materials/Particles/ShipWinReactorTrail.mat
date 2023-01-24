@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4345284155659019829
+--- !u!114 &-3418500526867966105
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MissileBoostTrail
+  m_Name: ShipWinReactorTrail
   m_Shader: {fileID: -6465566751694194690, guid: ab4823c637ae30841b554f453f201abc,
     type: 3}
   m_Parent: {fileID: -876546973899608171, guid: ab4823c637ae30841b554f453f201abc,
@@ -40,8 +40,8 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
+    - _HDRMultiplier: 7
     - _QueueControl: 0
-    - _TimeScale: 0.1
     m_Colors:
-    - _FadeDistanceStartEnd: {r: 50, g: 300, b: 0, a: 0}
+    - _FadeCameraStartEnd: {r: 2, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
