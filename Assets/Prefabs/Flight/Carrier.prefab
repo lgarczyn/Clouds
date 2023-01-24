@@ -10199,6 +10199,7 @@ MonoBehaviour:
     baseScale: 3
     distanceScaling: 0
     farScale: 0
+    spriteOverride: {fileID: 0}
   arrow:
     enabled: 1
     color: {r: 0, g: 0.28627452, b: 1, a: 1}
@@ -10209,6 +10210,7 @@ MonoBehaviour:
     baseScale: 3
     distanceScaling: 0
     farScale: 0
+    spriteOverride: {fileID: 0}
   text:
     enabled: 1
     color: {r: 0, g: 0.28627452, b: 1, a: 1}
@@ -10219,6 +10221,7 @@ MonoBehaviour:
     baseScale: 1
     distanceScaling: 0
     farScale: 0
+    spriteOverride: {fileID: 0}
   useCenteredIndicator: 0
   indicator: {fileID: 0}
 --- !u!1 &4201809755763144027
@@ -14197,6 +14200,7 @@ MonoBehaviour:
     baseScale: 3
     distanceScaling: 0
     farScale: 0
+    spriteOverride: {fileID: 0}
   arrow:
     enabled: 1
     color: {r: 1, g: 0, b: 0.1245265, a: 1}
@@ -14207,6 +14211,7 @@ MonoBehaviour:
     baseScale: 3
     distanceScaling: 0
     farScale: 0
+    spriteOverride: {fileID: 0}
   text:
     enabled: 0
     color: {r: 1, g: 0, b: 0.041718483, a: 1}
@@ -14217,6 +14222,7 @@ MonoBehaviour:
     baseScale: 1
     distanceScaling: 0
     farScale: 0
+    spriteOverride: {fileID: 0}
   useCenteredIndicator: 1
   indicator: {fileID: 0}
 --- !u!1 &5619370169964553016
