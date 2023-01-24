@@ -27,10 +27,9 @@ Material:
   m_ValidKeywords:
   - _EMISSION
   - _ENVIRONMENTREFLECTIONS_OFF
-  - _SPECULARHIGHLIGHTS_OFF
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
-  m_LightmapFlags: 0
+  m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
   m_CustomRenderQueue: 3000
@@ -103,7 +102,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Blend: 0
+    - _Blend: 2
     - _BlendModePreserveSpecular: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
@@ -112,25 +111,25 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DstBlend: 10
-    - _DstBlendAlpha: 10
+    - _DstBlend: 1
+    - _DstBlendAlpha: 1
     - _EnvironmentReflections: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.39
     - _GlossinessSource: 0
     - _GlossyReflections: 1
-    - _Metallic: 0.22
+    - _Metallic: 1
     - _Mode: 3
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Shininess: 0
-    - _Smoothness: 0.151
+    - _Smoothness: 0.789
     - _SmoothnessSource: 0
     - _SmoothnessTextureChannel: 0
     - _SpecSource: 0
-    - _SpecularHighlights: 0
+    - _SpecularHighlights: 1
     - _SrcBlend: 5
     - _SrcBlendAlpha: 1
     - _Surface: 1
@@ -140,6 +139,6 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0.764151, g: 0.74612856, b: 0.74612856, a: 1}
+    - _EmissionColor: {r: 0.52679455, g: 0.5157622, b: 0.5157622, a: 1}
     - _SpecColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
   m_BuildTextureStacks: []
