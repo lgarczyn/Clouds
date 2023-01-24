@@ -58,6 +58,13 @@ public class CloudMaster : MonoBehaviour
   public float cloudTransmittancePower = 1f;
   [Range(0f, 5f)]
   public float lightPower = 2.5f;
+  [Header(headerDecoration + "HDR: high luminance transmittance" + headerDecoration)]
+  [Range(0f, 10f)]
+  public float hdrMinSourceValue = 0f;
+  [Range(1f, 10f)]
+  public float hdrMaxSourceValue = 2f;
+  [Range(1f, 10f)]
+  public float hdrTransmittancePower = 10f;
   [Header(headerDecoration + "Sun halo" + headerDecoration)]
   [Range(0, 1)]
   public float forwardScattering = .83f;
@@ -247,6 +254,10 @@ public class CloudMaster : MonoBehaviour
     material.SetColor("colB", colB);
     material.SetColor("colC", colC);
     material.SetColor("colD", colD);
+
+    material.SetFloat("hdrMinSourceValue", hdrMinSourceValue);
+    material.SetFloat("hdrMaxSourceValue", hdrMaxSourceValue);
+    material.SetFloat("hdrTransmittancePower", hdrTransmittancePower);
 
     material.SetInt("isClean", 1);
   }

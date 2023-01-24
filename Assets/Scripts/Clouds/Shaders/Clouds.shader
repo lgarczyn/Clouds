@@ -168,6 +168,9 @@ Shader "Clouds"
             float hazeTransmittanceFactor;
             float atmosphereTransmittancePower;
             float cloudTransmittancePower;
+            float hdrMinSourceValue;
+            float hdrMaxSourceValue;
+            float hdrTransmittancePower;
             float lightPower;
             float darknessThreshold;
             float4 _LightColor0;
@@ -719,6 +722,11 @@ Shader "Clouds"
 
             float4 rayMarch(float3 rayPos, float3 rayDir, float2 uv);
 
+            float luminance(float3 color)
+            {
+                return dot(color, float3(0.299f, 0.587f, 0.114f));
+            }
+
             float4 frag (v2f i) : SV_Target
             {
                 // Create ray
@@ -895,8 +903,21 @@ Shader "Clouds"
                 // Get the cloud color depending on hazeAmount and adjusted light energy
                 fixed3 col = getCloudColor(lightEnergy, hazeRatio, depthRatio);
 
+                float l = luminance(backgroundCol);
+                float hdrFactor = remapClamped(l,
+                    hdrMinSourceValue, hdrMaxSourceValue,
+                    1, 1 / hdrTransmittancePower);
+
+                transmittance = pow(transmittance, hdrFactor);
+
                 // Add background or plane/objects
                 col = lerp(col, backgroundCol, transmittance);
+
+                // col + (backgroundCol - col ) * transmittance
+
+                // if (luminance(backgroundCol) > 1)
+                //     col += backgroundCol * pow(transmittance, 0.1);
+                // col = backgroundCol * transmittance + col * (1 - transmittance);
 
                 // Add sun and sun glow
                 // TODO: fix failure when outside of bounding box
