@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 
 [ExecuteAlways]
+//TODO remove need for execute-always
+//Be careful, it gets its data from own transform, sun pos and player pos
 public class ShadowCameraMatrix : MonoBehaviour
 {
   public bool active = true;

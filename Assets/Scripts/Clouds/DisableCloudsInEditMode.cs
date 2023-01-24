@@ -8,6 +8,8 @@ public class DisableCloudsInEditMode : MonoBehaviour
   void Update()
   {
     if (!target) return;
-    target.SetInt("enabled", Application.isPlaying ? 1 : 0);
+    int newValue = Application.isPlaying ? 1 : 0;
+    if (target.HasInt("enabled") == false || target.GetInt("enabled") != newValue)
+      target.SetInt("enabled", newValue);
   }
 }
