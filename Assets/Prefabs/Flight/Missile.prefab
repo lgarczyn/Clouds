@@ -396,6 +396,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noiseScale: 1
   noiseRate: 1
+  skippedVertices: 2
   reqTrailRenderer: {fileID: 8971883126094060726}
 --- !u!1 &3693635015490087849
 GameObject:
@@ -5718,8 +5719,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rps: 10
   spread: 0.05
-  bulletPrefab: {fileID: 6204923746252972408, guid: 4833ca5852f63ea419b4f260acc95aaa,
-    type: 3}
+  bulletPool: {fileID: 11400000, guid: 41b0da21fadb8a94cbf5d621721bd8d8, type: 2}
   bulletSpeed: 1000
   fireCone: 18
   range: 100
@@ -6121,6 +6121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noiseScale: 1
   noiseRate: 1
+  skippedVertices: 2
   reqTrailRenderer: {fileID: 7885217861617067682}
 --- !u!1 &8763727889787573699
 GameObject:

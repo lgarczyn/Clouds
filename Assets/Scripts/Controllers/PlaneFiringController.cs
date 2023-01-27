@@ -1,17 +1,22 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(PlayerManagerBridge))]
 public class PlaneFiringController : MonoBehaviour
 {
   public float rps = 10;
   public float spread = 0.1f;
-  public BulletController bulletPrefab;
+  public PoolRef bulletPool;
   public WeaponAudio audioPlayer;
+
+  public Transform gunportLeft;
+  public Transform gunportRight;
 
   [SerializeField]
   [HideInInspector]
   double lastShotTimestamp = 0;
+  bool nextShotLeft = true;
   bool firing = false;
 
   [SerializeField][RequiredComponent] PlayerManagerBridge reqPlayerManagerBridge;
@@ -35,11 +40,10 @@ public class PlaneFiringController : MonoBehaviour
 
       Rigidbody rb = reqPlayerManagerBridge.playerRigidbody;
 
-      var bulletGO = GameObject.Instantiate(bulletPrefab.gameObject,
-        rb.position, Quaternion.identity,
-        transform.parent
-        );
-      bulletGO.GetComponent<BulletController>().Init(rb, dir);
+      Vector3 position = nextShotLeft ? gunportLeft.position : gunportRight.position;
+      // position -= transform.position + rb.position;
+      nextShotLeft = !nextShotLeft;
+      bulletPool.Get<BulletController>().Init(position, dir);
       lastShotTimestamp = Time.fixedTimeAsDouble;
     }
   }

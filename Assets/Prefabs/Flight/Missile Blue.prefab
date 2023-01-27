@@ -25,6 +25,11 @@ PrefabInstance:
       value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 1796061414, guid: 802aaba54aad6bb498ab13e1e6f477c5, type: 3}
+      propertyPath: bulletPool
+      value: 
+      objectReference: {fileID: 11400000, guid: b62563c71ccf8ea4d922d43db5bc5104,
+        type: 2}
+    - target: {fileID: 1796061414, guid: 802aaba54aad6bb498ab13e1e6f477c5, type: 3}
       propertyPath: bulletPrefab
       value: 
       objectReference: {fileID: 6204923746252972408, guid: 816003d006cfd654b9afed81a406e76f,
@@ -91,7 +96,7 @@ PrefabInstance:
     - target: {fileID: 5848834044144880813, guid: 802aaba54aad6bb498ab13e1e6f477c5,
         type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5848834044144880813, guid: 802aaba54aad6bb498ab13e1e6f477c5,
         type: 3}

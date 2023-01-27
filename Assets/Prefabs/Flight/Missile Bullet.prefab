@@ -53,6 +53,26 @@ PrefabInstance:
       propertyPath: m_Parameters.colorGradient.key1.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 653197627730949107, guid: a0e949b45c86f4c478ecda1ba44198f5,
+        type: 3}
+      propertyPath: m_material
+      value: 
+      objectReference: {fileID: 2100000, guid: 6e499520150006042b7d477c2fa3f03c, type: 2}
+    - target: {fileID: 653197627730949107, guid: a0e949b45c86f4c478ecda1ba44198f5,
+        type: 3}
+      propertyPath: m_lineColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 653197627730949107, guid: a0e949b45c86f4c478ecda1ba44198f5,
+        type: 3}
+      propertyPath: m_lineColor.g
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 653197627730949107, guid: a0e949b45c86f4c478ecda1ba44198f5,
+        type: 3}
+      propertyPath: m_lineColor.r
+      value: 33.460506
+      objectReference: {fileID: 0}
     - target: {fileID: 2818571728330953387, guid: a0e949b45c86f4c478ecda1ba44198f5,
         type: 3}
       propertyPath: m_RootOrder
@@ -131,7 +151,7 @@ PrefabInstance:
     - target: {fileID: 6507275291411003199, guid: a0e949b45c86f4c478ecda1ba44198f5,
         type: 3}
       propertyPath: m_Name
-      value: MissileBullet
+      value: Missile Bullet
       objectReference: {fileID: 0}
     - target: {fileID: 6507275291411003199, guid: a0e949b45c86f4c478ecda1ba44198f5,
         type: 3}

@@ -5,7 +5,7 @@ public class MissileFiringController : MonoBehaviour
 {
   public float rps = 10;
   public float spread = 0.1f;
-  public BulletController bulletPrefab;
+  public PoolRef bulletPool;
   public float bulletSpeed = 1000f;
   public float fireCone = 90f;
   public float range = 100f;
@@ -83,11 +83,9 @@ public class MissileFiringController : MonoBehaviour
 
     Vector3 actualDir = (dir + Random.insideUnitSphere * spread).normalized;
 
-    var bulletGO = GameObject.Instantiate(bulletPrefab.gameObject,
-        r.position, Quaternion.identity,
-        transform.parent
-        );
-    bulletGO.GetComponent<BulletController>().Init(r, actualDir);
+    bulletPool
+      .Get<BulletController>()
+      .Init(r.position, actualDir);
 
     reloadTime = 1 / rps;
 

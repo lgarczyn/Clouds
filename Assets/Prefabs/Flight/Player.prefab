@@ -386,7 +386,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7815585756029495427}
+  - {fileID: 3639222792887354042}
   m_Father: {fileID: 4153694806269198883}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -403,10 +405,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rps: 60
-  spread: 0.04
-  bulletPrefab: {fileID: 3234327436353005917, guid: a0e949b45c86f4c478ecda1ba44198f5,
-    type: 3}
+  spread: 0.03
+  bulletPool: {fileID: 11400000, guid: cd33dc00651ae5744a542ad4eeb56a4e, type: 2}
   audioPlayer: {fileID: 3591368706143583291}
+  gunportLeft: {fileID: 7815585756029495427}
+  gunportRight: {fileID: 3639222792887354042}
   lastShotTimestamp: 0
   reqPlayerManagerBridge: {fileID: 6828122887679963244}
 --- !u!114 &6828122887679963244
@@ -3117,6 +3120,68 @@ MonoBehaviour:
   desiredLength: 400
   maxTime: 20
   reqTrailRenderer: {fileID: 5951091796808472838}
+--- !u!1 &6558536183497962237
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7815585756029495427}
+  m_Layer: 11
+  m_Name: Gunport Left
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7815585756029495427
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6558536183497962237}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.743, y: -0, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9148327607867992090}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7244516967118344570
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3639222792887354042}
+  m_Layer: 11
+  m_Name: Gunport Right
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3639222792887354042
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7244516967118344570}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.743, y: -0, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9148327607867992090}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7905329744375741554
 GameObject:
   m_ObjectHideFlags: 0
