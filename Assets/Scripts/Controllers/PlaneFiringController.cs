@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(PlayerManagerBridge))]
-public class PlaneFiringController : MonoBehaviour
+public class PlaneFiringController : MultiUpdateBodyChild
 {
   public float rps = 10;
   public float spread = 0.1f;
@@ -15,9 +15,10 @@ public class PlaneFiringController : MonoBehaviour
 
   [SerializeField]
   [HideInInspector]
-  double lastShotTimestamp = 0;
   bool nextShotLeft = true;
   bool firing = false;
+
+  Quaternion previousCameraDirection;
 
   [SerializeField][RequiredComponent] PlayerManagerBridge reqPlayerManagerBridge;
 
@@ -31,20 +32,38 @@ public class PlaneFiringController : MonoBehaviour
     if (!firing) audioPlayer.EndFire();
   }
 
-  void FixedUpdate()
+  protected override void BeforeUpdates()
   {
-    if (firing && lastShotTimestamp + 1f / rps < Time.fixedTimeAsDouble)
-    {
-      Vector3 dir = (Camera.main.transform.forward
+    if (previousCameraDirection == Quaternion.identity) previousCameraDirection = Camera.main.transform.rotation;
+    base.BeforeUpdates();
+  }
+
+  protected override void AfterUpdates()
+  {
+    previousCameraDirection = Camera.main.transform.rotation;
+    base.AfterUpdates();
+  }
+
+  override protected Wait MultiUpdate (float deltaTime)
+  {
+    // Handle more precise firing controls
+    if (!firing) return Wait.ForFrame();
+
+    Quaternion gunRotation = Quaternion.Slerp(previousCameraDirection, Camera.main.transform.rotation, frameRatio);
+
+    Vector3 dir = (gunRotation * Vector3.forward
         + Random.insideUnitSphere * spread).normalized;
 
-      Rigidbody rb = reqPlayerManagerBridge.playerRigidbody;
+    Rigidbody rb = reqPlayerManagerBridge.playerRigidbody;
 
-      Vector3 position = nextShotLeft ? gunportLeft.position : gunportRight.position;
-      // position -= transform.position + rb.position;
-      nextShotLeft = !nextShotLeft;
-      bulletPool.Get<BulletController>().Init(position, dir);
-      lastShotTimestamp = Time.fixedTimeAsDouble;
-    }
+    //HOW TO  GET SUB POSITION ????
+    // GET INFO ON
+    // Vector3 position = nextShotLeft ? gunportLeft.a : gunportRight.position;
+    Vector3 position = interpolatedPosition; 
+
+    nextShotLeft = !nextShotLeft;
+    bulletPool.Get<BulletController>().Init(position, dir, timeToEndOfFrame);
+
+    return Wait.For(1f / rps);
   }
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(TrailRenderer))]
 [RequireComponent(typeof(PoolSubject))]
+//TODO unlink from trailController
 public class BulletController : MonoBehaviour, IDamageDealer
 {
   /// <summary>
@@ -12,7 +13,7 @@ public class BulletController : MonoBehaviour, IDamageDealer
   /// <summary>
   /// How far from the original rigidbody should the bullet spawn
   /// </summary>
-  [SerializeField] float marginOnSpawn = 3;
+  // [SerializeField] float marginOnSpawn = 3;
   /// <summary>
   /// How strongly should the bullet impact targets
   /// </summary>
@@ -52,14 +53,16 @@ public class BulletController : MonoBehaviour, IDamageDealer
   /// </summary>
   /// <param name="parent">the shooter</param>
   /// <param name="normalizedDir">the direction of the bullet</param>
-  public void Init(Vector3 position, Vector3 normalizedDir)
+  public void Init(Vector3 position, Vector3 normalizedDir, float catchUpTime = 0f)
   {
     // enable collisions
     reqRigidbody.detectCollisions = true;
+
+    Vector3 realPosition = position + baseVelocity * normalizedDir * catchUpTime;
     // set position of bullet
-    reqRigidbody.transform.position = position + normalizedDir * marginOnSpawn;
-    reqRigidbody.MovePosition(position + normalizedDir * marginOnSpawn);
-    reqRigidbody.position = position + normalizedDir * marginOnSpawn;
+    reqRigidbody.transform.position = realPosition;
+    reqRigidbody.MovePosition(realPosition);
+    reqRigidbody.position = realPosition ;
 
     // Set velocity of bullet
     Vector3 velocity = baseVelocity * normalizedDir;
