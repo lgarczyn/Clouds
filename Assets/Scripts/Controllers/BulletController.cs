@@ -61,14 +61,11 @@ public class BulletController : MonoBehaviour, IDamageDealer
     Vector3 realPosition = position + baseVelocity * normalizedDir * catchUpTime;
     // set position of bullet
     reqRigidbody.transform.position = realPosition;
-    reqRigidbody.MovePosition(realPosition);
-    reqRigidbody.position = realPosition ;
 
     // Set velocity of bullet
     Vector3 velocity = baseVelocity * normalizedDir;
     reqRigidbody.velocity = velocity;
-    reqRigidbody.MoveRotation(Quaternion.LookRotation(velocity, Vector3.forward));
-    reqRigidbody.rotation = Quaternion.LookRotation(velocity, Vector3.forward);
+    reqRigidbody.transform.rotation = Quaternion.LookRotation(velocity, Vector3.forward);
     // Init trailrenderer
     reqTrailRenderer.Clear();
     reqTrailRenderer.emitting = true;
