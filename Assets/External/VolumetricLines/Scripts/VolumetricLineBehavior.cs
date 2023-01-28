@@ -54,6 +54,13 @@ namespace VolumetricLines
 		[SerializeField] [ColorUsage(true, true)]
 		private Color m_lineColor;
 
+		/// <summary>
+		/// Line Color
+		/// </summary>
+		[SerializeField]
+		private float m_lineWidth = 1;
+
+
 		#endregion
 
 		#region properties
@@ -68,7 +75,7 @@ namespace VolumetricLines
 			set
 			{
 				m_startPos = value;
-				SetStartAndEndPoints(m_startPos, m_endPos);
+			UpdateMesh(m_startPos, m_endPos, m_lineWidth, m_lineColor);
 			}
 		}
 
@@ -81,9 +88,11 @@ namespace VolumetricLines
 			set
 			{
 				m_endPos = value;
-				SetStartAndEndPoints(m_startPos, m_endPos);
+			UpdateMesh(m_startPos, m_endPos, m_lineWidth, m_lineColor);
 			}
 		}
+
+		//TODO setter for color and width
 
 		#endregion
 		
@@ -113,7 +122,7 @@ namespace VolumetricLines
 		/// </summary>
 		private Bounds CalculateBounds()
 		{
-			var scaledLineRadius = LineScale * LineRadius;
+			var scaledLineRadius = LineScale * LineRadius * m_lineWidth;
 
 			var min = new Vector3(
 				Mathf.Min(m_startPos.x, m_endPos.x) - scaledLineRadius,
@@ -154,7 +163,7 @@ namespace VolumetricLines
 		/// <summary>
 		/// Sets the start and end points - updates the data of the Mesh.
 		/// </summary>
-		public void SetStartAndEndPoints(Vector3 startPoint, Vector3 endPoint)
+		public void UpdateMesh(Vector3 startPoint, Vector3 endPoint, float width, Color color)
 		{
 			m_startPos = startPoint;
 			m_endPos = endPoint;
@@ -189,6 +198,13 @@ namespace VolumetricLines
 				m_startPos,
 			};
 
+			Color[] colors = Enumerable.Repeat(color, VolumetricLineVertexData.VertexCount).ToArray();
+
+			Vector2[] offsets = VolumetricLineVertexData
+				.VertexOffsets
+				.Select(offset => offset * width)
+				.ToArray();
+
 			MeshFilter meshFilter = GetComponent<MeshFilter>();
 			if (null != meshFilter)
 			{
@@ -200,13 +216,15 @@ namespace VolumetricLines
 					mesh.vertices = vertexPositions;
 					mesh.normals = other;
 					mesh.uv = VolumetricLineVertexData.TexCoords;
-					mesh.uv2 = VolumetricLineVertexData.VertexOffsets;
-					mesh.colors = Enumerable.Repeat(m_lineColor, VolumetricLineVertexData.VertexCount).ToArray();
+					mesh.uv2 = offsets;
+					mesh.colors = colors;
 					mesh.SetIndices(VolumetricLineVertexData.Indices, MeshTopology.Quads, 0);
 					meshFilter.sharedMesh = mesh;
 				} else {
 					mesh.vertices = vertexPositions;
 					mesh.normals = other;
+					mesh.uv2 = offsets;
+					mesh.colors = colors;
 				}
 				UpdateBounds();
 			}
@@ -219,15 +237,15 @@ namespace VolumetricLines
 			MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
 			meshRenderer.sharedMaterial = m_material;
 			
-			SetStartAndEndPoints(m_startPos, m_endPos);
+			UpdateMesh(m_startPos, m_endPos, m_lineWidth, m_lineColor);
 		}
 
 		void OnDrawGizmos() {
 			var start = transform.TransformPoint(m_startPos);
 			var end = transform.TransformPoint(m_endPos);
 			Gizmos.color = m_lineColor;
-			Gizmos.DrawWireSphere(start, LineRadius * LineScale);
-			Gizmos.DrawWireSphere(end, LineRadius * LineScale);
+			Gizmos.DrawWireSphere(start, LineRadius * LineScale * m_lineWidth);
+			Gizmos.DrawWireSphere(end, LineRadius * LineScale * m_lineWidth);
 			Gizmos.DrawLine(start, end);
 		}
 
