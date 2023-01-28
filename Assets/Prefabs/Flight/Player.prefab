@@ -404,13 +404,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4649316c0142ac64ab9ffb56958471b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rps: 60
+  rps: 200
   spread: 0.03
   bulletPool: {fileID: 11400000, guid: cd33dc00651ae5744a542ad4eeb56a4e, type: 2}
   audioPlayer: {fileID: 3591368706143583291}
   gunportLeft: {fileID: 7815585756029495427}
   gunportRight: {fileID: 3639222792887354042}
-  lastShotTimestamp: 0
+  nextShotLeft: 1
   reqPlayerManagerBridge: {fileID: 6828122887679963244}
 --- !u!114 &6828122887679963244
 MonoBehaviour:
@@ -561,6 +561,7 @@ MonoBehaviour:
   m_startPos: {x: 0, y: 0, z: 0}
   m_endPos: {x: 0, y: 0, z: 10}
   m_lineColor: {r: 4, g: 0.5471699, b: 0.5471699, a: 1}
+  m_lineWidth: 1
 --- !u!114 &6788134448066887610
 MonoBehaviour:
   m_ObjectHideFlags: 0

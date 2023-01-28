@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8410716662379111139}
   - component: {fileID: 2578778170311049125}
   - component: {fileID: 653197627730949107}
-  - component: {fileID: 6408257741201803598}
+  - component: {fileID: 3109153641266952259}
   m_Layer: 19
   m_Name: Bullet
   m_TagString: Untagged
@@ -212,7 +212,7 @@ MonoBehaviour:
   bounceDistance: 0
   reqRigidbody: {fileID: 1012293554007481791}
   reqTrailRenderer: {fileID: 17678180223963330}
-  reqPoolSubject: {fileID: 6408257741201803598}
+  reqPoolSubject: {fileID: 3109153641266952259}
 --- !u!33 &8410716662379111139
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -279,7 +279,7 @@ MonoBehaviour:
   m_startPos: {x: 0, y: 0, z: 0}
   m_endPos: {x: 0, y: 0, z: -5}
   m_lineColor: {r: 2.166354, g: 1.8291384, b: 2.0902085, a: 0}
---- !u!114 &6408257741201803598
+--- !u!114 &3109153641266952259
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
