@@ -25,6 +25,6 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _LineRadius: 1
+    - _LineRadius: 0.1
     m_Colors: []
   m_BuildTextureStacks: []
