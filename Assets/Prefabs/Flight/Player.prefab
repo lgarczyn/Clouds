@@ -574,7 +574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dps: 10
-  range: 1000
+  range: 3000
   width: 2
   speed: 10000
   layerMask:
