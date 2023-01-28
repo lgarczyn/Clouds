@@ -12,7 +12,7 @@ public interface IPool
 
 /// <summary>
 /// Component based implementation of the unity pool system
-/// Can be overriden to add  
+/// Must be overriden to provide prefab source
 /// </summary>
 public class PoolBehavior : MonoBehaviour, IPool, IObjectPool<GameObject>
 {
@@ -146,7 +146,7 @@ public class PoolBehavior : MonoBehaviour, IPool, IObjectPool<GameObject>
     pool.Release(subject);
   }
 
-  void OnDestroy()
+  void OnDisable()
   {
     this.pool.Clear();
   }
