@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class MultiUpdateBody : MultiUpdateObject
+public abstract class MultiUpdateBody : MultiUpdateObject
 {
   protected Vector3 previousPosition;
   protected Vector3 nextPosition;
@@ -22,6 +22,7 @@ public class MultiUpdateBody : MultiUpdateObject
   [RequiredComponent][SerializeField] protected Rigidbody reqRigidbody; 
 
   override protected void BeforeUpdates() {
+    base.BeforeUpdates();
     previousPosition = nextPosition;
     nextPosition = reqRigidbody.position;
   }

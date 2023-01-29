@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class MultiUpdateObject : MonoBehaviour
+public abstract class MultiUpdateObject : MonoBehaviour
 {
 
   protected float prevFrameTime;
@@ -34,9 +34,15 @@ public class MultiUpdateObject : MonoBehaviour
     }
   }
 
+  bool resetMultiUpdateBaseCalled = false;
+  bool beforeUpdatesBaseCalled = false;
+  bool afterUpdatesBaseCalled = false;
+
   protected void OnEnable()
   {
     ResetMultiUpdate(Time.time);
+    if (!resetMultiUpdateBaseCalled) Debug.LogError("Override did not call base.BeforeUpdates()");
+
     AfterEnable();
   }
 
@@ -45,6 +51,7 @@ public class MultiUpdateObject : MonoBehaviour
     timeOfLastUpdate = currentTime = prevFrameTime = nextFrameTime = time;
     timeToNextUpdate = 0;
     rofMultiplier = 1f;
+    resetMultiUpdateBaseCalled = true;
   }
 
   [System.Serializable]
@@ -137,23 +144,37 @@ public class MultiUpdateObject : MonoBehaviour
     nextFrameTime = Time.time;
     currentTime = prevFrameTime;
 
+    // Allow child classes to setup their multi update sequence
     BeforeUpdates();
+
+    // Verify there was a base.BeforeUpdates call
+    if (!beforeUpdatesBaseCalled) Debug.LogError("Override did not call base.BeforeUpdates()", this);
+    beforeUpdatesBaseCalled = false;
+
     CallMultiUpdates();
+    // Allow child classes to clean their multi update sequence
     AfterUpdates();
+
+    // Verify there was a base.AfterUpdates call
+    if (!afterUpdatesBaseCalled) Debug.LogError("Override did not call base.AfterUpdates()", this);
+    afterUpdatesBaseCalled = false;
   }
 
-  protected virtual Wait MultiUpdate(float deltaTime)
-  {
-    return Wait.ForFrame();
-  }
+  protected abstract Wait MultiUpdate(float deltaTime);
 
   protected void SetRofMultiplier(float multiplier)
   {
     rofMultiplier = multiplier;
   }
 
-  protected virtual void BeforeUpdates() { }
-  protected virtual void AfterUpdates() { }
+  protected virtual void BeforeUpdates()
+  {
+    beforeUpdatesBaseCalled = true;
+  }
+  protected virtual void AfterUpdates()
+  {
+    afterUpdatesBaseCalled = true;
+  }
 
   protected virtual void AfterEnable() { }
 }

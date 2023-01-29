@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class MultiUpdateBodyChild : MultiUpdateObject
+public abstract class MultiUpdateBodyChild : MultiUpdateObject
 {
   protected Rigidbody parentBodyRef;
 
@@ -60,6 +60,8 @@ public class MultiUpdateBodyChild : MultiUpdateObject
   }
 
   override protected void BeforeUpdates() {
+    base.BeforeUpdates();
+
     previousParentPosition = nextParentPosition;
     nextParentPosition = ParentBody.position;
 
@@ -71,9 +73,6 @@ public class MultiUpdateBodyChild : MultiUpdateObject
 
     previousLocalRotation = nextLocalRotation;
     nextLocalRotation = Quaternion.Inverse(nextParentRotation) * transform.rotation;
-
-    if (ParentBody.rotation != ParentBody.transform.rotation) Debug.Log("rot fuckup:" + Quaternion.Angle(ParentBody.rotation, ParentBody.transform.rotation));
-    if (ParentBody.position != ParentBody.transform.position) Debug.Log("pos fuckup:" + Vector3.Distance(ParentBody.position, ParentBody.transform.position));
   }
 
   override protected void ResetMultiUpdate(float time) {
