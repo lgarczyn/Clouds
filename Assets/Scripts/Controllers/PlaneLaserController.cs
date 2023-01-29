@@ -6,6 +6,7 @@ using VolumetricLines;
 [RequireComponent(typeof(VolumetricLineBehavior))]
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(PlayerManagerBridge))]
+// TODO: use multiupdatebodychild to raycast multiple time per frame
 public class PlaneLaserController : MonoBehaviour
 {
   [SerializeField] float dps = 10;
