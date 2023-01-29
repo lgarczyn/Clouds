@@ -40,6 +40,7 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
+    - _HDRMultiplier: 20
     - _QueueControl: 0
     - _TimeScale: 0.1
     m_Colors:
