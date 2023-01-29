@@ -53,18 +53,18 @@ MonoBehaviour:
     hideTooFar: 0
     baseScale: 3
     distanceScaling: 1
-    farScale: 1.2
+    farScale: 0.7
     spriteOverride: {fileID: 0}
   arrow:
     enabled: 1
     color: {r: 0.7372549, g: 0, b: 0.0627451, a: 1}
     minDistance: 30
-    maxDistance: 500
+    maxDistance: 1000
     hideTooClose: 0
     hideTooFar: 0
     baseScale: 3
     distanceScaling: 1
-    farScale: 1.2
+    farScale: 0.7
     spriteOverride: {fileID: 0}
   text:
     enabled: 0
