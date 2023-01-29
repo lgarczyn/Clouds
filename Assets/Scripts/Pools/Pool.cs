@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Scriptable-object based pool
@@ -16,12 +17,12 @@ public class Pool : PoolBehavior
   }
   
   // Set ref on game start and domain reload
-  void Awake()
+  void OnEnable()
   {
     poolRef.SetRef(this);
   }
 
-  void OnDestroy()
+  void OnDisable()
   {
     poolRef.RemoveRef(this);
   }
