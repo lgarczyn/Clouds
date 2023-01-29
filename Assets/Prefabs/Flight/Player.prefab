@@ -406,6 +406,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rps: 200
   spread: 0.03
+  aimAnglePerSecond: 10000
   bulletPool: {fileID: 11400000, guid: cd33dc00651ae5744a542ad4eeb56a4e, type: 2}
   audioPlayer: {fileID: 3591368706143583291}
   gunportLeft: {fileID: 7815585756029495427}
@@ -2051,7 +2052,7 @@ Transform:
   - {fileID: 6160929690220982518}
   - {fileID: 2396164103969341852}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: -2.214, y: -266.362, z: 16.094}
 --- !u!54 &5981469090452608560
 Rigidbody:

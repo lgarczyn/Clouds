@@ -7,6 +7,7 @@ public class PlaneFiringController : MultiUpdateBodyChild
 {
   public float rps = 10;
   public float spread = 0.1f;
+  public float aimAnglePerSecond = 180f;
   public PoolRef bulletPool;
   public WeaponAudio audioPlayer;
 
@@ -18,7 +19,7 @@ public class PlaneFiringController : MultiUpdateBodyChild
   bool nextShotLeft = true;
   bool firing = false;
 
-  Quaternion previousCameraDirection;
+  Quaternion aim;
 
   [SerializeField][RequiredComponent] PlayerManagerBridge reqPlayerManagerBridge;
 
@@ -34,24 +35,17 @@ public class PlaneFiringController : MultiUpdateBodyChild
 
   protected override void BeforeUpdates()
   {
-    if (previousCameraDirection == Quaternion.identity) previousCameraDirection = Camera.main.transform.rotation;
+    if (aim == new Quaternion()) aim = Camera.main.transform.rotation;
     base.BeforeUpdates();
   }
 
-  protected override void AfterUpdates()
+  override protected Wait MultiUpdate (double deltaTime)
   {
-    previousCameraDirection = Camera.main.transform.rotation;
-    base.AfterUpdates();
-  }
-
-  override protected Wait MultiUpdate (float deltaTime)
-  {
+    aim = Quaternion.RotateTowards(aim, Camera.main.transform.rotation, aimAnglePerSecond * (float)deltaTime);
     // Handle more precise firing controls
     if (!firing) return Wait.ForFrame();
 
-    Quaternion gunRotation = Quaternion.Slerp(previousCameraDirection, Camera.main.transform.rotation, frameRatio);
-
-    Vector3 dir = (gunRotation * Vector3.forward
+    Vector3 dir = (aim * Vector3.forward
         + Random.insideUnitSphere * spread).normalized;
 
     Rigidbody rb = reqPlayerManagerBridge.playerRigidbody;
@@ -62,7 +56,7 @@ public class PlaneFiringController : MultiUpdateBodyChild
     Vector3 position = interpolatedPosition; 
 
     nextShotLeft = !nextShotLeft;
-    bulletPool.Get<BulletController>().Init(position, dir, timeToEndOfFrame);
+    bulletPool.Get<BulletController>().Init(position, dir, (float)timeToEndOfFrame);
 
     return Wait.For(1f / rps);
   }

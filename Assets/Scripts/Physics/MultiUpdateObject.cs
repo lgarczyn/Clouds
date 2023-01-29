@@ -3,14 +3,14 @@
 public abstract class MultiUpdateObject : MonoBehaviour
 {
 
-  protected float prevFrameTime;
-  protected float currentTime;
-  protected float nextFrameTime;
-  protected float timeToNextUpdate;
-  protected float timeOfLastUpdate;
-  protected float rofMultiplier;
+  protected double prevFrameTime;
+  protected double currentTime;
+  protected double nextFrameTime;
+  protected double timeToNextUpdate;
+  protected double timeOfLastUpdate;
+  protected double rofMultiplier;
 
-  protected float frameRatio
+  protected double frameRatio
   {
     get
     {
@@ -18,7 +18,7 @@ public abstract class MultiUpdateObject : MonoBehaviour
     }
   }
 
-  protected float deltaTime
+  protected double deltaTime
   {
     get
     {
@@ -26,7 +26,7 @@ public abstract class MultiUpdateObject : MonoBehaviour
     }
   }
 
-  protected float timeToEndOfFrame
+  protected double timeToEndOfFrame
   {
     get
     {
@@ -40,13 +40,13 @@ public abstract class MultiUpdateObject : MonoBehaviour
 
   protected void OnEnable()
   {
-    ResetMultiUpdate(Time.time);
+    ResetMultiUpdate(Time.timeAsDouble);
     if (!resetMultiUpdateBaseCalled) Debug.LogError("Override did not call base.BeforeUpdates()");
 
     AfterEnable();
   }
 
-  protected virtual void ResetMultiUpdate(float time)
+  protected virtual void ResetMultiUpdate(double time)
   {
     timeOfLastUpdate = currentTime = prevFrameTime = nextFrameTime = time;
     timeToNextUpdate = 0;
@@ -65,9 +65,9 @@ public abstract class MultiUpdateObject : MonoBehaviour
     }
 
     public WaitType waitingType;
-    public float waitingTime;
+    public double waitingTime;
 
-    private Wait(WaitType type, float forDelay = 0)
+    private Wait(WaitType type, double forDelay = 0)
     {
       waitingType = type;
       waitingTime = forDelay;
@@ -78,7 +78,7 @@ public abstract class MultiUpdateObject : MonoBehaviour
       return new Wait(WaitType.Time, 0f);
     }
 
-    public static Wait For(float delay)
+    public static Wait For(double delay)
     {
       return new Wait(WaitType.Time, delay);
     }
@@ -97,7 +97,7 @@ public abstract class MultiUpdateObject : MonoBehaviour
 
   void CallMultiUpdates()
   {
-    float remainingTime = nextFrameTime - prevFrameTime;
+    double remainingTime = nextFrameTime - prevFrameTime;
     remainingTime *= rofMultiplier;
 
     int safety = 0;
@@ -109,9 +109,10 @@ public abstract class MultiUpdateObject : MonoBehaviour
       remainingTime -= timeToNextUpdate;
 
       currentTime += timeToNextUpdate / rofMultiplier;
+      double deltaTime = currentTime - timeOfLastUpdate;
       timeOfLastUpdate = currentTime;
 
-      Wait wait = MultiUpdate(timeToNextUpdate);
+      Wait wait = MultiUpdate(deltaTime);
 
       switch (wait.waitingType)
       {
@@ -119,7 +120,7 @@ public abstract class MultiUpdateObject : MonoBehaviour
           timeToNextUpdate = 0;
           return;
         case Wait.WaitType.Ever:
-          timeToNextUpdate = float.MaxValue;
+          timeToNextUpdate = double.MaxValue;
           this.enabled = false;
           return;
         case Wait.WaitType.Time:
@@ -141,7 +142,7 @@ public abstract class MultiUpdateObject : MonoBehaviour
   void FixedUpdate()
   {
     prevFrameTime = nextFrameTime;
-    nextFrameTime = Time.time;
+    nextFrameTime = Time.timeAsDouble;
     currentTime = prevFrameTime;
 
     // Allow child classes to setup their multi update sequence
@@ -160,9 +161,9 @@ public abstract class MultiUpdateObject : MonoBehaviour
     afterUpdatesBaseCalled = false;
   }
 
-  protected abstract Wait MultiUpdate(float deltaTime);
+  protected abstract Wait MultiUpdate(double deltaTime);
 
-  protected void SetRofMultiplier(float multiplier)
+  protected void SetRofMultiplier(double multiplier)
   {
     rofMultiplier = multiplier;
   }

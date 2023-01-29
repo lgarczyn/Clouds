@@ -17,7 +17,7 @@ public abstract class MultiUpdateBodyChild : MultiUpdateObject
   protected Vector3 nextLocalPosition;
   protected Vector3 interpolatedLocalPosition {
     get {
-      return Vector3.Lerp(previousLocalPosition, nextLocalPosition, frameRatio);
+      return Vector3.Lerp(previousLocalPosition, nextLocalPosition, (float)frameRatio);
     }
   }
 
@@ -25,7 +25,7 @@ public abstract class MultiUpdateBodyChild : MultiUpdateObject
   protected Quaternion nextLocalRotation;
   protected Quaternion interpolatedLocalRotation {
     get {
-      return Quaternion.Slerp(previousLocalRotation, nextLocalRotation, frameRatio);
+      return Quaternion.Slerp(previousLocalRotation, nextLocalRotation, (float)frameRatio);
     }
   }
 
@@ -33,7 +33,7 @@ public abstract class MultiUpdateBodyChild : MultiUpdateObject
   protected Vector3 nextParentPosition;
   protected Vector3 interpolatedParentPosition {
     get {
-      return Vector3.Lerp(previousParentPosition, nextParentPosition, frameRatio);
+      return Vector3.Lerp(previousParentPosition, nextParentPosition, (float)frameRatio);
     }
   }
 
@@ -41,7 +41,7 @@ public abstract class MultiUpdateBodyChild : MultiUpdateObject
   protected Quaternion nextParentRotation;
   protected Quaternion interpolatedParentRotation {
     get {
-      return Quaternion.Slerp(previousParentRotation, nextParentRotation, frameRatio);
+      return Quaternion.Slerp(previousParentRotation, nextParentRotation, (float)frameRatio);
     }
   }
 
@@ -75,7 +75,7 @@ public abstract class MultiUpdateBodyChild : MultiUpdateObject
     nextLocalRotation = Quaternion.Inverse(nextParentRotation) * transform.rotation;
   }
 
-  override protected void ResetMultiUpdate(float time) {
+  override protected void ResetMultiUpdate(double time) {
     base.ResetMultiUpdate(time);
     nextParentPosition = previousParentPosition = ParentBody.position;
     nextParentRotation = previousParentRotation = ParentBody.rotation;
