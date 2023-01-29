@@ -118,11 +118,14 @@ MonoBehaviour:
   reqMainCameraBridge: {fileID: 3999808953939650153}
   reqPlayerManagerBridge: {fileID: 6900268930369057448}
   offset: {x: 0, y: 0.91, z: -3.5}
+  offsetDistanceMultiplier: 1
   camSmoothSpeed: 5
   mouseSensitivity: 0.1
   controllerSensitivity: 5
   aimDistance: 300
   showDebugInfo: 0
+  cameraBankSmoothTime: 0.5
+  cameraBankDistance: 15
 --- !u!114 &1852813374085120815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,6 +141,7 @@ MonoBehaviour:
   scrollPower: 0.01
   maxScroll: 4
   minScroll: -1.8
+  currentZoom: 0
   reqMouseFlightController: {fileID: 5573792960326083908}
 --- !u!114 &7498891330203325612
 MonoBehaviour:

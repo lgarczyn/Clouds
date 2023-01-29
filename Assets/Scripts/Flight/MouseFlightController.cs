@@ -29,7 +29,8 @@ public class MouseFlightController : Manager<MouseFlightController>
   // TODO clean this
   // should be private and serialized
   // offset multiplier and accessor should be here too
-  public Vector3 offset;
+  [SerializeField] Vector3 offset;
+  public float offsetDistanceMultiplier = 1f;
 
   [SerializeField]
   [Tooltip("How quickly the camera tracks the mouse aim point.")]
@@ -179,17 +180,38 @@ public class MouseFlightController : Manager<MouseFlightController>
     reqPlayerManagerBridge.playerPlane.SetTarget(MouseAimPos);
   }
 
+  [SerializeField] float cameraBankSmoothTime = 1f;
+  [SerializeField] float cameraBankDistance = 4f;
+
+  float currentBankVelocity = 0f;
+  float currentBank = 0f;
+
   void LateUpdate()
   {
     if (isCameraFrozen) return;
 
     Transform cam = reqMainCameraBridge.instance.mainCamera.transform;
+    
+    Vector3 localMouseAimPos = cameraRig.transform
+      .InverseTransformPoint(MouseAimPos);
+
+    float xStep = localMouseAimPos.x / aimDistance;
+
+    float sidestepTarget = xStep * cameraBankDistance;
+
+    currentBank = Mathf.SmoothDamp(
+      currentBank,
+      sidestepTarget,
+      ref currentBankVelocity,
+      cameraBankSmoothTime
+    );
+
+    Vector3 totalOffset = (offset + Vector3.right * currentBank)
+      * offsetDistanceMultiplier;
 
     cam.position = cameraRig.position;
     cam.rotation = cameraRig.rotation;
-    cam.position += cam.forward * offset.z;
-    cam.position += cam.up * offset.y;
-    cam.position += cam.right * offset.x;
+    cam.position += cameraRig.rotation * totalOffset;
   }
 
   private void RotateRig()

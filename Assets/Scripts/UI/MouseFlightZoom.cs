@@ -3,36 +3,30 @@ using UnityEngine.InputSystem;
 
 public class MouseFlightZoom : MonoBehaviour
 {
-  public float scrollPower = 1f;
-  public float maxScroll = 4f;
-  public float minScroll = -0.8f;
-  Vector3 _zoomOrigin;
-  float _currentZoom = 0;
-  float _temporaryZoom = 0f;
+  [SerializeField] float scrollPower = 1f;
+  [SerializeField] float maxScroll = 4f;
+  [SerializeField] float minScroll = -0.8f;
+  [SerializeField] float currentZoom = 0;
+  float temporaryZoom = 0f;
 
   [SerializeField][RequiredComponent] MouseFlightController reqMouseFlightController;
 
-  private void Start()
-  {
-    _zoomOrigin = reqMouseFlightController.offset;
-  }
-
   public void OnZoom(InputAction.CallbackContext context)
   {
-    _currentZoom -= context.ReadValue<float>() * scrollPower / 10;
+    currentZoom -= context.ReadValue<float>() * scrollPower / 10;
     UpdateZoom();
   }
 
   void UpdateZoom()
   {
-    _currentZoom = Mathf.Clamp(_currentZoom, minScroll, maxScroll);
-    Vector3 zoomOffset = _zoomOrigin * Mathf.Pow(2, _currentZoom + _temporaryZoom);
-    reqMouseFlightController.offset = zoomOffset;
+    currentZoom = Mathf.Clamp(currentZoom, minScroll, maxScroll);
+    float zoom = Mathf.Pow(2, currentZoom + temporaryZoom);
+    reqMouseFlightController.offsetDistanceMultiplier = zoom;
   }
 
   public void SetTemporaryZoom(float value)
   {
-    _temporaryZoom = value;
+    temporaryZoom = value;
     UpdateZoom();
   }
 }
