@@ -15,9 +15,9 @@ public class TrailNoiseEffect : MonoBehaviour
   {
     var p = pos / noiseScale;
     return pos + new Vector3(
-      Mathf.PerlinNoise(p.y, p.z),
-      Mathf.PerlinNoise(p.x, p.z),
-      Mathf.PerlinNoise(p.x, p.y)
+      Mathf.PerlinNoise(p.y, p.z) - 0.5f,
+      Mathf.PerlinNoise(p.x, p.z) - 1f,
+      Mathf.PerlinNoise(p.x, p.y) - 0.5f
     ) * Time.deltaTime * noiseRate;
   }
 
