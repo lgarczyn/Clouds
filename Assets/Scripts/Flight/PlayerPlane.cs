@@ -23,6 +23,9 @@ public class PlayerPlane : MonoBehaviour
   [Tooltip("Sensitivity for autopilot flight.")] public float sensitivity = 5f;
   [Tooltip("Angle at which airplane banks fully into target.")] public float aggressiveTurnAngle = 10f;
 
+  [Tooltip("How much vertical thrust should be applied against gravity")][SerializeField] private float lift = 1f;
+
+
   [Header("Input")]
   [SerializeField][Range(-1f, 1f)] private float pitch = 0f;
   [SerializeField][Range(-1f, 1f)] private float yaw = 0f;
@@ -147,6 +150,6 @@ public class PlayerPlane : MonoBehaviour
     float angleNormalized = (angleToVertical / 90 - 1f);
     // Turn into "horizontality" ratio
     float horizontality = 1f - Mathf.Abs(angleNormalized);
-    reqRigidbody.AddForce(horizontality * -Physics.gravity, ForceMode.Acceleration);
+    reqRigidbody.AddForce(horizontality * -Physics.gravity * lift, ForceMode.Acceleration);
   }
 }
