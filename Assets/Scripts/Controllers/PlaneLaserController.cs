@@ -3,22 +3,9 @@ using UnityEngine.InputSystem;
 using System.Linq;
 using VolumetricLines;
 
-public class AnimationCurveConstantLength : AnimationCurve
-{
-  public void Resize(float factor)
-  {
-    this.keys = this.keys.Select((k) =>
-    {
-      k.time *= factor;
-      return k;
-    }).ToArray();
-  }
-}
-
 [RequireComponent(typeof(VolumetricLineBehavior))]
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(PlayerManagerBridge))]
-// [RequireComponent(typeof(WeaponAudio))]
 public class PlaneLaserController : MonoBehaviour
 {
   [SerializeField] float dps = 10;
