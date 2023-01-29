@@ -20,19 +20,19 @@ public class PoolBehavior : MonoBehaviour, IPool, IObjectPool<GameObject>
   [SerializeField] protected uint maxCount;
   protected uint active;
 
-  public int Count { get { return CountActive + CountInactive; } }
-  public int CountActive { get { return (int)active; } }
+  public int CountAll { get { return pool.CountAll; } }
+  public int CountActive { get { return pool.CountActive; } }
   public int CountInactive { get { return pool.CountInactive; } }
 
 
-  IObjectPool<PoolSubject> poolInstance;
+  ObjectPool<PoolSubject> poolInstance;
 
   protected virtual GameObject Prefab
   {
     get { throw new System.NotImplementedException(); }
   }
 
-  protected IObjectPool<PoolSubject> pool
+  protected ObjectPool<PoolSubject> pool
   {
     get
     {
@@ -41,7 +41,7 @@ public class PoolBehavior : MonoBehaviour, IPool, IObjectPool<GameObject>
       OnTakeFromPool,
       OnReturnToPool,
       OnDestroyObject,
-      false,
+      true,
       (int)initializationCount,
       (int)maxCount);
 
@@ -56,6 +56,8 @@ public class PoolBehavior : MonoBehaviour, IPool, IObjectPool<GameObject>
 
   protected virtual void OnTakeFromPool(PoolSubject subject)
   {
+    // null/destroyed objects will be caught later in PoolBehavior.Get
+    if (subject == null) return;
     subject.gameObject.SetActive(true);
     subject.transform.SetParent(transform, true);
     subject.parent = this;
@@ -93,7 +95,13 @@ public class PoolBehavior : MonoBehaviour, IPool, IObjectPool<GameObject>
 
   public virtual GameObject Get()
   {
-    PoolSubject subject = pool.Get();
+    PoolSubject subject;
+
+    do {
+      subject = pool.Get();
+      if (subject == null) Debug.LogWarning("Retrieved object has already been deleted", this);
+    }
+    while (subject == null);
 
     // Ensure subject is correctly initialized
     subject.parent = this;
