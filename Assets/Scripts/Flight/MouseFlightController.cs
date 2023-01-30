@@ -199,6 +199,8 @@ public class MouseFlightController : Manager<MouseFlightController>
 
     float sidestepTarget = xStep * cameraBankDistance;
 
+    if (isMouseAimFrozen) sidestepTarget = 0f;
+
     currentBank = Mathf.SmoothDamp(
       currentBank,
       sidestepTarget,
