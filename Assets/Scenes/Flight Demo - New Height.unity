@@ -3187,16 +3187,6 @@ PrefabInstance:
       propertyPath: m_Cameras.Array.data[0]
       value: 
       objectReference: {fileID: 1306023373}
-    - target: {fileID: 2665263943649412075, guid: 1498526e86ba2f44f9e8a07036bdc8ca,
-        type: 3}
-      propertyPath: target
-      value: 
-      objectReference: {fileID: 1306023373}
-    - target: {fileID: 2665263943649412075, guid: 1498526e86ba2f44f9e8a07036bdc8ca,
-        type: 3}
-      propertyPath: LocalSpaceController
-      value: 
-      objectReference: {fileID: 1608915523}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

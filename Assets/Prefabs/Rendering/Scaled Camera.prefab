@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 2665263943649412075}
   - component: {fileID: 2665263943649412078}
   - component: {fileID: 1951955581}
+  - component: {fileID: 9081710469017071429}
+  - component: {fileID: 4295803733499379289}
   m_Layer: 7
   m_Name: Scaled Camera
   m_TagString: Untagged
@@ -153,9 +155,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7431c52b4ccfd0a48a9a3585c0df494c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  LocalSpaceController: {fileID: 0}
   reqScaledSpaceControllerBridge: {fileID: 2665263943649412078}
+  reqLocalSpaceControllerBridge: {fileID: 9081710469017071429}
+  reqMainCameraBridge: {fileID: 4295803733499379289}
 --- !u!114 &2665263943649412078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,3 +203,27 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _debugValue: 0
+--- !u!114 &9081710469017071429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2665263943649412065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c3096bb0d0f1604bac62e3e7247de3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4295803733499379289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2665263943649412065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 977b7a4eea52f914dad9c84cbd2aa845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

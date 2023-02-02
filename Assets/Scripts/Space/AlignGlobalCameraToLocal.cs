@@ -6,20 +6,19 @@ using UnityEngine;
 /// </summary>
 public class AlignGlobalCameraToLocal : MonoBehaviour
 {
-  public Camera target;
-
-  public LocalSpaceController LocalSpaceController;
-
   [SerializeField][RequiredComponent] ScaledSpaceControllerBridge reqScaledSpaceControllerBridge;
+  [SerializeField][RequiredComponent] LocalSpaceControllerBridge reqLocalSpaceControllerBridge;
+  [SerializeField][RequiredComponent] MainCameraBridge reqMainCameraBridge;
 
 
   // Update is called once per frame
   void LateUpdate()
   {
     var scaledSpaceController = reqScaledSpaceControllerBridge.instance;
+    var target = reqMainCameraBridge.instance;
 
     TransformD originPos =
-        LocalSpaceController.frame.fromLocalTransform(target.transform);
+        reqLocalSpaceControllerBridge.instance.frame.fromLocalTransform(target.transform);
 
     TransformD scaledSpace =
         scaledSpaceController.frame.toGlobalCoord(originPos);
