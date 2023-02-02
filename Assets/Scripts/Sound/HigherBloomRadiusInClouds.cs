@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(Volume))]
 [RequireComponent(typeof(ResourceCalculatorBridge))]
-public class HigherBloomRadiusInCLouds : MonoBehaviour
+public class HigherBloomRadiusInClouds : MonoBehaviour
 {
   [SerializeField] AnimationCurve radiusVsDensity;
   [SerializeField] AnimationCurve intensityVsDensity;
