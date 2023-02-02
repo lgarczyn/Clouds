@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using System.Linq;
 
 /// <summary>
 /// Scriptable-object based pool
@@ -10,16 +11,22 @@ using UnityEngine.Events;
 public class Pool : PoolBehavior
 {
   [SerializeField] PoolRef poolRef;
+  [Min(0)]
+  [SerializeField] protected int initOnLoad = 10;
 
   override protected GameObject Prefab
   {
     get { return poolRef.GetPrefab(); }
   }
-  
+
   // Set ref on game start and domain reload
   void OnEnable()
   {
     poolRef.SetRef(this);
+
+    Enumerable.Range(0, (int)initOnLoad)
+      .Select(i => poolRef.Get<PoolSubject>())
+      .Do(s => s.Release());
   }
 
   void OnDisable()

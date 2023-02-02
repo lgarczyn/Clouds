@@ -16,8 +16,8 @@ public interface IPool
 /// </summary>
 public class PoolBehavior : MonoBehaviour, IPool, IObjectPool<GameObject>
 {
-  [SerializeField] protected uint initializationCount;
-  [SerializeField] protected uint maxCount;
+  [Min(1)]
+  [SerializeField] protected uint maxCount = 1000;
   protected uint active;
 
   public int CountAll { get { return pool.CountAll; } }
@@ -32,18 +32,22 @@ public class PoolBehavior : MonoBehaviour, IPool, IObjectPool<GameObject>
     get { throw new System.NotImplementedException(); }
   }
 
-  protected ObjectPool<PoolSubject> pool
-  {
-    get
-    {
-      if (poolInstance == null) poolInstance = new ObjectPool<PoolSubject>(
+  protected virtual ObjectPool<PoolSubject> CreatePool() {
+    return new ObjectPool<PoolSubject>(
       CreateItem,
       OnTakeFromPool,
       OnReturnToPool,
       OnDestroyObject,
       true,
-      (int)initializationCount,
+      0,
       (int)maxCount);
+  }
+
+  protected ObjectPool<PoolSubject> pool
+  {
+    get
+    {
+      EnsureLoaded();
 
       return poolInstance;
     }
@@ -52,6 +56,10 @@ public class PoolBehavior : MonoBehaviour, IPool, IObjectPool<GameObject>
   public void Clear()
   {
     pool.Clear();
+  }
+
+  public void EnsureLoaded() {
+    if (poolInstance == null) poolInstance = CreatePool();
   }
 
   protected virtual void OnTakeFromPool(PoolSubject subject)
@@ -110,7 +118,7 @@ public class PoolBehavior : MonoBehaviour, IPool, IObjectPool<GameObject>
 
     active++;
 
-    subject.onInit.Invoke();
+    subject.onInit?.Invoke();
 
     return subject.gameObject;
   }
@@ -149,7 +157,7 @@ public class PoolBehavior : MonoBehaviour, IPool, IObjectPool<GameObject>
       return;
     }
 
-    subject.onRelease.Invoke();
+    subject.onRelease?.Invoke();
 
     pool.Release(subject);
   }
