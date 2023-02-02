@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 2665263943649412074}
   - component: {fileID: 2665263943649412075}
   - component: {fileID: 2665263943649412072}
-  - component: {fileID: 2665263943649412073}
   - component: {fileID: 2665263943649412078}
+  - component: {fileID: 1951955581}
   m_Layer: 7
   m_Name: Scaled Camera
   m_TagString: Untagged
@@ -172,20 +172,6 @@ MonoBehaviour:
   orbitController: {fileID: 0}
   localSpaceController: {fileID: 0}
   reqSkybox: {fileID: 2665263943649412069}
---- !u!114 &2665263943649412073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2665263943649412065}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22f9de39ed5321d4383d8393dccb26fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  reqCamera: {fileID: 2665263943649412071}
 --- !u!114 &2665263943649412078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,3 +184,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c7644bc10717444c989e261dbd77f00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1951955581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2665263943649412065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d803b71d5100f2f43b3d93b8d7210303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: e8932be0ce85eb44ab9969073c308385, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2665263943649412071}
+        m_TargetAssemblyTypeName: UnityEngine.Camera, UnityEngine
+        m_MethodName: set_fieldOfView
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _debugValue: 0

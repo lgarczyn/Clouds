@@ -129,12 +129,12 @@ GameObject:
   - component: {fileID: 9020830774110567827}
   - component: {fileID: 9020830774110567824}
   - component: {fileID: 9020830774110567821}
-  - component: {fileID: 9020830774110567820}
   - component: {fileID: 2063082948139846140}
   - component: {fileID: 1306023379}
   - component: {fileID: 478825819222362452}
   - component: {fileID: 4020666703753514612}
   - component: {fileID: 2566252977128609519}
+  - component: {fileID: 1306023382}
   m_Layer: 0
   m_Name: Local Camera
   m_TagString: MainCamera
@@ -252,45 +252,6 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
---- !u!114 &9020830774110567820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9020830774110567834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47e0fcd124ab9f3458f17a90594c6bc6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fovByVelocity:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 100
-      value: 90
-      inSlope: 0
-      outSlope: 0.2
-      tangentMode: 65
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 200
-      value: 110
-      inSlope: 0.2
-      outSlope: 0
-      tangentMode: 5
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  adjustTime: 1
-  reqCamera: {fileID: 9020830774110567824}
-  reqPlayerManagerBridge: {fileID: 4020666703753514612}
 --- !u!114 &2063082948139846140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,3 +368,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcb9313d380caa94f90cfc85b09a7c8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1306023382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9020830774110567834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d803b71d5100f2f43b3d93b8d7210303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showDebugFields: 0
+  _enableGizmoDebugging: 1
+  _debugColor: {r: 0, g: 1, b: 1, a: 1}
+  _previouslyRegisteredEvent: {fileID: 0}
+  _event: {fileID: 11400000, guid: e8932be0ce85eb44ab9969073c308385, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9020830774110567824}
+        m_TargetAssemblyTypeName: UnityEngine.Camera, UnityEngine
+        m_MethodName: set_fieldOfView
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _debugValue: 0

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9bb8b22625621d41964161ba1a8f03e, type: 3}
+  m_Name: on fov target change update fov
+  m_EditorClassIdentifier: 
+  input: {fileID: 11400000, guid: a38ce89f17b03d9498686597100b19bf, type: 2}
+  output: {fileID: 11400000, guid: ceb26ab6579821942b5b2ddb50978119, type: 2}
+  timeToAdjust: 1
+  maxVelocity: 10000
