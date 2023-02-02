@@ -72,11 +72,13 @@ public class MouseFlightController : Manager<MouseFlightController>
 
   public void OnAim(InputAction.CallbackContext context)
   {
+    if (Time.timeScale == 0f) return;
     input = context.ReadValue<Vector2>() * mouseSensitivity;
   }
 
   public void OnAimController(InputAction.CallbackContext context)
   {
+    if (Time.timeScale == 0f) return;
     input = context.ReadValue<Vector2>() * controllerSensitivity;
   }
 
@@ -182,6 +184,7 @@ public class MouseFlightController : Manager<MouseFlightController>
 
   [SerializeField] float cameraBankSmoothTime = 1f;
   [SerializeField] float cameraBankDistance = 4f;
+  [SerializeField] float cameraBankMaxSpeed = 4f;
 
   float currentBankVelocity = 0f;
   float currentBank = 0f;
@@ -199,13 +202,14 @@ public class MouseFlightController : Manager<MouseFlightController>
 
     float sidestepTarget = xStep * cameraBankDistance;
 
-    if (isMouseAimFrozen) sidestepTarget = 0f;
+    if (isMouseAimFrozen || Time.timeScale == 0f) sidestepTarget = 0f;
 
     currentBank = Mathf.SmoothDamp(
       currentBank,
       sidestepTarget,
       ref currentBankVelocity,
-      cameraBankSmoothTime
+      cameraBankSmoothTime,
+      cameraBankMaxSpeed
     );
 
     Vector3 totalOffset = (offset + Vector3.right * currentBank)
@@ -223,6 +227,7 @@ public class MouseFlightController : Manager<MouseFlightController>
 
     // Mouse input
     var mouseDelta = input;
+    input = Vector2.zero;
 
     Transform cam = reqMainCameraBridge.instance.mainCamera.transform;
 
