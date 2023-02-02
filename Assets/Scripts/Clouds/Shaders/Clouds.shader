@@ -4,95 +4,61 @@ Shader "Clouds"
 
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
-        // material properties used exclusively to check if material cloning works
-        ShapeTex ("shape", 3D) = "white" {}
-        NoiseTex ("noise", 2D) = "white" {}
-        ShadowMap ("shadows", 2D) = "black" {}
+        [NoScaleOffset]ShapeTex ("shape", 3D) = "white" {}
+        [NoScaleOffset]NoiseTex ("noise", 2D) = "white" {}
+        [NoScaleOffset]ShadowMap ("shadows", 2D) = "black" {}
     }
     SubShader
     {
-        // No culling or depth
-        Cull Off ZWrite Off ZTest Always
+        Tags { "RenderType"="Opaque" "RenderPipeline" = "UniversalPipeline"}
+        LOD 100
+        Cull Off ZWrite Off
 
         Pass
         {
-            CGPROGRAM
+            Name "CloudsGen"
+
+            HLSLPROGRAM
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            // The Blit.hlsl file provides the vertex shader (Vert),
+            // input structure (Attributes) and output strucutre (Varyings)
+            // #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
+
+            // Extracted from Blit
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/UnityInstancing.hlsl"
+
+            TEXTURE2D_X(_BlitTexture);
+
+            #define VARYINGS_NEED_TEXCOORD0
+            #define VARYINGS_NEED_TEXCOORD1
+            
+            #define REQUIRE_DEPTH_TEXTURE
+
+            #if SHADER_API_GLES
+            struct Attributes
+            {
+                float4 positionOS       : POSITION;
+                float2 uv               : TEXCOORD0;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+            #else
+            struct Attributes
+            {
+                uint vertexID : SV_VertexID;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+            #endif
 
             #pragma vertex vert
             #pragma fragment frag
-            #pragma target 5.0
-
-            #include "UnityCG.cginc"
-            float4 _MainTex_TexelSize;
-
-            // vertex input: position, UV
-            struct appdata {
-                float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
-            };
-
-            struct v2f {
-                float4 pos : SV_POSITION;
-                float2 uv : TEXCOORD0;
-                float3 viewVector : TEXCOORD1;
-                float3 worldPos: TEXCOORD2;
-            };
-
-            // Vertex shader that procedurally outputs a full screen triangle
-            v2f vert(appdata v)
-            {
-
-                #if UNITY_UV_STARTS_AT_TOP
-                if (_MainTex_TexelSize.y < 0)
-                    v.uv.y = 1-v.uv.y;
-                #endif
-                // Render settings
-                float near = _ProjectionParams.y;
-                float far = _ProjectionParams.z;
-                float2 orthoSize = unity_OrthoParams.xy;
-
-                v2f o;
-                float3 pos = UnityObjectToClipPos(v.vertex);
-                // TODO: cheaper way to calculate clip pos, but sometimes breaks
-                // float3(v.uv, 0) * float3(2,-2,0) - float3(1,-1,0); 
-                o.pos = float4(pos, 1);
-                if (_ProjectionParams.x < 0)
-                    pos.y = -pos.y;
-                o.uv = v.uv;
-
-                if (unity_OrthoParams.w)
-                {
-                    float3 viewVector = float4(0,0,1,0);
-                    o.viewVector = mul(unity_CameraToWorld, float4(viewVector,0));
-                    // o.viewVector = -_WorldSpaceLightPos0;
-
-                    float4 worldPos = float4(float2(pos.x, pos.y) * orthoSize, near, 1);
-                    o.worldPos = mul(unity_CameraToWorld, float4(worldPos));
-                }
-                else
-                {
-                    float3 viewVector = mul(unity_CameraInvProjection, float4(float2(pos.x, pos.y), 1, -1));
-                    o.viewVector = mul(unity_CameraToWorld, float4(viewVector,0));
-
-                    float3 worldPos = mul(unity_CameraInvProjection, float4(float2(pos.x, pos.y), near, -1));
-                    o.worldPos = mul(unity_CameraToWorld, float4(worldPos,1));
-                }
-
-                return o;
-            }
-
-            // Textures
-            // The main cloud texture
-            Texture3D<float> ShapeTex;
-            // 1D texture to give the 'thunderhead''vibe
-            Texture2D<float4> AltitudeAtlas;
-            // 2D texture to fix banding
-            Texture2D<float> NoiseTex;
-            // 2D texture containing the heights of 4 absorption levels
-            Texture2D<float4> ShadowMap;
+            
+            CBUFFER_START(UnityPerMaterial)
+            float4 _BlitTexture_TexelSize;
+            
+            // Shadowmap settings
             float4 ShadowMap_TexelSize;
-
             static const float4 shadowMapAbsorptionLevels = float4(0.6, 0.4, 0.2, 0.01);
             float shadowMapHalfSize;
             float3 shadowMapPosition;
@@ -100,14 +66,6 @@ Shader "Clouds"
             float shadowMapFarPlane;
             float outOfBoundMaxLightAltitude;
             float outOfBoundMinLightAltitude;
-
-            SamplerState samplerShapeTex;
-            SamplerState samplerNoiseTex;
-            SamplerState samplerAltitudeAtlas;
-            SamplerState samplerShadowMapPointRepeat;
-
-            sampler2D _MainTex;
-            sampler2D _CameraDepthTexture;
 
             // Editor settings
             float4 testParams;
@@ -161,6 +119,7 @@ Shader "Clouds"
             float3 boundsMax;
 
             // Light settings
+            float3 _WorldSpaceLightPos0;
             float lightAbsorptionTowardSun;
             float lightAbsorptionThroughCloud;
             float hazeColorFactor;
@@ -174,16 +133,104 @@ Shader "Clouds"
             float lightPower;
             float darknessThreshold;
             float4 _LightColor0;
-            float4 colA;
-            float4 colB;
-            float4 colC;
-            float4 colD;
+            float3 colA;
+            float3 colB;
+            float3 colC;
+            float3 colD;
 
             // Animation settings
             float timeScale;
 
             // Player settings
             float3 playerPosition;
+
+            CBUFFER_END
+
+            
+            struct Varyings
+            {
+                float4 positionCS : SV_POSITION;
+                float2 uv : TEXCOORD0;
+                float3 worldPos : TEXCOORD1;
+                float3 viewVector : TEXCOORD2;
+                #if UNITY_ANY_INSTANCING_ENABLED
+                 uint instanceID : CUSTOM_INSTANCE_ID;
+                #endif
+                #if (defined(UNITY_STEREO_MULTIVIEW_ENABLED)) || (defined(UNITY_STEREO_INSTANCING_ENABLED) && (defined(SHADER_API_GLES3) || defined(SHADER_API_GLCORE)))
+                 uint stereoTargetEyeIndexAsBlendIdx0 : BLENDINDICES0;
+                #endif
+                #if (defined(UNITY_STEREO_INSTANCING_ENABLED))
+                 uint stereoTargetEyeIndexAsRTArrayIdx : SV_RenderTargetArrayIndex;
+                #endif
+            };
+
+            Varyings vert(Attributes input) {
+                Varyings output;
+                UNITY_SETUP_INSTANCE_ID(input);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+
+            #if SHADER_API_GLES
+                float4 pos = input.positionOS;
+                float2 uv  = input.uv;
+            #else
+                float4 pos = GetFullScreenTriangleVertexPosition(input.vertexID);
+                float2 uv  = GetFullScreenTriangleTexCoord(input.vertexID);
+            #endif
+            
+
+                output.positionCS = pos;
+                output.uv = uv;
+                
+                #if UNITY_UV_STARTS_AT_TOP
+                if (_BlitTexture_TexelSize.y < 0)
+                    uv.y = 1-uv.y;
+                #endif
+                // Render settings
+                float near = _ProjectionParams.y;
+                float far = _ProjectionParams.z;
+                float2 orthoSize = unity_OrthoParams.xy;
+ 
+                if (_ProjectionParams.x < 0)
+                    pos.y = -pos.y;
+
+                if (unity_OrthoParams.w)
+                {
+                    float4 viewVector = float4(0,0,1,0);
+                    output.viewVector = mul(unity_CameraToWorld, float4(viewVector)).xyz;
+
+                    float4 worldPos = float4(pos.xy * orthoSize, near, 1);
+                    output.worldPos = mul(unity_CameraToWorld, float4(worldPos)).xyz;
+                }
+                else
+                {
+                    float3 viewVector = mul(unity_CameraInvProjection, float4(pos.xy, 1, -1)).xyz;
+                    output.viewVector = mul(unity_CameraToWorld, float4(viewVector,0)).xyz;
+
+                    float3 worldPos = mul(unity_CameraInvProjection, float4(pos.xy, near, -1)).xyz;
+                    output.worldPos = mul(unity_CameraToWorld, float4(worldPos,1)).xyz;
+                }
+
+                return output;
+            }
+
+            // Textures
+            TEXTURE2D_FLOAT(_CameraDepthTexture);
+            // The main cloud texture
+            Texture3D<float> ShapeTex;
+            // 1D texture to give the 'thunderhead''vibe
+            Texture2D<float4> AltitudeAtlas;
+            // 2D texture to fix banding
+            Texture2D<float> NoiseTex;
+            // 2D texture containing the heights of 4 absorption levels
+            Texture2D<float4> ShadowMap;
+
+            SamplerState sampler_PointClamp;
+            SAMPLER(sampler_CameraDepthTexture);
+            SAMPLER(samplerShapeTex);
+            SAMPLER(samplerNoiseTex);
+            SAMPLER(samplerAltitudeAtlas);
+            SamplerState samplerShadowMapPointRepeat;
+
 
             float remap01(float v, float low, float high) {
                 return (v-low)/(high-low);
@@ -253,7 +300,7 @@ Shader "Clouds"
             // Henyey-Greenstein
             float hg(float a, float g) {
                 float g2 = g*g;
-                return (1-g2) / (4*3.1415*pow(1+g2-2*g*(a), 1.5));
+                return (1-g2) / (4*3.1415*pow(max(1+g2-2*g*(a), 0), 1.5));
             }
 
             float phase(float a) {
@@ -299,7 +346,7 @@ Shader "Clouds"
                 // * MIP is always 0 because of 3d textures
                 // * Sample does not allow arbitrary depth loops
 
-                float2 altitudeValues = altitudeDensity(rayPos.y);
+                float2 altitudeValues = altitudeDensity(rayPos.y).xy;
                 float density = altitudeValues.x;
                 float haze = altitudeValues.y;
                 float prevDensity = density;
@@ -414,8 +461,9 @@ Shader "Clouds"
             // Calculate proportion of light that reaches the given point from the lightsource
             float lightmarch(float3 position) {
                 float posY = position.y;
+                float3 lightDir = _WorldSpaceLightPos0;
                 // How much the sample should be offset due to the angle of the sun
-                float2 shearOffset = (posY / -_WorldSpaceLightPos0.y) * _WorldSpaceLightPos0.xz;
+                float2 shearOffset = (posY / -lightDir.y) * lightDir.xz;
                 // The position in the shadow volume
                 float2 centeredPosition = position.xz + shearOffset - shadowMapPosition.xz;
                 // The [-1;1] position in the shadow volume
@@ -486,7 +534,7 @@ Shader "Clouds"
             // Could be used with the shadowmaps as a hinting mechanism for more dynamic shadow maps
             float4 old_lightmarch(float3 position)
             {
-                float3 dirToLight = _WorldSpaceLightPos0.xyz;
+                float3 dirToLight = _WorldSpaceLightPos0;
                 float dstInsideBox = (position.y - boundsMin.y);//rayBoxDst(boundsMin, boundsMax, position, 1/dirToLight).y;
 
                 float stepSize = dstInsideBox/numStepsLight;
@@ -496,7 +544,7 @@ Shader "Clouds"
 
                 // TODO: check if branching is worth it
                 for (int step = 0; step < numStepsLight; step ++) {
-                    float density = sampleDensity(position, 0, 0);
+                    float density = sampleDensity(position, 0, 0).x;
                     totalDensity += max(0, density * stepSize);
 
                     //Variable stepping, using the noise like a signed-distance-function
@@ -541,8 +589,9 @@ Shader "Clouds"
                 // could be much simpler if we could calculate `length(scaledPosition)` in advance using uvs
                 // but it doesn't seem to work
                 {
+                    float3 lightDir = _WorldSpaceLightPos0;
                     // how much the top of the shadow volume is offset from the middle
-                    float3 shadowMapStartOffset = (shadowMapNearPlane / _WorldSpaceLightPos0.y) * _WorldSpaceLightPos0.xyz;
+                    float3 shadowMapStartOffset = (shadowMapNearPlane / lightDir.y) * lightDir.xyz;
                     shadowMapStartOffset.y = 0;
                     // the center of the top square of the shadow volume
                     float3 shadowMapStartPos = shadowMapPosition + shadowMapStartOffset;
@@ -582,7 +631,7 @@ Shader "Clouds"
                 // before adding back, test uv quadratic mapping
 
                 // Get the depth value
-                // float depth = getDepth(i.uv); // TODO add uv quadratic effect
+                // float depth = getDepth(input.uv); // TODO add uv quadratic effect
                 // depth -= distanceToBox;
                 // if (depth < 0)
                 //     return float4(1,1,1,1);
@@ -602,7 +651,7 @@ Shader "Clouds"
                 // while (dstTravelled < distanceToTravelWithDepth) {
 
                     // Sample current density
-                    float density = sampleDensity(position, 4, 0);
+                    float density = sampleDensity(position, 4, 0).x;
                     // Modify the stepsize for variable stepping (less artifacts)
                     float dst = stepSize * max(abs(density), 1);
 
@@ -671,14 +720,29 @@ Shader "Clouds"
                 return (i);
             }
 
+             
+            float LinearEyeDepth( float rawdepth )
+            {
+                float x, y, z, w;
+            #if SHADER_API_GLES3 // insted of UNITY_REVERSED_Z
+                x = -1.0 + _ProjectionParams.y/ _ProjectionParams.z;
+                y = 1;
+                z = x / _ProjectionParams.y;
+                w = 1 / _ProjectionParams.y;
+            #else
+                x = 1.0 - _ProjectionParams.y/ _ProjectionParams.z;
+                y = _ProjectionParams.y / _ProjectionParams.z;
+                z = x / _ProjectionParams.y;
+                w = y / _ProjectionParams.y;
+            #endif
+             
+              return 1.0 / (z * rawdepth + w);
+            }
+
             float getDepth(float2 uv)
             {
-                float nonlin_depth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(uv));
+                float nonlin_depth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, sampler_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(uv));
 
-                // TODO: figure out why negative near planes break the depths
-                // TODO: use more recent tools:
-                // https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@11.0/manual/writing-shaders-urp-reconstruct-world-position.html
-                // https://alexanderameye.github.io/notes/realtime-caustics/
                 if (unity_OrthoParams.w)
                 {
                     #ifdef UNITY_REVERSED_Z
@@ -691,31 +755,32 @@ Shader "Clouds"
                     return LinearEyeDepth(nonlin_depth);
             }
 
-            fixed3 getSunColor(fixed3 color, float3 rayDir, float transmittance)
+            float3 getSunColor(float3 color, float3 rayDir, float transmittance)
             {
                 // Phase function makes clouds brighter around sun
-                float cosAngle = dot(rayDir, _WorldSpaceLightPos0.xyz);
+                float3 lightDir = _WorldSpaceLightPos0;
+                float cosAngle = dot(rayDir, lightDir);
                 float phaseVal = phase(cosAngle);
 
                 // Add the sun
                 float focusedEyeCos = pow(saturate(cosAngle), 0.9);
                 float sun = saturate(hg(focusedEyeCos, .995)) * transmittance;
 
-                return lerp(color * phaseVal, normalize(_LightColor0) * 4, sun);
+                return lerp(color * phaseVal, normalize(_LightColor0.rgb) * 4, sun);
             }
 
-            fixed3 getCloudColor(float lightEnergy, float hazeRatio, float depthRatio)
+            float3 getCloudColor(float lightEnergy, float hazeRatio, float depthRatio)
             {
                 // Apply to both cloud colors
-                // fixed3 colAf = lerp(colA, colC, hazeRatio);
-                // fixed3 colBf = lerp(colB, colC, hazeRatio);
+                // float3 colAf = lerp(colA, colC, hazeRatio);
+                // float3 colBf = lerp(colB, colC, hazeRatio);
                 // Chose which gradient to apply
                 // TODO: use a better way to lerp through these
-                fixed3 cloud;
+                float3 cloud;
                 if (lightEnergy < 0.5)
                     cloud = lerp(colB, colA, lightEnergy * 2);
                 else
-                    cloud = lerp(colA, _LightColor0, (lightEnergy - 0.5) * 2);
+                    cloud = lerp(colA, _LightColor0.rgb, (lightEnergy - 0.5) * 2);
                 cloud = lerp(cloud, colD, saturate(depthRatio));
                 return lerp(cloud, colC, saturate(hazeRatio));
             }
@@ -727,12 +792,13 @@ Shader "Clouds"
                 return dot(color, float3(0.299f, 0.587f, 0.114f));
             }
 
-            float4 frag (v2f i) : SV_Target
+            float4 frag (Varyings input) : SV_Target
             {
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
                 // Create ray
-                float3 rayPos = i.worldPos;
-                float3 rayDir = i.viewVector;
-                float2 uv = i.uv;
+                float3 rayPos = input.worldPos;
+                float3 rayDir = input.viewVector;
+                float2 uv = input.uv;
 
                 // If using an ortho camera for shadow mode
                 if (unity_OrthoParams.w)
@@ -740,11 +806,11 @@ Shader "Clouds"
 
                 // If one of four corner pixels
                 float2 pixelSize = 1 / _ScreenParams.xy;
-                if ((i.uv.x <= pixelSize.x || i.uv.x >= 1 - pixelSize.x) &&
-                    (i.uv.y <= pixelSize.y || i.uv.y >= 1 - pixelSize.y))
+                if ((uv.x <= pixelSize.x || uv.x >= 1 - pixelSize.x) &&
+                    (uv.y <= pixelSize.y || uv.y >= 1 - pixelSize.y))
                 {
                     // Store data for gameplay
-                    float playerDensity = sampleDensity(playerPosition, 0, 0);
+                    float playerDensity = sampleDensity(playerPosition, 0, 0).x;
                     float playerLight = lightmarch(playerPosition);
                     return float4(
                       playerDensity / 100 + 0.5,
@@ -760,7 +826,7 @@ Shader "Clouds"
                 // Get the depth value
                 float depth = getDepth(uv);
                 // Skybox and plane
-                fixed3 backgroundCol = tex2D(_MainTex, uv);
+                float3 backgroundCol = SAMPLE_TEXTURE2D_X(_BlitTexture, sampler_PointClamp, uv).rgb;
                 // If in editor, do not run
                 // Incorrect params in editor tend to crash it
                 if (!enabled) return float4(backgroundCol, 1);
@@ -808,7 +874,7 @@ Shader "Clouds"
                 // but container limits the raycasting anyway
                 for (int i = 1; i < 7; i++)
                 {
-                    float lodDst = pow(lodLevelMagnitude, i);
+                    float lodDst = pow(max(lodLevelMagnitude, 0), i);
                     if (i == 5) lodDst += testParams.x;
                     if (i == 6) lodDst += testParams.y;
                     float lodMaxDistance = lodMinDistance + lodDst;
@@ -901,7 +967,7 @@ Shader "Clouds"
 
                 // Add clouds
                 // Get the cloud color depending on hazeAmount and adjusted light energy
-                fixed3 col = getCloudColor(lightEnergy, hazeRatio, depthRatio);
+                float3 col = getCloudColor(lightEnergy, hazeRatio, depthRatio);
 
                 float l = luminance(backgroundCol);
                 float hdrFactor = remapClamped(l,
@@ -928,7 +994,7 @@ Shader "Clouds"
                 return float4(col,0);
             }
 
-            ENDCG
+            ENDHLSL
         }
     }
 }
