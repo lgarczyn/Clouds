@@ -28,12 +28,14 @@ public class PlaneEntity : MonoBehaviour, IDamageReceiver
   public UnityEvent<float> damageTaken;
   public UnityEvent<float> repeatingDamageTaken;
   public UnityEvent<float> shieldDamageTaken;
+  public UnityEvent<float> speedChange;
 
   public void FixedUpdate()
   {
     this.healthChange.Invoke(this.health);
     this.energyChange.Invoke(this.energy);
     this.shieldChange.Invoke(shield);
+    this.speedChange.Invoke(GetComponent<Rigidbody>().velocity.magnitude);
   }
 
   public float Damage(DamageInfo info)
