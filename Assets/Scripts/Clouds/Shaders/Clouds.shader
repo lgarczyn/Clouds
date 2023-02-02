@@ -7,6 +7,7 @@ Shader "Clouds"
         [NoScaleOffset]ShapeTex ("shape", 3D) = "white" {}
         [NoScaleOffset]NoiseTex ("noise", 2D) = "white" {}
         [NoScaleOffset]ShadowMap ("shadows", 2D) = "black" {}
+        [Toggle(OUTLINE_ON)]EnableOutlines("enable outlines", Int) = 0
     }
     SubShader
     {
@@ -19,6 +20,12 @@ Shader "Clouds"
             Name "CloudsGen"
 
             HLSLPROGRAM
+            #pragma shader_feature OUTLINE_ON
+
+            #ifdef OUTLINE_ON
+            // Support for Gather requires 4.1, but can only target to 5.0 
+    		#pragma target 5.0
+            #endif
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             // The Blit.hlsl file provides the vertex shader (Vert),
             // input structure (Attributes) and output strucutre (Varyings)
@@ -143,6 +150,13 @@ Shader "Clouds"
 
             // Player settings
             float3 playerPosition;
+            
+            // Outline setting
+            #ifdef OUTLINE_ON
+            float3 outlineColor;
+            float outlineThreshold;
+            float outlineStrength;
+            #endif
 
             CBUFFER_END
 
@@ -234,6 +248,9 @@ Shader "Clouds"
 
             float remap01(float v, float low, float high) {
                 return (v-low)/(high-low);
+            }
+            float remap01Clamped(float v, float low, float high) {
+                return saturate(remap01(v, low, high));
             }
 
             // Maps a float from an interval to another, without bound checking
@@ -754,6 +771,31 @@ Shader "Clouds"
                 else
                     return LinearEyeDepth(nonlin_depth);
             }
+            
+            // Retrieve 4 points in the depth texture
+            float4 getDepthMultiSample(float2 uv)
+            {
+                float4 nonlin_depth = _CameraDepthTexture.Gather(
+                    sampler_CameraDepthTexture,
+                    UnityStereoTransformScreenSpaceTex(uv),
+                    float2 (0, 0));
+
+                if (unity_OrthoParams.w)
+                {
+                    #ifdef UNITY_REVERSED_Z
+                    return lerp(_ProjectionParams.z, _ProjectionParams.y, nonlin_depth) - _ProjectionParams.y;
+                    #else
+                    return lerp(_ProjectionParams.y, _ProjectionParams.z, nonlin_depth) - _ProjectionParams.y;
+                    #endif
+                }
+
+                return float4(
+                    LinearEyeDepth(nonlin_depth.x),
+                    LinearEyeDepth(nonlin_depth.y),
+                    LinearEyeDepth(nonlin_depth.z),
+                    LinearEyeDepth(nonlin_depth.w)
+                );
+            }
 
             float3 getSunColor(float3 color, float3 rayDir, float transmittance)
             {
@@ -822,11 +864,28 @@ Shader "Clouds"
             }
 
             float4 rayMarch(float3 rayPos, float3 rayDir, float2 uv) {
-              
-                // Get the depth value
-                float depth = getDepth(uv);
+
                 // Skybox and plane
                 float3 backgroundCol = SAMPLE_TEXTURE2D_X(_BlitTexture, sampler_PointClamp, uv).rgb;
+
+                // Get the depth value(s)  
+                float depth;
+            #ifdef OUTLINE_ON
+                {
+                    float4 depth4 = getDepthMultiSample(uv);
+                    float divergence = dot(depth4, float4(1,1,1,1)) / (length(depth4));
+                    depth = min(min(depth4.x, depth4.y), min(depth4.x, depth4.y));
+
+                    backgroundCol = lerp(
+                        backgroundCol,
+                        outlineColor,
+                        saturate((outlineColor - divergence) * outlineStrength)
+                    );
+                }
+            #else
+                depth = getDepth(uv);
+            #endif
+
                 // If in editor, do not run
                 // Incorrect params in editor tend to crash it
                 if (!enabled) return float4(backgroundCol, 1);
@@ -974,7 +1033,7 @@ Shader "Clouds"
                     hdrMinSourceValue, hdrMaxSourceValue,
                     1, 1 / hdrTransmittancePower);
 
-                transmittance = pow(transmittance, hdrFactor);
+                transmittance = pow(transmittance, hdrFactor);                
 
                 // Add background or plane/objects
                 col = lerp(col, backgroundCol, transmittance);
