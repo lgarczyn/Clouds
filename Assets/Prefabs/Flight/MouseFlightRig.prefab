@@ -126,6 +126,7 @@ MonoBehaviour:
   showDebugInfo: 0
   cameraBankSmoothTime: 0.5
   cameraBankDistance: 15
+  cameraBankMaxSpeed: 4
 --- !u!114 &1852813374085120815
 MonoBehaviour:
   m_ObjectHideFlags: 0
