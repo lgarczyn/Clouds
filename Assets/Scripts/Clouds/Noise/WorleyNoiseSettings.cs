@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "Project")]
+[CreateAssetMenu(menuName = "Project/WorleyNoiseSettings")]
 public class WorleyNoiseSettings : ScriptableObject {
 
     public int seed;

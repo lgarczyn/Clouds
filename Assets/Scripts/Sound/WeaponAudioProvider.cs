@@ -8,7 +8,7 @@ public struct Range
   public AudioClip clip;
 }
 
-[CreateAssetMenu(menuName = "Project")]
+[CreateAssetMenu(menuName = "Project/WeaponAudioProvider")]
 public class WeaponAudioProvider : ScriptableObject
 {
   public Range[] ranges;
