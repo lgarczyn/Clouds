@@ -19,7 +19,7 @@ public class HigherBloomRadiusInClouds : MonoBehaviour
 
     reqVolume.profile?.TryGet(out bloomEffect);
 
-    if (!reqVolume) return;
+    if (!bloomEffect) return;
 
     float density = reqResourceCalculatorBridge.GetDensity();
 
