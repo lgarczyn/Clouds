@@ -238,11 +238,13 @@
     "m_SerializedSubGraph": "{\n    \"subGraph\": {\n        \"fileID\": -5475051401550479605,\n        \"guid\": \"f8dfdbc0d1bc27246afb5d2ea6b0716f\",\n        \"type\": 3\n    }\n}",
     "m_PropertyGuids": [
         "63d69745-f4e3-49f5-ad79-b899e128eb5d",
-        "e9cfcb33-ddf8-44d4-afbc-c8c27a5d31c1"
+        "e9cfcb33-ddf8-44d4-afbc-c8c27a5d31c1",
+        "db027d48-82ad-4266-8710-f92bd88b0890"
     ],
     "m_PropertyIds": [
         -294636822,
-        -1360857314
+        -1360857314,
+        580215994
     ],
     "m_Dropdowns": [],
     "m_DropdownSelectedEntries": []
