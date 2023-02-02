@@ -7,6 +7,7 @@ public class CloudMaster : MonoBehaviour
   public Shader shader;
   public Transform container;
   public Vector4 testParams;
+  [ColorUsage(true, true)]
   public Color testColor;
 
   [Header(headerDecoration + "March settings" + headerDecoration)]
