@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2665263943649412069}
   - component: {fileID: 2665263943649412074}
   - component: {fileID: 2665263943649412075}
-  - component: {fileID: 2665263943649412072}
   - component: {fileID: 2665263943649412078}
   - component: {fileID: 1951955581}
   m_Layer: 7
@@ -157,21 +156,6 @@ MonoBehaviour:
   target: {fileID: 0}
   LocalSpaceController: {fileID: 0}
   reqScaledSpaceControllerBridge: {fileID: 2665263943649412078}
---- !u!114 &2665263943649412072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2665263943649412065}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8688d909b4124bf4f92367423f5ba9d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  orbitController: {fileID: 0}
-  localSpaceController: {fileID: 0}
-  reqSkybox: {fileID: 2665263943649412069}
 --- !u!114 &2665263943649412078
 MonoBehaviour:
   m_ObjectHideFlags: 0

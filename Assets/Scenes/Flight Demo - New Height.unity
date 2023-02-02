@@ -1774,6 +1774,8 @@ GameObject:
   - component: {fileID: 1608915524}
   - component: {fileID: 1608915523}
   - component: {fileID: 1608915525}
+  - component: {fileID: 1608915527}
+  - component: {fileID: 1608915526}
   m_Layer: 0
   m_Name: Local Space
   m_TagString: Untagged
@@ -1859,6 +1861,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 734f9e64d52747845b70b03de1d76551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1608915526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608915521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8688d909b4124bf4f92367423f5ba9d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orbitController: {fileID: 385219343}
+  localSpaceController: {fileID: 1608915523}
+  reqSkybox: {fileID: 1951955575}
+--- !u!45 &1608915527
+Skybox:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608915521}
+  m_Enabled: 1
+  m_CustomSkybox: {fileID: 0}
 --- !u!1 &1631744070
 GameObject:
   m_ObjectHideFlags: 0
@@ -2534,6 +2560,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2665263945592945042}
   m_PrefabAsset: {fileID: 0}
+--- !u!45 &1951955575 stripped
+Skybox:
+  m_CorrespondingSourceObject: {fileID: 2665263943649412069, guid: 1498526e86ba2f44f9e8a07036bdc8ca,
+    type: 3}
+  m_PrefabInstance: {fileID: 2665263945592945042}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1995186331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3150,16 +3182,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2665263943649412072, guid: 1498526e86ba2f44f9e8a07036bdc8ca,
-        type: 3}
-      propertyPath: orbitController
-      value: 
-      objectReference: {fileID: 385219343}
-    - target: {fileID: 2665263943649412072, guid: 1498526e86ba2f44f9e8a07036bdc8ca,
-        type: 3}
-      propertyPath: localSpaceController
-      value: 
-      objectReference: {fileID: 1608915523}
     - target: {fileID: 2665263943649412074, guid: 1498526e86ba2f44f9e8a07036bdc8ca,
         type: 3}
       propertyPath: m_Cameras.Array.data[0]
