@@ -58,10 +58,29 @@ Shader "Universal Render Pipeline/VolumetricLine/SingleLine-Opaque" {
 				#pragma vertex vert
 				#pragma fragment frag
 				
-				#define LIGHT_SABER_MODE_ON
 				#include "_SingleLineShader.hlsl"
 			ENDHLSL
 		}
+
+		Pass {
+      Name "DepthOnly"
+      Tags
+      {
+        "LightMode" = "DepthOnly"
+			}
+      ColorMask A
+
+			HLSLPROGRAM
+			#pragma prefer_hlslcc gles
+
+			// Declare the shader names
+			#pragma vertex vert
+			#pragma fragment frag
+			
+			#include "_SingleLineShader.hlsl"
+			ENDHLSL
+		}
+        
 	}
 	FallBack "Diffuse"
 }
