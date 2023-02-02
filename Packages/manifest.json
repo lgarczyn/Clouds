@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.danieleverland.scriptableobjectarchitecture": "git@github.com:lgarczyn/ScriptableObject-Architecture.git",
     "com.unity.collections": "2.1.0-pre.6",
     "com.unity.entities.graphics": "1.0.0-pre.15",
     "com.unity.ext.nunit": "1.0.6",
