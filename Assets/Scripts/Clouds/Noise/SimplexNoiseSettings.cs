@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(menuName = "Project")]
 public class SimplexNoiseSettings : NoiseSettings {
 
     public int seed;

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(menuName = "Project")]
 public class WorleyNoiseSettings : ScriptableObject {
 
     public int seed;

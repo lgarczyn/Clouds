@@ -4,7 +4,7 @@
 /// Allows anyone to hold a serializable reference to an object pool
 /// The pool must actually exist, and hold a unique reference to this object
 /// </summary>
-[CreateAssetMenu]
+[CreateAssetMenu(menuName = "Project")]
 public class PoolRef : ScriptableObject
 {
   private IPool poolReference;
