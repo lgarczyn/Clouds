@@ -31,7 +31,7 @@ public class AnimationCurveFloatProcessor : ScriptableObject {
             float processorMin = processor.keys.Select(k => k.value).Min();
             float processorMax = processor.keys.Select(k => k.value).Max();
             if (output.MinClampValue > processorMin) Debug.LogWarning($"AnimationCurve min value {processorMin} is inferior to output range {output.MinClampValue}");
-            if (output.MaxClampValue > processorMax) Debug.LogWarning($"AnimationCurve min value {processorMax} is inferior to output range {output.MaxClampValue}");
+            if (output.MaxClampValue < processorMax) Debug.LogWarning($"AnimationCurve max value {processorMax} is superior to output range {output.MaxClampValue}");
          }
     }
     #endif
