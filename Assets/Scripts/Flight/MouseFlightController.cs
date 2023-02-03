@@ -152,10 +152,12 @@ public class MouseFlightController : Manager<MouseFlightController>
 
     mouseAim.forward = reqPlayerManagerBridge.playerTransform.forward;
 
-    // To work correctly, the entire rig must not be parented to anything.
-    // When parented to something (such as an aircraft) it will inherit those
-    // rotations causing unintended rotations as it gets dragged around.
-    transform.parent = null;
+    if (transform.parent.position != Vector3.zero
+      || transform.parent.eulerAngles != Vector3.zero
+      || transform.parent.lossyScale != Vector3.one)
+    {
+      Debug.LogError("MouseFlightController must not be parented by any moving parent", this);
+    }
 
     if (!Application.isEditor)
     {
