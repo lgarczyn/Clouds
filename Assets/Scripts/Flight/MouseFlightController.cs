@@ -72,13 +72,11 @@ public class MouseFlightController : Manager<MouseFlightController>
 
   public void OnAim(InputAction.CallbackContext context)
   {
-    if (Time.timeScale == 0f) return;
     input = context.ReadValue<Vector2>() * mouseSensitivity;
   }
 
   public void OnAimController(InputAction.CallbackContext context)
   {
-    if (Time.timeScale == 0f) return;
     input = context.ReadValue<Vector2>() * controllerSensitivity;
   }
 
@@ -201,10 +199,12 @@ public class MouseFlightController : Manager<MouseFlightController>
       .InverseTransformPoint(MouseAimPos);
 
     float xStep = localMouseAimPos.x / aimDistance;
+    // Oops
+    if (!float.IsFinite(xStep)) xStep = 0;
 
     float sidestepTarget = xStep * cameraBankDistance;
 
-    if (isMouseAimFrozen || Time.timeScale == 0f) sidestepTarget = 0f;
+    if (isMouseAimFrozen) sidestepTarget = 0f;
 
     currentBank = Mathf.SmoothDamp(
       currentBank,

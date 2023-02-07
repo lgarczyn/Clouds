@@ -13,7 +13,6 @@ public class MouseFlightZoom : MonoBehaviour
 
   public void OnZoom(InputAction.CallbackContext context)
   {
-    if (Time.timeScale == 0f) return;
     currentZoom -= context.ReadValue<float>() * scrollPower / 10;
     UpdateZoom();
   }
