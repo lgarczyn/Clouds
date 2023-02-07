@@ -2393,6 +2393,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 4d621e99-3141-4284-8b38-6730f2427288
     m_ActionName: Game/Air Brake[/Keyboard/ctrl]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1732661209}
+        m_TargetAssemblyTypeName: TogglePlayMode, Assembly-CSharp
+        m_MethodName: OnPlayPause
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 42395fcf-66d8-4344-bc5f-91ba5565a5d9
+    m_ActionName: UI/LeaveMenu[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Game
@@ -2439,7 +2455,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c30b286289f22d47a2f7654573be573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shouldCapture: 1
+  onCaptureChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1776075231
 MonoBehaviour:
   m_ObjectHideFlags: 0
