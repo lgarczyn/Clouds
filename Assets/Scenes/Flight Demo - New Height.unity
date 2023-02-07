@@ -1962,6 +1962,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1732661208}
   - component: {fileID: 1732661207}
+  - component: {fileID: 1732661210}
+  - component: {fileID: 1732661209}
   m_Layer: 0
   m_Name: Input
   m_TagString: Untagged
@@ -2133,7 +2135,7 @@ MonoBehaviour:
     m_ActionName: Game/Zoom[/Mouse/scroll/y]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1997755842}
+      - m_Target: {fileID: 1732661209}
         m_TargetAssemblyTypeName: TogglePlayMode, Assembly-CSharp
         m_MethodName: OnPlayPause
         m_Mode: 0
@@ -2411,6 +2413,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1732661209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1732661206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46b31a80b2fa4e94bb1c33f1cac49bbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reqMouseCapture: {fileID: 1732661210}
+  reqPlayerInput: {fileID: 1732661207}
+--- !u!114 &1732661210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1732661206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c30b286289f22d47a2f7654573be573, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldCapture: 1
 --- !u!114 &1776075231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2589,8 +2618,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1997755843}
-  - component: {fileID: 1997755846}
-  - component: {fileID: 1997755842}
   - component: {fileID: 1997755841}
   - component: {fileID: 1997755844}
   - component: {fileID: 1997755847}
@@ -2615,19 +2642,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modes: 0100000000000000
   currentMode: 1
---- !u!114 &1997755842
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1997755840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46b31a80b2fa4e94bb1c33f1cac49bbd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  reqMouseCapture: {fileID: 1997755846}
 --- !u!4 &1997755843
 Transform:
   m_ObjectHideFlags: 0
@@ -2675,19 +2689,6 @@ MonoBehaviour:
   keyToWin: 1
   minHeightToActivateThrust: 15000
   minHeightToWin: 30000000
---- !u!114 &1997755846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1997755840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c30b286289f22d47a2f7654573be573, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shouldCapture: 1
 --- !u!114 &1997755847
 MonoBehaviour:
   m_ObjectHideFlags: 0
