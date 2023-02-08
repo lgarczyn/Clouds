@@ -50,10 +50,8 @@ public class PlaneFiringController : MultiUpdateBodyChild
 
     Rigidbody rb = reqPlayerManagerBridge.playerRigidbody;
 
-    //HOW TO  GET SUB POSITION ????
-    // GET INFO ON
-    // Vector3 position = nextShotLeft ? gunportLeft.a : gunportRight.position;
-    Vector3 position = interpolatedPosition; 
+    Vector3 localPos = nextShotLeft ? gunportLeft.localPosition : gunportRight.localPosition;
+    Vector3 position = interpolatedMatrix.MultiplyPoint(localPos);
 
     nextShotLeft = !nextShotLeft;
     bulletPool.Get<BulletController>().Init(position, dir, (float)timeToEndOfFrame);

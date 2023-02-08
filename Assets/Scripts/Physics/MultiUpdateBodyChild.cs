@@ -15,7 +15,8 @@ public abstract class MultiUpdateBodyChild : MultiUpdateObject
 
   protected Vector3 previousLocalPosition;
   protected Vector3 nextLocalPosition;
-  protected Vector3 interpolatedLocalPosition {
+  protected Vector3 interpolatedLocalPosition
+  {
     get {
       return Vector3.Lerp(previousLocalPosition, nextLocalPosition, (float)frameRatio);
     }
@@ -23,30 +24,47 @@ public abstract class MultiUpdateBodyChild : MultiUpdateObject
 
   protected Quaternion previousLocalRotation;
   protected Quaternion nextLocalRotation;
-  protected Quaternion interpolatedLocalRotation {
+  protected Quaternion interpolatedLocalRotation
+  {
     get {
       return Quaternion.Slerp(previousLocalRotation, nextLocalRotation, (float)frameRatio);
     }
   }
 
+  protected Matrix4x4 interpolatedLocalMatrix
+  {
+    get
+    {
+      return Matrix4x4.Translate(interpolatedLocalPosition)     
+             * Matrix4x4.Rotate(interpolatedLocalRotation)
+             * Matrix4x4.Scale(transform.localScale);
+    }
+  }
+
   protected Vector3 previousParentPosition;
   protected Vector3 nextParentPosition;
-  protected Vector3 interpolatedParentPosition {
-    get {
+  protected Vector3 interpolatedParentPosition
+  {
+    get
+    {
       return Vector3.Lerp(previousParentPosition, nextParentPosition, (float)frameRatio);
     }
   }
 
   protected Quaternion previousParentRotation;
   protected Quaternion nextParentRotation;
-  protected Quaternion interpolatedParentRotation {
-    get {
+  protected Quaternion interpolatedParentRotation
+  {
+    get
+    {
       return Quaternion.Slerp(previousParentRotation, nextParentRotation, (float)frameRatio);
     }
   }
 
-  protected Vector3 interpolatedPosition {
-    get {
+  protected Vector3 interpolatedPosition
+  {
+    get
+    {
       return interpolatedParentPosition + interpolatedParentRotation * interpolatedLocalPosition;
     }
   }
@@ -56,6 +74,24 @@ public abstract class MultiUpdateBodyChild : MultiUpdateObject
   protected Quaternion interpolatedRotation {
     get {
       return interpolatedParentRotation * interpolatedLocalRotation;
+    }
+  }
+
+  protected Matrix4x4 interpolatedParentMatrix
+  {
+    get
+    {
+      return Matrix4x4.Translate(interpolatedParentPosition)
+             * Matrix4x4.Rotate(interpolatedParentRotation)
+             * Matrix4x4.Scale(ParentBody.transform.lossyScale);
+    }
+  }
+
+  protected Matrix4x4 interpolatedMatrix
+  {
+    get
+    {
+      return interpolatedParentMatrix * interpolatedLocalMatrix;
     }
   }
 
