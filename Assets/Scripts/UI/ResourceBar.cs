@@ -2,11 +2,13 @@
 
 public class ResourceBar : MonoBehaviour
 {
-  public RectTransform indicator;
-  public RectTransform bar;
+  [SerializeField] RectTransform indicator;
+  [SerializeField] RectTransform bar;
 
   [Range(0.1f, 0.99f)]
-  public float floatingAverageReactivity = 0.8f;
+  [SerializeField] float floatingAverageReactivity = 0.8f;
+
+  [SerializeField] bool isVertical = false;
 
   private float floatingAverage;
   private float currentValue;
@@ -14,12 +16,14 @@ public class ResourceBar : MonoBehaviour
   public void SetValue(float value)
   {
     currentValue = Mathf.Clamp01(value / 100);
-    bar.anchorMax = new Vector2(1, currentValue);
+    bar.anchorMax = isVertical ? new Vector2(1f, currentValue) : new Vector2(currentValue, 1f);
   }
 
   void FixedUpdate()
   {
     floatingAverage = Mathf.Lerp(floatingAverage, currentValue, floatingAverageReactivity);
+
+    indicator.localRotation = isVertical ? Quaternion.identity : Quaternion.AngleAxis(-90f, Vector3.forward);
 
     if (currentValue > floatingAverage + 0.00001f)
       indicator.localScale = new Vector3(1f, 1f, 1f);
