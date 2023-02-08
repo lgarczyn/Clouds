@@ -2232,9 +2232,8 @@ MonoBehaviour:
   speedChange:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: 1a17d691244709b468de85cc5787cd5c, type: 2}
-        m_TargetAssemblyTypeName: ScriptableObjectArchitecture.GameEventBase`1[[System.Single,
-          mscorlib
+      - m_Target: {fileID: 11400000, guid: 10fc5422f9073aa45ba38b36e1f4e078, type: 2}
+        m_TargetAssemblyTypeName: UnityAtoms.AtomEvent`1[[System.Single, mscorlib
         m_MethodName: Raise
         m_Mode: 0
         m_Arguments:

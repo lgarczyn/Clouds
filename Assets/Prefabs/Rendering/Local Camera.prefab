@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 478825819222362452}
   - component: {fileID: 4020666703753514612}
   - component: {fileID: 2566252977128609519}
-  - component: {fileID: 1306023382}
+  - component: {fileID: 1101884252625107002}
   m_Layer: 0
   m_Name: Local Camera
   m_TagString: MainCamera
@@ -368,7 +368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcb9313d380caa94f90cfc85b09a7c8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1306023382
+--- !u!114 &1101884252625107002
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -377,15 +377,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 9020830774110567834}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d803b71d5100f2f43b3d93b8d7210303, type: 3}
+  m_Script: {fileID: 11500000, guid: c7a13c337fc59432a95a17e5465b0c03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _showDebugFields: 0
-  _enableGizmoDebugging: 1
-  _debugColor: {r: 0, g: 1, b: 1, a: 1}
-  _previouslyRegisteredEvent: {fileID: 0}
-  _event: {fileID: 11400000, guid: e8932be0ce85eb44ab9969073c308385, type: 2}
-  _response:
+  _developerDescription: 
+  _unityEventResponse:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 9020830774110567824}
@@ -400,4 +396,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  _debugValue: 0
+  _actionResponses: []
+  _conditions: []
+  _operator: 0
+  _replayEventBufferOnRegister: 1
+  _eventReference:
+    _usage: 0
+    _event: {fileID: 11400000, guid: e8932be0ce85eb44ab9969073c308385, type: 2}
+    _eventInstancer: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}

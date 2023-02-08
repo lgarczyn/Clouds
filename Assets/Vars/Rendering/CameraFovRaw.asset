@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a52ef257dc24452785b714bb0ae0008, type: 3}
-  m_Name: CameraFovChange
+  m_Name: CameraFovRaw
   m_EditorClassIdentifier: 
   _developerDescription: 
   _replayBufferSize: 1
-  _inspectorRaiseValue: 120
+  _inspectorRaiseValue: 0
