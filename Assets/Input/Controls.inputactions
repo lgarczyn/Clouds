@@ -63,7 +63,7 @@
                     "name": "Zoom",
                     "type": "Value",
                     "id": "6569ffcd-3724-486d-911f-df3b27a0fd77",
-                    "expectedControlType": "",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
