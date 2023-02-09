@@ -503,7 +503,7 @@
                     "id": "b8f12ef9-28f1-4b4e-915e-0e8b15fd4367",
                     "path": "*/{ScrollVertical}",
                     "interactions": "",
-                    "processors": "Scale(factor=0.1)",
+                    "processors": "Scale(factor=0.2)",
                     "groups": "Keyboard+Mouse;Gamepad;Joystick",
                     "action": "Zoom",
                     "isComposite": false,
