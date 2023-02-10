@@ -1875,7 +1875,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orbitController: {fileID: 385219343}
   localSpaceController: {fileID: 1608915523}
-  reqSkybox: {fileID: 1951955575}
+  skyboxMaterial: {fileID: 0}
 --- !u!45 &1608915527
 Skybox:
   m_ObjectHideFlags: 0
@@ -1884,7 +1884,7 @@ Skybox:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1608915521}
   m_Enabled: 1
-  m_CustomSkybox: {fileID: 0}
+  m_CustomSkybox: {fileID: 2100000, guid: 860a66ca4259b384f9ec01b687f71c3c, type: 2}
 --- !u!1 &1631744070
 GameObject:
   m_ObjectHideFlags: 0
@@ -2621,12 +2621,6 @@ MonoBehaviour:
 --- !u!4 &1951955574 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2665263943649412068, guid: 1498526e86ba2f44f9e8a07036bdc8ca,
-    type: 3}
-  m_PrefabInstance: {fileID: 2665263945592945042}
-  m_PrefabAsset: {fileID: 0}
---- !u!45 &1951955575 stripped
-Skybox:
-  m_CorrespondingSourceObject: {fileID: 2665263943649412069, guid: 1498526e86ba2f44f9e8a07036bdc8ca,
     type: 3}
   m_PrefabInstance: {fileID: 2665263945592945042}
   m_PrefabAsset: {fileID: 0}
