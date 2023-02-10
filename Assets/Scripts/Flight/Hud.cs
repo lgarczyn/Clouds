@@ -18,6 +18,7 @@ public class Hud : MonoBehaviour
   [Header("HUD Elements")]
   [SerializeField] private RectTransform boresight = null;
   [SerializeField] private RectTransform mousePos = null;
+  [SerializeField] private float distanceFromCamera = 10f;
 
   private void LateUpdate()
   {
@@ -34,13 +35,13 @@ public class Hud : MonoBehaviour
 
     if (boresight != null)
     {
-      boresight.position = playerCam.WorldToScreenPoint(controller.BoresightPos);
+      boresight.position = playerCam.WorldToScreenPoint(playerCam.transform.position + controller.BoresightDir * distanceFromCamera);
       boresight.gameObject.SetActive(boresight.position.z > 1f);
     }
 
     if (mousePos != null)
     {
-      mousePos.position = playerCam.WorldToScreenPoint(controller.RealMouseAimPos);
+      mousePos.position = playerCam.WorldToScreenPoint(playerCam.transform.position + controller.RealMouseAimDir * distanceFromCamera);
       mousePos.gameObject.SetActive(mousePos.position.z > 1f);
     }
   }

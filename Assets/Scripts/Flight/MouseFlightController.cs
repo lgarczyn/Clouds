@@ -44,10 +44,6 @@ public class MouseFlightController : Manager<MouseFlightController>
   [Tooltip("Controller sensitivity for the mouse flight target")]
   private float controllerSensitivity = 3f;
 
-  [SerializeField]
-  [Tooltip("How far the boresight and mouse flight are from the aircraft")]
-  private float aimDistance = 500f;
-
   [Space]
   [SerializeField]
   [Tooltip("How far the boresight and mouse flight are from the aircraft")]
@@ -90,32 +86,28 @@ public class MouseFlightController : Manager<MouseFlightController>
   /// Useful for drawing a crosshair to aim fixed forward guns with, or to indicate what
   /// direction the aircraft is pointed.
   /// </summary>
-  public Vector3 BoresightPos
+  public Vector3 BoresightDir
   {
-    get
-    {
-      Transform aircraft = reqPlayerManagerBridge.instance.transform;
-      return (aircraft.transform.forward * aimDistance) + aircraft.transform.position;
-    }
+    get => reqPlayerManagerBridge.instance.transform.forward;
   }
 
   /// <summary>
   /// Get the position that the mouse is indicating the aircraft should fly, projected
   /// out to aimDistance meters. Also meant to be used to draw a mouse cursor.
   /// </summary>
-  public Vector3 MouseAimPos
+  public Vector3 MouseAimDir
   {
     get
     {
       if (mouseAim != null)
       {
         return isMouseAimFrozen
-            ? GetFrozenMouseAimPos()
-            : mouseAim.position + (mouseAim.forward * aimDistance);
+            ? GetFrozenMouseAimDir()
+            : mouseAim.forward;
       }
       else
       {
-        return transform.forward * aimDistance;
+        return transform.forward;
       }
     }
   }
@@ -124,17 +116,17 @@ public class MouseFlightController : Manager<MouseFlightController>
   /// Get the position that the mouse is indicating the aircraft should fly, projected
   /// out to aimDistance meters. Also meant to be used to draw a mouse cursor.
   /// </summary>
-  public Vector3 RealMouseAimPos
+  public Vector3 RealMouseAimDir
   {
     get
     {
       if (mouseAim != null)
       {
-        return mouseAim.position + (mouseAim.forward * aimDistance);
+        return mouseAim.forward;
       }
       else
       {
-        return transform.forward * aimDistance;
+        return transform.forward;
       }
     }
   }
@@ -172,14 +164,14 @@ public class MouseFlightController : Manager<MouseFlightController>
 
     RotateRig();
 
-    reqPlayerManagerBridge.playerPlane.SetTarget(MouseAimPos);
+    reqPlayerManagerBridge.playerPlane.SetTarget(MouseAimDir);
   }
 
   private void FixedUpdate()
   {
     UpdateCameraPos();
 
-    reqPlayerManagerBridge.playerPlane.SetTarget(MouseAimPos);
+    reqPlayerManagerBridge.playerPlane.SetTarget(MouseAimDir);
   }
 
   [SerializeField] float cameraBankSmoothTime = 1f;
@@ -195,10 +187,10 @@ public class MouseFlightController : Manager<MouseFlightController>
 
     Transform cam = reqMainCameraBridge.instance.mainCamera.transform;
     
-    Vector3 localMouseAimPos = cameraRig.transform
-      .InverseTransformPoint(MouseAimPos);
+    Vector3 localMouseAimDir = cameraRig.transform
+      .InverseTransformVector(MouseAimDir);
 
-    float xStep = localMouseAimPos.x / aimDistance;
+    float xStep = localMouseAimDir.x;
     // Oops
     if (!float.IsFinite(xStep)) xStep = 0;
 
@@ -252,12 +244,9 @@ public class MouseFlightController : Manager<MouseFlightController>
     reqPlayerManagerBridge.playerPlane.SetTarget(mouseAim.localPosition);
   }
 
-  private Vector3 GetFrozenMouseAimPos()
+  private Vector3 GetFrozenMouseAimDir()
   {
-    if (mouseAim != null)
-      return mouseAim.position + (frozenDirection * aimDistance);
-    else
-      return transform.forward * aimDistance;
+    return mouseAim != null ? frozenDirection : transform.forward;
   }
 
   private void UpdateCameraPos()
@@ -291,13 +280,13 @@ public class MouseFlightController : Manager<MouseFlightController>
       // Draw the boresight position.
       Transform aircraft = reqPlayerManagerBridge.instance.transform;
       Gizmos.color = Color.white;
-      Gizmos.DrawWireSphere(BoresightPos, 10f);
+      Gizmos.DrawWireSphere(transform.position + BoresightDir * 20, 10f);
 
       if (mouseAim != null)
       {
         // Draw the position of the mouse aim position.
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(MouseAimPos, 10f);
+        Gizmos.DrawWireSphere(transform.position + BoresightDir * 20, 10f);
 
         // Draw axes for the mouse aim transform.
         Gizmos.color = Color.blue;
