@@ -6,14 +6,14 @@ namespace Atoms
 {
     public class AnimationCurveFloatProcessor : MonoBehaviour {
 
-        [SerializeField] FloatEvent input;
+        [SerializeField] FloatEventReference input;
         [SerializeField] FloatEvent outputAtom;
         [SerializeField] UnityEvent<float> outputUnity;
         [SerializeField] AnimationCurve processor;
 
         void OnEnable()
         {
-            if (input) input.Register(SetValue);
+            input.Event.Register(SetValue);
         }
 
         public void SetValue(float value)
@@ -25,7 +25,7 @@ namespace Atoms
 
         void OnDisable()
         {
-            if (input) input.Unregister(SetValue);
+            input.Event.Unregister(SetValue);
         }
     }
 }

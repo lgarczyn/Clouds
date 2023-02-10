@@ -47,8 +47,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8be95d6bffc81fa4b9a0aef99c391e32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: {fileID: 11400000, guid: 10fc5422f9073aa45ba38b36e1f4e078, type: 2}
-  outputAtom: {fileID: 0}
+  input:
+    _usage: 0
+    _event: {fileID: 11400000, guid: 10fc5422f9073aa45ba38b36e1f4e078, type: 2}
+    _eventInstancer: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
+  outputAtom:
+    _usage: 0
+    _event: {fileID: 0}
+    _eventInstancer: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
   outputUnity:
     m_PersistentCalls:
       m_Calls:
@@ -100,8 +110,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8be95d6bffc81fa4b9a0aef99c391e32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: {fileID: 11400000, guid: f6a6eb0123515664d9a6a9d7e4dab38b, type: 2}
-  outputAtom: {fileID: 0}
+  input:
+    _usage: 0
+    _event: {fileID: 11400000, guid: f6a6eb0123515664d9a6a9d7e4dab38b, type: 2}
+    _eventInstancer: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
+  outputAtom:
+    _usage: 0
+    _event: {fileID: 0}
+    _eventInstancer: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
   outputUnity:
     m_PersistentCalls:
       m_Calls:
@@ -186,7 +206,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12e1b69334514591a34432c1f824da31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: {fileID: 11400000, guid: e0927afa9437c874faf835e5ae1f98ee, type: 2}
+  input:
+    _usage: 0
+    _event: {fileID: 11400000, guid: e0927afa9437c874faf835e5ae1f98ee, type: 2}
+    _eventInstancer: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
   atomOutput: {fileID: 11400000, guid: e8932be0ce85eb44ab9969073c308385, type: 2}
   unityOutput:
     m_PersistentCalls:

@@ -7,7 +7,7 @@ namespace Atoms
 {
     public class SmoothDampFloatVariable: MonoBehaviour
     {
-        [SerializeField] [CanBeNull] FloatEvent input;
+        [SerializeField] FloatEventReference input;
         [SerializeField] [CanBeNull] FloatEvent atomOutput;
         [SerializeField] UnityEvent<float> unityOutput;
 
@@ -21,12 +21,12 @@ namespace Atoms
 
         void OnEnable()
         {
-            if (input) input.Register(SetTarget);
+            input.Event.Register(SetTarget);
         }
 
         void OnDisable()
         {
-            if (input) input.Unregister(SetTarget);
+            input.Event.Unregister(SetTarget);
         }
 
         public void SetTarget(float target)
