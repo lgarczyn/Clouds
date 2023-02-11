@@ -27,10 +27,45 @@ namespace Atoms
 
         float _lastOutput = float.NaN;
 
+        List<FloatEvent> _listeners;
+
+        void OnEnable()
+        {
+            AddListeners();
+            Raise();
+        }
+
+        void OnDisable()
+        {
+            RemoveListeners();
+        }
+
+        void OnValidate()
+        {
+            if (inputs.Any(r => r.IsUnassigned)) Debug.LogWarning("Unassigned input on FloatMixer", this);
+            if (!Application.isPlaying) return;
+            RemoveListeners();
+            AddListeners();
+            Raise();
+        }
+
+        void AddListeners()
+        {
+            _listeners = inputs.Select(r => r.GetEvent<FloatEvent>()).ToList();
+            _listeners.ForEach(e => e.Register(Raise));
+        }
+
+        void RemoveListeners()
+        {
+            _listeners.ForEach(e => e.Unregister(Raise));
+            _listeners = null;
+        }
+
         void Raise()
         {
             IEnumerable<float> it = inputs
-                .Select(i => (float)i);
+                .Where(r => !r.IsUnassigned)
+                .Select(i => i.Value);
 
             float output = mixing switch
             {
@@ -49,11 +84,5 @@ namespace Atoms
             unityOutput.Invoke(output);
             scaleOutput.Invoke(output * Vector3.one);
         }
-
-        void Update() => Raise();
-
-        void LateUpdate() => Raise();
-        void FixedUpdate() => Raise();
-        void Start() => Raise();
     }
 }
