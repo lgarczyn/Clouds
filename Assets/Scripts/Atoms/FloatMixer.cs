@@ -22,6 +22,7 @@ namespace Atoms
         [SerializeField] MixingType mixing;
         [SerializeField] List<FloatReference> inputs;
         [SerializeField] UnityEvent<float> unityOutput;
+        [SerializeField] UnityEvent<Vector3> scaleOutput;
         [SerializeField] FloatEvent atomOutput;
 
         float _lastOutput = float.NaN;
@@ -46,6 +47,7 @@ namespace Atoms
             
             if (atomOutput) atomOutput.Raise(output);
             unityOutput.Invoke(output);
+            scaleOutput.Invoke(output * Vector3.one);
         }
 
         void Update() => Raise();
