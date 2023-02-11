@@ -7,6 +7,7 @@ public class MouseFlightZoom : MonoBehaviour
   [SerializeField] float maxScroll = 4f;
   [SerializeField] float minScroll = -0.8f;
   [SerializeField] float currentZoom = 0;
+  [SerializeField] float targetScale = 1f;
   float temporaryZoom = 0f;
 
   [SerializeField][RequiredComponent] MouseFlightController reqMouseFlightController;
@@ -21,6 +22,7 @@ public class MouseFlightZoom : MonoBehaviour
   {
     currentZoom = Mathf.Clamp(currentZoom, minScroll, maxScroll);
     float zoom = Mathf.Pow(2, currentZoom + temporaryZoom);
+    zoom *= targetScale;
     reqMouseFlightController.offsetDistanceMultiplier = zoom;
   }
 
