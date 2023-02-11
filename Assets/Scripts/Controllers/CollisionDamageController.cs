@@ -40,24 +40,17 @@ public class CollisionDamageController : MonoBehaviour
 
   IDamageReceiver GetTarget(Collision collision)
   {
-    IDamageReceiver receiver;
+    AverageContactPoint average = collision.GetAverageContact();
 
-    var average = collision.GetAverageContact();
+    if (average.thisCollider.TryGetComponent<IDamageReceiver>(out IDamageReceiver colliderReceiver))
+      return colliderReceiver;
 
-    if (average.thisCollider.TryGetComponent<IDamageReceiver>(out receiver))
-      return receiver;
-
-    if (TryGetComponent<IDamageReceiver>(out receiver))
-      return receiver;
-
-    return null;
+    return GetComponent<IDamageReceiver>();
   }
 
   IDamageDealer GetSource(Collision collision)
   {
-    IDamageDealer dealer;
-
-    if (collision.gameObject.TryGetComponent<IDamageDealer>(out dealer))
+    if (collision.gameObject.TryGetComponent<IDamageDealer>(out IDamageDealer dealer))
       return dealer;
 
     return new DefaultCollisionDealer(collisionDamage, collisionDps);
