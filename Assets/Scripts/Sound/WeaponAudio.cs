@@ -24,8 +24,8 @@ public class WeaponAudio : MonoBehaviour, IWeaponAudio
 
     if (pitch < 1f && range.shotCount == 1)
     {
-      source.loop = false;
       source.pitch = 1f;
+      source.PlayOneShot(source.clip, source.volume);
       isPlaying = false;
     }
     else
