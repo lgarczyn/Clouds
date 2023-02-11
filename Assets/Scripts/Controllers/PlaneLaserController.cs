@@ -21,39 +21,37 @@ public class PlaneLaserController : MonoBehaviour
   
   [SerializeField] ContinuousWeaponAudio weaponAudio;
 
-  bool firing = false;
+  bool _firing = false;
 
   public void OnFire(InputAction.CallbackContext context)
   {
-    firing = context.ReadValueAsButton();
+    _firing = context.ReadValueAsButton();
 
     if (context.started) return;
 
-    if (firing) reqPlayerManagerBridge.playerPlane.torqueMult /= 10;
+    if (_firing) reqPlayerManagerBridge.playerPlane.torqueMult /= 10;
     else reqPlayerManagerBridge.playerPlane.torqueMult *= 10;
 
     // if (firing) reqPlayerManagerBridge.playerRigidbody.inertiaTensor /= 100;
     // else reqPlayerManagerBridge.playerRigidbody.inertiaTensor *= 100;
 
-    if (firing) reqPlayerManagerBridge.playerRigidbody.angularDrag /= 10;
+    if (_firing) reqPlayerManagerBridge.playerRigidbody.angularDrag /= 10;
     else reqPlayerManagerBridge.playerRigidbody.angularDrag *= 10;
 
     if (!weaponAudio) return;
 
-    if (firing && context.performed) weaponAudio.StartFire(1);
-    if (!firing) weaponAudio.EndFire();
+    if (_firing && context.performed) weaponAudio.StartFire(1);
+    if (!_firing) weaponAudio.EndFire();
   }
 
   // Return hit distance or max distance
   float FireLaser(Vector3 dir)
   {
-    RaycastHit hitInfo;
-
     bool didHit = Physics.SphereCast(
       transform.position,
       width,
       dir,
-      out hitInfo,
+      out RaycastHit hitInfo,
       range,
       layerMask,
       QueryTriggerInteraction.Ignore);
@@ -64,20 +62,22 @@ public class PlaneLaserController : MonoBehaviour
 
     if (damageReceiver == null) return hitInfo.distance;
 
-    DamageInfo info = new DamageInfo();
+    DamageInfo info = new DamageInfo
+    {
+      damage = dps * Time.fixedDeltaTime,
+      oneOff = false,
+      relativeVelocity = Vector3.forward * speed,
+      position = hitInfo.point,
+      normal = hitInfo.normal
+    };
 
-    info.damage = dps * Time.fixedDeltaTime;
-    info.oneOff = false;
-    info.relativeVelocity = Vector3.forward * speed;
-    info.position = hitInfo.point;
-    info.normal = hitInfo.normal;
     damageReceiver.Damage(info);
 
     return hitInfo.distance;
   }
 
   
-  static RaycastHit[] raycastHits = new RaycastHit[10];
+  static readonly RaycastHit[] raycastHits = new RaycastHit[10];
 
   void WarnPotentialTargets(Vector3 dir)
   {
@@ -91,15 +91,15 @@ public class PlaneLaserController : MonoBehaviour
       QueryTriggerInteraction.Collide);
     
     raycastHits.Take(numHit).Do((hit) => {
-      var trigger = hit.collider.GetComponent<IEvasionTrigger>();
+      IEvasionTrigger trigger = hit.collider.GetComponent<IEvasionTrigger>();
       if (trigger != null) trigger.TriggerEvasion();
     });
   }
 
   void FixedUpdate()
   {
-    reqMeshRenderer.enabled = firing;
-    if (firing)
+    reqMeshRenderer.enabled = _firing;
+    if (_firing)
     {
       Vector3 dir = (transform.rotation * Vector3.forward).normalized;
       WarnPotentialTargets(dir);
