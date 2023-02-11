@@ -26,6 +26,11 @@ public class TrailController : MonoBehaviour
     reqTrailRenderer.widthMultiplier = width;
   }
 
+  public void SetBaseValue(float width)
+  {
+    widthMultiplier = width;
+  }
+
   public void SetEmitting(bool value)
   {
     reqTrailRenderer.emitting = value;
