@@ -122,7 +122,6 @@ MonoBehaviour:
   camSmoothSpeed: 5
   mouseSensitivity: 0.1
   controllerSensitivity: 5
-  aimDistance: 300
   showDebugInfo: 0
   cameraBankSmoothTime: 0.5
   cameraBankDistance: 15
@@ -156,7 +155,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c30b286289f22d47a2f7654573be573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shouldCapture: 1
+  onCaptureChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3999808953939650153
 MonoBehaviour:
   m_ObjectHideFlags: 0
