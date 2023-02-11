@@ -92,18 +92,16 @@ public class BulletController : MonoBehaviour, IDamageDealer
   /// <returns></returns>
   IDamageReceiver GetDamageReceiver(Collision collisionInfo)
   {
-    IDamageReceiver receiver;
-
     // If collider has a damage receiver, return first
-    if (collisionInfo.collider.gameObject.TryGetComponent<IDamageReceiver>(out receiver))
+    if (collisionInfo.collider.gameObject.TryGetComponent<IDamageReceiver>(out IDamageReceiver colliderReceiver))
     {
-      return receiver;
+      return colliderReceiver;
     }
 
     // Otherwise, use root collider
-    if (collisionInfo.gameObject.TryGetComponent<IDamageReceiver>(out receiver))
+    if (collisionInfo.gameObject.TryGetComponent<IDamageReceiver>(out IDamageReceiver rootReceiver))
     {
-      return receiver;
+      return rootReceiver;
     }
 
     return null;
