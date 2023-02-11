@@ -71,11 +71,7 @@ public class PlayerPlane : MonoBehaviour
     }
 
     // Calculate the autopilot stick inputs.
-    float autoYaw = 0f;
-    float autoPitch = 0f;
-    float autoRoll = 0f;
-
-    RunAutopilot(target, out autoYaw, out autoPitch, out autoRoll);
+    RunAutopilot(target, out float autoYaw, out float autoPitch, out float autoRoll);
 
     target = Vector3.zero;
 
@@ -89,8 +85,8 @@ public class PlayerPlane : MonoBehaviour
   {
     // This is my usual trick of converting the fly to position to local space.
     // You can derive a lot of information from where the target is relative to self.
-    var localFlyTarget = transform.InverseTransformVector(flyTarget).normalized * sensitivity;
-    var angleOffTarget = Vector3.Angle(transform.forward, flyTarget);
+    Vector3 localFlyTarget = transform.InverseTransformVector(flyTarget).normalized * sensitivity;
+    float angleOffTarget = Vector3.Angle(transform.forward, flyTarget);
 
     // IMPORTANT!
     // These inputs are created proportionally. This means it can be prone to
