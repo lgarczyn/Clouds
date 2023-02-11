@@ -1875,7 +1875,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orbitController: {fileID: 385219343}
   localSpaceController: {fileID: 1608915523}
-  skyboxMaterial: {fileID: 0}
+  skyboxMaterial: {fileID: 2100000, guid: 860a66ca4259b384f9ec01b687f71c3c, type: 2}
 --- !u!45 &1608915527
 Skybox:
   m_ObjectHideFlags: 0
