@@ -1033,7 +1033,7 @@ Shader "Clouds"
                     hdrMinSourceValue, hdrMaxSourceValue,
                     1, 1 / hdrTransmittancePower);
 
-                transmittance = pow(transmittance, hdrFactor);                
+                transmittance = pow(transmittance, hdrFactor);
 
                 // Add background or plane/objects
                 col = lerp(col, backgroundCol, transmittance);
