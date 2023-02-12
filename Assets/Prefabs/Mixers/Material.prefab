@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 127294364667460449}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 596.37946, y: -14173.171, z: -1055.2178}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -62,25 +62,6 @@ MonoBehaviour:
     _constant: {fileID: 0}
     _variable: {fileID: 11400000, guid: a6cd726824fab3846b09ecb8ba1d747f, type: 2}
     _variableInstancer: {fileID: 0}
-  unityOutput:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 0
-  scaleOutput:
-    m_PersistentCalls:
-      m_Calls: []
-  atomOutput: {fileID: 0}
 --- !u!114 &4559214684452161344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,7 +135,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4390918890171653478}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 596.37946, y: -14173.171, z: -1055.2178}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -180,25 +161,6 @@ MonoBehaviour:
     _constant: {fileID: 0}
     _variable: {fileID: 11400000, guid: 1b38a9488a3eff64fa0e81fc34cb76be, type: 2}
     _variableInstancer: {fileID: 0}
-  unityOutput:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 0
-  scaleOutput:
-    m_PersistentCalls:
-      m_Calls: []
-  atomOutput: {fileID: 0}
 --- !u!114 &3824655137733960475
 MonoBehaviour:
   m_ObjectHideFlags: 0
