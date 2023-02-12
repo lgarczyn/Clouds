@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3990915029268052895}
   - component: {fileID: 3990915029268052892}
   - component: {fileID: 3990915029268052894}
+  - component: {fileID: 4266990700271168582}
   - component: {fileID: 3990915029268052889}
   m_Layer: 0
   m_Name: Camera FOV
@@ -53,12 +54,7 @@ MonoBehaviour:
     _eventInstancer: {fileID: 0}
     _variable: {fileID: 0}
     _variableInstancer: {fileID: 0}
-  outputAtom:
-    _usage: 0
-    _event: {fileID: 0}
-    _eventInstancer: {fileID: 0}
-    _variable: {fileID: 0}
-    _variableInstancer: {fileID: 0}
+  outputAtom: {fileID: 0}
   outputUnity:
     m_PersistentCalls:
       m_Calls:
@@ -116,12 +112,7 @@ MonoBehaviour:
     _eventInstancer: {fileID: 0}
     _variable: {fileID: 0}
     _variableInstancer: {fileID: 0}
-  outputAtom:
-    _usage: 0
-    _event: {fileID: 0}
-    _eventInstancer: {fileID: 0}
-    _variable: {fileID: 0}
-    _variableInstancer: {fileID: 0}
+  outputAtom: {fileID: 0}
   outputUnity:
     m_PersistentCalls:
       m_Calls:
@@ -193,7 +184,28 @@ MonoBehaviour:
   unityOutput:
     m_PersistentCalls:
       m_Calls: []
-  atomOutput: {fileID: 11400000, guid: e0927afa9437c874faf835e5ae1f98ee, type: 2}
+  scaleOutput:
+    m_PersistentCalls:
+      m_Calls: []
+  atomOutput: {fileID: 0}
+--- !u!114 &4266990700271168582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3990915029268052891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83650fbf35d6214429cc4b55cbf1348c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onMix:
+    _usage: 0
+    _event: {fileID: 11400000, guid: e0927afa9437c874faf835e5ae1f98ee, type: 2}
+    _eventInstancer: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
 --- !u!114 &3990915029268052889
 MonoBehaviour:
   m_ObjectHideFlags: 0

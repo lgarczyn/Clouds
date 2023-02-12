@@ -78,6 +78,7 @@ GameObject:
   - component: {fileID: 6900268930369057448}
   - component: {fileID: 4331216630296684531}
   - component: {fileID: 2272643244976103209}
+  - component: {fileID: 7537912515999696460}
   m_Layer: 11
   m_Name: MouseFlightRig
   m_TagString: Untagged
@@ -124,6 +125,12 @@ MonoBehaviour:
   mouseSensitivity: 0.1
   controllerSensitivity: 5
   showDebugInfo: 0
+  sensitivityMultiplier:
+    _usage: 2
+    _value: 0
+    _constant: {fileID: 0}
+    _variable: {fileID: 11400000, guid: 732aa84672a4f0a47afe919ae3f555f7, type: 2}
+    _variableInstancer: {fileID: 0}
   cameraBankSmoothTime: 0.5
   cameraBankDistance: 15
   cameraBankMaxSpeed: 4
@@ -217,7 +224,19 @@ MonoBehaviour:
     _constant: {fileID: 0}
     _variable: {fileID: 11400000, guid: 1b38a9488a3eff64fa0e81fc34cb76be, type: 2}
     _variableInstancer: {fileID: 0}
-  unityOutput:
+--- !u!114 &7537912515999696460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6489255609791545517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b5cc85296200854aa164be70d44a6f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onMix:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1852813374085120815}
@@ -231,8 +250,4 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
-  scaleOutput:
-    m_PersistentCalls:
-      m_Calls: []
-  atomOutput: {fileID: 0}
+        m_CallState: 2

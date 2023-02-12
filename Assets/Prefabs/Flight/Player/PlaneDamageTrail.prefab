@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3692165748712270450}
   - component: {fileID: 6261013760172924673}
   - component: {fileID: 3584388996076747782}
+  - component: {fileID: 74702173041785095}
   m_Layer: 11
   m_Name: PlaneDamageTrail
   m_TagString: Untagged
@@ -268,20 +269,20 @@ MonoBehaviour:
     _variableInstancer: {fileID: 0}
   unityOutput:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2584896658677538376}
-        m_TargetAssemblyTypeName: TrailController, Assembly-CSharp
-        m_MethodName: SetBaseValue
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   scaleOutput:
     m_PersistentCalls:
       m_Calls: []
   atomOutput: {fileID: 0}
+--- !u!114 &74702173041785095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8600185828770731911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb0ce022720d90a43a4ff8d3f8f97c9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

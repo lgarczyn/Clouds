@@ -60,7 +60,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.195
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1555,6 +1555,7 @@ GameObject:
   - component: {fileID: 9133401001252639935}
   - component: {fileID: 3660404017334352442}
   - component: {fileID: 9088259359620998228}
+  - component: {fileID: 7935044048767635505}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -2100,25 +2101,18 @@ MonoBehaviour:
     _constant: {fileID: 0}
     _variable: {fileID: 11400000, guid: 1b38a9488a3eff64fa0e81fc34cb76be, type: 2}
     _variableInstancer: {fileID: 0}
-  unityOutput:
-    m_PersistentCalls:
-      m_Calls: []
-  scaleOutput:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6039487566610510866}
-        m_TargetAssemblyTypeName: UnityEngine.Transform, UnityEngine
-        m_MethodName: set_localScale
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  atomOutput: {fileID: 0}
+--- !u!114 &7935044048767635505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6036350815579256820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7135f856e8204e30a227e4efb386a433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6036593767179507306
 GameObject:
   m_ObjectHideFlags: 0

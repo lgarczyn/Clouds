@@ -3,6 +3,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 //
 
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -49,6 +50,8 @@ public class MouseFlightController : Manager<MouseFlightController>
   [Tooltip("How far the boresight and mouse flight are from the aircraft")]
   private bool showDebugInfo = false;
 
+  [SerializeField] FloatReference sensitivityMultiplier;
+
   private Vector3 frozenDirection = Vector3.forward;
   private Vector2 input = Vector2.zero;
   private bool isMouseAimFrozen = false;
@@ -68,12 +71,12 @@ public class MouseFlightController : Manager<MouseFlightController>
 
   public void OnAim(InputAction.CallbackContext context)
   {
-    input = context.ReadValue<Vector2>() * mouseSensitivity;
+    input = context.ReadValue<Vector2>() * mouseSensitivity * sensitivityMultiplier;
   }
 
   public void OnAimController(InputAction.CallbackContext context)
   {
-    input = context.ReadValue<Vector2>() * controllerSensitivity;
+    input = context.ReadValue<Vector2>() * controllerSensitivity * sensitivityMultiplier;
   }
 
   public void OnOverrideControls(InputAction.CallbackContext context)

@@ -25,6 +25,8 @@ public class MissileFiringController : MonoBehaviour
   [SerializeField][RequiredComponent] Rigidbody reqRigidbody;
   [SerializeField][RequiredComponent] TargetManagerBridge reqTargetManagerBridge;
 
+  [SerializeField] ContinuousWeaponAudio weaponAudio;
+
   void Start()
   {
     reloadTime = 0;
@@ -53,6 +55,8 @@ public class MissileFiringController : MonoBehaviour
     if (lockedLastFrame != lockSuccessful)
     {
       onLockChange.Invoke(lockSuccessful);
+      if (lockSuccessful && weaponAudio) weaponAudio.StartFire(rps);
+      if (!lockSuccessful && weaponAudio) weaponAudio.EndFire();
     }
     lockedLastFrame = lockSuccessful;
   }

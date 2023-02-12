@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5120867544148244539}
   - component: {fileID: 3346089824599390586}
   - component: {fileID: 4053378603852207229}
+  - component: {fileID: 3425911279020768526}
   m_Layer: 11
   m_Name: PlaneTrail
   m_TagString: Untagged
@@ -285,3 +286,15 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   atomOutput: {fileID: 0}
+--- !u!114 &3425911279020768526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204583312745857731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb0ce022720d90a43a4ff8d3f8f97c9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

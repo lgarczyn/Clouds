@@ -18,13 +18,19 @@ namespace Atoms
     Maximum
   }
 
+  public delegate void MixFloat(float value); 
+
   public class FloatMixer : MonoBehaviour
   {
     [SerializeField] MixingType mixing = MixingType.Multiply;
     [SerializeField] List<FloatReference> inputs;
-    [SerializeField] UnityEvent<float> unityOutput;
-    [SerializeField] UnityEvent<Vector3> scaleOutput;
-    [SerializeField] FloatEvent atomOutput;
+    public event MixFloat onMixFloat;
+
+    public bool TryGetLastOutput(out float lastOutput)
+    {
+      lastOutput = _lastOutput;
+      return !float.IsNaN(_lastOutput);
+    }
 
     float _lastOutput = float.NaN;
 
@@ -48,10 +54,6 @@ namespace Atoms
       RemoveListeners();
       AddListeners();
       Raise();
-      for (int i = 0; i < scaleOutput.GetPersistentEventCount(); i++)
-        scaleOutput.SetPersistentListenerState(i, UnityEventCallState.RuntimeOnly);
-      for (int i = 0; i < unityOutput.GetPersistentEventCount(); i++)
-        unityOutput.SetPersistentListenerState(i, UnityEventCallState.RuntimeOnly);
     }
 
     void AddListeners()
@@ -89,9 +91,7 @@ namespace Atoms
       if (_lastOutput.Equals(output)) return;
       _lastOutput = output;
 
-      if (atomOutput) atomOutput.Raise(output);
-      unityOutput.Invoke(output);
-      scaleOutput.Invoke(output * Vector3.one);
+      onMixFloat?.Invoke(output);
     }
   }
 }

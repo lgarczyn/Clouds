@@ -43,6 +43,7 @@ Material:
     - _FadePower: 1
     - _HDRMultiplier: 1
     - _QueueControl: 0
+    - _ScaleMultiplier: 1
     - _TimeScale: 0.1
     m_Colors:
     - _FadeCameraStartEnd: {r: 1, g: 0, b: 0, a: 0}

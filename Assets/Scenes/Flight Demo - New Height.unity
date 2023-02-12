@@ -1277,6 +1277,12 @@ Transform:
   m_Father: {fileID: 1608915522}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &927144302 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6061301757053548659, guid: 8580f51aba7053a4286c3ec8810a585e,
+    type: 3}
+  m_PrefabInstance: {fileID: 6035008019564179120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &973256782 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1570969737417517500, guid: 304f6c9e4d63a4044932107d0e977041,
@@ -1379,12 +1385,6 @@ RectTransform:
 --- !u!1 &1069422597 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6035008020490059627, guid: 8580f51aba7053a4286c3ec8810a585e,
-    type: 3}
-  m_PrefabInstance: {fileID: 6035008019564179120}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1079494856 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6036793155786064694, guid: 8580f51aba7053a4286c3ec8810a585e,
     type: 3}
   m_PrefabInstance: {fileID: 6035008019564179120}
   m_PrefabAsset: {fileID: 0}
@@ -2708,7 +2708,7 @@ MonoBehaviour:
   - {fileID: 1570969737518273011}
   - {fileID: 1683414939375350634}
   - {fileID: 354178483}
-  - {fileID: 1079494856}
+  - {fileID: 927144302}
   activateOnThrusters:
   - {fileID: 1069422597}
   plane: {fileID: 6035008019564179122}

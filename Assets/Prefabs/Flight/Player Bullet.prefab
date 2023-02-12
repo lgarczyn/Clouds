@@ -15,6 +15,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 17678180223963330, guid: a0e949b45c86f4c478ecda1ba44198f5,
         type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 17678180223963330, guid: a0e949b45c86f4c478ecda1ba44198f5,
+        type: 3}
       propertyPath: m_Parameters.widthMultiplier
       value: 0.2
       objectReference: {fileID: 0}
