@@ -579,6 +579,7 @@ MonoBehaviour:
   range: 3000
   width: 2
   speed: 10000
+  energyPerSecond: 7
   layerMask:
     serializedVersion: 2
     m_Bits: 28672
@@ -2021,6 +2022,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reqRigidbody: {fileID: 5981469090452608560}
   reqPlayerPlane: {fileID: 3024059321188055124}
+  reqPlaneEntity: {fileID: 6036350815579256821}
 --- !u!114 &6161227608572021247
 MonoBehaviour:
   m_ObjectHideFlags: 0

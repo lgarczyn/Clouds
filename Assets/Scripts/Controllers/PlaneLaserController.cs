@@ -13,6 +13,7 @@ public class PlaneLaserController : MonoBehaviour
   [SerializeField] float range = 1000f;
   [SerializeField] float width = 10f;
   [SerializeField] float speed = 10000f;
+  [SerializeField] float energyPerSecond = 3;
   [SerializeField] LayerMask layerMask;
 
   [RequiredComponent][SerializeField] VolumetricLineBehavior reqLine;
@@ -21,27 +22,30 @@ public class PlaneLaserController : MonoBehaviour
   
   [SerializeField] ContinuousWeaponAudio weaponAudio;
 
-  bool _firing = false;
+  bool _fireInput = false;
+  bool _firedLastFrame = false;
 
   public void OnFire(InputAction.CallbackContext context)
   {
-    _firing = context.ReadValueAsButton();
+    _fireInput = context.ReadValueAsButton();
+  }
+  void OnFiringStartStop(bool isFiring)
+  {
+    reqMeshRenderer.enabled = isFiring;
 
-    if (context.started) return;
-
-    if (_firing) reqPlayerManagerBridge.playerPlane.torqueMult /= 10;
+    if (isFiring) reqPlayerManagerBridge.playerPlane.torqueMult /= 10;
     else reqPlayerManagerBridge.playerPlane.torqueMult *= 10;
 
     // if (firing) reqPlayerManagerBridge.playerRigidbody.inertiaTensor /= 100;
     // else reqPlayerManagerBridge.playerRigidbody.inertiaTensor *= 100;
 
-    if (_firing) reqPlayerManagerBridge.playerRigidbody.angularDrag /= 10;
+    if (isFiring) reqPlayerManagerBridge.playerRigidbody.angularDrag /= 10;
     else reqPlayerManagerBridge.playerRigidbody.angularDrag *= 10;
 
     if (!weaponAudio) return;
 
-    if (_firing && context.performed) weaponAudio.StartFire(1);
-    if (!_firing) weaponAudio.EndFire();
+    if (isFiring) weaponAudio.StartFire(1);
+    if (!isFiring) weaponAudio.EndFire();
   }
 
   // Return hit distance or max distance
@@ -98,9 +102,23 @@ public class PlaneLaserController : MonoBehaviour
 
   void FixedUpdate()
   {
-    reqMeshRenderer.enabled = _firing;
-    if (_firing)
+    bool reallyFiring = _fireInput &&
+                        reqPlayerManagerBridge.instance.planeEntity.TrySpendEnergy(
+                          energyPerSecond * Time.fixedDeltaTime);
+    
+    if (reallyFiring == false && _firedLastFrame)
     {
+      _firedLastFrame = false;
+      OnFiringStartStop(false);
+    }
+    else if (reallyFiring)
+    {
+      if (!_firedLastFrame)
+      {
+        OnFiringStartStop(true);
+        _firedLastFrame = true;
+      }
+
       Vector3 dir = (transform.rotation * Vector3.forward).normalized;
       WarnPotentialTargets(dir);
       float distance = FireLaser(dir);
