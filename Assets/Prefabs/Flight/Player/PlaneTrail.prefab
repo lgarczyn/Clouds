@@ -262,7 +262,7 @@ MonoBehaviour:
     _variable: {fileID: 11400000, guid: 6f8bd4b7b4e35a54589b2b9764a48434, type: 2}
     _variableInstancer: {fileID: 0}
   - _usage: 0
-    _value: 7
+    _value: 2
     _constant: {fileID: 0}
     _variable: {fileID: 0}
     _variableInstancer: {fileID: 0}
@@ -280,7 +280,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 0
+        m_CallState: 2
   scaleOutput:
     m_PersistentCalls:
       m_Calls: []

@@ -77,6 +77,7 @@ GameObject:
   - component: {fileID: 3999808953939650153}
   - component: {fileID: 6900268930369057448}
   - component: {fileID: 4331216630296684531}
+  - component: {fileID: 2272643244976103209}
   m_Layer: 11
   m_Name: MouseFlightRig
   m_TagString: Untagged
@@ -197,3 +198,41 @@ MonoBehaviour:
   scrollInDuration: 2
   scrollInDistance: 6
   reqMouseFlightZoom: {fileID: 1852813374085120815}
+--- !u!114 &2272643244976103209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6489255609791545517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ce2814a3ab040c690aa59935e8e8b1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixing: 1
+  inputs:
+  - _usage: 2
+    _value: 0
+    _constant: {fileID: 0}
+    _variable: {fileID: 11400000, guid: 1b38a9488a3eff64fa0e81fc34cb76be, type: 2}
+    _variableInstancer: {fileID: 0}
+  unityOutput:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1852813374085120815}
+        m_TargetAssemblyTypeName: MouseFlightZoom, Assembly-CSharp
+        m_MethodName: SetTargetScale
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  scaleOutput:
+    m_PersistentCalls:
+      m_Calls: []
+  atomOutput: {fileID: 0}

@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 2578778170311049125}
   - component: {fileID: 653197627730949107}
   - component: {fileID: 3109153641266952259}
+  - component: {fileID: 8373677462779597964}
   m_Layer: 19
   m_Name: Bullet
   m_TagString: Untagged
@@ -204,7 +205,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseVelocity: 1000
-  marginOnSpawn: 0
   explosionForce: 0
   damage: 10
   lifetime: 1
@@ -279,6 +279,7 @@ MonoBehaviour:
   m_startPos: {x: 0, y: 0, z: 0}
   m_endPos: {x: 0, y: 0, z: -5}
   m_lineColor: {r: 2.166354, g: 1.8291384, b: 2.0902085, a: 0}
+  m_lineWidth: 1
 --- !u!114 &3109153641266952259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,3 +299,53 @@ MonoBehaviour:
   onRelease:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8373677462779597964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6507275291411003199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ce2814a3ab040c690aa59935e8e8b1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixing: 1
+  inputs:
+  - _usage: 2
+    _value: 0
+    _constant: {fileID: 0}
+    _variable: {fileID: 11400000, guid: c17330bac326c2e40b27a626436c5ffd, type: 2}
+    _variableInstancer: {fileID: 0}
+  unityOutput:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 17678180223963330}
+        m_TargetAssemblyTypeName: UnityEngine.TrailRenderer, UnityEngine
+        m_MethodName: set_widthMultiplier
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  scaleOutput:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2818571728330953387}
+        m_TargetAssemblyTypeName: UnityEngine.Transform, UnityEngine
+        m_MethodName: set_localScale
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  atomOutput: {fileID: 0}
