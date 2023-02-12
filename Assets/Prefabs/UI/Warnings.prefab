@@ -185,7 +185,7 @@ MonoBehaviour:
       message: 'DANGER: HULL CRITICAL'
     - level: 0
       timeout: 1
-      message: LOW BOOSTER FUEL
+      message: LOW BOOSTER FUEL. REACH CLOUDS
     - level: 1
       timeout: 3
       message: 'WARNING: ENEMY REINFORCEMENT'
