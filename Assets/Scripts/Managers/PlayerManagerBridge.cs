@@ -10,5 +10,7 @@ public class PlayerManagerBridge : ManagerBridge<PlayerManager>
 
   public PlayerPlane playerPlane => instance.playerPlane;
 
+  public PlaneEntity planeEntity => instance.planeEntity;
+
   public float Distance(Vector3 position) { return instance.Distance(position); }
 }
