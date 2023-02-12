@@ -145,12 +145,12 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Aim with mouse to control plane
 
-    Left Click to shoot at enemies
+    Fire weapons with Mouse Left/Right
 
     Press
     Shift to boost
 
-    Press C to look around
+    Press Ctrl to aim
 
     Press H to toggle this window
 
