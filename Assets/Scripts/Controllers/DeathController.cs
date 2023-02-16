@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -59,8 +59,8 @@ public class DeathController : Manager<DeathController>
 
     isDying = false;
 
-    PlaythroughData.instance.timeSinceGameStart = Time.timeSinceLevelLoad;
-
     SceneManager.LoadScene("GameOver");
+
+    PlaythroughData.instance.timeSinceGameStart = Time.timeSinceLevelLoad;
   }
 }
