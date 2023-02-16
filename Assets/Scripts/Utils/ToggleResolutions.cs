@@ -26,6 +26,8 @@ public class ToggleResolutions : MonoBehaviour
 
   public void OnSelectResolution(InputAction.CallbackContext context)
   {
+    if (context.phase != InputActionPhase.Performed) return;
+  
     int index = resolutions.FindIndex((v) => v.ToString() == currentResolution.ToString());
     index = (index + 1) % resolutions.Count;
 
@@ -36,6 +38,7 @@ public class ToggleResolutions : MonoBehaviour
 
   public void OnSelectFullScreenMode(InputAction.CallbackContext context)
   {
+    if (context.phase != InputActionPhase.Performed) return;
 
     int index = modes.FindIndex((v) => v == currentMode);
     index = (index + 1) % modes.Count;
@@ -45,6 +48,8 @@ public class ToggleResolutions : MonoBehaviour
 
   public void OnToggleFullScreen(InputAction.CallbackContext context)
   {
+    if (context.phase != InputActionPhase.Performed) return;
+
     Screen.fullScreen = !Screen.fullScreen;
   }
 }
