@@ -20,7 +20,6 @@ public class ToggleClouds : MonoBehaviour
 
   public void OnToggleClouds(InputAction.CallbackContext context)
   {
-    Debug.Log("please" + context);
     if (context.phase != InputActionPhase.Performed) return;
     Toggle();
   }
