@@ -35,7 +35,10 @@ public class Hud : MonoBehaviour
 
     if (boresight != null)
     {
-      boresight.position = playerCam.WorldToScreenPoint(playerCam.transform.position + controller.BoresightDir * distanceFromCamera);
+      Vector3 position = playerCam.transform.position + controller.BoresightDir * distanceFromCamera;
+
+      boresight.rotation = Quaternion.Inverse(playerCam.transform.rotation) * controller.GetAircraftRotation();
+      boresight.position = playerCam.WorldToScreenPoint(position);
       boresight.gameObject.SetActive(boresight.position.z > 1f);
     }
 

@@ -85,13 +85,21 @@ public class MouseFlightController : Manager<MouseFlightController>
   }
 
   /// <summary>
-  /// Get a point along the aircraft's boresight projected out to aimDistance meters.
+  /// Get the direction of the aircraft
   /// Useful for drawing a crosshair to aim fixed forward guns with, or to indicate what
   /// direction the aircraft is pointed.
   /// </summary>
   public Vector3 BoresightDir
   {
     get => reqPlayerManagerBridge.instance.transform.forward;
+  }
+
+  /// <summary>
+  /// Get the direction of the aircraft
+  /// </summary>
+  public Quaternion GetAircraftRotation()
+  {
+    return reqPlayerManagerBridge.instance.transform.rotation;
   }
 
   /// <summary>
