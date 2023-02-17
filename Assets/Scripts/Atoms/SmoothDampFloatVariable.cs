@@ -59,7 +59,7 @@ namespace Atoms
             }
 
             float deltaTime = (float)(Time.timeAsDouble - _timeOfLastUpdate); 
-
+            _timeOfLastUpdate = Time.timeAsDouble;
             _value = Mathf.SmoothDamp(_value, _target, ref _speed, smoothTime, maxSpeed, deltaTime);
             Raise();
         }
