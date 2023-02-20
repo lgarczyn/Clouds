@@ -587,7 +587,7 @@ MonoBehaviour:
   reqLine: {fileID: 2762716599808054175}
   reqMeshRenderer: {fileID: 8926662653142961184}
   reqPlayerManagerBridge: {fileID: 3782535957878062250}
-  reqWarningManagerBridge: {fileID: 0}
+  reqWarningManagerBridge: {fileID: 4447810076092139354}
   onLaserStartStop:
     m_PersistentCalls:
       m_Calls:
@@ -950,7 +950,7 @@ Transform:
   - {fileID: 6160929690220982518}
   - {fileID: 2396164103969341852}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: -2.214, y: -266.362, z: 16.094}
 --- !u!54 &5981469090452608560
 Rigidbody:

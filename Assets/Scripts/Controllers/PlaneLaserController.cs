@@ -8,6 +8,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(VolumetricLineBehavior))]
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(PlayerManagerBridge))]
+[RequireComponent(typeof(WarningManagerBridge))]
 // TODO: use multiupdatebodychild to raycast multiple time per frame
 public class PlaneLaserController : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class PlaneLaserController : MonoBehaviour
   [RequiredComponent][SerializeField] VolumetricLineBehavior reqLine;
   [RequiredComponent][SerializeField] MeshRenderer reqMeshRenderer;
   [RequiredComponent][SerializeField] PlayerManagerBridge reqPlayerManagerBridge;
+  [RequiredComponent][SerializeField] WarningManagerBridge reqWarningManagerBridge;
 
   [SerializeField] UnityEvent<bool> onLaserStartStop;
 
@@ -104,6 +106,11 @@ public class PlaneLaserController : MonoBehaviour
     bool reallyFiring = _fireInput &&
                         reqPlayerManagerBridge.instance.planeEntity.TrySpendEnergy(
                           energyPerSecond * Time.fixedDeltaTime);
+
+    if (_fireInput && !reallyFiring)
+    {
+      reqWarningManagerBridge.WarnLowLaser();
+    }
 
     if (reallyFiring)
     {

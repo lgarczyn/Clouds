@@ -19,6 +19,7 @@ public class WarningManagerBridge : ManagerBridge<WarningManager>
   public void WarnBrokenShield() { TrySendWarning(WarningType.BrokenShield); }
   public void WarnLowHealth() { TrySendWarning(WarningType.LowHealth); }
   public void WarnLowBoost() { TrySendWarning(WarningType.LowBoost); }
+  public void WarnLowLaser() { TrySendWarning(WarningType.LowLaser); }
   public void WarnRegeneratingShield() { TrySendWarning(WarningType.RegeneratingShield); }
   public void WarnFullShield() { TrySendWarning(WarningType.FullShield); }
 }

@@ -15,7 +15,8 @@ public enum WarningType
   LowBoost,
   RegeneratingShield,
   FullShield,
-  EnemySpawn
+  EnemySpawn,
+  LowLaser
 }
 
 [Serializable]
