@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{07f9d5b6-f289-4681-844a-73a0ca0ee7e5}">
+		<property name="assetPath">
+			<value>Combat/Gun_Shot-Marvin-1140816320.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>3.0480045351473923</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{4e0aba56-954c-4504-b696-58494119105b}</destination>
+		</relationship>
+	</object>
+</objects>

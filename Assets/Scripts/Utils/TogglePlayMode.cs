@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
@@ -18,6 +19,7 @@ public class TogglePlayMode : MonoBehaviour
     {
       Time.timeScale = value ? 1f : 0f;
       AudioListener.pause = !value;
+      RuntimeManager.PauseAllEvents(!value);
 
       reqPlayerInput.SwitchCurrentActionMap(value ? "Game" : "UI");
       reqMouseCapture.IsCaptured = value;

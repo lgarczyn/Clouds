@@ -181,13 +181,6 @@ MonoBehaviour:
     _constant: {fileID: 0}
     _variable: {fileID: 11400000, guid: 732aa84672a4f0a47afe919ae3f555f7, type: 2}
     _variableInstancer: {fileID: 0}
-  unityOutput:
-    m_PersistentCalls:
-      m_Calls: []
-  scaleOutput:
-    m_PersistentCalls:
-      m_Calls: []
-  atomOutput: {fileID: 0}
 --- !u!114 &4266990700271168582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,5 +221,5 @@ MonoBehaviour:
   unityOutput:
     m_PersistentCalls:
       m_Calls: []
-  smoothTime: 3
+  smoothTime: 0.1
   maxSpeed: 1000

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityAtoms.BaseAtoms;
+using UnityEngine;
 
 [RequireComponent(typeof(PlaneEntity))]
 public class PlaneResourceController : MonoBehaviour

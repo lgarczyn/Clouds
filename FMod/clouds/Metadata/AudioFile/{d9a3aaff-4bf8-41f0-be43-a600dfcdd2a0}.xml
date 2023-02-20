@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{d9a3aaff-4bf8-41f0-be43-a600dfcdd2a0}">
+		<property name="assetPath">
+			<value>Combat/459708__klankbeeld__bump-against-metal-plate-04-170704-1197.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>2.94075</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{4e0aba56-954c-4504-b696-58494119105b}</destination>
+		</relationship>
+	</object>
+</objects>

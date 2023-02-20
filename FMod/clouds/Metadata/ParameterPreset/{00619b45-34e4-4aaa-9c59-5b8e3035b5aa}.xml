@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{00619b45-34e4-4aaa-9c59-5b8e3035b5aa}">
+		<property name="name">
+			<value>Frame Delay</value>
+		</property>
+		<relationship name="folder">
+			<destination>{5eaf5f39-8276-484c-b3f3-e081e0c3a8d5}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{278674c8-15f9-4ff1-a051-3b8bae128e92}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{278674c8-15f9-4ff1-a051-3b8bae128e92}">
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>

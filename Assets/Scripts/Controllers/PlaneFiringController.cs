@@ -1,21 +1,20 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections.Generic;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(PlayerManagerBridge))]
 public class PlaneFiringController : MultiUpdateBodyChild
 {
-  public float rps = 10;
-  public float spread = 0.1f;
-  public float aimAnglePerSecond = 180f;
-  public PoolRef bulletPool;
-  public WeaponAudio audioPlayer;
+  [SerializeField] float rps = 10;
+  [SerializeField] float spread = 0.1f;
+  [SerializeField] float aimAnglePerSecond = 180f;
+  [SerializeField] PoolRef bulletPool;
 
-  public Transform gunportLeft;
-  public Transform gunportRight;
+  [SerializeField] UnityEvent<float> onShoot;
 
-  [SerializeField]
-  [HideInInspector]
+  [SerializeField] Transform gunportLeft;
+  [SerializeField] Transform gunportRight;
+
   bool nextShotLeft = true;
   bool firing = false;
 
@@ -26,11 +25,6 @@ public class PlaneFiringController : MultiUpdateBodyChild
   public void OnFire(InputAction.CallbackContext context)
   {
     firing = context.ReadValueAsButton();
-
-    if (!audioPlayer) return;
-
-    if (firing && context.performed) audioPlayer.StartFire(rps);
-    if (!firing) audioPlayer.EndFire();
   }
 
   protected override void BeforeUpdates()
@@ -45,10 +39,10 @@ public class PlaneFiringController : MultiUpdateBodyChild
     // Handle more precise firing controls
     if (!firing) return Wait.ForFrame();
 
-    Vector3 dir = (aim * Vector3.forward
-        + Random.insideUnitSphere * spread).normalized;
+    onShoot.Invoke((float)(currentTime - timeOfLastUpdate));
 
-    Rigidbody rb = reqPlayerManagerBridge.playerRigidbody;
+    Vector3 dir = (aim * Vector3.forward
+                   + Random.insideUnitSphere * spread).normalized;
 
     Vector3 localPos = nextShotLeft ? gunportLeft.localPosition : gunportRight.localPosition;
     Vector3 position = interpolatedMatrix.MultiplyPoint(localPos);

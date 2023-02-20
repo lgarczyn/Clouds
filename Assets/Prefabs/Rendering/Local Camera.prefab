@@ -9,10 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9020830773908372480}
-  - component: {fileID: 9020830773908372482}
-  - component: {fileID: 9020830773908372483}
-  - component: {fileID: 9020830773908372541}
-  - component: {fileID: 9020830773908372540}
+  - component: {fileID: -1435554251927139575}
   m_Layer: 0
   m_Name: SoundListener
   m_TagString: Untagged
@@ -35,15 +32,7 @@ Transform:
   m_Father: {fileID: 9020830774110567827}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!81 &9020830773908372482
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9020830773908372481}
-  m_Enabled: 1
---- !u!114 &9020830773908372483
+--- !u!114 &-1435554251927139575
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -52,72 +41,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 9020830773908372481}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 507929a6b78ec4341b3d5ae6152c05df, type: 3}
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lowpassVsDensity:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 24000
-      inSlope: -1140
-      outSlope: -1140
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 20
-      value: 1200
-      inSlope: -1140
-      outSlope: -1140
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reqAudioLowPassFilter: {fileID: 9020830773908372541}
-  reqResourceCalculatorBridge: {fileID: 9020830773908372540}
---- !u!169 &9020830773908372541
-AudioLowPassFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9020830773908372481}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_LowpassResonanceQ: 1
-  lowpassLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.22727273
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
---- !u!114 &9020830773908372540
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9020830773908372481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcb9313d380caa94f90cfc85b09a7c8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
 --- !u!1 &9020830774110567834
 GameObject:
   m_ObjectHideFlags: 0

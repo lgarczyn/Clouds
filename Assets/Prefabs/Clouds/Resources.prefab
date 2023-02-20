@@ -141,3 +141,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderTexture: {fileID: 8400000, guid: 3cc772f25e428454f85d1e015eee0452, type: 2}
+  playerLight: {fileID: 11400000, guid: 8bf8ceb4361a58a4eaa2e0424328e3b7, type: 2}
+  playerCloudDensity: {fileID: 11400000, guid: 6d788db5960ec2741bd0d289ed65829b, type: 2}

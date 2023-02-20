@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="Snapshot" id="{28e1c86a-b005-4f05-8d56-5a60fc13b1a7}">
+		<property name="name">
+			<value>Space Vaccum</value>
+		</property>
+		<property name="behavior">
+			<value>1</value>
+		</property>
+		<relationship name="mixer">
+			<destination>{db615780-586c-477b-a73c-8fb44bd38ec5}</destination>
+		</relationship>
+		<relationship name="automatableProperties">
+			<destination>{fad8a69f-61f5-4cd3-9bba-41c12098f4bb}</destination>
+		</relationship>
+		<relationship name="markerTracks">
+			<destination>{9105f91c-1d9e-49df-96e2-872d98a2a009}</destination>
+		</relationship>
+		<relationship name="timeline">
+			<destination>{c97a8bb8-b732-4507-9b84-86f37056465a}</destination>
+		</relationship>
+		<relationship name="snapshotMasterTrack">
+			<destination>{68a2afb1-141a-4fd1-bc88-53e18096bd0b}</destination>
+		</relationship>
+		<relationship name="snapshotProperties">
+			<destination>{a397dbe3-f399-4965-b6d9-c0150f11ae60}</destination>
+		</relationship>
+		<relationship name="snapshotTracks">
+			<destination>{4b345946-7a49-4a32-b42c-1318e9857616}</destination>
+		</relationship>
+	</object>
+	<object class="EventAutomatableProperties" id="{fad8a69f-61f5-4cd3-9bba-41c12098f4bb}" />
+	<object class="MarkerTrack" id="{9105f91c-1d9e-49df-96e2-872d98a2a009}" />
+	<object class="Timeline" id="{c97a8bb8-b732-4507-9b84-86f37056465a}" />
+	<object class="SnapshotMasterTrack" id="{68a2afb1-141a-4fd1-bc88-53e18096bd0b}" />
+	<object class="SnapshotProperty" id="{a397dbe3-f399-4965-b6d9-c0150f11ae60}">
+		<property name="propertyName">
+			<value>volume</value>
+		</property>
+		<property name="value">
+			<value>-80</value>
+		</property>
+		<relationship name="automatableObject">
+			<destination>{c1233fff-7e55-4353-a014-392b7ea081e2}</destination>
+		</relationship>
+	</object>
+	<object class="SnapshotTrack" id="{4b345946-7a49-4a32-b42c-1318e9857616}">
+		<relationship name="mixerStrip">
+			<destination>{c1233fff-7e55-4353-a014-392b7ea081e2}</destination>
+		</relationship>
+	</object>
+</objects>

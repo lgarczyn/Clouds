@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
 using VolumetricLines;
+using Sound;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(VolumetricLineBehavior))]
 [RequireComponent(typeof(MeshRenderer))]
@@ -19,8 +21,8 @@ public class PlaneLaserController : MonoBehaviour
   [RequiredComponent][SerializeField] VolumetricLineBehavior reqLine;
   [RequiredComponent][SerializeField] MeshRenderer reqMeshRenderer;
   [RequiredComponent][SerializeField] PlayerManagerBridge reqPlayerManagerBridge;
-  
-  [SerializeField] ContinuousWeaponAudio weaponAudio;
+
+  [SerializeField] UnityEvent<bool> onLaserStartStop;
 
   bool _fireInput = false;
   bool _firedLastFrame = false;
@@ -31,6 +33,7 @@ public class PlaneLaserController : MonoBehaviour
   }
   void OnFiringStartStop(bool isFiring)
   {
+    _firedLastFrame = isFiring;
     reqMeshRenderer.enabled = isFiring;
 
     if (isFiring) reqPlayerManagerBridge.playerPlane.torqueMult /= 10;
@@ -42,10 +45,7 @@ public class PlaneLaserController : MonoBehaviour
     if (isFiring) reqPlayerManagerBridge.playerRigidbody.angularDrag /= 10;
     else reqPlayerManagerBridge.playerRigidbody.angularDrag *= 10;
 
-    if (!weaponAudio) return;
-
-    if (isFiring) weaponAudio.StartFire(1);
-    if (!isFiring) weaponAudio.EndFire();
+    onLaserStartStop.Invoke(isFiring);
   }
 
   // Return hit distance or max distance
@@ -80,7 +80,6 @@ public class PlaneLaserController : MonoBehaviour
     return hitInfo.distance;
   }
 
-  
   static readonly RaycastHit[] raycastHits = new RaycastHit[10];
 
   void WarnPotentialTargets(Vector3 dir)
@@ -105,24 +104,22 @@ public class PlaneLaserController : MonoBehaviour
     bool reallyFiring = _fireInput &&
                         reqPlayerManagerBridge.instance.planeEntity.TrySpendEnergy(
                           energyPerSecond * Time.fixedDeltaTime);
-    
-    if (reallyFiring == false && _firedLastFrame)
-    {
-      _firedLastFrame = false;
-      OnFiringStartStop(false);
-    }
-    else if (reallyFiring)
+
+    if (reallyFiring)
     {
       if (!_firedLastFrame)
       {
         OnFiringStartStop(true);
-        _firedLastFrame = true;
       }
 
       Vector3 dir = (transform.rotation * Vector3.forward).normalized;
       WarnPotentialTargets(dir);
       float distance = FireLaser(dir);
       reqLine.EndPos = Vector3.forward * distance;
+    }
+    else if (_firedLastFrame)
+    {
+      OnFiringStartStop(false);
     }
   }
 }

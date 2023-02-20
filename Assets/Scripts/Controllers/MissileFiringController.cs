@@ -1,3 +1,4 @@
+using Sound;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -20,12 +21,13 @@ public class MissileFiringController : MonoBehaviour
 
   public UnityEvent<bool> onLockChange;
   public UnityEvent onLock;
+  public UnityEvent<float> onShoot;
 
   [SerializeField][RequiredComponent] Missile reqMissile;
   [SerializeField][RequiredComponent] Rigidbody reqRigidbody;
   [SerializeField][RequiredComponent] TargetManagerBridge reqTargetManagerBridge;
 
-  [SerializeField] ContinuousWeaponAudio weaponAudio;
+  [SerializeField] AudioEmitter audioEmitter;
 
   void Start()
   {
@@ -55,8 +57,6 @@ public class MissileFiringController : MonoBehaviour
     if (lockedLastFrame != lockSuccessful)
     {
       onLockChange.Invoke(lockSuccessful);
-      if (lockSuccessful && weaponAudio) weaponAudio.StartFire(rps);
-      if (!lockSuccessful && weaponAudio) weaponAudio.EndFire();
     }
     lockedLastFrame = lockSuccessful;
   }
@@ -92,6 +92,8 @@ public class MissileFiringController : MonoBehaviour
       .Init(r.position, actualDir);
 
     reloadTime = 1 / rps;
+    
+    onShoot.Invoke(0f);
 
     return true;
   }

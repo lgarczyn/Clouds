@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{6349a052-8405-436b-8a79-ab712c117c24}">
+		<property name="name">
+			<value>Cloud Density</value>
+		</property>
+		<relationship name="folder">
+			<destination>{5eaf5f39-8276-484c-b3f3-e081e0c3a8d5}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{dd6768d7-f5a6-4bee-a704-c380ccfee452}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{dd6768d7-f5a6-4bee-a704-c380ccfee452}">
+		<property name="minimum">
+			<value>-100</value>
+		</property>
+		<property name="maximum">
+			<value>100</value>
+		</property>
+		<property name="initialValue">
+			<value>-100</value>
+		</property>
+		<property name="isExposedRecursively">
+			<value>false</value>
+		</property>
+	</object>
+</objects>

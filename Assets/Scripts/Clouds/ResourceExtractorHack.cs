@@ -1,3 +1,4 @@
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -5,13 +6,18 @@ public class ResourceExtractorHack : ResourceCalculator
 {
     public RenderTexture renderTexture;
 
-    Texture2D outputTexture;
+    Texture2D _outputTexture;
+
+    [SerializeField] float densityMultiplier = 400;
+
+    [SerializeField] FloatVariable playerLight;
+    [SerializeField] FloatVariable playerCloudDensity;
 
     void Start() {        
         // Add the onPostRender callback
         RenderPipelineManager.endCameraRendering += OnPostRenderCallback;
 
-        outputTexture = new Texture2D(1, 1);
+        _outputTexture = new Texture2D(1, 1);
     }
 
     void OnPostRenderCallback(ScriptableRenderContext context, Camera cam) {
@@ -25,24 +31,27 @@ public class ResourceExtractorHack : ResourceCalculator
         RenderTexture.active = renderTexture;
 
         // Create a new Texture2D and read the RenderTexture image into it
-        outputTexture.ReadPixels(new Rect(0, 0, 1, 1), 0, 0, false);
+        _outputTexture.ReadPixels(new Rect(0, 0, 1, 1), 0, 0, false);
 
-        // Restorie previously active render texture
+        // Restore previously active render texture
         RenderTexture.active = currentActiveRT;
 
-        var value = outputTexture.GetPixel(0, 0);
+        Color value = _outputTexture.GetPixel(0, 0);
         // Check that the canary values from the shader are still valid
         if (value.b < 0.495f || value.b > 0.505f) Debug.Log("Failed to recover resources from GPU");
-        this.sampledOutputPixel = value;
+        this._sampledOutputPixel = value;
+
+        if (playerLight) playerLight.SetValue(GetLight());
+        if (playerCloudDensity) playerCloudDensity.SetValue(GetDensity());
     }
 
-    Color sampledOutputPixel;
+    Color _sampledOutputPixel;
 
-    override public float GetLight() {
-        return sampledOutputPixel.g;
+    public override float GetLight() {
+        return _sampledOutputPixel.g;
     }
-    override public float GetDensity() {
-        return (sampledOutputPixel.r - 0.5f) * 100;
+    public override float GetDensity() {
+        return (_sampledOutputPixel.r - 0.5f) * densityMultiplier;
     }
 
     void OnDestroy()
