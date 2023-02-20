@@ -41,7 +41,10 @@ Material:
     m_Ints: []
     m_Floats:
     - _FadePower: 1
-    - _HDRMultiplier: 1
+    - _HDRMultiplier: 2
+    - _NoiseHorizontalScale: 20
+    - _NoiseScale: 1
+    - _Noisyness: 0.288
     - _QueueControl: 0
     - _ScaleMultiplier: 1
     - _TimeScale: 0.1
