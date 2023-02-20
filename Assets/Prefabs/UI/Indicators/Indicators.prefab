@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 1570969737417517501}
   - component: {fileID: 7288963659376140574}
   - component: {fileID: 1570969737518273017}
-  - component: {fileID: 1570969737518273016}
   - component: {fileID: 1570969737518273018}
   m_Layer: 5
   m_Name: Indicators
@@ -115,22 +114,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e13b2c8b05c43b4eb6760153c95aeb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerDensity:
+    _usage: 2
+    _value: 0
+    _constant: {fileID: 0}
+    _variable: {fileID: 11400000, guid: 6d788db5960ec2741bd0d289ed65829b, type: 2}
+    _variableInstancer: {fileID: 0}
   reqOffscreenIndicator: {fileID: 5178457111327729171}
-  reqResourceCalculatorBridge: {fileID: 1570969737518273016}
   maxDensity: 1
   maxTimeWithoutVisibility: 1
---- !u!114 &1570969737518273016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1570969737417517503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcb9313d380caa94f90cfc85b09a7c8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1570969737518273018
 MonoBehaviour:
   m_ObjectHideFlags: 0

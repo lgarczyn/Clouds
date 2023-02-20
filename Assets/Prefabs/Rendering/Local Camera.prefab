@@ -60,7 +60,6 @@ GameObject:
   - component: {fileID: 1306023379}
   - component: {fileID: 478825819222362452}
   - component: {fileID: 4020666703753514612}
-  - component: {fileID: 2566252977128609519}
   - component: {fileID: 1101884252625107002}
   m_Layer: 0
   m_Name: Local Camera
@@ -269,8 +268,13 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  playerDensity:
+    _usage: 2
+    _value: 0
+    _constant: {fileID: 0}
+    _variable: {fileID: 11400000, guid: 6d788db5960ec2741bd0d289ed65829b, type: 2}
+    _variableInstancer: {fileID: 0}
   reqVolume: {fileID: 1306023379}
-  reqResourceCalculatorBridge: {fileID: 2566252977128609519}
 --- !u!114 &4020666703753514612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,18 +285,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2c3ac4f52803eb41ab4c56cbae3ca28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2566252977128609519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9020830774110567834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcb9313d380caa94f90cfc85b09a7c8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1101884252625107002

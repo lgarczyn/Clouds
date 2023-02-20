@@ -474,6 +474,7 @@ GameObject:
   - component: {fileID: 2762716599808054175}
   - component: {fileID: 6788134448066887610}
   - component: {fileID: 3782535957878062250}
+  - component: {fileID: 4447810076092139354}
   m_Layer: 11
   m_Name: Laser
   m_TagString: Untagged
@@ -586,6 +587,7 @@ MonoBehaviour:
   reqLine: {fileID: 2762716599808054175}
   reqMeshRenderer: {fileID: 8926662653142961184}
   reqPlayerManagerBridge: {fileID: 3782535957878062250}
+  reqWarningManagerBridge: {fileID: 0}
   onLaserStartStop:
     m_PersistentCalls:
       m_Calls:
@@ -611,6 +613,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2c3ac4f52803eb41ab4c56cbae3ca28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4447810076092139354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2903411359139189222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9a99ab619ecf4b4aab646ac1fcbbfb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3238948104344426261
@@ -908,7 +922,6 @@ GameObject:
   - component: {fileID: 3644276042266068141}
   - component: {fileID: 4916721293426998453}
   - component: {fileID: 9133401001252639935}
-  - component: {fileID: 3660404017334352442}
   - component: {fileID: 9088259359620998228}
   - component: {fileID: 7935044048767635505}
   m_Layer: 11
@@ -1212,7 +1225,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  reqResourceCalculatorBridge: {fileID: 3660404017334352442}
+  playerDensity:
+    _usage: 2
+    _value: 0
+    _constant: {fileID: 0}
+    _variable: {fileID: 11400000, guid: 6d788db5960ec2741bd0d289ed65829b, type: 2}
+    _variableInstancer: {fileID: 0}
 --- !u!114 &6036350815579256823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1384,8 +1402,13 @@ MonoBehaviour:
   invisibilityThreshold: 5
   alwaysVisibleRange: 60
   forceInvisibility: 0
+  playerDensity:
+    _usage: 2
+    _value: 0
+    _constant: {fileID: 0}
+    _variable: {fileID: 11400000, guid: 6d788db5960ec2741bd0d289ed65829b, type: 2}
+    _variableInstancer: {fileID: 0}
   reqRigidbody: {fileID: 5981469090452608560}
-  reqResourceCalculatorBridge: {fileID: 3660404017334352442}
 --- !u!114 &602097515254194114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1448,18 +1471,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18ee563bab7281b4a84e9aca51323913, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3660404017334352442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6036350815579256820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcb9313d380caa94f90cfc85b09a7c8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &9088259359620998228

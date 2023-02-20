@@ -1,51 +1,33 @@
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
 
 public interface ITarget
 {
-  public bool IsVisible(Vector3 position);
-  public Vector3 position { get; }
-  public Vector3 velocity { get; }
+  public bool IsVisible(Vector3 seekerPosition);
+  public Vector3 Position { get; }
+  public Vector3 Velocity { get; }
 }
 
 public class Target : MonoBehaviour, ITarget
 {
-  public float invisibilityThreshold = 5f;
+  [SerializeField] float invisibilityThreshold = 5f;
 
-  public float alwaysVisibleRange = 60f;
+  [SerializeField] float alwaysVisibleRange = 60f;
 
-  public bool forceInvisibility = false;
+  [SerializeField] bool forceInvisibility = false;
+
+  [SerializeField] FloatReference playerDensity;
 
   [SerializeField][RequiredComponent] Rigidbody reqRigidbody;
 
-  [SerializeField][RequiredComponent] ResourceCalculatorBridge reqResourceCalculatorBridge;
-
-  private bool isVisible = false;
-
-  void Update()
+  public bool IsVisible(Vector3 seekerPosition)
   {
-    var resourceCalculator = reqResourceCalculatorBridge.instance;
-    isVisible = resourceCalculator.GetDensity() < invisibilityThreshold;
+    bool forceVisible = Vector3.Distance(seekerPosition, transform.position) < alwaysVisibleRange;
+    bool shouldBeVisible = playerDensity < invisibilityThreshold;
+    return (shouldBeVisible || forceVisible) && forceInvisibility == false;
   }
 
-  public bool IsVisible(Vector3 position)
-  {
-    bool forceVisible = Vector3.Distance(position, transform.position) < alwaysVisibleRange;
-    return (isVisible || forceVisible) && forceInvisibility == false;
-  }
+  public Vector3 Position => reqRigidbody.position;
 
-  public Vector3 position
-  {
-    get
-    {
-      return reqRigidbody.position;
-    }
-  }
-
-  public Vector3 velocity
-  {
-    get
-    {
-      return reqRigidbody.velocity;
-    }
-  }
+  public Vector3 Velocity => reqRigidbody.velocity;
 }

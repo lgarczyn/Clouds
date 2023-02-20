@@ -10,11 +10,11 @@ namespace GameplayTests
 
     Vector3 lastPosition;
 
-    public Vector3 position => transform.position;
+    public Vector3 Position => transform.position;
 
-    public Vector3 velocity => _velocity;
+    public Vector3 Velocity => _velocity;
 
-    public Vector3 _velocity;
+    Vector3 _velocity;
 
     void Awake()
     {
@@ -26,12 +26,13 @@ namespace GameplayTests
     {
       if (Time.deltaTime == 0f) return;
 
-      _velocity = (transform.position - lastPosition) / (Time.deltaTime);
+      Vector3 newPosition = transform.position;
+      _velocity = (newPosition - lastPosition) / (Time.deltaTime);
 
-      lastPosition = transform.position;
+      lastPosition = newPosition;
     }
 
-    public bool IsVisible(Vector3 position)
+    public bool IsVisible(Vector3 seekerPosition)
     {
       return true;
     }

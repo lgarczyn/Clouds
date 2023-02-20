@@ -71,11 +71,11 @@ public class MissileFiringController : MonoBehaviour
 
     if (target.IsVisible(r.position) == false) return false;
 
-    float distance = Vector3.Distance(target.position, r.position);
+    float distance = Vector3.Distance(target.Position, r.position);
 
     if (distance > range) return false;
 
-    Vector3 assumedPos = target.position;
+    Vector3 assumedPos = target.Position;
     Vector3 dir = (assumedPos - r.position).normalized;
 
     if (Vector3.Angle(dir, r.rotation * Vector3.forward) > fireCone) return false;

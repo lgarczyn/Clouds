@@ -97,9 +97,9 @@ public class Missile : MonoBehaviour
     }
     else if (target.IsVisible(r.position))
     {
-      lastTargetPosition = target.position;
+      lastTargetPosition = target.Position;
 
-      targetPos = lastTargetPosition - target.velocity * aggressivity;
+      targetPos = lastTargetPosition - target.Velocity * aggressivity;
       accuracy = pidPositionAccuracy;
     }
     else
