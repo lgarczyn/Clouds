@@ -154,6 +154,7 @@
 			<destination>{ac543146-17f6-4449-8237-19ce9ca4b45d}</destination>
 			<destination>{b019b9d2-66ba-46b5-93f0-0c6a37361543}</destination>
 			<destination>{b83c928e-525a-42b4-907f-02b7fb2aef64}</destination>
+			<destination>{219ce6c4-cc37-4993-b8c7-89c47a675314}</destination>
 			<destination>{5b989fc2-d313-43bc-a862-78afe3dd1801}</destination>
 		</relationship>
 	</object>
@@ -197,6 +198,17 @@
 	<object class="FlangerEffect" id="{b83c928e-525a-42b4-907f-02b7fb2aef64}">
 		<property name="mix">
 			<value>49</value>
+		</property>
+	</object>
+	<object class="LimiterEffect" id="{219ce6c4-cc37-4993-b8c7-89c47a675314}">
+		<property name="boost">
+			<value>7.4000001</value>
+		</property>
+		<property name="ceiling">
+			<value>-12</value>
+		</property>
+		<property name="release">
+			<value>360</value>
 		</property>
 	</object>
 	<object class="MixerBusFader" id="{5b989fc2-d313-43bc-a862-78afe3dd1801}" />
