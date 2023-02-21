@@ -27,6 +27,14 @@ namespace Sound
       if (playOnStart) Play();
     }
 
+    void OnValidate()
+    {
+      if (rigidbodyOverride == null)
+      {
+        rigidbodyOverride = GetComponentInParent<Rigidbody>();
+      }
+    }
+
     public void SetPlaying(bool value)
     {
       if (value)
