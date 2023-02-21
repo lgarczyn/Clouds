@@ -77,11 +77,16 @@ public class PlaneEntity : MonoBehaviour, IDamageReceiver
   }
   public bool TrySpendEnergy(float units)
   {
-    if (destroyed)
+    if (destroyed || energy <= 0)
       return false;
 
     if (energy < units)
-      return false;
+    {
+      // Return true to allow one more frame of spending, even if energy is not enough
+      // This fixes the issue of energy never reaching 0, thereby not triggering "On Player Energy Empty" event
+      energy = 0;
+      return true;
+    }
 
     this.energy -= units;
     return true;
