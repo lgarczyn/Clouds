@@ -215,8 +215,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Test Warning Please Ignore
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b348209ded008914daacfea5ef42f5d4, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: bc2e57f464d97a94e8ec387ab0ec1240, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: fb33afb5e8f2f1c43bcbd9545d1f63e6, type: 2}
+  m_sharedMaterial: {fileID: 5185190732386253362, guid: fb33afb5e8f2f1c43bcbd9545d1f63e6,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
