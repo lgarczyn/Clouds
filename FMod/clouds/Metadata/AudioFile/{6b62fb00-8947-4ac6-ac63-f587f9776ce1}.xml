@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="AudioFile" id="{6b62fb00-8947-4ac6-ac63-f587f9776ce1}">
 		<property name="assetPath">
-			<value>audiocheck.net_brownnoise.wav</value>
+			<value>Environment/audiocheck.net_brownnoise.wav</value>
 		</property>
 		<property name="isStreaming">
 			<value>true</value>

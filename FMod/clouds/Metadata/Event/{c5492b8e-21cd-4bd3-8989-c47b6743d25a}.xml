@@ -56,7 +56,7 @@
 			<destination>{ee55069c-1afe-4840-9be3-f237c302397d}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{c1233fff-7e55-4353-a014-392b7ea081e2}</destination>
+			<destination>{dbc2d0d9-e82e-403d-a3e3-5511ca3bd7ba}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{7d1d3796-6a40-47b0-a59a-6d46f18a48a9}" />
@@ -115,15 +115,44 @@
 	</object>
 	<object class="MixerBusEffectChain" id="{7d76aba0-ded0-472b-bcb8-9a8d4d61a8f1}">
 		<relationship name="effects">
+			<destination>{1c1d0417-40aa-4e94-8b93-47f7d56d2e04}</destination>
 			<destination>{da59c5b9-ffd1-4812-b2cc-46047aea4185}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{2b4b824d-fff9-48f7-ac8e-379ca6ef688c}" />
 	<object class="SingleSound" id="{b00c5b7b-0f04-4cdc-bdc6-3a538a3fed04}">
+		<relationship name="modulators">
+			<destination>{38c9db9b-211e-415f-aaa5-518588561543}</destination>
+			<destination>{08371b40-7b7f-4d50-b064-2b1a053372de}</destination>
+		</relationship>
 		<relationship name="audioFile">
 			<destination>{f476b0e8-2b24-4cd6-98cc-dacc30439a6a}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{dcef4273-caf7-4a00-8f34-72075e0134a2}" />
+	<object class="LimiterEffect" id="{1c1d0417-40aa-4e94-8b93-47f7d56d2e04}">
+		<property name="ceiling">
+			<value>-9.19999981</value>
+		</property>
+		<property name="release">
+			<value>88</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{da59c5b9-ffd1-4812-b2cc-46047aea4185}" />
+	<object class="RandomizerModulator" id="{38c9db9b-211e-415f-aaa5-518588561543}">
+		<property name="nameOfPropertyBeingModulated">
+			<value>pitch</value>
+		</property>
+		<property name="amount">
+			<value>14.5</value>
+		</property>
+	</object>
+	<object class="RandomizerModulator" id="{08371b40-7b7f-4d50-b064-2b1a053372de}">
+		<property name="nameOfPropertyBeingModulated">
+			<value>startOffset</value>
+		</property>
+		<property name="amount">
+			<value>17</value>
+		</property>
+	</object>
 </objects>

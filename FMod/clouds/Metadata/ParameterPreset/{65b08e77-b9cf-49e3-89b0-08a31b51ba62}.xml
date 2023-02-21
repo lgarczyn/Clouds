@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{65b08e77-b9cf-49e3-89b0-08a31b51ba62}">
+		<property name="name">
+			<value>Player Shield</value>
+		</property>
+		<relationship name="folder">
+			<destination>{bb0cfeae-9497-4ce2-a627-2f5d1b050d98}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{83c17819-226d-4421-93d8-261bb9d15d4f}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{83c17819-226d-4421-93d8-261bb9d15d4f}">
+		<property name="maximum">
+			<value>100</value>
+		</property>
+		<property name="initialValue">
+			<value>100</value>
+		</property>
+		<property name="isExposedRecursively">
+			<value>false</value>
+		</property>
+	</object>
+</objects>

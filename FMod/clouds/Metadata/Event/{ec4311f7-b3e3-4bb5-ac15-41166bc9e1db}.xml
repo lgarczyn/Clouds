@@ -55,7 +55,7 @@
 			<destination>{a1b1545d-503e-462f-96bf-b889e3e4d8be}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{c1233fff-7e55-4353-a014-392b7ea081e2}</destination>
+			<destination>{dbc2d0d9-e82e-403d-a3e3-5511ca3bd7ba}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{ce0dcc2f-a077-47e6-8a7b-c5ef908834ad}">
@@ -79,7 +79,7 @@
 	</object>
 	<object class="EventMixerMaster" id="{d756199e-704e-4780-82e5-565a6d9c1976}">
 		<property name="volume">
-			<value>-20.5</value>
+			<value>-11</value>
 		</property>
 		<relationship name="effectChain">
 			<destination>{c9c52923-276a-4c73-a48f-e2b805c5f985}</destination>
@@ -196,13 +196,16 @@
 		</relationship>
 	</object>
 	<object class="FlangerEffect" id="{b83c928e-525a-42b4-907f-02b7fb2aef64}">
+		<property name="rate">
+			<value>0.0700000003</value>
+		</property>
 		<property name="mix">
 			<value>49</value>
 		</property>
 	</object>
 	<object class="LimiterEffect" id="{219ce6c4-cc37-4993-b8c7-89c47a675314}">
 		<property name="boost">
-			<value>7.4000001</value>
+			<value>10.6000004</value>
 		</property>
 		<property name="ceiling">
 			<value>-12</value>

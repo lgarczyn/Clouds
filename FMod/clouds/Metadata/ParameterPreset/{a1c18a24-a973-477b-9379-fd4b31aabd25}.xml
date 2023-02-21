@@ -5,7 +5,7 @@
 			<value>Plane Turning Angle</value>
 		</property>
 		<relationship name="folder">
-			<destination>{5eaf5f39-8276-484c-b3f3-e081e0c3a8d5}</destination>
+			<destination>{bb0cfeae-9497-4ce2-a627-2f5d1b050d98}</destination>
 		</relationship>
 		<relationship name="parameter">
 			<destination>{b2aebb07-fbbc-4a74-ae1b-47067c6f54da}</destination>

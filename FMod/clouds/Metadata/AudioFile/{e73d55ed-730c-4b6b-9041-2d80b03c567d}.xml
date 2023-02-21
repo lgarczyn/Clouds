@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{e73d55ed-730c-4b6b-9041-2d80b03c567d}">
+		<property name="assetPath">
+			<value>Feedback/144887__willfitch1__energy-weapon.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>1.143673469387755</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{4e0aba56-954c-4504-b696-58494119105b}</destination>
+		</relationship>
+	</object>
+</objects>

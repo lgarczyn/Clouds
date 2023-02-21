@@ -5,7 +5,7 @@
 			<value>Frame Delay</value>
 		</property>
 		<relationship name="folder">
-			<destination>{5eaf5f39-8276-484c-b3f3-e081e0c3a8d5}</destination>
+			<destination>{fafa2987-7a49-4a75-8c39-0e03d28b5135}</destination>
 		</relationship>
 		<relationship name="parameter">
 			<destination>{278674c8-15f9-4ff1-a051-3b8bae128e92}</destination>

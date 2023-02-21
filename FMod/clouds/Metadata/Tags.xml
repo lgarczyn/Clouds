@@ -7,6 +7,14 @@
 		<relationship name="items">
 			<destination>{aa441e84-3bb2-4672-8cd2-07d551a01358}</destination>
 			<destination>{7b8baebc-1ccb-4d9f-ab9f-215b4f916fe3}</destination>
+			<destination>{21f00225-5afd-45dd-8f19-c31a117074af}</destination>
+			<destination>{36c472ae-c977-421a-bfe8-fae345134639}</destination>
+			<destination>{69566792-51b4-4604-9029-9ee231e3a69c}</destination>
+			<destination>{7457fa59-6c57-4ed4-870b-92370765e100}</destination>
+			<destination>{ef52a9ef-5bef-4102-b6ec-7c3489f38757}</destination>
+			<destination>{29c9b2ef-cec6-49e8-9422-10743c7ba74c}</destination>
+			<destination>{d4c0506b-bec9-4ba7-9993-2ee1bf24a9ad}</destination>
+			<destination>{5f476d76-4444-4bf4-85b8-183b7caa3f42}</destination>
 		</relationship>
 	</object>
 	<object class="Tag" id="{aa441e84-3bb2-4672-8cd2-07d551a01358}">
@@ -17,6 +25,46 @@
 	<object class="Tag" id="{7b8baebc-1ccb-4d9f-ab9f-215b4f916fe3}">
 		<property name="name">
 			<value>placeholder</value>
+		</property>
+	</object>
+	<object class="Tag" id="{21f00225-5afd-45dd-8f19-c31a117074af}">
+		<property name="name">
+			<value>ahdsr-modulator</value>
+		</property>
+	</object>
+	<object class="Tag" id="{36c472ae-c977-421a-bfe8-fae345134639}">
+		<property name="name">
+			<value>async</value>
+		</property>
+	</object>
+	<object class="Tag" id="{69566792-51b4-4604-9029-9ee231e3a69c}">
+		<property name="name">
+			<value>initial-value</value>
+		</property>
+	</object>
+	<object class="Tag" id="{7457fa59-6c57-4ed4-870b-92370765e100}">
+		<property name="name">
+			<value>loop-instrument</value>
+		</property>
+	</object>
+	<object class="Tag" id="{ef52a9ef-5bef-4102-b6ec-7c3489f38757}">
+		<property name="name">
+			<value>parameter</value>
+		</property>
+	</object>
+	<object class="Tag" id="{29c9b2ef-cec6-49e8-9422-10743c7ba74c}">
+		<property name="name">
+			<value>persistent</value>
+		</property>
+	</object>
+	<object class="Tag" id="{d4c0506b-bec9-4ba7-9993-2ee1bf24a9ad}">
+		<property name="name">
+			<value>single-instrument</value>
+		</property>
+	</object>
+	<object class="Tag" id="{5f476d76-4444-4bf4-85b8-183b7caa3f42}">
+		<property name="name">
+			<value>snapshot-instrument</value>
 		</property>
 	</object>
 </objects>

@@ -2,13 +2,13 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{968a7dcd-2e7b-4989-a080-64ae40f8975d}">
 		<property name="name">
-			<value>Wind</value>
+			<value>Speed Wind</value>
 		</property>
 		<property name="outputFormat">
 			<value>1</value>
 		</property>
 		<relationship name="folder">
-			<destination>{26ecb7ce-359c-4c08-915c-53a15ee4d5ea}</destination>
+			<destination>{7ceb1998-fcd3-47b3-989e-844f9c344e21}</destination>
 		</relationship>
 		<relationship name="mixer">
 			<destination>{94ca27c7-47fc-45ec-a985-2a1d6e84c868}</destination>
@@ -64,7 +64,7 @@
 			<destination>{bb85a1de-8116-4f01-ba4e-19159f6049b2}</destination>
 		</relationship>
 		<relationship name="output">
-			<destination>{c1233fff-7e55-4353-a014-392b7ea081e2}</destination>
+			<destination>{e95bd427-c548-4b43-a3d8-0fc4a1ea8359}</destination>
 		</relationship>
 	</object>
 	<object class="EventAutomatableProperties" id="{903168c9-de3b-4015-ba34-e3281afcdddb}">
@@ -150,7 +150,7 @@
 	</object>
 	<object class="EventMixerMaster" id="{d3fc9ea2-c41c-4aa6-8c88-e9fc1a0aed0f}">
 		<property name="volume">
-			<value>-18.5</value>
+			<value>-24</value>
 		</property>
 		<relationship name="effectChain">
 			<destination>{100f8c28-d163-434f-a9b1-e95363b97d34}</destination>
