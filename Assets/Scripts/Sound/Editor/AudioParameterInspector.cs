@@ -75,6 +75,7 @@ namespace Sound.Editor
         if (newSelectedIndex != selectedIndex)
         {
           SerializeParameterID(_parameterIdProp, (PARAMETER_ID)options[newSelectedIndex].ID);
+          serializedObject.ApplyModifiedProperties();
         }
       }
       // End property
