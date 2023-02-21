@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 5128fe9ff59d20e47af88a01a9bf3f60
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Betina Sans
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: b0b53e6434a1ab14c981a7ef3283524f, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
