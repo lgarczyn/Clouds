@@ -303,7 +303,7 @@
                 "m_Node": {
                     "m_Id": "fa2fe6e003104b179500c86d8092db25"
                 },
-                "m_SlotId": 1775879699
+                "m_SlotId": 972019598
             }
         },
         {
@@ -3895,31 +3895,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
-    "m_ObjectId": "a7e985d59e0949759f0f1c384b376f99",
-    "m_Id": 1775879699,
-    "m_DisplayName": "Color",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "_Color",
-    "m_StageCapability": 3,
-    "m_Value": {
-        "x": 1.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.4941176474094391
-    },
-    "m_DefaultValue": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    },
-    "m_Labels": []
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "a8f2ab46c26849268178085cb80e208f",
     "m_Id": 1,
@@ -5302,10 +5277,10 @@
     },
     "m_Slots": [
         {
-            "m_Id": "a7e985d59e0949759f0f1c384b376f99"
+            "m_Id": "2f1ec02e5f4b4be8b01ce6f6d7a65c1d"
         },
         {
-            "m_Id": "2f1ec02e5f4b4be8b01ce6f6d7a65c1d"
+            "m_Id": "ff0cc3b3930f496993c1f8439d1fc28b"
         },
         {
             "m_Id": "313f2c06186e4e53b61d351d711af959"
@@ -5343,14 +5318,16 @@
         "53d5fae0-19ac-4243-98e8-c717143bd30c",
         "2d49792b-bbb6-4d0d-80e5-bca1f0dcbcf4",
         "51fa2079-14a3-4ed7-817a-a0a6ca30656e",
-        "9772f7d8-52ab-4680-98e9-bf3f0eab5be2"
+        "9772f7d8-52ab-4680-98e9-bf3f0eab5be2",
+        "a1c26ff4-00a0-44ac-8f7c-df7555c45ea9"
     ],
     "m_PropertyIds": [
         1775879699,
         176304320,
         893713389,
         -672629103,
-        202827749
+        202827749,
+        972019598
     ],
     "m_Dropdowns": [],
     "m_DropdownSelectedEntries": []
@@ -5569,5 +5546,28 @@
         "e32": 0.0,
         "e33": 1.0
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector3MaterialSlot",
+    "m_ObjectId": "ff0cc3b3930f496993c1f8439d1fc28b",
+    "m_Id": 972019598,
+    "m_DisplayName": "Color",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "_Color",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_Labels": []
 }
 

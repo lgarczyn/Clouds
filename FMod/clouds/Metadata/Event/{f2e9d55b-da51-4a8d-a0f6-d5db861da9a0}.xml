@@ -1,29 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{f2e9d55b-da51-4a8d-a0f6-d5db861da9a0}">
-		<property name="note">
-			<value>This is an example of a persistent event and use of snapshot instruments.
-
-A persistent event will not automatically stop, even when there is no instrument being triggered. 
-
-The "Health" parameter has an initial value of 100, representing 100% health in game. Once the player's health drops below 25%, the playback position on the "Health" parameter sheet will trigger the looping heartbeat single instrument and the "Health" snapshot instrument. Double click on the snapshot to open it in the mixer view.
-
-The snapshot instrument triggers the "Health Low" snapshot, which applies a lowpass filter to the Music group bus and reduces the volume of the Ambience and Weapons group buses.
-
-To hear the effects of this snapshot, play the "Weapons/Machine Gun" event and/or any "Music/Level" event in a new event editor tab while this event is playing with the "Health" parameter value at 25 or lower.
-
-The timeline parameter sheet is not being used so it has been removed.
-
-https://www.fmod.com/docs/studio/event-macro-controls-reference.html#persistent
-
-https://www.fmod.com/docs/studio/mixing.html#snapshots-and-the-tracks-view
-
-https://www.fmod.com/docs/studio/working-with-instruments.html#snapshot-instruments
-
-Heartbeat recording is licensed under the Creative Commons Attribution 3.0 Unported license.
-
-https://commons.wikimedia.org/wiki/File:Heartbeat.ogg</value>
-		</property>
+		<property name="note" />
 		<property name="name">
 			<value>Low Health And No Shield</value>
 		</property>
@@ -32,16 +10,6 @@ https://commons.wikimedia.org/wiki/File:Heartbeat.ogg</value>
 		</property>
 		<relationship name="folder">
 			<destination>{7ceb1998-fcd3-47b3-989e-844f9c344e21}</destination>
-		</relationship>
-		<relationship name="tags">
-			<destination>{21f00225-5afd-45dd-8f19-c31a117074af}</destination>
-			<destination>{36c472ae-c977-421a-bfe8-fae345134639}</destination>
-			<destination>{69566792-51b4-4604-9029-9ee231e3a69c}</destination>
-			<destination>{7457fa59-6c57-4ed4-870b-92370765e100}</destination>
-			<destination>{ef52a9ef-5bef-4102-b6ec-7c3489f38757}</destination>
-			<destination>{29c9b2ef-cec6-49e8-9422-10743c7ba74c}</destination>
-			<destination>{d4c0506b-bec9-4ba7-9993-2ee1bf24a9ad}</destination>
-			<destination>{5f476d76-4444-4bf4-85b8-183b7caa3f42}</destination>
 		</relationship>
 		<relationship name="mixer">
 			<destination>{de79c1d2-21ea-4843-a940-f609bba5a95a}</destination>
@@ -60,6 +28,8 @@ https://commons.wikimedia.org/wiki/File:Heartbeat.ogg</value>
 		</relationship>
 		<relationship name="groupTracks">
 			<destination>{0e0139a7-267b-4b43-9619-50893bfb2b73}</destination>
+			<destination>{2ca667c2-ef64-4073-aaa5-b8519b94a327}</destination>
+			<destination>{73f2a08f-5168-4a36-9d59-89919aef3e5f}</destination>
 		</relationship>
 		<relationship name="timeline">
 			<destination>{1b9690d4-9a60-4380-a160-0ccc063e6a4a}</destination>
@@ -106,14 +76,35 @@ https://commons.wikimedia.org/wiki/File:Heartbeat.ogg</value>
 		<relationship name="automationTracks">
 			<destination>{8d712ad7-3478-4297-b6d7-7b533a6f98cb}</destination>
 			<destination>{73bf54c6-2908-4bb6-8f3b-6287e073e179}</destination>
-			<destination>{34b6f3ea-6f27-4b66-98a1-3102af61105d}</destination>
 		</relationship>
 		<relationship name="modules">
-			<destination>{9d2b3564-050d-4561-8371-f595ed3f4d16}</destination>
 			<destination>{92b9bb22-d5a8-4584-af72-b28398ce55fd}</destination>
 		</relationship>
 		<relationship name="mixerGroup">
 			<destination>{f48b4274-2008-4cee-9f46-bec1ea048149}</destination>
+		</relationship>
+	</object>
+	<object class="GroupTrack" id="{2ca667c2-ef64-4073-aaa5-b8519b94a327}">
+		<relationship name="automationTracks">
+			<destination>{a7173ac0-8e99-4ede-bc42-cac242b83432}</destination>
+			<destination>{dab23034-f817-4abf-b302-e7bd0b62909d}</destination>
+		</relationship>
+		<relationship name="modules">
+			<destination>{96d62e61-c59f-4bff-8ff1-feb9d2e4e583}</destination>
+		</relationship>
+		<relationship name="mixerGroup">
+			<destination>{bd1f827d-c9d3-40fb-b65d-4609f4c59e50}</destination>
+		</relationship>
+	</object>
+	<object class="GroupTrack" id="{73f2a08f-5168-4a36-9d59-89919aef3e5f}">
+		<relationship name="automationTracks">
+			<destination>{be2f99d5-abfb-4bcf-9b8b-1111a5427ef5}</destination>
+		</relationship>
+		<relationship name="modules">
+			<destination>{0a5d8ce8-dca5-4f93-b767-26a2a010c891}</destination>
+		</relationship>
+		<relationship name="mixerGroup">
+			<destination>{fcf7d8bd-93b1-4c49-8dfc-69f1b6a681ce}</destination>
 		</relationship>
 	</object>
 	<object class="Timeline" id="{1b9690d4-9a60-4380-a160-0ccc063e6a4a}">
@@ -123,8 +114,9 @@ https://commons.wikimedia.org/wiki/File:Heartbeat.ogg</value>
 	</object>
 	<object class="ParameterProxy" id="{3deb96fa-9478-446d-942e-88f841a7efa0}">
 		<relationship name="modules">
-			<destination>{9d2b3564-050d-4561-8371-f595ed3f4d16}</destination>
 			<destination>{92b9bb22-d5a8-4584-af72-b28398ce55fd}</destination>
+			<destination>{96d62e61-c59f-4bff-8ff1-feb9d2e4e583}</destination>
+			<destination>{0a5d8ce8-dca5-4f93-b767-26a2a010c891}</destination>
 		</relationship>
 		<relationship name="preset">
 			<destination>{187d7e87-d4b9-4a2d-bf45-d31e56a79782}</destination>
@@ -170,35 +162,12 @@ https://commons.wikimedia.org/wiki/File:Heartbeat.ogg</value>
 			<destination>{959269fc-ebfa-41e6-bd0c-4aa8f060fc4f}</destination>
 		</relationship>
 	</object>
-	<object class="AutomationTrack" id="{34b6f3ea-6f27-4b66-98a1-3102af61105d}">
-		<relationship name="automator">
-			<destination>{54990f16-f139-40b0-8e17-0495e3e19700}</destination>
-		</relationship>
-	</object>
-	<object class="MultiSound" id="{9d2b3564-050d-4561-8371-f595ed3f4d16}">
-		<property name="start">
-			<value>0.08598452278589841</value>
-		</property>
-		<property name="length">
-			<value>20</value>
-		</property>
-		<property name="looping">
-			<value>true</value>
-		</property>
-		<property name="playlistMode">
-			<value>2</value>
-		</property>
-		<relationship name="sounds">
-			<destination>{0f743b49-b383-4176-8f7e-dd58ecbeaf9f}</destination>
-			<destination>{f81451f3-b515-472f-9311-49095a46ea2d}</destination>
-		</relationship>
-	</object>
 	<object class="SingleSound" id="{92b9bb22-d5a8-4584-af72-b28398ce55fd}">
 		<property name="start">
 			<value>0.17196904557179704</value>
 		</property>
 		<property name="length">
-			<value>2</value>
+			<value>4.8280309544282032</value>
 		</property>
 		<property name="looping">
 			<value>true</value>
@@ -227,6 +196,81 @@ https://commons.wikimedia.org/wiki/File:Heartbeat.ogg</value>
 			<destination>{71dedf64-839c-49bd-9e4f-20fd3305e12f}</destination>
 		</relationship>
 	</object>
+	<object class="AutomationTrack" id="{a7173ac0-8e99-4ede-bc42-cac242b83432}">
+		<relationship name="automator">
+			<destination>{787e4ef7-dfc2-4002-9341-72d5b8310485}</destination>
+		</relationship>
+	</object>
+	<object class="AutomationTrack" id="{dab23034-f817-4abf-b302-e7bd0b62909d}">
+		<relationship name="automator">
+			<destination>{9a01ed91-22ca-4fa7-ac1c-906b718920d6}</destination>
+		</relationship>
+	</object>
+	<object class="MultiSound" id="{96d62e61-c59f-4bff-8ff1-feb9d2e4e583}">
+		<property name="start">
+			<value>0.08598452278589841</value>
+		</property>
+		<property name="length">
+			<value>26.9140154772141</value>
+		</property>
+		<property name="looping">
+			<value>true</value>
+		</property>
+		<property name="playlistMode">
+			<value>2</value>
+		</property>
+		<relationship name="sounds">
+			<destination>{b8a7bae9-4062-42a2-bacf-59ee1a1a057f}</destination>
+			<destination>{66700815-80e0-4ea0-b066-3c0a1410f0d5}</destination>
+		</relationship>
+	</object>
+	<object class="EventMixerGroup" id="{bd1f827d-c9d3-40fb-b65d-4609f4c59e50}">
+		<property name="name">
+			<value>Alarm</value>
+		</property>
+		<relationship name="automators">
+			<destination>{787e4ef7-dfc2-4002-9341-72d5b8310485}</destination>
+		</relationship>
+		<relationship name="effectChain">
+			<destination>{50e6c8ce-3b81-417c-8a08-2cad34b9e85b}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{2f88c55e-f7b0-4823-b567-7c1c01e190c7}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{71dedf64-839c-49bd-9e4f-20fd3305e12f}</destination>
+		</relationship>
+	</object>
+	<object class="AutomationTrack" id="{be2f99d5-abfb-4bcf-9b8b-1111a5427ef5}">
+		<relationship name="automator">
+			<destination>{a4dd234d-bd7d-4fec-bc34-206f645be29f}</destination>
+		</relationship>
+	</object>
+	<object class="SnapshotModule" id="{0a5d8ce8-dca5-4f93-b767-26a2a010c891}">
+		<property name="length">
+			<value>9</value>
+		</property>
+		<relationship name="automators">
+			<destination>{a4dd234d-bd7d-4fec-bc34-206f645be29f}</destination>
+		</relationship>
+		<relationship name="event">
+			<destination>{3cb35819-5845-44bc-9e37-aec7cc81aced}</destination>
+		</relationship>
+	</object>
+	<object class="EventMixerGroup" id="{fcf7d8bd-93b1-4c49-8dfc-69f1b6a681ce}">
+		<property name="name">
+			<value>Lowpass</value>
+		</property>
+		<relationship name="effectChain">
+			<destination>{0ff1fbc8-4e4b-4636-9f75-37512c511270}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{858d7d16-2ec4-427b-a0bb-58cf4f5f8e56}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{71dedf64-839c-49bd-9e4f-20fd3305e12f}</destination>
+		</relationship>
+	</object>
 	<object class="Automator" id="{3b2106d1-e88d-487b-b4d7-8fb116d12a69}">
 		<property name="nameOfPropertyBeingAutomated">
 			<value>volume</value>
@@ -237,22 +281,12 @@ https://commons.wikimedia.org/wiki/File:Heartbeat.ogg</value>
 	</object>
 	<object class="MixerBusEffectChain" id="{d8f2ad27-4e02-4a1f-96fa-defe5ffd0b7d}">
 		<relationship name="effects">
-			<destination>{ae475c73-ee4d-4c6f-ab92-375c9d8565d5}</destination>
 			<destination>{c318105a-8545-491b-b1e0-c688bcf649f1}</destination>
+			<destination>{ae475c73-ee4d-4c6f-ab92-375c9d8565d5}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{bcc06312-fdc5-4250-aafe-f5bf935f5b7f}" />
 	<object class="MixerBusFader" id="{a5c34332-2bc2-4484-aa56-6f3cca20b553}" />
-	<object class="SingleSound" id="{0f743b49-b383-4176-8f7e-dd58ecbeaf9f}">
-		<relationship name="audioFile">
-			<destination>{73b45895-a18d-475b-922f-284593da310e}</destination>
-		</relationship>
-	</object>
-	<object class="SilenceSound" id="{f81451f3-b515-472f-9311-49095a46ea2d}">
-		<relationship name="automators">
-			<destination>{54990f16-f139-40b0-8e17-0495e3e19700}</destination>
-		</relationship>
-	</object>
 	<object class="Automator" id="{959269fc-ebfa-41e6-bd0c-4aa8f060fc4f}">
 		<property name="nameOfPropertyBeingAutomated">
 			<value>pitch</value>
@@ -275,6 +309,44 @@ https://commons.wikimedia.org/wiki/File:Heartbeat.ogg</value>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{7592df15-004e-4fcc-9ba5-895a81d39fe7}" />
+	<object class="SingleSound" id="{b8a7bae9-4062-42a2-bacf-59ee1a1a057f}">
+		<relationship name="audioFile">
+			<destination>{73b45895-a18d-475b-922f-284593da310e}</destination>
+		</relationship>
+	</object>
+	<object class="SilenceSound" id="{66700815-80e0-4ea0-b066-3c0a1410f0d5}">
+		<relationship name="automators">
+			<destination>{9a01ed91-22ca-4fa7-ac1c-906b718920d6}</destination>
+		</relationship>
+	</object>
+	<object class="Automator" id="{787e4ef7-dfc2-4002-9341-72d5b8310485}">
+		<property name="nameOfPropertyBeingAutomated">
+			<value>volume</value>
+		</property>
+		<relationship name="automationCurves">
+			<destination>{17f97396-082a-4174-a63f-e47f6d30859f}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{50e6c8ce-3b81-417c-8a08-2cad34b9e85b}">
+		<relationship name="effects">
+			<destination>{734375b4-ee44-4b2d-add1-456e2de908ca}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{2f88c55e-f7b0-4823-b567-7c1c01e190c7}" />
+	<object class="Automator" id="{a4dd234d-bd7d-4fec-bc34-206f645be29f}">
+		<property name="nameOfPropertyBeingAutomated">
+			<value>intensity</value>
+		</property>
+		<relationship name="automationCurves">
+			<destination>{4376d952-b926-49d4-8e7f-a9fe83c3f176}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{0ff1fbc8-4e4b-4636-9f75-37512c511270}">
+		<relationship name="effects">
+			<destination>{fe2cefac-bc59-4cfb-9a00-30db8c74b73e}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{858d7d16-2ec4-427b-a0bb-58cf4f5f8e56}" />
 	<object class="AutomationCurve" id="{2ee26426-1da8-4980-aa0a-7ff253be4034}">
 		<relationship name="parameter">
 			<destination>{83c17819-226d-4421-93d8-261bb9d15d4f}</destination>
@@ -284,7 +356,6 @@ https://commons.wikimedia.org/wiki/File:Heartbeat.ogg</value>
 			<destination>{a5a9407b-8d41-4806-95c6-0a6c70f73a52}</destination>
 		</relationship>
 	</object>
-	<object class="MixerBusFader" id="{ae475c73-ee4d-4c6f-ab92-375c9d8565d5}" />
 	<object class="ThreeEQEffect" id="{c318105a-8545-491b-b1e0-c688bcf649f1}">
 		<property name="midGain">
 			<value>-29.5</value>
@@ -293,14 +364,7 @@ https://commons.wikimedia.org/wiki/File:Heartbeat.ogg</value>
 			<value>-80</value>
 		</property>
 	</object>
-	<object class="Automator" id="{54990f16-f139-40b0-8e17-0495e3e19700}">
-		<property name="nameOfPropertyBeingAutomated">
-			<value>duration</value>
-		</property>
-		<relationship name="automationCurves">
-			<destination>{8b7c6199-48b8-44ec-a654-1a8dbf9bcb5a}</destination>
-		</relationship>
-	</object>
+	<object class="MixerBusFader" id="{ae475c73-ee4d-4c6f-ab92-375c9d8565d5}" />
 	<object class="AutomationCurve" id="{b98f8073-0441-4b06-a84e-2f8009cd9c5f}">
 		<relationship name="parameter">
 			<destination>{187d7e87-d4b9-4a2d-bf45-d31e56a79782}</destination>
@@ -320,12 +384,40 @@ https://commons.wikimedia.org/wiki/File:Heartbeat.ogg</value>
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{e50ece76-be6c-47fc-a3e8-b3804e480d6e}" />
+	<object class="Automator" id="{9a01ed91-22ca-4fa7-ac1c-906b718920d6}">
+		<property name="nameOfPropertyBeingAutomated">
+			<value>duration</value>
+		</property>
+		<relationship name="automationCurves">
+			<destination>{e49a797d-8d8c-4598-a953-38358744c818}</destination>
+		</relationship>
+	</object>
+	<object class="AutomationCurve" id="{17f97396-082a-4174-a63f-e47f6d30859f}">
+		<relationship name="parameter">
+			<destination>{187d7e87-d4b9-4a2d-bf45-d31e56a79782}</destination>
+		</relationship>
+		<relationship name="automationPoints">
+			<destination>{4684a857-df03-4742-976f-98330da22e14}</destination>
+			<destination>{0f0ad147-cbaf-404e-9f16-7065432b0441}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusFader" id="{734375b4-ee44-4b2d-add1-456e2de908ca}" />
+	<object class="AutomationCurve" id="{4376d952-b926-49d4-8e7f-a9fe83c3f176}">
+		<relationship name="parameter">
+			<destination>{187d7e87-d4b9-4a2d-bf45-d31e56a79782}</destination>
+		</relationship>
+		<relationship name="automationPoints">
+			<destination>{e63a2607-6246-4c47-b127-bb7a61b4db59}</destination>
+			<destination>{f6c18e48-64f1-4880-b75e-aa59a4f12fb2}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusFader" id="{fe2cefac-bc59-4cfb-9a00-30db8c74b73e}" />
 	<object class="AutomationPoint" id="{a9deaeb5-f81a-40a2-8d84-d4aa1be0756a}">
 		<property name="position">
 			<value>0</value>
 		</property>
 		<property name="value">
-			<value>10</value>
+			<value>0</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{a5a9407b-8d41-4806-95c6-0a6c70f73a52}">
@@ -335,15 +427,6 @@ https://commons.wikimedia.org/wiki/File:Heartbeat.ogg</value>
 		<property name="value">
 			<value>-80</value>
 		</property>
-	</object>
-	<object class="AutomationCurve" id="{8b7c6199-48b8-44ec-a654-1a8dbf9bcb5a}">
-		<relationship name="parameter">
-			<destination>{187d7e87-d4b9-4a2d-bf45-d31e56a79782}</destination>
-		</relationship>
-		<relationship name="automationPoints">
-			<destination>{0b3d2e7b-443a-4bc0-b5c3-871636b2630d}</destination>
-			<destination>{cf6be3aa-9ace-41e9-bf1c-90a68b29ee32}</destination>
-		</relationship>
 	</object>
 	<object class="AutomationPoint" id="{165dd908-e084-4725-a84c-b715f8c662e7}">
 		<property name="position">
@@ -377,7 +460,24 @@ https://commons.wikimedia.org/wiki/File:Heartbeat.ogg</value>
 			<value>0</value>
 		</property>
 	</object>
-	<object class="AutomationPoint" id="{0b3d2e7b-443a-4bc0-b5c3-871636b2630d}">
+	<object class="AutomationCurve" id="{e49a797d-8d8c-4598-a953-38358744c818}">
+		<relationship name="parameter">
+			<destination>{187d7e87-d4b9-4a2d-bf45-d31e56a79782}</destination>
+		</relationship>
+		<relationship name="automationPoints">
+			<destination>{3ccc1451-2581-43bb-9324-20954ea0bebe}</destination>
+			<destination>{38800bcb-2bf9-4af6-8bab-4070f96d14ad}</destination>
+		</relationship>
+	</object>
+	<object class="AutomationPoint" id="{4684a857-df03-4742-976f-98330da22e14}">
+		<property name="position">
+			<value>20</value>
+		</property>
+		<property name="value">
+			<value>-16</value>
+		</property>
+	</object>
+	<object class="AutomationPoint" id="{0f0ad147-cbaf-404e-9f16-7065432b0441}">
 		<property name="position">
 			<value>0</value>
 		</property>
@@ -385,7 +485,31 @@ https://commons.wikimedia.org/wiki/File:Heartbeat.ogg</value>
 			<value>0</value>
 		</property>
 	</object>
-	<object class="AutomationPoint" id="{cf6be3aa-9ace-41e9-bf1c-90a68b29ee32}">
+	<object class="AutomationPoint" id="{e63a2607-6246-4c47-b127-bb7a61b4db59}">
+		<property name="position">
+			<value>9.9742046431642297</value>
+		</property>
+		<property name="value">
+			<value>0</value>
+		</property>
+	</object>
+	<object class="AutomationPoint" id="{f6c18e48-64f1-4880-b75e-aa59a4f12fb2}">
+		<property name="position">
+			<value>0</value>
+		</property>
+		<property name="value">
+			<value>100</value>
+		</property>
+	</object>
+	<object class="AutomationPoint" id="{3ccc1451-2581-43bb-9324-20954ea0bebe}">
+		<property name="position">
+			<value>0</value>
+		</property>
+		<property name="value">
+			<value>0</value>
+		</property>
+	</object>
+	<object class="AutomationPoint" id="{38800bcb-2bf9-4af6-8bab-4070f96d14ad}">
 		<property name="position">
 			<value>20.034393809114359</value>
 		</property>
