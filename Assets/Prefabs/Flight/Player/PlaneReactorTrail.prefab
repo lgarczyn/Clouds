@@ -190,29 +190,10 @@ MonoBehaviour:
     _variable: {fileID: 11400000, guid: 6f8bd4b7b4e35a54589b2b9764a48434, type: 2}
     _variableInstancer: {fileID: 0}
   - _usage: 0
-    _value: 7
+    _value: 2
     _constant: {fileID: 0}
     _variable: {fileID: 0}
     _variableInstancer: {fileID: 0}
-  unityOutput:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 424426433390178584}
-        m_TargetAssemblyTypeName: UnityEngine.TrailRenderer, UnityEngine
-        m_MethodName: set_widthMultiplier
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  scaleOutput:
-    m_PersistentCalls:
-      m_Calls: []
-  atomOutput: {fileID: 0}
 --- !u!114 &444946179515194558
 MonoBehaviour:
   m_ObjectHideFlags: 0
