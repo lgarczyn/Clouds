@@ -60,7 +60,6 @@ namespace VolumetricLines
 		[SerializeField]
 		private float m_lineWidth = 1;
 
-
 		#endregion
 
 		#region properties
@@ -71,11 +70,11 @@ namespace VolumetricLines
 		/// </summary>
 		public Vector3 StartPos
 		{
-			get { return m_startPos; }
+			get => m_startPos;
 			set
 			{
 				m_startPos = value;
-			UpdateMesh(m_startPos, m_endPos, m_lineWidth, m_lineColor);
+				UpdateMesh(m_startPos, m_endPos, m_lineWidth, m_lineColor);
 			}
 		}
 
@@ -84,11 +83,24 @@ namespace VolumetricLines
 		/// </summary>
 		public Vector3 EndPos
 		{
-			get { return m_endPos; }
+			get => m_endPos;
 			set
 			{
 				m_endPos = value;
-			UpdateMesh(m_startPos, m_endPos, m_lineWidth, m_lineColor);
+				UpdateMesh(m_startPos, m_endPos, m_lineWidth, m_lineColor);
+			}
+		}
+
+		/// <summary>
+		/// Get or set the width of this volumetric line, not accounting for material
+		/// </summary>
+		public float Width
+		{
+			get => m_lineWidth;
+			set
+			{
+				m_lineWidth = value;
+				UpdateMesh(m_startPos, m_endPos, m_lineWidth, m_lineColor);
 			}
 		}
 

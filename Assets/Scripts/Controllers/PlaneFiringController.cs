@@ -15,39 +15,47 @@ public class PlaneFiringController : MultiUpdateBodyChild
   [SerializeField] Transform gunportLeft;
   [SerializeField] Transform gunportRight;
 
-  bool nextShotLeft = true;
-  bool firing = false;
+  [SerializeField] Animation leftClip;
+  [SerializeField] Animation rightClip;
 
-  Quaternion aim;
+  bool _nextShotLeft = true;
+  bool _firing = false;
+  Quaternion _aim;
 
   [SerializeField][RequiredComponent] PlayerManagerBridge reqPlayerManagerBridge;
 
   public void OnFire(InputAction.CallbackContext context)
   {
-    firing = context.ReadValueAsButton();
+    _firing = context.ReadValueAsButton();
   }
 
   protected override void BeforeUpdates()
   {
-    if (aim == new Quaternion()) aim = Camera.main.transform.rotation;
+    if (_aim == new Quaternion()) _aim = Camera.main.transform.rotation;
     base.BeforeUpdates();
   }
 
   override protected Wait MultiUpdate (double deltaTime)
   {
-    aim = Quaternion.RotateTowards(aim, Camera.main.transform.rotation, aimAnglePerSecond * (float)deltaTime);
+    _aim = Quaternion.RotateTowards(_aim, Camera.main.transform.rotation, aimAnglePerSecond * (float)deltaTime);
     // Handle more precise firing controls
-    if (!firing) return Wait.ForFrame();
+    if (!_firing) return Wait.ForFrame();
 
     onShoot.Invoke((float)(currentTime - timeOfLastUpdate));
 
-    Vector3 dir = (aim * Vector3.forward
+    Vector3 dir = (_aim * Vector3.forward
                    + Random.insideUnitSphere * spread).normalized;
 
-    Vector3 localPos = nextShotLeft ? gunportLeft.localPosition : gunportRight.localPosition;
-    Vector3 position = interpolatedMatrix.MultiplyPoint(localPos);
+    if (_nextShotLeft) leftClip.Play();
+    else rightClip.Play();
 
-    nextShotLeft = !nextShotLeft;
+    leftClip.transform.forward = rightClip.transform.forward = dir;
+
+    Vector3 localPos = _nextShotLeft ? gunportLeft.localPosition : gunportRight.localPosition;
+    Vector3 position = interpolatedMatrix.MultiplyPoint(localPos);
+    
+
+    _nextShotLeft = !_nextShotLeft;
     bulletPool.Get<BulletController>().Init(position, dir, (float)timeToEndOfFrame);
 
     return Wait.For(1f / rps);

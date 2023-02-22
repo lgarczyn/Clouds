@@ -17,6 +17,7 @@ public class PlaneLaserController : MonoBehaviour
   [SerializeField] float width = 10f;
   [SerializeField] float speed = 10000f;
   [SerializeField] float energyPerSecond = 3;
+  [SerializeField] float delay = 0.3f;
   [SerializeField] LayerMask layerMask;
 
   [RequiredComponent][SerializeField] VolumetricLineBehavior reqLine;
@@ -33,10 +34,25 @@ public class PlaneLaserController : MonoBehaviour
   {
     _fireInput = context.ReadValueAsButton();
   }
+
+  void OnPrepareShot()
+  {
+    reqMeshRenderer.enabled = true;
+    reqLine.Width = 0.1f;
+    _delayToFire = delay;
+    onLaserStartStop.Invoke(true);
+  }
+
+  void OnUnprepareShot()
+  {
+    _delayToFire = float.PositiveInfinity;
+    onLaserStartStop.Invoke(false);
+  }
   void OnFiringStartStop(bool isFiring)
   {
     _firedLastFrame = isFiring;
     reqMeshRenderer.enabled = isFiring;
+    reqLine.Width = 1f;
 
     if (isFiring) reqPlayerManagerBridge.playerPlane.torqueMult /= 10;
     else reqPlayerManagerBridge.playerPlane.torqueMult *= 10;
@@ -47,7 +63,7 @@ public class PlaneLaserController : MonoBehaviour
     if (isFiring) reqPlayerManagerBridge.playerRigidbody.angularDrag /= 10;
     else reqPlayerManagerBridge.playerRigidbody.angularDrag *= 10;
 
-    onLaserStartStop.Invoke(isFiring);
+    if (!isFiring) OnUnprepareShot();
   }
 
   // Return hit distance or max distance
@@ -101,6 +117,8 @@ public class PlaneLaserController : MonoBehaviour
     });
   }
 
+  float _delayToFire = float.PositiveInfinity;
+
   void FixedUpdate()
   {
     bool reallyFiring = _fireInput &&
@@ -114,6 +132,17 @@ public class PlaneLaserController : MonoBehaviour
 
     if (reallyFiring)
     {
+      if (!float.IsFinite(_delayToFire))
+      {
+        OnPrepareShot();
+      }
+
+      if (_delayToFire > 0)
+      {
+        _delayToFire -= Time.deltaTime;
+        return;
+      }
+
       if (!_firedLastFrame)
       {
         OnFiringStartStop(true);
@@ -127,6 +156,9 @@ public class PlaneLaserController : MonoBehaviour
     else if (_firedLastFrame)
     {
       OnFiringStartStop(false);
+    } else if (float.IsFinite(_delayToFire))
+    {
+      OnUnprepareShot();
     }
   }
 }
