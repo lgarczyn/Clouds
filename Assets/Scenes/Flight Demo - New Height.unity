@@ -2717,7 +2717,7 @@ MonoBehaviour:
   planeController: {fileID: 6035008019564179150}
   keyToWin: 1
   minHeightToActivateThrust: 15000
-  minHeightToWin: 30000000
+  minHeightToWin: 300000000
 --- !u!114 &1997755847
 MonoBehaviour:
   m_ObjectHideFlags: 0
