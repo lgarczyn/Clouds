@@ -29,7 +29,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 204583312745857731}
-  m_LocalRotation: {x: -0, y: -0, z: -0.0000000074505797, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7.2989054, y: 0.9837998, z: -1.6898459}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -54,7 +54,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.122851565
+      value: 0.3074246
       inSlope: 0.00043608362
       outSlope: 0.00043608362
       tangentMode: 0
@@ -64,8 +64,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 100
       value: 1
-      inSlope: 0.008771485
-      outSlope: 0.008771485
+      inSlope: 0.006925754
+      outSlope: 0.006925754
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -128,40 +128,22 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.2
-        inSlope: 24.485132
-        outSlope: 1.8506323
-        tangentMode: 5
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.14038277
-        value: 0.35190034
-        inSlope: 0.7607575
-        outSlope: 0.7607575
+        value: 0.809248
+        inSlope: -0
+        outSlope: -0
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.24088363
+        inWeight: 0
+        outWeight: 0
       - serializedVersion: 3
-        time: 0.48985356
-        value: 0.62641835
-        inSlope: 0.8775527
-        outSlope: 0.8775527
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.19691536
-      - serializedVersion: 3
-        time: 0.9716667
+        time: 1
         value: 1
-        inSlope: 0.70280176
-        outSlope: 0.70280176
+        inSlope: 0
+        outSlope: 0
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.1699559
-        outWeight: 0.33333334
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -196,7 +178,7 @@ TrailRenderer:
       m_NumColorKeys: 2
       m_NumAlphaKeys: 5
     numCornerVertices: 0
-    numCapVertices: 0
+    numCapVertices: 7
     alignment: 0
     textureMode: 4
     textureScale: {x: 1, y: 1}
@@ -221,7 +203,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noiseScale: 20
   noiseRate: 4
-  skippedVertices: 2
+  skippedVertices: 1
+  speed: 300
+  speedOverLifetime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.015411377
+      value: 1
+      inSlope: 0
+      outSlope: -11.720188
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.06326178
+    - serializedVersion: 3
+      time: 0.20063704
+      value: 0
+      inSlope: -0.49216944
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.53005534
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   reqTrailRenderer: {fileID: 253739960245797417}
 --- !u!114 &3346089824599390586
 MonoBehaviour:
@@ -235,7 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fb69023a4d52f24db72a7dfdc4a3e28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  desiredLength: 400
+  desiredLength: 200
   maxTime: 20
   reqTrailRenderer: {fileID: 253739960245797417}
 --- !u!114 &4053378603852207229
@@ -263,29 +279,10 @@ MonoBehaviour:
     _variable: {fileID: 11400000, guid: 6f8bd4b7b4e35a54589b2b9764a48434, type: 2}
     _variableInstancer: {fileID: 0}
   - _usage: 0
-    _value: 2
+    _value: 0.7
     _constant: {fileID: 0}
     _variable: {fileID: 0}
     _variableInstancer: {fileID: 0}
-  unityOutput:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6719785680802371431}
-        m_TargetAssemblyTypeName: TrailController, Assembly-CSharp
-        m_MethodName: SetBaseValue
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  scaleOutput:
-    m_PersistentCalls:
-      m_Calls: []
-  atomOutput: {fileID: 0}
 --- !u!114 &3425911279020768526
 MonoBehaviour:
   m_ObjectHideFlags: 0

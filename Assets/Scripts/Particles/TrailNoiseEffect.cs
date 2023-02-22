@@ -9,6 +9,10 @@ public class TrailNoiseEffect : MonoBehaviour
 
   public uint skippedVertices = 2;
 
+  public float speed = 10f;
+
+  public AnimationCurve speedOverLifetime;
+
   [SerializeField][RequiredComponent] TrailRenderer reqTrailRenderer;
 
   Vector3 OffsetPosition(Vector3 pos)
@@ -18,10 +22,10 @@ public class TrailNoiseEffect : MonoBehaviour
       Mathf.PerlinNoise(p.y, p.z) - 0.5f,
       Mathf.PerlinNoise(p.x, p.z) - 1f,
       Mathf.PerlinNoise(p.x, p.y) - 0.5f
-    ) * Time.deltaTime * noiseRate;
+    ) * (Time.deltaTime * noiseRate);
   }
 
-  void Update() {
+  void LateUpdate() {
 
     if (reqTrailRenderer.enabled == false ||
       reqTrailRenderer.positionCount <= skippedVertices) return;
@@ -32,8 +36,11 @@ public class TrailNoiseEffect : MonoBehaviour
 
     reqTrailRenderer.GetPositions(buffer);
 
+    Vector3 velocity = transform.forward * (-speed * Time.deltaTime);
+
     for (int i = 0; i < count - skippedVertices; i++) {
       buffer[i] = OffsetPosition(buffer[i]);
+      buffer[i] += velocity * speedOverLifetime.Evaluate(((count - i) / (float)count));
     }
 
     reqTrailRenderer.SetPositions(buffer);
