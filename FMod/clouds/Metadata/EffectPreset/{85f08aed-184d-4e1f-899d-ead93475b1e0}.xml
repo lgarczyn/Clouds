@@ -12,6 +12,9 @@
 		</relationship>
 	</object>
 	<object class="SpatialiserEffect" id="{53052e51-5078-48c9-93d0-214a0bd068ff}">
+		<property name="bypass">
+			<value>true</value>
+		</property>
 		<property name="distanceRolloffType">
 			<value>1</value>
 		</property>

@@ -717,6 +717,7 @@ MonoBehaviour:
   width: 2
   speed: 10000
   energyPerSecond: 7
+  delay: 0.5
   layerMask:
     serializedVersion: 2
     m_Bits: 28672
@@ -1289,7 +1290,7 @@ Transform:
   - {fileID: 2396164103969341852}
   - {fileID: 2067138991867154115}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -2.214, y: -266.362, z: 16.094}
 --- !u!54 &5981469090452608560
 Rigidbody:

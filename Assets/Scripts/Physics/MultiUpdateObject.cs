@@ -10,29 +10,11 @@ public abstract class MultiUpdateObject : MonoBehaviour
   protected double timeOfLastUpdate;
   protected double rofMultiplier;
 
-  protected double frameRatio
-  {
-    get
-    {
-      return (currentTime - prevFrameTime) / (nextFrameTime - prevFrameTime);
-    }
-  }
+  protected double frameRatio => (currentTime - prevFrameTime) / (nextFrameTime - prevFrameTime);
 
-  protected double deltaTime
-  {
-    get
-    {
-      return currentTime - timeOfLastUpdate;
-    }
-  }
+  protected double deltaTime => currentTime - timeOfLastUpdate;
 
-  protected double timeToEndOfFrame
-  {
-    get
-    {
-      return nextFrameTime - currentTime;
-    }
-  }
+  protected double timeToEndOfFrame => nextFrameTime - currentTime;
 
   bool resetMultiUpdateBaseCalled = false;
   bool beforeUpdatesBaseCalled = false;
@@ -142,7 +124,7 @@ public abstract class MultiUpdateObject : MonoBehaviour
   void FixedUpdate()
   {
     prevFrameTime = nextFrameTime;
-    nextFrameTime = Time.timeAsDouble;
+    nextFrameTime = Time.fixedTimeAsDouble;
     currentTime = prevFrameTime;
 
     // Allow child classes to setup their multi update sequence
