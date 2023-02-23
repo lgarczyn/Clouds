@@ -12,15 +12,14 @@ public struct FollowPlayer : IComponentData
 [RequireMatchingQueriesForUpdate]
 public partial class FollowPlayerSystem : SystemBase
 {
-  override protected void OnUpdate()
+  protected override void OnUpdate()
   {
-    float4x4 target = PlayerManager.instance.playerTransform.localToWorldMatrix;
+    float3 targetPos = PlayerManager.instance.playerTransform.position;
     float3 velocity = PlayerManager.instance.playerRigidbody.velocity;
 
-    Entities.ForEach((ref LocalToWorld transform, in FollowPlayer f) =>
+    Entities.ForEach((ref LocalToWorld pos, in FollowPlayer f) =>
     {
-      transform.Value = target;
-      transform.Value.c3 += new float4(velocity * f.timeExtrapolation, 0f);
+      pos.Value = float4x4.Translate(targetPos + velocity * f.timeExtrapolation);
     }).ScheduleParallel();
   }
 }
@@ -34,10 +33,12 @@ public class FollowPlayerAuthoringBaker : Baker<FollowPlayerAuthoring>
 {
   public override void Bake(FollowPlayerAuthoring authoring)
   {
+    AddTransformUsageFlags(TransformUsageFlags.ManualOverride);
     AddComponent(new FollowPlayer
     {
       timeExtrapolation = authoring.timeExtrapolation
     });
+    AddComponent(new LocalToWorld());
   }
 }
 
