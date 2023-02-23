@@ -1,9 +1,8 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
 using System.Linq;
-using VolumetricLines;
-using Sound;
+using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
+using VolumetricLines;
 
 [RequireComponent(typeof(VolumetricLineBehavior))]
 [RequireComponent(typeof(MeshRenderer))]
@@ -12,6 +11,7 @@ using UnityEngine.Events;
 // TODO: use multiupdatebodychild to raycast multiple time per frame
 public class PlaneLaserController : MonoBehaviour
 {
+  static readonly RaycastHit[] raycastHits = new RaycastHit[10];
   [SerializeField] float dps = 10;
   [SerializeField] float range = 1000f;
   [SerializeField] float width = 10f;
@@ -20,15 +20,52 @@ public class PlaneLaserController : MonoBehaviour
   [SerializeField] float delay = 0.3f;
   [SerializeField] LayerMask layerMask;
 
-  [RequiredComponent][SerializeField] VolumetricLineBehavior reqLine;
-  [RequiredComponent][SerializeField] MeshRenderer reqMeshRenderer;
-  [RequiredComponent][SerializeField] PlayerManagerBridge reqPlayerManagerBridge;
-  [RequiredComponent][SerializeField] WarningManagerBridge reqWarningManagerBridge;
+  [RequiredComponent] [SerializeField] VolumetricLineBehavior reqLine;
+  [RequiredComponent] [SerializeField] MeshRenderer reqMeshRenderer;
+  [RequiredComponent] [SerializeField] PlayerManagerBridge reqPlayerManagerBridge;
+  [RequiredComponent] [SerializeField] WarningManagerBridge reqWarningManagerBridge;
 
   [SerializeField] UnityEvent<bool> onLaserStartStop;
 
-  bool _fireInput = false;
-  bool _firedLastFrame = false;
+  float _delayToFire = float.PositiveInfinity;
+  bool _firedLastFrame;
+
+  bool _fireInput;
+
+  void FixedUpdate()
+  {
+    bool reallyFiring = _fireInput &&
+                        reqPlayerManagerBridge.instance.planeEntity.TrySpendEnergy(
+                          energyPerSecond * Time.fixedDeltaTime);
+
+    if (_fireInput && !reallyFiring) reqWarningManagerBridge.WarnLowLaser();
+
+    if (reallyFiring)
+    {
+      if (!float.IsFinite(_delayToFire)) OnPrepareShot();
+
+      if (_delayToFire > 0)
+      {
+        _delayToFire -= Time.deltaTime;
+        return;
+      }
+
+      if (!_firedLastFrame) OnFiringStartStop(true);
+
+      Vector3 dir = (transform.rotation * Vector3.forward).normalized;
+      WarnPotentialTargets(dir);
+      float distance = FireLaser(dir);
+      reqLine.EndPos = Vector3.forward * distance;
+    }
+    else if (_firedLastFrame)
+    {
+      OnFiringStartStop(false);
+    }
+    else if (float.IsFinite(_delayToFire))
+    {
+      OnUnprepareShot();
+    }
+  }
 
   public void OnFire(InputAction.CallbackContext context)
   {
@@ -38,16 +75,18 @@ public class PlaneLaserController : MonoBehaviour
   void OnPrepareShot()
   {
     reqMeshRenderer.enabled = true;
-    reqLine.Width = 0.1f;
+    reqLine.Width = 0.2f;
     _delayToFire = delay;
     onLaserStartStop.Invoke(true);
   }
 
   void OnUnprepareShot()
   {
+    reqMeshRenderer.enabled = false;
     _delayToFire = float.PositiveInfinity;
     onLaserStartStop.Invoke(false);
   }
+
   void OnFiringStartStop(bool isFiring)
   {
     _firedLastFrame = isFiring;
@@ -84,7 +123,7 @@ public class PlaneLaserController : MonoBehaviour
 
     if (damageReceiver == null) return hitInfo.distance;
 
-    DamageInfo info = new DamageInfo
+    DamageInfo info = new()
     {
       damage = dps * Time.fixedDeltaTime,
       oneOff = false,
@@ -98,8 +137,6 @@ public class PlaneLaserController : MonoBehaviour
     return hitInfo.distance;
   }
 
-  static readonly RaycastHit[] raycastHits = new RaycastHit[10];
-
   void WarnPotentialTargets(Vector3 dir)
   {
     int numHit = Physics.SphereCastNonAlloc(
@@ -110,55 +147,11 @@ public class PlaneLaserController : MonoBehaviour
       range,
       layerMask,
       QueryTriggerInteraction.Collide);
-    
-    raycastHits.Take(numHit).Do((hit) => {
+
+    raycastHits.Take(numHit).Do(hit =>
+    {
       IEvasionTrigger trigger = hit.collider.GetComponent<IEvasionTrigger>();
       if (trigger != null) trigger.TriggerEvasion();
     });
-  }
-
-  float _delayToFire = float.PositiveInfinity;
-
-  void FixedUpdate()
-  {
-    bool reallyFiring = _fireInput &&
-                        reqPlayerManagerBridge.instance.planeEntity.TrySpendEnergy(
-                          energyPerSecond * Time.fixedDeltaTime);
-
-    if (_fireInput && !reallyFiring)
-    {
-      reqWarningManagerBridge.WarnLowLaser();
-    }
-
-    if (reallyFiring)
-    {
-      if (!float.IsFinite(_delayToFire))
-      {
-        OnPrepareShot();
-      }
-
-      if (_delayToFire > 0)
-      {
-        _delayToFire -= Time.deltaTime;
-        return;
-      }
-
-      if (!_firedLastFrame)
-      {
-        OnFiringStartStop(true);
-      }
-
-      Vector3 dir = (transform.rotation * Vector3.forward).normalized;
-      WarnPotentialTargets(dir);
-      float distance = FireLaser(dir);
-      reqLine.EndPos = Vector3.forward * distance;
-    }
-    else if (_firedLastFrame)
-    {
-      OnFiringStartStop(false);
-    } else if (float.IsFinite(_delayToFire))
-    {
-      OnUnprepareShot();
-    }
   }
 }
